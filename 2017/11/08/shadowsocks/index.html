@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="shadowsocks," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+<meta name="keywords" content="shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="科学上网,vultr vps主机上shadowsocks的搭建">
+<meta property="og:url" content="http://yoursite.com/2017/11/08/shadowsocks/index.html">
+<meta property="og:site_name" content="Lawliet Blog">
+<meta property="og:description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-08T08:56:36.838Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="科学上网,vultr vps主机上shadowsocks的搭建">
+<meta name="twitter:description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/08/shadowsocks/"/>
+
+
+
+
+
+  <title>科学上网,vultr vps主机上shadowsocks的搭建 | Lawliet Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lawliet Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">原创文章，未经授权请勿转载</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/L-Lawliet.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">科学上网,vultr vps主机上shadowsocks的搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T16:51:26+08:00">
+                2017-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/科学上网/" itemprop="url" rel="index">
+                    <span itemprop="name">科学上网</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Vultr-vps主机上搭建shadowsocks"><a href="#Vultr-vps主机上搭建shadowsocks" class="headerlink" title="Vultr vps主机上搭建shadowsocks"></a>Vultr vps主机上搭建shadowsocks</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>一篇搭建shadowsocks科学上网的文章</strong></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong>我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 server 端和 client 端，那么我们就可以在本地的机器上进行ssh连接,从而解决被GFW通过特征分析进行干扰的问题</strong></p>
+<p><strong>感兴趣的小伙伴可以参考这篇文章:<a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a>,写的很详细</strong></p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>一台vps主机,本人用的是Vultr,最低的每月2.5美元,<a href="https://www.vultr.com/?ref=7234691" title="点击此处" target="_blank" rel="external">点击此处</a>可以注册vultr<br>账号,网站支持支付宝,Paypal等支付,推荐Paypal,在国外支付十分方便,登陆vultr选节点和服务器,现在只有New York(NJ)的费用是最低的,速度也算良心,ping测试的速度在280ms左右,服务器推荐选centos7</strong></p>
+<p><strong>服务器远程连接工具,<a href="http://www.netsarang.com/products/xsh_overview.html" title="xshell下载地址" target="_blank" rel="external">xshell下载地址</a></strong></p>
+<h3 id="安装shadowsocks服务端"><a href="#安装shadowsocks服务端" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong>用xshell以root权限登陆我们的vps,vps默认账号密码在我们的vultr账号中心的服务器列表中会有显示</strong></p>
+<p><strong>安装shadowsocks服务端,使用<a href="https://teddysun.com/342.html" title="teddysun" target="_blank" rel="external">teddysun</a>的一键安装脚本,简单的三条命令便可完成安装</strong></p>
+<pre><code>wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+
+chmod +x shadowsocks.sh
+
+./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log
+</code></pre><p><strong>输入以上三条命令后,会让你输入一些东西去配置,如ssserver的登陆密码,端口,加密方法等,登陆密码默认为teddysun.com,输入你自己设置的密码,端口默认为8989,回车默认即可,不出意外的话就安装成功了</strong></p>
+<p><strong>启动:<code>/etc/init.d/shadowsocks start</code></strong></p>
+<p><strong>停止:<code>/etc/init.d/shadowsocks stop</code></strong></p>
+<p><strong>重启:<code>/etc/init.d/shadowsocks restart</code></strong></p>
+<p><strong>状态:<code>/etc/init.d/shadowsocks status</code></strong></p>
+<p><strong>卸载:<code>./shadowsocks.sh uninstall</code></strong></p>
+<p><strong>配置文件:我们如果想修改配置的话，可以打开配置文件<code>/etc/shadowsocks.json</code>进行配置</strong></p>
+<h3 id="安装shadowsocks服务端-1"><a href="#安装shadowsocks服务端-1" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" title="windows版客户端" target="_blank" rel="external">windows版客户端</a></strong></p>
+<p><strong><a href="https://sourceforge.net/projects/shadowsocksgui/" title="mac版客户端" target="_blank" rel="external">mac版客户端</a></strong></p>
+<p><strong>安装完成后输入shadowsocks服务端的ip和默认端口(8989),输入我们设置的密码就完成了,接下来我们就可以科学上网去学习知识了</strong></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><strong><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" title="科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks" target="_blank" rel="external">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></strong></p>
+<p><strong><a href="http://zhuangold.com/vultr-vps%E4%B8%BB%E6%9C%BA%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85shadowsocks%EF%BC%88ss%EF%BC%89%E6%95%99%E7%A8%8B/" title="vultr-vps主机快速安装shadowsocks（ss）教程" target="_blank" rel="external">vultr-vps主机快速安装shadowsocks（ss）教程</a></strong></p>
+<p><strong><a href="https://teddysun.com/342.html" title="Shadowsocks Python版一键安装脚本" target="_blank" rel="external">Shadowsocks Python版一键安装脚本</a></strong></p>
+<p><strong><a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a></strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/05/Some Words/" rel="next" title="第三届上海市大学生网络安全大赛注入题writeup">
+                <i class="fa fa-chevron-left"></i> 第三届上海市大学生网络安全大赛注入题writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/12/error-base/" rel="prev" title="mysql报错注入总结">
+                mysql报错注入总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/L-Lawliet.jpg"
+                alt="Lawliet" />
+            
+              <p class="site-author-name" itemprop="name">Lawliet</p>
+              <p class="site-description motion-element" itemprop="description">信息安全技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vultr-vps主机上搭建shadowsocks"><span class="nav-number">1.</span> <span class="nav-text">Vultr vps主机上搭建shadowsocks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">1.0.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.0.3.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装shadowsocks服务端"><span class="nav-number">1.0.4.</span> <span class="nav-text">安装shadowsocks服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装shadowsocks服务端-1"><span class="nav-number">1.0.5.</span> <span class="nav-text">安装shadowsocks服务端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lawliet</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

