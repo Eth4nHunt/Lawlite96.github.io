@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim">
-<meta property="og:updated_time" content="2018-03-12T02:54:12.586Z">
+<meta property="og:updated_time" content="2018-03-12T02:58:46.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="N1CTF2018 77777 writeup">
 <meta name="twitter:description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
@@ -350,9 +350,9 @@
         <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong></p>
 <h3 id="题目：77777"><a href="#题目：77777" class="headerlink" title="题目：77777"></a>题目：77777</h3><p><strong>题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段代码中，代码如下</strong></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim" alt="mark"></p>
-<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<a href="http://47.97.168.223/#profile页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值" target="_blank" rel="external">http://47.97.168.223/#profile页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</a></strong></p>
+<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<code>http://47.97.168.223/#profile</code>页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</strong></p>
 <pre><code>update users set points=&apos;post过来的flag和hi拼接后的结果&apos;
-</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了</strong></p>
+</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了，做起来会很麻烦</strong></p>
 <p><strong>题目的第二个提示</strong></p>
 <pre><code>the flag is `admin&apos;s password`:)
 </code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim" alt="mark"><br><strong>猜测数据库里有password字段,由此想到第二个思路，提交:</strong></p>
