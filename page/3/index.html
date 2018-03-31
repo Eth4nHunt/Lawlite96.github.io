@@ -348,7 +348,7 @@
             <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong></p>
 <h3 id="报错注入原因及分类"><a href="#报错注入原因及分类" class="headerlink" title="报错注入原因及分类"></a>报错注入原因及分类</h3><p><strong>既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点</strong></p>
 <ul>
-<li><p><strong>重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相同的主键，就会爆出<code>Duplicate entry &#39;1&#39; for key &#39;group_key&#39;</code>的主键重复错误,于是根据这种报错就产生了<code>floor(rand(0)*2)</code>等注入手法,另外一个就是基于列名的唯一性,如果我们在一个表中构造了两个相同的列名,就会产生<code>Duplicate column name</code>的错误,报错方法通常有<code>NAME_CONST</code>,或者利用join和using关键字连接同一个表创建子查询进行报错,这个方法从lctf2017 pcat大佬的writeup中学到的,在我的另一篇文章中会提到</strong></p>
+<li><p><strong>重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相同的主键，就会爆出<code>Duplicate entry</code>的主键重复错误,于是根据这种报错就产生了<code>floor(rand(0)*2)</code>等注入手法,另外一个就是基于列名的唯一性,如果我们在一个表中构造了两个相同的列名,就会产生<code>Duplicate column name</code>的错误,报错方法通常有<code>NAME_CONST</code>,或者利用join和using关键字连接同一个表创建子查询进行报错,这个方法从lctf2017 pcat师傅的writeup中学到的,在我的另一篇文章中会提到</strong></p>
 </li>
 <li><p><strong>基于数据类型不一致而产生的报错:mysql的一些函数参数要求的是什么数据类型,如果数据类型不符合,自然就会报错,这种报错也是相对容易理解的,根据这种特性产生的报错注入有<code>updatexml</code>,<code>extractvalue</code>等注入手法</strong></p>
 </li>
@@ -360,7 +360,7 @@
 <h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p><strong>接下来对上面列出的一些报错注入一个个进行分析</strong></p>
 <h3 id="基于主键值重复"><a href="#基于主键值重复" class="headerlink" title="基于主键值重复"></a>基于主键值重复</h3><p><strong><code>floor(rand(0)*2)</code>:我们在进行报错注入时用的相对较多的方法,网上给出的报错语句大部分是这样的</strong></p>
 <pre><code>id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);
-</code></pre><p><strong>看到这是不是有点云里雾里的感觉呢,没关系,我也因为这个语句纠结了一段时间,比如为什么要<code>floor(rand(0)*2)</code>,为什么要用到<code>information_schema.tables</code>这个表,接下来我们就把它彻底弄明白,先看rand()这个函数,这个函数都知道是产生随机数的,但是当rand(0)被计算多次时它所产生的值是有规律的,我们以information_schema.tables这个表进行示范,因为它里面的数据多,别的表也可以,只要数据量够多,这样可以使rand(0)计算多次,便于观察,为了更便于观察,我们取前30条记录,查询语句</strong></p>
+</code></pre><p><strong>自己因为这个语句纠结了一段时间,比如为什么要<code>floor(rand(0)*2)</code>,为什么要用到<code>information_schema.tables</code>这个表,看了很多相关文章才明白报错的原理,先看rand()这个函数,这个函数都知道是产生随机数的,但是当rand(0)被计算多次时它所产生的值是有规律的,我们以information_schema.tables这个表进行示范,因为它里面的数据多,别的表也可以,只要数据量够多,这样可以使rand(0)计算多次,便于观察,为了更便于观察,我们取前30条记录,查询语句</strong></p>
 <pre><code>mysql&gt; select rand(0) from information_schema.tables limit 0,30;
 
 +---------------------+
@@ -478,7 +478,7 @@
 <pre><code>mysql&gt; select count(*) from information_schema.tables group by floor(rand(0)*2);
 
 ERROR 1062 (23000): Duplicate entry &apos;1&apos; for key &apos;group_key&apos;
-</code></pre><p><strong>分析这条语句,当进行<code>count(*)</code>,<code>group by</code>聚合函数分组计算时,mysql会创建一个虚拟表,虚拟表由主键列和<code>count(*)</code>列两列组成,同时<code>floor(rand(0)*2)</code>这个值会被计算多次,这一点很重要,计算多次是指在取数据表数据使用group by时,进行一次<code>floor(rand(0)*2)</code>,如果虚拟表中不存在此数据时,那么在往虚拟表插入数据时,<code>floor(rand(0)*2)</code>将会再被计算一次,接下来分析,取数据表第一条记录时第一次使用group by,计算<code>floor(rand(0)*2)</code>的值为0,查询虚拟表发现0这个主键不存在,于是再次计算<code>floor(rand(0)*2)</code>结果为1,将1作为主键插入虚拟表,这时主键1的<code>count(*)</code>值为1,接下来取数据表第二条记录时第二次使用group by,计算<code>floor(rand(0)*2)</code>,结果为1,然后查询虚拟表,发现1的键值存在,于是<code>count(*)</code>的值加1,取数据表第三条记录时第三次使用group by,计算<code>floor(rand(0)*2)</code>值为0,查询虚拟表,发现0的键值不存在,于是再一次计算<code>floor(rand(0)*2)</code>,结果为1,当尝试将1插入虚拟表中时,发现主键1已经存在,所以报出主键重复的错误,整个过程中查询了information_schema.tables这个表3条记录发生报错,这也是报错为什么需要数据表的记录多到至少为3条的原因,也是为什么选择information_schema.tables表的原因,因为这个表中的记录一定大于三条,由此可知我们其实还以选择<code>information_schema.columns</code>,<code>information_schema.schemata</code>等表</strong></p>
+</code></pre><p><strong>分析这条语句,当进行<code>count(*)</code>,<code>group by</code>聚合函数分组计算时,mysql会创建一个虚拟表,虚拟表由主键列和<code>count(*)</code>列两列组成,同时<code>floor(rand(0)*2)</code>这个值会被计算多次,这一点很重要,计算多次是指在查询数据表数据时,进行一次<code>floor(rand(0)*2)</code>,如果虚拟表中不存在此数据时,那么在往虚拟表插入数据时,<code>floor(rand(0)*2)</code>将会再被计算一次。接下来分析,首先查询数据表第一条记录时第一次使用<code>floor(rand(0)*2)</code>，计算出来值为0,查询虚拟表发现0这个主键不存在,于是再次计算<code>floor(rand(0)*2)</code>结果为1,将1作为主键插入虚拟表,这时主键1的<code>count(*)</code>值为1,接下来查询数据表第二条记录时使用<code>floor(rand(0)*2)</code>,计算结果为1,然后查询虚拟表,发现1的键值存在,于是<code>count(*)</code>的值加1,然后查询数据表第三条记录时使用<code>floor(rand(0)*2)</code>，计算出来值为0,查询虚拟表,发现0的键值不存在,于是再一次计算<code>floor(rand(0)*2)</code>,结果为1,当尝试将1插入虚拟表中时,发现主键1已经存在,所以报出主键重复的错误,也就是<code>Duplicate entry &#39;1&#39; for key &#39;group_key&#39;</code>这个错误,整个过程中查询了information_schema.tables这个表3条记录发生报错,这也是报错为什么需要数据表的记录多到至少为3条的原因,也是为什么选择information_schema.tables表的原因,因为这个表中的记录一定大于三条,由此可知我们其实还以选择<code>information_schema.columns</code>,<code>information_schema.schemata</code>等表</strong></p>
 <p><strong>下面构造语句</strong></p>
 <pre><code>mysql&gt; select count(*) from information_schema.tables group by concat(floor(rand(0)*2),0x3a,user());
 ERROR 1062 (23000): Duplicate entry &apos;1:root@localhost&apos; for key &apos;group_key&apos;
