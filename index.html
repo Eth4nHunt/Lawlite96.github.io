@@ -252,6 +252,225 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/17/butianspider/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/17/butianspider/" itemprop="url">python爬取补天src列表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-17T17:28:12+08:00">
+                2018-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python爬虫挑战/" itemprop="url" rel="index">
+                    <span itemprop="name">python爬虫挑战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="用python爬取补天src列表"><a href="#用python爬取补天src列表" class="headerlink" title="用python爬取补天src列表"></a>用python爬取补天src列表</h1><p><strong>分享一个我写的代码，用python爬取补天src列表，同时可以爬取网站域名和漏洞的提交数和处理数，以公益src为例，贴出我写的代码</strong></p>
+<pre><code># -*- coding: utf-8 -*-
+import requests
+from bs4 import BeautifulSoup
+url=&quot;http://loudong.360.cn/Reward/pub&quot;
+for pnum in range(1,160):
+    r=requests.post(url=url,data={&apos;s&apos;:1,&apos;p&apos;:pnum}).json()
+    for info in r[&quot;data&quot;][&quot;list&quot;]:
+        company_name=info[&quot;company_name&quot;]
+        company_url=&quot;http://loudong.360.cn/Company/&quot;+info[&quot;company_id&quot;]
+        html=requests.get(url=company_url).content
+        soup=BeautifulSoup(html,&quot;lxml&quot;)
+        num=soup.find_all(class_=&quot;spp&quot;)
+        print &quot;漏洞数:&quot;,num[0].string,&quot;已处理:&quot;,num[1].string
+        surl=&quot;http://loudong.360.cn/Loo/submit?cid=&quot;+info[&quot;company_id&quot;]
+        headers={&quot;Cookie&quot;:&quot;你登陆后的cookie&quot;}
+        html=requests.get(url=surl,headers=headers).content
+        soup=BeautifulSoup(html,&quot;lxml&quot;)
+        site=soup.find(&quot;input&quot;,attrs={&quot;placeholder&quot;:&quot;请输入厂商域名&quot;})[&quot;value&quot;]
+        print company_name
+        print site
+        print u&quot;漏洞数:&quot;, num[0].string, u&quot;已处理:&quot;, num[1].string
+        print &quot;-------------------------------------------------------------------------------------------------&quot;
+</code></pre><p><strong>爬取时需要用到的库</strong></p>
+<pre><code>requests库和bs4库
+</code></pre><p><strong>补天还是十分好爬的，只要分析好每次请求和响应，爬下关键请求的页面，用bs4的BeautifulSoup解析提取数据即可</strong></p>
+<p><strong>关于BeautifulSoup，自己写代码很喜欢用，提取数据很方便，<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="官方文档" target="_blank" rel="external">官方文档</a>写的非常详细</strong></p>
+<p><strong>运行结果</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180417/94aIlf0B6K.png?imageslim" alt="mark"></p>
+<h3 id="分享我写爬虫的一些经验"><a href="#分享我写爬虫的一些经验" class="headerlink" title="分享我写爬虫的一些经验"></a>分享我写爬虫的一些经验</h3><p><strong>最后总结一下我多次写爬虫所总结的经验和方法，爬取网页数据通用的一些方法</strong></p>
+<p><strong>request库常用总结</strong></p>
+<pre><code>html=requests.get(url=url,params={params},headers={headers},cookies={cookies},proxies={proxies}).content
+用于http GET方法请求的页面，需要提交参数时可以直接在url的?后加参数，也可以将GET请求参数以字典的数据类型赋值给request库get方法中params参数进行提交
+参数作用:
+
+params:字典数据类型，存放http请求的GET参数
+
+headers：字典数据类型，里面内容为http的一些请求头，比如Host，User-Agent，主要用来突破一些网站的防爬机制，cookie值也能放到这个里面
+
+cookies:字典数据类型,用来存放cookie值
+
+proxies：字典数据类型,爬取页面所需要设置的代理，比如爬取谷歌和一些国外网站，因为国内被墙了，搭了ss才能访问，但是直接用python请求页面还是不行，这时候就需要在这里进行设置了，我一般是这样设置的,因为我ss客户端设在了本地1088端口:
+proxies={&quot;http&quot;:&quot;http://127.0.0.1:1088&quot;,&quot;https&quot;:&quot;https://127.0.0.1:1088&quot;}
+
+html=requests.post(url=url,data={data},headers={headers},cookies={cookies},proxies={proxies}).content
+用于http POST方法请求的页面
+
+data:字典数据类型，POST提交的参数
+
+headers，cookie，proxies:均和上述的作用一致
+</code></pre><p><strong>re库常用总结</strong></p>
+<pre><code>p=re.compile(r&quot;编写的正则表达式&quot;)
+用来编译正则表达式对象并且返回一个正则表达式对象
+list=p.findall(页面)
+匹配页面中和正则表达式匹配的数据并且将所有结果以列表的形式返回
+关于正则表达式，需要多加练习，每个人都有不一样的编写正则方法，只要能将需要的数据精确完整匹配出来的方法都是好方法，特别需要注意贪婪匹配和非贪婪匹配的区别和用法(.*?|.*+)
+</code></pre><p><strong>bs4库的BeautifulSoup常用总结</strong></p>
+<pre><code>使用BeautifulSoup提取数据，首先要了解html DOM格式:
+简单来说就是，&lt;标签 属性=&quot;属性值&quot;&gt;文本&lt;/标签&gt;
+
+from bs4 import BeautifulSoup
+soup=BeautifulSoup(html,&quot;lxml&quot;)
+返回一个BeautifulSoup对象，我一般比较喜欢用lxml格式解析页面，用多了自然就成习惯了
+list=soup.find_all(html标签属性=属性值)
+寻找html所有匹配&quot;html标签属性=属性值&quot;的html标签并以列表的形式返回，列表中每个值的类型均为BeautifulSoup对象
+for i in list:
+    i[&quot;属性&quot;]用来提取某一属性下的属性值
+    i.string用来提取html标签中的文本
+</code></pre><p><strong>urllib库常用总结</strong></p>
+<pre><code>urllib.urlretrieve(url,filename)
+urllib库的urlretrieve方法主要用来下载文件，通常将页面爬下来后，用正则表达式或者BeautifulSoup将jpg，png一些图片，xls，doc一些文档，或者mp4等视频连接爬下来后，一般都需要用这个库下载
+url:资源的链接
+filename：文件存放的位置，我一般这样写，filename=yourfilepath+url.split(&apos;/&apos;)[-1],比较方便
+</code></pre><h3 id="我对写爬虫的看法"><a href="#我对写爬虫的看法" class="headerlink" title="我对写爬虫的看法"></a>我对写爬虫的看法</h3><p><strong>以上总结了我写代码的一些方法经验，我对编程的看法是：其实每个人写代码的方式都不太一样，代码写的多了就会有自己的风格。代码主要还是为了解决需求，节省人力，能够将代码用到自己的生活或者工作中，是件很有意思的事情，我觉得写python代码的要点有几个:要多动手写，看官方文档的效率比看书高，编程书是用来查的，百度谷歌很强大</strong></p>
+<h3 id="python爬虫能力对安全人员的作用"><a href="#python爬虫能力对安全人员的作用" class="headerlink" title="python爬虫能力对安全人员的作用"></a>python爬虫能力对安全人员的作用</h3><p><strong>开发简单的漏扫工具，需要爬虫的基础</strong></p>
+<p><strong>根据漏洞编写exp，新爆出的漏洞，exp早写出来可以多刷些漏洞</strong></p>
+<p><strong>*利用搜素引擎批量刷漏洞，对于新爆出的漏洞，编写exp后结合搜索引擎的语法寻找网络空间中的漏洞相关组件去测试，整个过程都可以用python爬虫技术自动化完成</strong></p>
+<h3 id="官方文档链接"><a href="#官方文档链接" class="headerlink" title="官方文档链接"></a>官方文档链接</h3><p><strong><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc.zh/" title="BeautifulSoup官方文档" target="_blank" rel="external">BeautifulSoup官方文档</a></strong></p>
+<p><strong><a href="http://docs.python-requests.org/zh_CN/latest/" title="requests官方文档" target="_blank" rel="external">requests官方文档</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/21/dns_spoof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2184,293 +2403,6 @@ for i in range(1,38):#admin用户名和密码一共长为37
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/DVWACommandInjection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/DVWACommandInjection/" itemprop="url">dvwa Command Injection</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T16:01:13+08:00">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="dvwa命令执行漏洞"><a href="#dvwa命令执行漏洞" class="headerlink" title="dvwa命令执行漏洞"></a>dvwa命令执行漏洞</h1><h3 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h3><p><strong>由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞</strong></p>
-<p><strong>来看dvwa，感觉例子并不是多好</strong></p>
-<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Submit&apos; ]  ) ) {
-    // Get input
-    $target = $_REQUEST[ &apos;ip&apos; ];
-
-    // Determine OS and execute the ping command.
-    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {
-        // Windows
-        $cmd = shell_exec( &apos;ping  &apos; . $target );
-    }
-    else {
-        // *nix
-        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );
-    }
-
-    // Feedback for the end user
-    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;
-}
-
-?&gt;
-</code></pre><p><strong>可以看出没有任何防御，直接将我们提交的内容执行</strong><br><strong>我们可以利用此漏洞新建一个管理员直接获取服务器最高权限</strong></p>
-<p><strong>payload</strong></p>
-<p><strong>创建用户</strong></p>
-<pre><code>127.0.0.1&amp;&amp;net user lawliet lawliet /add
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/60LkDBejd7.PNG" alt="mark"><br><strong>将其加到管理组</strong></p>
-<pre><code>127.0.0.1&amp;&amp;net localgroup administrators lawliet /add
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/cFl2mGfK1E.PNG" alt="mark"><br><strong>不出问题我们就成为了服务器的管理员，利用远程桌面连接，ctrl+r，输入mstsc，就可以进行远程服务器连接，拿下服务器权限</strong></p>
-<p><strong>输入ip和用户名</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/d5231j7gHh.PNG" alt="mark"><br><strong>输入密码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/ffc3Ga6jcJ.PNG" alt="mark"><br><strong>连接成功，以管理员身份进入服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/KECei8f0B4.PNG" alt="mark"></p>
-<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Submit&apos; ]  ) ) {
-    // Get input
-    $target = $_REQUEST[ &apos;ip&apos; ];
-
-    // Set blacklist
-    $substitutions = array(
-        &apos;&amp;&amp;&apos; =&gt; &apos;&apos;,
-        &apos;;&apos;  =&gt; &apos;&apos;,
-    );
-
-    // Remove any of the charactars in the array (blacklist).
-    $target = str_replace( array_keys( $substitutions ), $substitutions, $target );
-
-    // Determine OS and execute the ping command.
-    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {
-        // Windows
-        $cmd = shell_exec( &apos;ping  &apos; . $target );
-    }
-    else {
-        // *nix
-        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );
-    }
-
-    // Feedback for the end user
-    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;
-}
-
-?&gt;
-</code></pre><p><strong>过滤了<code>&amp;&amp;</code>和<code>;</code>，用&amp;连接即可执行命令，不再重复</strong></p>
-<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Submit&apos; ]  ) ) {
-    // Get input
-    $target = trim($_REQUEST[ &apos;ip&apos; ]);
-
-    // Set blacklist
-    $substitutions = array(
-        &apos;&amp;&apos;  =&gt; &apos;&apos;,
-        &apos;;&apos;  =&gt; &apos;&apos;,
-        &apos;| &apos; =&gt; &apos;&apos;,
-        &apos;-&apos;  =&gt; &apos;&apos;,
-        &apos;$&apos;  =&gt; &apos;&apos;,
-        &apos;(&apos;  =&gt; &apos;&apos;,
-        &apos;)&apos;  =&gt; &apos;&apos;,
-        &apos;`&apos;  =&gt; &apos;&apos;,
-        &apos;||&apos; =&gt; &apos;&apos;,
-    );
-
-    // Remove any of the charactars in the array (blacklist).
-    $target = str_replace( array_keys( $substitutions ), $substitutions, $target );
-
-    // Determine OS and execute the ping command.
-    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {
-        // Windows
-        $cmd = shell_exec( &apos;ping  &apos; . $target );
-    }
-    else {
-        // *nix
-        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );
-    }
-
-    // Feedback for the end user
-    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;
-}
-
-?&gt;
-</code></pre><p><strong>使用黑名单过滤，总会有落网之鱼，用<code>|</code>（前面有空格）连接即可绕过</strong></p>
-<h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Submit&apos; ]  ) ) {
-    // Check Anti-CSRF token
-    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );
-
-    // Get input
-    $target = $_REQUEST[ &apos;ip&apos; ];
-    $target = stripslashes( $target );
-
-    // Split the IP into 4 octects
-    $octet = explode( &quot;.&quot;, $target );
-
-    // Check IF each octet is an integer
-    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet )     == 4 ) ) {
-        // If all 4 octets are int&apos;s put the IP back together.
-        $target = $octet[0] . &apos;.&apos; . $octet[1] . &apos;.&apos; . $octet[2] . &apos;.&apos; . $octet[3];
-
-        // Determine OS and execute the ping command.
-        if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {
-        // Windows
-        $cmd = shell_exec( &apos;ping  &apos; . $target );
-        }
-        else {
-            // *nix
-            $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );
-        }
-
-        // Feedback for the end user
-        echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;
-    }
-    else {
-        // Ops. Let the user name theres a mistake
-        echo &apos;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&apos;;
-    }
-}
-
-// Generate Anti-CSRF token
-generateSessionToken();
-
-?&gt;
-</code></pre><p><strong>可以看出用白名单的方式限制了输入内容只能为ip地址，防止了连接其他命令，预防了命令执行漏洞，再一次说明了白名单的安全性远高于黑名单</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2525,7 +2457,7 @@ generateSessionToken();
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2536,7 +2468,7 @@ generateSessionToken();
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2547,7 +2479,7 @@ generateSessionToken();
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
