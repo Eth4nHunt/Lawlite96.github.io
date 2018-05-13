@@ -346,7 +346,7 @@
         
           
             <h1 id="湖湘杯2017网络安全技能大赛部分题writeup"><a href="#湖湘杯2017网络安全技能大赛部分题writeup" class="headerlink" title="湖湘杯2017网络安全技能大赛部分题writeup"></a>湖湘杯2017网络安全技能大赛部分题writeup</h1><p><strong>战队:nyisec</strong></p>
-<h3 id="题目-web200"><a href="#题目-web200" class="headerlink" title="题目:web200"></a>题目:web200</h3><p><strong>解题思路:</strong><br>题目提醒是上传题,但是弄了半天，原来是文件包含,用<code>php://filter/convert.base64-encode/resource</code>就可以读取文件源码，我们读取flag的源码,使用<code>php://filter/convert.base64-encode/resource/flag</code>,读出的是一串base64编码</p>
+<h3 id="题目-web200"><a href="#题目-web200" class="headerlink" title="题目:web200"></a>题目:web200</h3><p><strong>解题思路:</strong><br>题目提醒是上传题,但是弄了半天，原来是文件包含,用<code>php://filter/convert.base64-encode/resource</code>就可以读取文件源码，我们读取flag的源码,使用<code>php://filter/convert.base64-encode/resource=flag</code>,读出的是一串base64编码</p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/43AC11AhKI.PNG" alt="mark"></p>
 <p>解码一下就是flag，flag如图</p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/1h7eJJHf0A.PNG" alt="mark"></p>

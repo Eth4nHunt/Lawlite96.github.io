@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource/flag,读出的是一串base">
+<meta name="description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource=flag,读出的是一串base">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="湖湘杯2017网络安全技能大赛部分题writeup">
 <meta property="og:url" content="http://yoursite.com/2017/11/26/hxbctf2017/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource/flag,读出的是一串base">
+<meta property="og:description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource=flag,读出的是一串base">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/43AC11AhKI.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/1h7eJJHf0A.PNG">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/aHB90jmckA.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/dECKcFcHa5.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/0IEiKd6Eij.PNG">
-<meta property="og:updated_time" content="2017-11-26T03:27:36.809Z">
+<meta property="og:updated_time" content="2018-05-13T15:56:50.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="湖湘杯2017网络安全技能大赛部分题writeup">
-<meta name="twitter:description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource/flag,读出的是一串base">
+<meta name="twitter:description" content="湖湘杯2017网络安全技能大赛部分题writeup战队:nyisec 题目:web200解题思路:题目提醒是上传题,但是弄了半天，原来是文件包含,用php://filter/convert.base64-encode/resource就可以读取文件源码，我们读取flag的源码,使用php://filter/convert.base64-encode/resource=flag,读出的是一串base">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171126/43AC11AhKI.PNG">
 
 
@@ -351,7 +351,7 @@
 
       
         <h1 id="湖湘杯2017网络安全技能大赛部分题writeup"><a href="#湖湘杯2017网络安全技能大赛部分题writeup" class="headerlink" title="湖湘杯2017网络安全技能大赛部分题writeup"></a>湖湘杯2017网络安全技能大赛部分题writeup</h1><p><strong>战队:nyisec</strong></p>
-<h3 id="题目-web200"><a href="#题目-web200" class="headerlink" title="题目:web200"></a>题目:web200</h3><p><strong>解题思路:</strong><br>题目提醒是上传题,但是弄了半天，原来是文件包含,用<code>php://filter/convert.base64-encode/resource</code>就可以读取文件源码，我们读取flag的源码,使用<code>php://filter/convert.base64-encode/resource/flag</code>,读出的是一串base64编码</p>
+<h3 id="题目-web200"><a href="#题目-web200" class="headerlink" title="题目:web200"></a>题目:web200</h3><p><strong>解题思路:</strong><br>题目提醒是上传题,但是弄了半天，原来是文件包含,用<code>php://filter/convert.base64-encode/resource</code>就可以读取文件源码，我们读取flag的源码,使用<code>php://filter/convert.base64-encode/resource=flag</code>,读出的是一串base64编码</p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/43AC11AhKI.PNG" alt="mark"></p>
 <p>解码一下就是flag，flag如图</p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/171126/1h7eJJHf0A.PNG" alt="mark"></p>
