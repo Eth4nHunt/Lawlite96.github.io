@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
+<meta name="description" content="用shell实现自动化扫描主机端口爆破服务弱口令序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活主机，然">
 <meta name="keywords" content="Linux Shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本">
+<meta property="og:title" content="用shell实现自动化扫描主机端口爆破服务弱口令">
 <meta property="og:url" content="http://yoursite.com/2018/05/14/autobrute/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
+<meta property="og:description" content="用shell实现自动化扫描主机端口爆破服务弱口令序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活主机，然">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/Ca7L5i0dGI.png?imageslim">
-<meta property="og:updated_time" content="2018-05-14T08:47:23.374Z">
+<meta property="og:updated_time" content="2018-05-17T15:14:19.953Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本">
-<meta name="twitter:description" content="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活">
+<meta name="twitter:title" content="用shell实现自动化扫描主机端口爆破服务弱口令">
+<meta name="twitter:description" content="用shell实现自动化扫描主机端口爆破服务弱口令序最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间 需求假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令 一般常用的做法就是先利用nmap扫描出存活主机，然">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim">
 
 
@@ -129,7 +129,7 @@
 
 
 
-  <title>用shell写一个自动化扫描主机端口爆破服务弱口令的脚本 | Lawliet Blog</title>
+  <title>用shell实现自动化扫描主机端口爆破服务弱口令 | Lawliet Blog</title>
   
 
 
@@ -273,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</h1>
+          <h1 class="post-title" itemprop="name headline">用shell实现自动化扫描主机端口爆破服务弱口令</h1>
         
 
         <div class="post-meta">
@@ -345,7 +345,7 @@
       
 
       
-        <h1 id="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"><a href="#用shell写一个自动化扫描主机端口爆破服务弱口令的脚本" class="headerlink" title="用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"></a>用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间</strong></p>
+        <h1 id="用shell实现自动化扫描主机端口爆破服务弱口令"><a href="#用shell实现自动化扫描主机端口爆破服务弱口令" class="headerlink" title="用shell实现自动化扫描主机端口爆破服务弱口令"></a>用shell实现自动化扫描主机端口爆破服务弱口令</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间</strong></p>
 <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p><strong>假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令</strong></p>
 <p><strong>一般常用的做法就是先利用nmap扫描出存活主机，然后扫描这些主机开放的端口，用hydra对这些端口进行弱口令安全检查。如果将这些命令写在一个shell脚本中，以后再次做相同的工作时直接运行我们编写的.sh文件就可以了，这样的话就能大大提高我们的工作效率，避免重复机械的工作，大大提升效率</strong></p>
 <h3 id="编写shell脚本"><a href="#编写shell脚本" class="headerlink" title="编写shell脚本"></a>编写shell脚本</h3><p><strong>我编写的shell脚本有以下几部分组成</strong></p>
@@ -422,6 +422,10 @@ done
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/autocheck/" rel="prev" title="用shell实现对指定ip进行自动基线安全检查">
+                用shell实现对指定ip进行自动基线安全检查 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -502,7 +506,7 @@ done
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -581,7 +585,7 @@ done
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用shell写一个自动化扫描主机端口爆破服务弱口令的脚本"><span class="nav-number">1.</span> <span class="nav-text">用shell写一个自动化扫描主机端口爆破服务弱口令的脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.0.2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写shell脚本"><span class="nav-number">1.0.3.</span> <span class="nav-text">编写shell脚本</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用shell实现自动化扫描主机端口爆破服务弱口令"><span class="nav-number">1.</span> <span class="nav-text">用shell实现自动化扫描主机端口爆破服务弱口令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需求"><span class="nav-number">1.0.2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写shell脚本"><span class="nav-number">1.0.3.</span> <span class="nav-text">编写shell脚本</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
