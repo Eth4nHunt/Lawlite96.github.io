@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Apache," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta name="keywords" content="Apache">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache安全加固">
+<meta property="og:url" content="http://yoursite.com/2018/05/19/apache_security_config/index.html">
+<meta property="og:site_name" content="Lawliet Blog">
+<meta property="og:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/E6ibcfJ04E.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/5DDcBfL29g.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/k9j741e1cA.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/L4F39GedbG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/i1JI409h8c.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/eHK8lHCE4k.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/D8gfh8iBCi.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/BcDmc95fcG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/4LkC4jeEBG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/cEK1GFb0fJ.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/Fb38bd4llF.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/DfhJ1f3laC.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/AhLkBAekKD.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/EIgCFDal5A.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/9ECKkDDEbh.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/m70eLc5Fc3.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/l3hi9EH7d6.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/LeG2c9gJGG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/kJfeFbbH70.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/kk09aFAaeg.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/0Cd68AI7hC.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/c06CGjEle1.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/B227gA44Em.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/CJ1KJe707J.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/43F7LhCH5J.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/0DmGmab529.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/3E7LaFlicG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/G2IGhHemdG.png?imageslim">
+<meta property="og:updated_time" content="2018-05-19T18:04:10.521Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache安全加固">
+<meta name="twitter:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/19/apache_security_config/"/>
+
+
+
+
+
+  <title>Apache安全加固 | Lawliet Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lawliet Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">原创文章，未经授权请勿转载</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/apache_security_config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Apache安全加固</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-19T23:38:59+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全加固/" itemprop="url" rel="index">
+                    <span itemprop="name">安全加固</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h1><p><strong>这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos</strong></p>
+<h2 id="服务器banner信息隐藏"><a href="#服务器banner信息隐藏" class="headerlink" title="服务器banner信息隐藏"></a>服务器banner信息隐藏</h2><h3 id="404页面以及http响应头信息泄露"><a href="#404页面以及http响应头信息泄露" class="headerlink" title="404页面以及http响应头信息泄露"></a>404页面以及http响应头信息泄露</h3><p><strong>如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim" alt="mark"><br><strong>可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口</strong></p>
+<p><strong>还有就是在http的响应头中，也会泄露有关服务器的一些信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/E6ibcfJ04E.png?imageslim" alt="mark"><br><strong>http响应头的Server中泄露了apache的版本和服务器操作系统类型</strong></p>
+<p><strong>加固方案：需要修改apache配置文件的两个地方，配置文件位置：<code>/etc/httpd/conf/httpd.conf</code>,将对应的参数修改成下面的值</strong></p>
+<pre><code>ServerTokens Prod
+ServerSignature Off
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/5DDcBfL29g.png?imageslim" alt="mark"></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/k9j741e1cA.png?imageslim" alt="mark"><br><strong>修改完后重启服务,就可以修复了，可以看到这些信息不再出现</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/L4F39GedbG.png?imageslim" alt="mark"></p>
+<h3 id="http响应头泄露php版本信息"><a href="#http响应头泄露php版本信息" class="headerlink" title="http响应头泄露php版本信息"></a>http响应头泄露php版本信息</h3><p><strong>http响应头中的X-Powered-By泄露了php版本信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/i1JI409h8c.png?imageslim" alt="mark"><br><strong>加固方案：修改php配置文件，配置文件位置：<code>/etc/php.ini</code>，修改参数</strong></p>
+<pre><code>expose_php=Off
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/eHK8lHCE4k.png?imageslim" alt="mark"><br><strong>修改完成后，重启apache服务，php版本信息不再显示</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/D8gfh8iBCi.png?imageslim" alt="mark"></p>
+<h2 id="修改apache默认主页"><a href="#修改apache默认主页" class="headerlink" title="修改apache默认主页"></a>修改apache默认主页</h2><h3 id="apache默认主页信息泄露"><a href="#apache默认主页信息泄露" class="headerlink" title="apache默认主页信息泄露"></a>apache默认主页信息泄露</h3><p><strong>当apache安装完成后，apache的默认主页会泄露服务器的一些信息</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/BcDmc95fcG.png?imageslim" alt="mark"><br><strong>可以看到apache默认页面泄露了网站的根目录和某配置文件</strong></p>
+<p><strong>加固方案：修改apache配置文件中的DirectoryIndex，并在网站根目录自定义index.html或者index.php</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/4LkC4jeEBG.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/cEK1GFb0fJ.png?imageslim" alt="mark"><br><strong>修改完成后不再显示默认页</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/Fb38bd4llF.png?imageslim" alt="mark"></p>
+<h2 id="自定义404页面"><a href="#自定义404页面" class="headerlink" title="自定义404页面"></a>自定义404页面</h2><p><strong>为了安全考虑和与网站用户的友好交互，自定义404页面也是件必要的事情</strong></p>
+<p><strong>加固方法：在网上寻找404页面模板上传至服务器网站根目录，修改apache配置文件，找到<code>ErrorDocument 404</code>,将自定义的404页面路径添加上去</strong></p>
+<pre><code>ErrorDocument 404 /404page/index.html
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/DfhJ1f3laC.png?imageslim" alt="mark"><br><strong>同时修改404的html文件，修改css，js文件的加载路径，不然css和js会因为请求不到资源而加载失败</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/AhLkBAekKD.png?imageslim" alt="mark"></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/EIgCFDal5A.png?imageslim" alt="mark"><br><strong>重启apache服务</strong></p>
+<p><strong>修改前的404页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/9ECKkDDEbh.png?imageslim" alt="mark"><br><strong>修改后的404页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/m70eLc5Fc3.png?imageslim" alt="mark"></p>
+<h2 id="防止列目录泄露敏感信息"><a href="#防止列目录泄露敏感信息" class="headerlink" title="防止列目录泄露敏感信息"></a>防止列目录泄露敏感信息</h2><p><strong>网站允许列目录是个很严重的安全问题，有时由于列目录可能会导致一些配置文件或者一些重要敏感信息泄露</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/l3hi9EH7d6.png?imageslim" alt="mark"><br><strong>加固方案：其中一种加固方案就是在每个目录下都设置一个默认页（index.html或者index.php），这样可以防止列目录，但是会比较麻烦.另外一种方式就是修改apache的配置文件，将网站根目录<code>/var/www/html</code>下的<code>Options Indexes FollowSymLinks</code>改为<code>Options FollowSymLinks</code>,将indexes参数去掉</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/LeG2c9gJGG.png?imageslim" alt="mark"><br><strong>修改完成后重启服务，再次访问目录就会出现403禁止访问的页面，但是目录下的页面还是可以照常访问，只是禁止了列目录的操作</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/kJfeFbbH70.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/kk09aFAaeg.png?imageslim" alt="mark"></p>
+<h2 id="禁用php危险函数"><a href="#禁用php危险函数" class="headerlink" title="禁用php危险函数"></a>禁用php危险函数</h2><p><strong>php有些函数如果开启的话，当黑客拿下一个webshell就会利用函数取执行一些危险命令，所以可以把一些危险函数禁用掉，以phpinfo为例，修改php配置文件<code>/etc/php.ini</code>,查找<code>disable_funcions</code>，配置</strong></p>
+<pre><code>disable_funcions=phpinfo
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/0Cd68AI7hC.png?imageslim" alt="mark"><br><strong>修改前</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/c06CGjEle1.png?imageslim" alt="mark"><br><strong>修改后</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/B227gA44Em.png?imageslim" alt="mark"></p>
+<h2 id="指定目录禁止php解析"><a href="#指定目录禁止php解析" class="headerlink" title="指定目录禁止php解析"></a>指定目录禁止php解析</h2><p><strong>通常，向一些上传图片的目录，如果代码层对文件上传没有做好限制，导致黑客上传php代码getshell，所以对指定目录禁止php解析是很有必要的</strong></p>
+<p><strong>比如网站上传目录被上传了一个webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/CJ1KJe707J.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/43F7LhCH5J.png?imageslim" alt="mark"><br><strong>可以连接webshell，这是很严重的</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/0DmGmab529.png?imageslim" alt="mark"></p>
+<p><strong>加固方案，修改apache配置文件，设置指定目录没有执行php的权限，在配置文件中添加</strong></p>
+<pre><code>&lt;Directory &quot;/var/www/html/uploads&quot;&gt;
+    php_flag engine off
+&lt;/Directory&gt;
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/3E7LaFlicG.png?imageslim" alt="mark"><br><strong>重启服务，可以看到由于uploads目录下禁止解析php脚本了，所以此时webshell就不能连接了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/G2IGhHemdG.png?imageslim" alt="mark"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Apache/" rel="tag"># Apache</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/autocheck/" rel="next" title="用shell实现对指定ip进行自动基线安全检查">
+                <i class="fa fa-chevron-left"></i> 用shell实现对指定ip进行自动基线安全检查
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/LuFei.jpg"
+                alt="Lawliet" />
+            
+              <p class="site-author-name" itemprop="name">Lawliet</p>
+              <p class="site-description motion-element" itemprop="description">信息安全技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.shentoushi.top/index" title="渗透测试师导航" target="_blank">渗透测试师导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lorexxar.cn/" title="LoRexxar's Blog" target="_blank">LoRexxar's Blog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.leavesongs.com/" title="离别歌" target="_blank">离别歌</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=524543708&auto=0&height=66"></iframe>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache安全加固"><span class="nav-number">1.</span> <span class="nav-text">Apache安全加固</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务器banner信息隐藏"><span class="nav-number">1.1.</span> <span class="nav-text">服务器banner信息隐藏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#404页面以及http响应头信息泄露"><span class="nav-number">1.1.1.</span> <span class="nav-text">404页面以及http响应头信息泄露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http响应头泄露php版本信息"><span class="nav-number">1.1.2.</span> <span class="nav-text">http响应头泄露php版本信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改apache默认主页"><span class="nav-number">1.2.</span> <span class="nav-text">修改apache默认主页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#apache默认主页信息泄露"><span class="nav-number">1.2.1.</span> <span class="nav-text">apache默认主页信息泄露</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义404页面"><span class="nav-number">1.3.</span> <span class="nav-text">自定义404页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防止列目录泄露敏感信息"><span class="nav-number">1.4.</span> <span class="nav-text">防止列目录泄露敏感信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁用php危险函数"><span class="nav-number">1.5.</span> <span class="nav-text">禁用php危险函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定目录禁止php解析"><span class="nav-number">1.6.</span> <span class="nav-text">指定目录禁止php解析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lawliet</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
