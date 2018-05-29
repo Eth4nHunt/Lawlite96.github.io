@@ -203,7 +203,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180516/jKbC755A7f.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180516/047IB022ac.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180516/j663FihbdA.png?imageslim">
-<meta property="og:updated_time" content="2018-05-20T16:19:40.829Z">
+<meta property="og:updated_time" content="2018-05-29T03:01:38.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ISCC2018 write up">
 <meta name="twitter:description" content="ISCC2018 write up简介参加2018年的iscc比赛，将做出的题记录到这里 Web方向比较数字大小HINT：只要比服务器上的数字大就好了发现题目只有一个输入框，限制只能输入3个字符，于是firebug查看元素，发现maxlength值为3，将3改为100，随意输入个大数字，flag就出来了flag:key is 768HKyu678567&amp;amp;*&amp;amp;K 本地的诱惑HINT：">
@@ -585,7 +585,7 @@ if ($a.$b == &quot;flag&quot;)
     print $flag;
 ?&gt;
 </code></pre><p><strong>可以看到只要绕过对username和password的过滤便能得到flag</strong></p>
-<p><strong>strcasecmp的绕过可以用数组，因为php的特性，将一个字符串与数组比较时因为类型不一致会发返回0，后面要求数字长度小于4且大于999可以用php中的科学计数法绕过，构造payload</strong></p>
+<p><strong>strcasecmp的绕过可以利用数组，因为php的隐式类型转换的特性，strcasecmp这个函数在比较时会发生隐式类型转换，数组会被转为字符串格式，也就是Array，所以两个字符串不相等，那么该函数就会返回False，又因为将False与0以双等号（不严格的比较）进行比较发生了一次隐私类型转换，所以结果为真，从而绕过，后面要求数字长度小于4且大于999可以用php中的科学计数法绕过,构造payload</strong></p>
 <p><code>http://118.190.152.202:8017/?username[]=&amp;&amp;password=1e9</code><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/jad86261b6.png?imageslim" alt="mark"><br><code>flag{ISCC2018_Very_GOOD!}</code></p>
 <h3 id="SQL注入的艺术"><a href="#SQL注入的艺术" class="headerlink" title="SQL注入的艺术"></a>SQL注入的艺术</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180503/CdD15BHHI4.png?imageslim" alt="mark"><br><strong>找到一个可能存在注入的连接</strong><br><code>http://118.190.152.202:8015/index.php?id=1</code></p>
 <p><strong>猜测id参数可能存在注入，加单引号和双引号页面均返回正常并不会报错，于是猜测引号可能被转义了，尝试宽字节注入</strong></p>
@@ -838,7 +838,7 @@ if(md5($password) == 0){
 
 show_source(__FILE__);
 ?&gt;
-</code></pre><p><strong>这里考察php的弱类型，可以利用开头为0e的MD5值绕过，以下列举了一些MD5后开头为0e的字符串</strong></p>
+</code></pre><p><strong>这里考察php的隐式类型转换，如果用双等号将一个字符串与数字进行比较时，会将字符串类型转为数字类型，所以在这里一般可以利用开头为0的MD5值绕过，以下列举了一些MD5后开头为0的字符串</strong></p>
 <pre><code>QNKCDZO
 0e830400451993494058024219903391
 
