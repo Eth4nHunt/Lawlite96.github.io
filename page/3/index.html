@@ -1893,7 +1893,7 @@ $linkHost = &apos;http://flink.dedecms.com/server_url.php&apos;;
       
         
           
-            <h1 id="通过lctf2017-writeup-get到的姿势"><a href="#通过lctf2017-writeup-get到的姿势" class="headerlink" title="通过lctf2017 writeup get到的姿势"></a>通过lctf2017 writeup get到的姿势</h1><p><strong>偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分</strong></p>
+            <h1 id="通过lctf2017的一道注入题引发的思考"><a href="#通过lctf2017的一道注入题引发的思考" class="headerlink" title="通过lctf2017的一道注入题引发的思考"></a>通过lctf2017的一道注入题引发的思考</h1><p><strong>偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,激动万分</strong></p>
 <p><strong><a href="https://mp.weixin.qq.com/s?srcid=11203xrbPM3MfT5t21QgBaj8&amp;scene=23&amp;mid=2247484338&amp;sn=33dc65055c9e00ce487f89c4c1ff4098&amp;idx=1&amp;__biz=MzIzMTc1MjExOQ%3D%3D&amp;chksm=e89e2b6adfe9a27c02fc3235f319f295871fac1dd2dc3490362d644493643664cd13643ba0f9&amp;mpshare=1#rd" title="原文链接" target="_blank" rel="external">原文链接</a></strong></p>
 <p><strong>url:<a href="http://182.254.246.93/entrance.php" title="http://182.254.246.93/entrance.php" target="_blank" rel="external">http://182.254.246.93/entrance.php</a></strong></p>
 <p><strong>这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上</strong></p>
@@ -1905,7 +1905,7 @@ $linkHost = &apos;http://flink.dedecms.com/server_url.php&apos;;
 &lt;!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><p><strong>根据提示进行union查询,发现一些关键字被waf拦截了,过滤的关键字有<code>database()</code>,<code>version()</code>,<code>information_schema</code>等,然而很多注入都是基于<code>information_schema</code>这个数据库的,但是通过上面那篇pcat的文章,我学习到了新的姿势</strong></p>
+</code></pre><p><strong>根据提示进行union查询,发现一些关键字被waf拦截了,过滤的关键字有<code>database()</code>,<code>version()</code>,<code>information_schema</code>等,然而很多注入都是基于<code>information_schema</code>这个数据库的,但是通过pcat师傅的文章,学到了一种新的字姿势</strong></p>
 <p><strong>先在post参数pro_id上进行order by判断列数,发现当前数据表列数为4,然后构造payload</strong></p>
 <pre><code>pro_id=1 union select 1,2,3,4 from test
 </code></pre><p><strong>由于test表不存在,于是会爆出错误,错误中出现当前数据库的名字</strong></p>
