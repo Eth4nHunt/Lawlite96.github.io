@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下 SQLiPY插件安装打开burpsuite,在Extender模块">
+<meta name="description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下">
 <meta name="keywords" content="burpsuite">
 <meta property="og:type" content="article">
 <meta property="og:title" content="burpsuite中配置使用sqlmapapi">
 <meta property="og:url" content="http://yoursite.com/2018/06/03/BurpSQLiPY/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下 SQLiPY插件安装打开burpsuite,在Extender模块">
+<meta property="og:description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/GjeAJ3i0KF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/L73Lejlcak.png?imageslim">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/9ddgAG0HJd.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/l55g8GG4gA.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/C1FaE583H6.png?imageslim">
-<meta property="og:updated_time" content="2018-06-03T09:43:56.948Z">
+<meta property="og:updated_time" content="2018-06-03T13:03:49.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="burpsuite中配置使用sqlmapapi">
-<meta name="twitter:description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下 SQLiPY插件安装打开burpsuite,在Extender模块">
+<meta name="twitter:description" content="burpsuite中配置使用sqlmapapiburpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为SQLiPY的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180603/GjeAJ3i0KF.png?imageslim">
 
 
@@ -350,7 +350,7 @@
       
 
       
-        <h1 id="burpsuite中配置使用sqlmapapi"><a href="#burpsuite中配置使用sqlmapapi" class="headerlink" title="burpsuite中配置使用sqlmapapi"></a>burpsuite中配置使用sqlmapapi</h1><p><strong>burpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为<code>SQLiPY</code>的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下</strong></p>
+        <h1 id="burpsuite中配置使用sqlmapapi"><a href="#burpsuite中配置使用sqlmapapi" class="headerlink" title="burpsuite中配置使用sqlmapapi"></a>burpsuite中配置使用sqlmapapi</h1><p><strong>burpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为<code>SQLiPY</code>的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下</strong><br><a id="more"></a></p>
 <h3 id="SQLiPY插件安装"><a href="#SQLiPY插件安装" class="headerlink" title="SQLiPY插件安装"></a>SQLiPY插件安装</h3><p><strong>打开burpsuite,在Extender模块中的BApp Store中找到SQLiPY插件</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/GjeAJ3i0KF.png?imageslim" alt="mark"><br><strong>可以看到安装该插件需要的环境</strong></p>
 <pre><code>Jython 2.7.0 or newer
 Java 1.7 or 1.8 (the beta version of Jython 2.7 requires this).
