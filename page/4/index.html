@@ -252,6 +252,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/08/shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/08/shadowsocks/" itemprop="url">科学上网,vultr vps主机上shadowsocks的搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T16:51:26+08:00">
+                2017-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/科学上网/" itemprop="url" rel="index">
+                    <span itemprop="name">科学上网</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Vultr-vps主机上搭建shadowsocks"><a href="#Vultr-vps主机上搭建shadowsocks" class="headerlink" title="Vultr vps主机上搭建shadowsocks"></a>Vultr vps主机上搭建shadowsocks</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>一篇搭建shadowsocks科学上网的文章</strong></p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong>我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 server 端和 client 端，那么我们就可以在本地的机器上进行ssh连接,从而解决被GFW通过特征分析进行干扰的问题</strong></p>
+<p><strong>感兴趣的小伙伴可以参考这篇文章:<a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a>,写的很详细</strong></p>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>一台vps主机,本人用的是Vultr,最低的每月2.5美元,<a href="https://www.vultr.com/?ref=7234691" title="点击此处" target="_blank" rel="external">点击此处</a>可以注册vultr<br>账号,网站支持支付宝,Paypal等支付,推荐Paypal,在国外支付十分方便,登陆vultr选节点和服务器,现在只有New York(NJ)的费用是最低的,速度也算良心,ping测试的速度在280ms左右,服务器推荐选centos7</strong></p>
+<p><strong>服务器远程连接工具,<a href="http://www.netsarang.com/products/xsh_overview.html" title="xshell下载地址" target="_blank" rel="external">xshell下载地址</a></strong></p>
+<h3 id="安装shadowsocks服务端"><a href="#安装shadowsocks服务端" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong>用xshell以root权限登陆我们的vps,vps默认账号密码在我们的vultr账号中心的服务器列表中会有显示</strong></p>
+<p><strong>安装shadowsocks服务端,使用<a href="https://teddysun.com/342.html" title="teddysun" target="_blank" rel="external">teddysun</a>的一键安装脚本,简单的三条命令便可完成安装</strong></p>
+<pre><code>wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+
+chmod +x shadowsocks.sh
+
+./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log
+</code></pre><p><strong>输入以上三条命令后,会让你输入一些东西去配置,如ssserver的登陆密码,端口,加密方法等,登陆密码默认为teddysun.com,输入你自己设置的密码,端口默认为8989,回车默认即可,不出意外的话就安装成功了</strong></p>
+<p><strong>启动:<code>/etc/init.d/shadowsocks start</code></strong></p>
+<p><strong>停止:<code>/etc/init.d/shadowsocks stop</code></strong></p>
+<p><strong>重启:<code>/etc/init.d/shadowsocks restart</code></strong></p>
+<p><strong>状态:<code>/etc/init.d/shadowsocks status</code></strong></p>
+<p><strong>卸载:<code>./shadowsocks.sh uninstall</code></strong></p>
+<p><strong>配置文件:我们如果想修改配置的话，可以打开配置文件<code>/etc/shadowsocks.json</code>进行配置</strong></p>
+<h3 id="安装shadowsocks服务端-1"><a href="#安装shadowsocks服务端-1" class="headerlink" title="安装shadowsocks服务端"></a>安装shadowsocks服务端</h3><p><strong><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" title="windows版客户端" target="_blank" rel="external">windows版客户端</a></strong></p>
+<p><strong><a href="https://sourceforge.net/projects/shadowsocksgui/" title="mac版客户端" target="_blank" rel="external">mac版客户端</a></strong></p>
+<p><strong>安装完成后输入shadowsocks服务端的ip和默认端口(8989),输入我们设置的密码就完成了,接下来我们就可以科学上网去学习知识了</strong></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><strong><a href="https://medium.com/@zoomyale/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E7%9A%84%E7%BB%88%E6%9E%81%E5%A7%BF%E5%8A%BF-%E5%9C%A8-vultr-vps-%E4%B8%8A%E6%90%AD%E5%BB%BA-shadowsocks-fd57c807d97e" title="科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks" target="_blank" rel="external">科学上网的终极姿势-在-vultr-vps-上搭建-shadowsocks</a></strong></p>
+<p><strong><a href="http://zhuangold.com/vultr-vps%E4%B8%BB%E6%9C%BA%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85shadowsocks%EF%BC%88ss%EF%BC%89%E6%95%99%E7%A8%8B/" title="vultr-vps主机快速安装shadowsocks（ss）教程" target="_blank" rel="external">vultr-vps主机快速安装shadowsocks（ss）教程</a></strong></p>
+<p><strong><a href="https://teddysun.com/342.html" title="Shadowsocks Python版一键安装脚本" target="_blank" rel="external">Shadowsocks Python版一键安装脚本</a></strong></p>
+<p><strong><a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a></strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/05/Some Words/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -876,7 +1043,7 @@ branch: master
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -887,7 +1054,7 @@ branch: master
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -898,7 +1065,7 @@ branch: master
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -252,6 +252,155 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/BurpSQLiPY/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/LuFei.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/03/BurpSQLiPY/" itemprop="url">burpsuite中配置使用sqlmapapi</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T17:43:56+08:00">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="burpsuite中配置使用sqlmapapi"><a href="#burpsuite中配置使用sqlmapapi" class="headerlink" title="burpsuite中配置使用sqlmapapi"></a>burpsuite中配置使用sqlmapapi</h1><p><strong>burpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为<code>SQLiPY</code>的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下</strong></p>
+<h3 id="SQLiPY插件安装"><a href="#SQLiPY插件安装" class="headerlink" title="SQLiPY插件安装"></a>SQLiPY插件安装</h3><p><strong>打开burpsuite,在Extender模块中的BApp Store中找到SQLiPY插件</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/GjeAJ3i0KF.png?imageslim" alt="mark"><br><strong>可以看到安装该插件需要的环境</strong></p>
+<pre><code>Jython 2.7.0 or newer
+Java 1.7 or 1.8 (the beta version of Jython 2.7 requires this).
+Python 2 (already installed on most Unix distributions)
+</code></pre><p><strong>java和python环境都有了，还需要Jython2.7.0或者更新的，去<a href="http://www.jython.org/downloads.html" title="Jython官网" target="_blank" rel="external">Jython官网</a>下载一个jar包即可</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/L73Lejlcak.png?imageslim" alt="mark"><br><strong>可以看到关于Jython2.7.0版本官网上有两个地方可以下载，第一个jar需要安装，英文意思是<code>安装可以执行jar的jython</code>，但是自己安装后在burpsuite中导入jython.jar去安装<code>SQLiPY</code>后会报出<code>Cannot create PyString with non-byte value</code>的错误，也就是SQLiPY插件虽然下载成功但是无法导入进burpsuite，问了很多同学，有的人安装完成导入后并不会报错，但是有的人就是会报错，我就属于会报错的那种，解决方案也很简单注意在这下载第二个jar包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/b3517eB6h1.png?imageslim" alt="mark"><br><strong>英文意思是<code>在java应用程序中嵌入Jython</code>,这个jar包不需要安装，直接导入即可，在Extender模块中的Options中的<code>Python Environment</code>中，可以将下载的jar包导入到burpsuite中</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/KGa1HA8fm7.png?imageslim" alt="mark"><br><strong>然后就可以在BApp Store安装<code>SQLiPY</code>这个插件了，安装过程比较久，但是可以安装成功，注意安装的<code>SQLiPY.py</code>会默认在计算机的用户目录下，所以目录名里不能有中文和引号等字符，不然会在burpsuite导入<code>SQLiPY</code>插件时出现java报错，之前我的计算机用户里面有个引号就加载不进来，所以这一点要十分注意</strong></p>
+<h3 id="SQLiPY插件的使用"><a href="#SQLiPY插件的使用" class="headerlink" title="SQLiPY插件的使用"></a>SQLiPY插件的使用</h3><p><strong>这个插件确实很强大方便，可以在渗透测试的时候直接在burpsuite中通过sqlmapapi使用sqlmap</strong></p>
+<p><strong>首先在该插件下选择python.exe</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/9ddgAG0HJd.png?imageslim" alt="mark"><br><strong>之后点击<code>Start API</code>就可以启动API使用这个插件了，用burpsuite抓包时看到一个可能存在注入的参数，可以右键SQLiPY Scan直接将数据包发给SQLiPY插件，使用sqlmap去测试该注入点</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/l55g8GG4gA.png?imageslim" alt="mark"><br><strong>如果存在注入，就会在Scanner模块中显示出来</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180603/C1FaE583H6.png?imageslim" alt="mark"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/sqlmapgsearch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -306,8 +455,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sqlmap/" itemprop="url" rel="index">
-                    <span itemprop="name">sqlmap</span>
+                  <a href="/categories/工具使用/" itemprop="url" rel="index">
+                    <span itemprop="name">工具使用</span>
                   </a>
                 </span>
 
@@ -2872,163 +3021,6 @@ if __name__==&quot;__main__&quot;:
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/kali update error/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/LuFei.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/19/kali update error/" itemprop="url">解决kali执行apt update时报错</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T23:27:48+08:00">
-                2018-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kali/" itemprop="url" rel="index">
-                    <span itemprop="name">kali</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="解决kali执行apt-update时报错"><a href="#解决kali执行apt-update时报错" class="headerlink" title="解决kali执行apt update时报错"></a>解决kali执行apt update时报错</h1><p><strong>更新kali时在执行apt update遇到如下错误</strong></p>
-<pre><code>Get:1 http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease [30.5 kB]
-Err:1 http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease
-The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-945 packages can be upgraded. Run &apos;apt list --upgradable&apos; to see them.
-W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: http://kali.mirror.garr.it/mirrors/kali kali-rolling InRelease: The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
-W: Failed to fetch http://http.kali.org/kali/dists/kali-rolling/InRelease  The following signatures were invalid: EXPKEYSIG ED444FF07D8D0BF6 Kali Linux Repository &lt;devel@kali.org&gt;
-W: Some index files failed to download. They have been ignored, or old ones used instead.
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/9DHI71m4ee.png?imageslim" alt="mark"></p>
-<p><strong>解决方法</strong></p>
-<pre><code>apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 7D8D0BF6
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/KGI19B7egm.png?imageslim" alt="mark"></p>
-<p><strong>再次执行就可以成功执行了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/m3L1eiGCcd.png?imageslim" alt="mark"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3083,7 +3075,7 @@ W: Some index files failed to download. They have been ignored, or old ones used
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3094,7 +3086,7 @@ W: Some index files failed to download. They have been ignored, or old ones used
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3105,7 +3097,7 @@ W: Some index files failed to download. They have been ignored, or old ones used
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
