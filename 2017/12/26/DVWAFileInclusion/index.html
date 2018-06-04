@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/gbc08eh46D.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/JD691hGGfj.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/Gh0mkE7H9D.PNG">
-<meta property="og:updated_time" content="2017-12-26T07:13:26.258Z">
+<meta property="og:updated_time" content="2018-06-04T14:59:55.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dvwa File Inclusion">
 <meta name="twitter:description" content="dvwa文件包含漏洞文件包含漏洞程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，而无需再次编写，这中文件调用的过程一般被称为文件包含。程序开发人员一般希望代码更灵活，所以将被包含的文件设置为变量，用来进行动态调用，但正是由于这种灵活性，从而导致客户端可以调用一个恶意文件，造成文件包含漏洞。文件包含漏洞分为本地文件包含和远程文件包含，当php开启了allow_ur">
@@ -348,7 +348,7 @@
       
 
       
-        <h1 id="dvwa文件包含漏洞"><a href="#dvwa文件包含漏洞" class="headerlink" title="dvwa文件包含漏洞"></a>dvwa文件包含漏洞</h1><h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><strong>程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，而无需再次编写，这中文件调用的过程一般被称为文件包含。程序开发人员一般希望代码更灵活，所以将被包含的文件设置为变量，用来进行动态调用，但正是由于这种灵活性，从而导致客户端可以调用一个恶意文件，造成文件包含漏洞。文件包含漏洞分为本地文件包含和远程文件包含，当php开启了<code>allow_url_include</code>时，将允许远程文件包含，为了研究文件包含,我们将<code>allow_url_include</code>打开，文件包含漏洞可以用来遍历目录文件，结合文件上传漏洞可以getshell，或者直接利用远程文件包含同样可以getshell</strong></p>
+        <h1 id="dvwa文件包含漏洞"><a href="#dvwa文件包含漏洞" class="headerlink" title="dvwa文件包含漏洞"></a>dvwa文件包含漏洞</h1><h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><strong>程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，而无需再次编写，这中文件调用的过程一般被称为文件包含。程序开发人员一般希望代码更灵活，所以将被包含的文件设置为变量，用来进行动态调用，但正是由于这种灵活性，从而导致客户端可以调用一个恶意文件，造成文件包含漏洞。文件包含漏洞分为本地文件包含和远程文件包含，当php开启了<code>allow_url_include</code>时，将允许远程文件包含，为了研究文件包含,我们将<code>allow_url_include</code>打开，文件包含漏洞可以用来遍历目录文件，结合文件上传漏洞可以getshell，或者直接利用远程文件包含同样可以getshell</strong><br><a id="more"></a></p>
 <h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口，php.ini中<code>allow_url_include</code>为<code>On</code></strong><br><strong>一台win7,攻击者服务器，ip为192.168.50.155，用来远程文件包含</strong></p>
 <p><strong>之前我们在文件上传漏洞中上传了图片马，我们利用文件包含漏洞去包含图片马，同样可以直接包含php一句话木马文件getshell，由于文件包含的特性，不管文件后缀名是什么，只要当中有php代码，都会当做php执行</strong></p>
 <h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>

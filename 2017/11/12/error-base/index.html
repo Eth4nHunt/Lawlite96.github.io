@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入 报错注入原因及分类既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点  重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相">
+<meta name="description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入">
 <meta name="keywords" content="sql注入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql报错注入总结">
 <meta property="og:url" content="http://yoursite.com/2017/11/12/error-base/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入 报错注入原因及分类既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点  重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相">
+<meta property="og:description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-31T07:25:09.633Z">
+<meta property="og:updated_time" content="2018-06-04T15:00:39.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql报错注入总结">
-<meta name="twitter:description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入 报错注入原因及分类既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点  重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相">
+<meta name="twitter:description" content="mysql报错注入总结最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入">
 
 
 
@@ -342,7 +342,7 @@
       
 
       
-        <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong></p>
+        <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong><br><a id="more"></a></p>
 <h3 id="报错注入原因及分类"><a href="#报错注入原因及分类" class="headerlink" title="报错注入原因及分类"></a>报错注入原因及分类</h3><p><strong>既然是研究报错注入,那我们先要弄明白为什么我们的注入语句会导致数据库报错,报错的原因我自己总结了一下,有以下几点</strong></p>
 <ul>
 <li><p><strong>重复数据报错,这里的重复主要有两个方面,其中之一是基于主键的唯一性:一个表主键必须是唯一的,如果一个表尝试生成两个相同的主键，就会爆出<code>Duplicate entry</code>的主键重复错误,于是根据这种报错就产生了<code>floor(rand(0)*2)</code>等注入手法,另外一个就是基于列名的唯一性,如果我们在一个表中构造了两个相同的列名,就会产生<code>Duplicate column name</code>的错误,报错方法通常有<code>NAME_CONST</code>,或者利用join和using关键字连接同一个表创建子查询进行报错,这个方法从lctf2017 pcat师傅的writeup中学到的,在我的另一篇文章中会提到</strong></p>

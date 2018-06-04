@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
+<meta name="description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos7安装mysql">
 <meta property="og:url" content="http://yoursite.com/2018/02/27/centos7mysql/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
+<meta property="og:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/Fdg5fbh339.png?imageslim">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/2jih4JIeeF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/3iAGB7h54A.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/lG0d7L9Dc7.png?imageslim">
-<meta property="og:updated_time" content="2018-02-27T14:22:09.592Z">
+<meta property="og:updated_time" content="2018-06-04T14:57:37.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos7安装mysql">
-<meta name="twitter:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql 1.卸载之前安装的MariaDB rpm -qa | grep mariadb(列出所有被安装的rpm package) rpm -e依次卸载 rpm">
+<meta name="twitter:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
 
 
@@ -350,8 +350,7 @@
       
 
       
-        <h1 id="centos7安装mysql"><a href="#centos7安装mysql" class="headerlink" title="centos7安装mysql"></a>centos7安装mysql</h1><p><strong>由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql</strong></p>
-<p><strong>1.卸载之前安装的MariaDB</strong></p>
+        <h1 id="centos7安装mysql"><a href="#centos7安装mysql" class="headerlink" title="centos7安装mysql"></a>centos7安装mysql</h1><p><strong>由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql</strong><br><a id="more"></a><br><strong>1.卸载之前安装的MariaDB</strong></p>
 <pre><code>rpm -qa | grep mariadb(列出所有被安装的rpm package)
 </code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG" alt="mark"><br><strong><code>rpm -e</code>依次卸载</strong></p>
 <pre><code>rpm -e mariadb-5.5.56-2.el7.x86_64

@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
+<meta name="description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php parse_url()函数的漏洞">
 <meta property="og:url" content="http://yoursite.com/2018/05/13/parse_url/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
+<meta property="og:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/EbCH4hKH9b.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/0I4Bkl3ibm.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/fgjlla414b.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/3Lh2A7BimG.png?imageslim">
-<meta property="og:updated_time" content="2018-05-13T15:54:11.077Z">
+<meta property="og:updated_time" content="2018-06-04T15:10:21.808Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php parse_url()函数的漏洞">
-<meta name="twitter:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤 来看代码 &amp;lt;?php $url=parse_url($_SERVER[&amp;apos;REQUEST_URI&amp;apos;]); parse_str($url[&amp;apos;query&amp;apos;],$query); var_d">
+<meta name="twitter:description" content="php parse_url()函数的漏洞在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180513/acDbC5lEe8.png?imageslim">
 
 
@@ -348,8 +348,7 @@
       
 
       
-        <h1 id="php-parse-url-函数的漏洞"><a href="#php-parse-url-函数的漏洞" class="headerlink" title="php parse_url()函数的漏洞"></a>php parse_url()函数的漏洞</h1><p><strong>在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤</strong></p>
-<p><strong>来看代码</strong></p>
+        <h1 id="php-parse-url-函数的漏洞"><a href="#php-parse-url-函数的漏洞" class="headerlink" title="php parse_url()函数的漏洞"></a>php parse_url()函数的漏洞</h1><p><strong>在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤</strong><br><a id="more"></a><br><strong>来看代码</strong></p>
 <pre><code>&lt;?php
 $url=parse_url($_SERVER[&apos;REQUEST_URI&apos;]);
 parse_str($url[&apos;query&apos;],$query);

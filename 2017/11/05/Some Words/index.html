@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
+<meta name="description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下">
 <meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第三届上海市大学生网络安全大赛注入题writeup">
 <meta property="og:url" content="http://yoursite.com/2017/11/05/Some Words/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
+<meta property="og:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-05T12:54:31.333Z">
+<meta property="og:updated_time" content="2018-06-04T15:13:22.753Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第三届上海市大学生网络安全大赛注入题writeup">
-<meta name="twitter:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下 进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下: &amp;#39;,and,union,where,=,updatexml,rand,group_concat等 一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法: 报错注入">
+<meta name="twitter:description" content="题目:Some Words事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下">
 
 
 
@@ -342,8 +342,7 @@
       
 
       
-        <h1 id="题目-Some-Words"><a href="#题目-Some-Words" class="headerlink" title="题目:Some Words"></a>题目:Some Words</h1><p>事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下</p>
-<p>进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下:</p>
+        <h1 id="题目-Some-Words"><a href="#题目-Some-Words" class="headerlink" title="题目:Some Words"></a>题目:Some Words</h1><p>事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下<br><a id="more"></a><br>进入题目链接，很明显是道注入题，先fuzz了一下，大致过滤了部分关键字如下:</p>
 <p><code>&#39;,and,union,where,=,updatexml,rand,group_concat等</code></p>
 <p>一看就是黑名单过滤，虽然过滤了很多关键字，但是很容易绕过，在这我说两种注入方法:</p>
 <h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><p>虽然过滤了updatexml,rand等报错注入关键字,但是没有过extractvalue<br>,过滤了and,可以用or代替，过滤了=可以用like代替,所以可以构造payload:</p>

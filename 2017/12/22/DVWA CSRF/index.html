@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="dvwa CSRF何为csrfcsrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为">
+<meta name="description" content="dvwa CSRFcsrf漏洞csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码">
 <meta name="keywords" content="dvwa学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dvwa CSRF">
 <meta property="og:url" content="http://yoursite.com/2017/12/22/DVWA CSRF/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="dvwa CSRF何为csrfcsrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为">
+<meta property="og:description" content="dvwa CSRFcsrf漏洞csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/hijFlc0kkk.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/KJ2J2HGDeh.PNG">
@@ -102,10 +102,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/bKaGdJ3m7I.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/2hHm9ABIbf.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/bd1bcA49C3.PNG">
-<meta property="og:updated_time" content="2017-12-23T12:32:05.394Z">
+<meta property="og:updated_time" content="2018-06-04T14:59:11.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dvwa CSRF">
-<meta name="twitter:description" content="dvwa CSRF何为csrfcsrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为">
+<meta name="twitter:description" content="dvwa CSRFcsrf漏洞csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171223/hijFlc0kkk.PNG">
 
 
@@ -358,7 +358,7 @@
       
 
       
-        <h1 id="dvwa-CSRF"><a href="#dvwa-CSRF" class="headerlink" title="dvwa CSRF"></a>dvwa CSRF</h1><h3 id="何为csrf"><a href="#何为csrf" class="headerlink" title="何为csrf"></a>何为csrf</h3><p><strong>csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码</strong></p>
+        <h1 id="dvwa-CSRF"><a href="#dvwa-CSRF" class="headerlink" title="dvwa CSRF"></a>dvwa CSRF</h1><h3 id="csrf漏洞"><a href="#csrf漏洞" class="headerlink" title="csrf漏洞"></a>csrf漏洞</h3><p><strong>csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码</strong><br><a id="more"></a></p>
 <h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong><br><strong>一台win7虚拟机，ip为192.168.50.155,攻击者的服务器，web由phpstudy搭建</strong><br><strong>默认登陆用户名密码为admin,password，我们用csrf漏洞去修改密码</strong></p>
 <h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>low级别代码</strong><br>    &lt;?php</p>
 <pre><code>if( isset( $_GET[ &apos;Change&apos; ] ) ) {
@@ -730,7 +730,7 @@ ajax.send(null);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dvwa-CSRF"><span class="nav-number">1.</span> <span class="nav-text">dvwa CSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#何为csrf"><span class="nav-number">1.0.1.</span> <span class="nav-text">何为csrf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试环境"><span class="nav-number">1.0.2.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#low级别"><span class="nav-number">1.0.3.</span> <span class="nav-text">low级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#medium级别"><span class="nav-number">1.0.4.</span> <span class="nav-text">medium级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#high级别"><span class="nav-number">1.0.5.</span> <span class="nav-text">high级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dvwa-CSRF"><span class="nav-number">1.</span> <span class="nav-text">dvwa CSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#csrf漏洞"><span class="nav-number">1.0.1.</span> <span class="nav-text">csrf漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试环境"><span class="nav-number">1.0.2.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#low级别"><span class="nav-number">1.0.3.</span> <span class="nav-text">low级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#medium级别"><span class="nav-number">1.0.4.</span> <span class="nav-text">medium级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#high级别"><span class="nav-number">1.0.5.</span> <span class="nav-text">high级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.6.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

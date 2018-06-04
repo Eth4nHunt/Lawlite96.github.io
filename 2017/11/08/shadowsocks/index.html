@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+<meta name="description" content="Vultr vps主机上搭建shadowsocks简介介绍了如何搭建shadowsocks科学上网，将我的翻墙方法分享给各位需要的小伙伴">
 <meta name="keywords" content="shadowsocks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="科学上网,vultr vps主机上shadowsocks的搭建">
 <meta property="og:url" content="http://yoursite.com/2017/11/08/shadowsocks/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+<meta property="og:description" content="Vultr vps主机上搭建shadowsocks简介介绍了如何搭建shadowsocks科学上网，将我的翻墙方法分享给各位需要的小伙伴">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-08T08:56:36.838Z">
+<meta property="og:updated_time" content="2018-06-04T15:12:50.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="科学上网,vultr vps主机上shadowsocks的搭建">
-<meta name="twitter:description" content="Vultr vps主机上搭建shadowsocks简介一篇搭建shadowsocks科学上网的文章 原理我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 serve">
+<meta name="twitter:description" content="Vultr vps主机上搭建shadowsocks简介介绍了如何搭建shadowsocks科学上网，将我的翻墙方法分享给各位需要的小伙伴">
 
 
 
@@ -342,7 +342,7 @@
       
 
       
-        <h1 id="Vultr-vps主机上搭建shadowsocks"><a href="#Vultr-vps主机上搭建shadowsocks" class="headerlink" title="Vultr vps主机上搭建shadowsocks"></a>Vultr vps主机上搭建shadowsocks</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>一篇搭建shadowsocks科学上网的文章</strong></p>
+        <h1 id="Vultr-vps主机上搭建shadowsocks"><a href="#Vultr-vps主机上搭建shadowsocks" class="headerlink" title="Vultr vps主机上搭建shadowsocks"></a>Vultr vps主机上搭建shadowsocks</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>介绍了如何搭建shadowsocks科学上网，将我的翻墙方法分享给各位需要的小伙伴</strong><br><a id="more"></a></p>
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><strong>我的理解：shadowsocks是基于ssh的,ssh基于RSA的加密技术,所以GFW无法获取传输的加密数据进行分析过滤,但由于创建隧道和数据传输的过程中，ssh本身的特征是明显的,导致GFW通过分析连接的特征进行干扰,而shadowsocks将ssh创建的 Socks5 协议拆开成 server 端和 client 端，那么我们就可以在本地的机器上进行ssh连接,从而解决被GFW通过特征分析进行干扰的问题</strong></p>
 <p><strong>感兴趣的小伙伴可以参考这篇文章:<a href="https://vc2tea.com/whats-shadowsocks/" title="写给非专业人士看的 Shadowsocks 简介" target="_blank" rel="external">写给非专业人士看的 Shadowsocks 简介</a>,写的很详细</strong></p>
 <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p><strong>一台vps主机,本人用的是Vultr,最低的每月2.5美元,<a href="https://www.vultr.com/?ref=7234691" title="点击此处" target="_blank" rel="external">点击此处</a>可以注册vultr<br>账号,网站支持支付宝,Paypal等支付,推荐Paypal,在国外支付十分方便,登陆vultr选节点和服务器,现在只有New York(NJ)的费用是最低的,速度也算良心,ping测试的速度在280ms左右,服务器推荐选centos7</strong></p>

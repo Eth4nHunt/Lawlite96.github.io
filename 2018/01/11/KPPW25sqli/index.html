@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序老师布置的web安全课程设计，要求自己搭建环境利用漏洞渗透服务器，看到题目中有一个是KPPW，感觉这一个题目更具有实际性，于是自己选择了KPPW这个漏洞百出的开源web应用作为题目，这篇文章不再使用集成环境去搭建环境，而是在最小化安装的centos上一步步搭建渗透环境去测试，这篇文章先来研究KPPW2.5版本，其它的版本会写在另外的文章中 l">
+<meta name="description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序这篇文章通过分析KPPW2.5版本的注入漏洞来学习代码审计，使用python编写exp利用脚本去利用该漏洞">
 <meta name="keywords" content="exp编写">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KPPW2.5几处sql注入漏洞利用与exp编写">
 <meta property="og:url" content="http://yoursite.com/2018/01/11/KPPW25sqli/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序老师布置的web安全课程设计，要求自己搭建环境利用漏洞渗透服务器，看到题目中有一个是KPPW，感觉这一个题目更具有实际性，于是自己选择了KPPW这个漏洞百出的开源web应用作为题目，这篇文章不再使用集成环境去搭建环境，而是在最小化安装的centos上一步步搭建渗透环境去测试，这篇文章先来研究KPPW2.5版本，其它的版本会写在另外的文章中 l">
+<meta property="og:description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序这篇文章通过分析KPPW2.5版本的注入漏洞来学习代码审计，使用python编写exp利用脚本去利用该漏洞">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/29C4afBc1E.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/di2fadg729.PNG">
@@ -103,10 +103,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/hdmf1Dchcb.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/kDhKfiEFHi.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/H38eHf86fm.PNG">
-<meta property="og:updated_time" content="2018-01-14T09:15:23.201Z">
+<meta property="og:updated_time" content="2018-06-04T15:08:11.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KPPW2.5几处sql注入漏洞利用与exp编写">
-<meta name="twitter:description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序老师布置的web安全课程设计，要求自己搭建环境利用漏洞渗透服务器，看到题目中有一个是KPPW，感觉这一个题目更具有实际性，于是自己选择了KPPW这个漏洞百出的开源web应用作为题目，这篇文章不再使用集成环境去搭建环境，而是在最小化安装的centos上一步步搭建渗透环境去测试，这篇文章先来研究KPPW2.5版本，其它的版本会写在另外的文章中 l">
+<meta name="twitter:description" content="KPPW2.5版本几处sql注入漏洞利用以及exp编写序这篇文章通过分析KPPW2.5版本的注入漏洞来学习代码审计，使用python编写exp利用脚本去利用该漏洞">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180111/29C4afBc1E.PNG">
 
 
@@ -359,7 +359,7 @@
       
 
       
-        <h1 id="KPPW2-5版本几处sql注入漏洞利用以及exp编写"><a href="#KPPW2-5版本几处sql注入漏洞利用以及exp编写" class="headerlink" title="KPPW2.5版本几处sql注入漏洞利用以及exp编写"></a>KPPW2.5版本几处sql注入漏洞利用以及exp编写</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>老师布置的web安全课程设计，要求自己搭建环境利用漏洞渗透服务器，看到题目中有一个是KPPW，感觉这一个题目更具有实际性，于是自己选择了KPPW这个漏洞百出的开源web应用作为题目，这篇文章不再使用集成环境去搭建环境，而是在最小化安装的centos上一步步搭建渗透环境去测试，这篇文章先来研究KPPW2.5版本，其它的版本会写在另外的文章中</strong></p>
+        <h1 id="KPPW2-5版本几处sql注入漏洞利用以及exp编写"><a href="#KPPW2-5版本几处sql注入漏洞利用以及exp编写" class="headerlink" title="KPPW2.5版本几处sql注入漏洞利用以及exp编写"></a>KPPW2.5版本几处sql注入漏洞利用以及exp编写</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章通过分析KPPW2.5版本的注入漏洞来学习代码审计，使用python编写exp利用脚本去利用该漏洞</strong><br><a id="more"></a></p>
 <h3 id="lamp环境搭建"><a href="#lamp环境搭建" class="headerlink" title="lamp环境搭建"></a>lamp环境搭建</h3><p><strong>下载centos6.4镜像，在虚拟机里最小化安装centos，安装服务器版</strong></p>
 <p><strong>为了下载更方便，使用国内163镜像的源，更新源</strong></p>
 <pre><code>yum -y install wget

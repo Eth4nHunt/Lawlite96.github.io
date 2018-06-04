@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="kppw2.5XSS漏洞复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss">
+<meta name="description" content="kppw2.5XSS漏洞分析与复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用">
 <meta name="keywords" content="漏洞利用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KPPW2.5XSS引起的CSRF">
 <meta property="og:url" content="http://yoursite.com/2018/01/12/KPPW25xss/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="kppw2.5XSS漏洞复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss">
+<meta property="og:description" content="kppw2.5XSS漏洞分析与复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/61IildflAL.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/0l5K9ahhlI.PNG">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/1gdjJ8kgAd.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/K4e1kIgCJc.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/cKa291JeeF.PNG">
-<meta property="og:updated_time" content="2018-01-12T02:19:43.669Z">
+<meta property="og:updated_time" content="2018-06-04T15:08:43.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KPPW2.5XSS引起的CSRF">
-<meta name="twitter:description" content="kppw2.5XSS漏洞复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss">
+<meta name="twitter:description" content="kppw2.5XSS漏洞分析与复现（可csrf）漏洞说明http://192.168.50.157/kppw25/index.php?do=user&amp;amp;view=message&amp;amp;op=send 收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/61IildflAL.PNG">
 
 
@@ -350,8 +350,8 @@
       
 
       
-        <h1 id="kppw2-5XSS漏洞复现（可csrf）"><a href="#kppw2-5XSS漏洞复现（可csrf）" class="headerlink" title="kppw2.5XSS漏洞复现（可csrf）"></a>kppw2.5XSS漏洞复现（可csrf）</h1><h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
-</code></pre><p><strong>收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss漏洞注入html代码触发csrf</strong></p>
+        <h1 id="kppw2-5XSS漏洞分析与复现（可csrf）"><a href="#kppw2-5XSS漏洞分析与复现（可csrf）" class="headerlink" title="kppw2.5XSS漏洞分析与复现（可csrf）"></a>kppw2.5XSS漏洞分析与复现（可csrf）</h1><h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
+</code></pre><p><strong>收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss漏洞注入html代码触发csrf</strong><br><a id="more"></a></p>
 <h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
 </code></pre><p><strong>收件人填写admin（网站管理员），向管理员提交私信，内容为我们构造的html代码</strong></p>
 <pre><code>&lt;form action=&quot;http://192.168.50.157/kppw25/admin/index.php?do=user&amp;view=add&amp;edituid=
@@ -577,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kppw2-5XSS漏洞复现（可csrf）"><span class="nav-number">1.</span> <span class="nav-text">kppw2.5XSS漏洞复现（可csrf）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞说明"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞利用"><span class="nav-number">1.0.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#kppw2-5XSS漏洞分析与复现（可csrf）"><span class="nav-number">1.</span> <span class="nav-text">kppw2.5XSS漏洞分析与复现（可csrf）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞说明"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞利用"><span class="nav-number">1.0.2.</span> <span class="nav-text">漏洞利用</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

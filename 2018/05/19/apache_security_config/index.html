@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta name="description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos">
 <meta name="keywords" content="Apache">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Apache安全加固">
 <meta property="og:url" content="http://yoursite.com/2018/05/19/apache_security_config/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta property="og:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/E6ibcfJ04E.png?imageslim">
@@ -116,10 +116,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/0DmGmab529.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/3E7LaFlicG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180520/G2IGhHemdG.png?imageslim">
-<meta property="og:updated_time" content="2018-05-19T18:04:10.521Z">
+<meta property="og:updated_time" content="2018-06-03T13:54:40.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apache安全加固">
-<meta name="twitter:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos 服务器banner信息隐藏404页面以及http响应头信息泄露如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口 还有就是在http的响应头中，也会泄露有关服">
+<meta name="twitter:description" content="Apache安全加固这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim">
 
 
@@ -372,7 +372,7 @@
       
 
       
-        <h1 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h1><p><strong>这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos</strong></p>
+        <h1 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h1><p><strong>这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos</strong><br><a id="more"></a></p>
 <h2 id="服务器banner信息隐藏"><a href="#服务器banner信息隐藏" class="headerlink" title="服务器banner信息隐藏"></a>服务器banner信息隐藏</h2><h3 id="404页面以及http响应头信息泄露"><a href="#404页面以及http响应头信息泄露" class="headerlink" title="404页面以及http响应头信息泄露"></a>404页面以及http响应头信息泄露</h3><p><strong>如果对服务器一个不存在的资源进行访问，网站返回的404页面将会泄露apache版本，服务器操作系统类型等信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180519/90D016lEic.png?imageslim" alt="mark"><br><strong>可以看到404错误页面显示了apache的版本、服务器的操作系统类型、ip和端口</strong></p>
 <p><strong>还有就是在http的响应头中，也会泄露有关服务器的一些信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180520/E6ibcfJ04E.png?imageslim" alt="mark"><br><strong>http响应头的Server中泄露了apache的版本和服务器操作系统类型</strong></p>
 <p><strong>加固方案：需要修改apache配置文件的两个地方，配置文件位置：<code>/etc/httpd/conf/httpd.conf</code>,将对应的参数修改成下面的值</strong></p>

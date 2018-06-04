@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建 low级别为了便于理解，代码如下">
+<meta name="description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie">
 <meta name="keywords" content="dvwa学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dvwa XSS(Reflected)">
 <meta property="og:url" content="http://yoursite.com/2017/11/28/Reflected XSS/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建 low级别为了便于理解，代码如下">
+<meta property="og:description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/hKhHDih62J.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/3DjmhJ340D.png?imageslim">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/E3CGJeb94g.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/m7AkD967cG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/K3HJJkIK6f.png?imageslim">
-<meta property="og:updated_time" content="2017-12-02T09:57:55.549Z">
+<meta property="og:updated_time" content="2018-06-04T15:11:30.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dvwa XSS(Reflected)">
-<meta name="twitter:description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie 测试环境一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建 low级别为了便于理解，代码如下">
+<meta name="twitter:description" content="dvwa 反射型xss这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171128/hKhHDih62J.PNG">
 
 
@@ -349,7 +349,7 @@
       
 
       
-        <h1 id="dvwa-反射型xss"><a href="#dvwa-反射型xss" class="headerlink" title="dvwa 反射型xss"></a>dvwa 反射型xss</h1><p><strong>这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie</strong></p>
+        <h1 id="dvwa-反射型xss"><a href="#dvwa-反射型xss" class="headerlink" title="dvwa 反射型xss"></a>dvwa 反射型xss</h1><p><strong>这篇文章整理了研究dvwa中的反射型xss，包括如何验证存在反射型xss，以及利用反射型xss获取cookie</strong><br><a id="more"></a></p>
 <h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong><br><strong>一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建</strong></p>
 <h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>为了便于理解，代码如下</strong></p>
 <pre><code>&lt;?php

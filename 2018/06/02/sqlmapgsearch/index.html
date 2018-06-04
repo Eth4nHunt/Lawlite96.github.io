@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里 可以看到sqlmap -g不能使用 我的ss客户端为本地1088端口，使用sqlmap -g时指定本地的ss端口">
+<meta name="description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里">
 <meta name="keywords" content="sqlmap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决sqlmap不能使用-g的问题">
 <meta property="og:url" content="http://yoursite.com/2018/06/02/sqlmapgsearch/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里 可以看到sqlmap -g不能使用 我的ss客户端为本地1088端口，使用sqlmap -g时指定本地的ss端口">
+<meta property="og:description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180602/KJbgc22Eae.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180602/I3jKBLa24e.png?imageslim">
-<meta property="og:updated_time" content="2018-06-03T08:24:14.289Z">
+<meta property="og:updated_time" content="2018-06-04T15:14:02.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决sqlmap不能使用-g的问题">
-<meta name="twitter:description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里 可以看到sqlmap -g不能使用 我的ss客户端为本地1088端口，使用sqlmap -g时指定本地的ss端口">
+<meta name="twitter:description" content="解决sqlmap不能使用-g的问题sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入 之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180602/KJbgc22Eae.png?imageslim">
 
 
@@ -346,8 +346,7 @@
 
       
         <h1 id="解决sqlmap不能使用-g的问题"><a href="#解决sqlmap不能使用-g的问题" class="headerlink" title="解决sqlmap不能使用-g的问题"></a>解决sqlmap不能使用-g的问题</h1><p><strong>sqlmap的-g参数的功能可以自动的使用google语法搜索注入点进行注入</strong></p>
-<p><strong>之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里</strong></p>
-<p><strong>可以看到<code>sqlmap -g</code>不能使用</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180602/KJbgc22Eae.png?imageslim" alt="mark"></p>
+<p><strong>之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里</strong><br><a id="more"></a><br><strong>可以看到<code>sqlmap -g</code>不能使用</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180602/KJbgc22Eae.png?imageslim" alt="mark"></p>
 <p><strong>我的ss客户端为本地1088端口，使用<code>sqlmap -g</code>时指定本地的ss端口作为代理即可</strong></p>
 <pre><code>sqlmap -g &quot;inurl:php?id=&quot; --proxy &quot;http://127.0.0.1:1088&quot;
 </code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180602/I3jKBLa24e.png?imageslim" alt="mark"><br><strong>可以看到此时sqlmap的谷歌语法搜索注入点便可以使用了。这是sqlmap的一个很强大的功能</strong></p>

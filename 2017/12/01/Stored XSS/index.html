@@ -107,7 +107,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/iLEc1fc3B5.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/BikaeL0LGh.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171202/Gib2a8E6jA.png?imageslim">
-<meta property="og:updated_time" content="2017-12-02T11:40:44.237Z">
+<meta property="og:updated_time" content="2018-06-04T15:14:22.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dvwa XSS(Stored)">
 <meta name="twitter:description" content="dvwa存储型xss序通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获">
@@ -363,7 +363,7 @@
       
 
       
-        <h1 id="dvwa存储型xss"><a href="#dvwa存储型xss" class="headerlink" title="dvwa存储型xss"></a>dvwa存储型xss</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获取用户cookie</strong></p>
+        <h1 id="dvwa存储型xss"><a href="#dvwa存储型xss" class="headerlink" title="dvwa存储型xss"></a>dvwa存储型xss</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>通过上一篇对反射型xss的研究和利用，接下来的这篇文章将研究存储型xss并且利用存储型xss编写exploit盗取用户cookie,存储型xss的不同之处在于它可以将用户构造的有害输入直接存储起来，不需要攻击者构造链接诱使受害人点击触发，而是目标网站的用户只要访问插入恶意代码的网站就能触发，相比较反射型xss更为隐蔽，危害更大，受害者也会更多，在这我将介绍几种更为隐蔽的方式获取用户cookie</strong><br><a id="more"></a></p>
 <h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>同上次的一样，一台win2003虚拟机，ip为192.168.50.128，用wamp集成环境将dvwa搭在8080端口</strong><br><strong>一台win7虚拟机，ip为192.168.50.150,用来接受漏洞网站的cookie，web由phpstudy搭建</strong></p>
 <h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>为了便于理解，代码如下</strong></p>
 <pre><code>&lt;?php

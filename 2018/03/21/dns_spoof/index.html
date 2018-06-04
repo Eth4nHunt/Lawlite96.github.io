@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验 环境准备1.kali2.0操作系统，本人用的32位的，装在vm12虚拟机中，连接自己的RT3070的无线网卡（网卡一定要是kali2.0支持的型号），同时开启apache服务，进行dns劫持 2.自己的真实机，连接本">
+<meta name="description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验">
 <meta name="keywords" content="dns劫持">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ettercap实现局域网dns劫持">
 <meta property="og:url" content="http://yoursite.com/2018/03/21/dns_spoof/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验 环境准备1.kali2.0操作系统，本人用的32位的，装在vm12虚拟机中，连接自己的RT3070的无线网卡（网卡一定要是kali2.0支持的型号），同时开启apache服务，进行dns劫持 2.自己的真实机，连接本">
+<meta property="og:description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/510leEijb8.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/1J1aH0aLj8.png?imageslim">
@@ -104,10 +104,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/fk3Hf84H0D.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/m725g55cLg.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/3L2dAFhm3i.PNG">
-<meta property="og:updated_time" content="2018-03-21T17:22:59.028Z">
+<meta property="og:updated_time" content="2018-06-04T14:58:07.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ettercap实现局域网dns劫持">
-<meta name="twitter:description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验 环境准备1.kali2.0操作系统，本人用的32位的，装在vm12虚拟机中，连接自己的RT3070的无线网卡（网卡一定要是kali2.0支持的型号），同时开启apache服务，进行dns劫持 2.自己的真实机，连接本">
+<meta name="twitter:description" content="Ettercap实现局域网dns劫持百度序很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180322/510leEijb8.png?imageslim">
 
 
@@ -360,7 +360,7 @@
       
 
       
-        <h1 id="Ettercap实现局域网dns劫持百度"><a href="#Ettercap实现局域网dns劫持百度" class="headerlink" title="Ettercap实现局域网dns劫持百度"></a>Ettercap实现局域网dns劫持百度</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验</strong></p>
+        <h1 id="Ettercap实现局域网dns劫持百度"><a href="#Ettercap实现局域网dns劫持百度" class="headerlink" title="Ettercap实现局域网dns劫持百度"></a>Ettercap实现局域网dns劫持百度</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>很久之前做过的一个实验，利用kali的Ettercap进行局域网的dns劫持，今天实验课老师碰巧又提到了，于是又做了做，这是一个很好玩的实验</strong><br><a id="more"></a></p>
 <h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p><strong>1.kali2.0操作系统，本人用的32位的，装在vm12虚拟机中，连接自己的RT3070的无线网卡（网卡一定要是kali2.0支持的型号），同时开启apache服务，进行dns劫持</strong></p>
 <p><strong>2.自己的真实机，连接本机电脑的无线网卡</strong></p>
 <p><strong>3.RT3070网卡和本机电脑网卡连接同一wifi，保证kali和自己的PC在同一局域网，用kali对自己的PC进行DNS缓存投毒</strong></p>

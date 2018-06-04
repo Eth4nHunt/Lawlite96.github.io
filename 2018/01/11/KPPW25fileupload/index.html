@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell ###上传点###漏洞分析 在control/ajax/upload.php中： $pathDir = setUploadPath($fileType, $objType); $upload = new keke_upload_">
+<meta name="description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell">
 <meta name="keywords" content="漏洞利用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KPPW2.5文件上传导致远程代码执行">
 <meta property="og:url" content="http://yoursite.com/2018/01/11/KPPW25fileupload/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell ###上传点###漏洞分析 在control/ajax/upload.php中： $pathDir = setUploadPath($fileType, $objType); $upload = new keke_upload_">
+<meta property="og:description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/Amai76dbB6.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/LEeEDH92h9.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/8Je556HiH8.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/bKCH5mBI8b.PNG">
-<meta property="og:updated_time" content="2018-01-11T17:11:06.132Z">
+<meta property="og:updated_time" content="2018-06-04T15:04:56.343Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KPPW2.5文件上传导致远程代码执行">
-<meta name="twitter:description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell ###上传点###漏洞分析 在control/ajax/upload.php中： $pathDir = setUploadPath($fileType, $objType); $upload = new keke_upload_">
+<meta name="twitter:description" content="KPPW2.7文件上传导致远程代码执行漏洞复现测试环境和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180112/Amai76dbB6.PNG">
 
 
@@ -347,7 +347,7 @@
       
 
       
-        <h1 id="KPPW2-7文件上传导致远程代码执行漏洞复现"><a href="#KPPW2-7文件上传导致远程代码执行漏洞复现" class="headerlink" title="KPPW2.7文件上传导致远程代码执行漏洞复现"></a>KPPW2.7文件上传导致远程代码执行漏洞复现</h1><h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell</strong></p>
+        <h1 id="KPPW2-7文件上传导致远程代码执行漏洞复现"><a href="#KPPW2-7文件上传导致远程代码执行漏洞复现" class="headerlink" title="KPPW2.7文件上传导致远程代码执行漏洞复现"></a>KPPW2.7文件上传导致远程代码执行漏洞复现</h1><h3 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h3><p><strong>和上一节的一样，同样是kpww2.5版本，此版本存在文件上传漏洞，攻击者可以上传php一句话木马拿下webshell</strong><br><a id="more"></a></p>
 <p>###上传点###<br><strong>漏洞分析</strong></p>
 <p><strong>在control/ajax/upload.php中：</strong></p>
 <pre><code>$pathDir = setUploadPath($fileType, $objType);

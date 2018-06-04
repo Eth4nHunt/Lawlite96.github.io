@@ -79,23 +79,23 @@
 
 
 
-<meta name="description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好 low级别代码如下 &amp;lt;?php  if( isset( $_POST[ &amp;apos;Submit&amp;apos; ]  ) ) {     // Get">
+<meta name="description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好">
 <meta name="keywords" content="dvwa学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dvwa Command Injection">
 <meta property="og:url" content="http://yoursite.com/2017/12/26/DVWACommandInjection/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好 low级别代码如下 &amp;lt;?php  if( isset( $_POST[ &amp;apos;Submit&amp;apos; ]  ) ) {     // Get">
+<meta property="og:description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/60LkDBejd7.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/cFl2mGfK1E.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/d5231j7gHh.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/ffc3Ga6jcJ.PNG">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/KECei8f0B4.PNG">
-<meta property="og:updated_time" content="2017-12-26T08:17:02.090Z">
+<meta property="og:updated_time" content="2018-06-04T14:59:36.061Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dvwa Command Injection">
-<meta name="twitter:description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好 low级别代码如下 &amp;lt;?php  if( isset( $_POST[ &amp;apos;Submit&amp;apos; ]  ) ) {     // Get">
+<meta name="twitter:description" content="dvwa命令执行漏洞命令执行漏洞由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞 来看dvwa，感觉例子并不是多好">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/171226/60LkDBejd7.PNG">
 
 
@@ -349,7 +349,7 @@
 
       
         <h1 id="dvwa命令执行漏洞"><a href="#dvwa命令执行漏洞" class="headerlink" title="dvwa命令执行漏洞"></a>dvwa命令执行漏洞</h1><h3 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h3><p><strong>由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞</strong></p>
-<p><strong>来看dvwa，感觉例子并不是多好</strong></p>
+<p><strong>来看dvwa，感觉例子并不是多好</strong><br><a id="more"></a></p>
 <h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p>
 <pre><code>&lt;?php
 

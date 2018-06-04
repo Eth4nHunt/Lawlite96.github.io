@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
+<meta name="description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
 <meta name="keywords" content="网络基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="eNSP静态路由配置">
 <meta property="og:url" content="http://yoursite.com/2018/03/18/routestatic/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
+<meta property="og:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim">
-<meta property="og:updated_time" content="2018-03-19T05:39:27.432Z">
+<meta property="og:updated_time" content="2018-06-04T15:11:47.911Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="eNSP静态路由配置">
-<meta name="twitter:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础 课堂给出的拓扑如下 要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费 在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下R1 sy sy">
+<meta name="twitter:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
 
 
@@ -347,7 +347,7 @@
       
 
       
-        <h1 id="eNSP静态路由配置"><a href="#eNSP静态路由配置" class="headerlink" title="eNSP静态路由配置"></a>eNSP静态路由配置</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础</strong></p>
+        <h1 id="eNSP静态路由配置"><a href="#eNSP静态路由配置" class="headerlink" title="eNSP静态路由配置"></a>eNSP静态路由配置</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础</strong><br><a id="more"></a></p>
 <h3 id="课堂给出的拓扑如下"><a href="#课堂给出的拓扑如下" class="headerlink" title="课堂给出的拓扑如下"></a>课堂给出的拓扑如下</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim" alt="mark"></p>
 <p><strong>要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费</strong></p>
 <h3 id="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><a href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下" class="headerlink" title="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"></a>在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</h3><pre><code>R1
