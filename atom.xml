@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-06-04T15:55:11.330Z</updated>
+  <updated>2018-06-04T17:13:29.845Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,17 +17,40 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>python optparse模块使用总结</title>
+    <link href="http://yoursite.com/2018/06/05/pyoptparse/"/>
+    <id>http://yoursite.com/2018/06/05/pyoptparse/</id>
+    <published>2018-06-04T16:08:28.330Z</published>
+    <updated>2018-06-04T17:13:29.845Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="python-optparse模块使用总结"><a href="#python-optparse模块使用总结" class="headerlink" title="python optparse模块使用总结"></a>python optparse模块使用总结</h1><p><strong>之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节</strong><br><a id="more"></a></p><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p><strong>首先需要导入optparse模块中的OptionParser类，这个类里面有设置和解析命令行参数的方法，然后创建它的一个实例</strong></p><pre><code>from optparse import OptionParserparser = OptionParser()</code></pre><p><strong>调用该类的add_option方法设置命令行参数</strong></p><pre><code>parser.add_option(&quot;-自定义的参数识别标签&quot;,&quot;--自定义的参数识别标签&quot;,action=&quot;store/store_true/store_false&quot;,type=&quot;string/...&quot;,dest=&quot;&quot; help=&quot;&quot;)</code></pre><p><strong>该函数里面比较重要的几个参数的用法</strong></p><pre><code>首先是第一和第二个参数作为调用时的参数的标签，会被识别action参数：action参数告诉optparse当它在命令行中遇到选项时该做什么。action有三种存储方式：store、store_false、store_true。如果不指定action的值，默认的是store，store需要在命令行中，标签后跟上参数，并将该命令行参数的值赋值给dest参数中指定的变量。如果action值为store_true，那么在命令行中，参数的标签后不需要跟参数，如果命令行中使用了该参数标签，那么该命令行参数的dest变量的值会为True，store_flase同样不需要指定参数，不过不同的是，指定为store_false的参数标签，其dest的值在标签设置时会被设为Falsetype参数type指定dest参数中设置的变量的存储类型，默认为stringdest参数里面的值为变量名，当action被设置为store时，该变量用户接受参数标签后的参数值help参数设置要显示的参数的帮助信息</code></pre><p><strong>设置完命令行参数后需要解析命令行参数，使用该类的parse_args方法</strong></p><pre><code>(options, args) = parser.parse_args()</code></pre><p><strong>该方法会返回两个对象，options为字典类型，里面存放了dest中设置的变量和其对应的命令行参数值，args为列表类型，里面存放多余的命令行参数，一个参数标签后只能跟一个参数，多余的会被存在args中</strong></p><p><strong>在python中使用命令行中的参数，解析完了命令行参数，就可以在python中直接调用了，调用方法</strong></p><pre><code>options.dest中设置的变量名</code></pre><p><strong>通过这种方式就能取到命令行中的参数值了</strong></p><h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>为了更深的理解，给出几个实例</strong></p><p><strong>实例1.action的值为store默认值：</strong></p><pre><code>&gt;&gt;&gt; from optparse import OptionParser&gt;&gt;&gt; parser=OptionParser()&gt;&gt;&gt; parser.add_option(&quot;-u&quot;,&quot;--url&quot;,action=&quot;store&quot;,type=&quot;string&quot;,dest=&quot;url&quot;,help=&quot;-u/--url url&quot;)&lt;Option at 0x268ce88: -u/--url&gt;&gt;&gt;&gt; args=[&quot;-h&quot;]&gt;&gt;&gt; (options,args)=parser.parse_args(args)Usage:  [options]Options:    -h, --help         show this help message and exit    -u URL, --url=URL  -u/--url url&gt;&gt;&gt; args=[&quot;-u&quot;,&quot;inputurl1&quot;,&quot;inputurl2&quot;,&quot;inputurl2&quot;]&gt;&gt;&gt; (options,args)=parser.parse_args(args)&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args){&apos;url&apos;: &apos;inputurl1&apos;},[&apos;inputurl2&apos;, &apos;inputurl2&apos;]&gt;&gt;&gt; print options.url&gt;&gt;&gt; inputurl1&gt;&gt;&gt; args=[&quot;--url&quot;,&quot;inputurl1&quot;,&quot;inputurl2&quot;,&quot;inputurl2&quot;]&gt;&gt;&gt; (options,args)=parser.parse_args(args)&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args){&apos;url&apos;: &apos;inputurl1&apos;},[&apos;inputurl2&apos;, &apos;inputurl2&apos;]&gt;&gt;&gt; args=[]&gt;&gt;&gt; (options,args)=parser.parse_args(args)&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args){&apos;url&apos;: None},[]&gt;&gt;&gt;</code></pre><p><strong>实例2.action的值为store_true</strong></p><pre><code>&gt;&gt;&gt; from optparse import OptionParser&gt;&gt;&gt; parser=OptionParser()&gt;&gt;&gt; parser.add_option(&quot;--dbs&quot;,action=&quot;store_true&quot;,dest=&quot;dbs&quot;,help=&quot;--dbs&quot;)&lt;Option at 0x2316048: --dbs&gt;&gt;&gt;&gt; args=[&quot;--dbs&quot;]&gt;&gt;&gt; (options,args)=parser.parse_args(args)&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args){&apos;dbs&apos;: True},[]&gt;&gt;&gt; print options.dbsTrue&gt;&gt;&gt; args=[]&gt;&gt;&gt; (options,args)=parser.parse_args(args)&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args){&apos;dbs&apos;: None},[]&gt;&gt;&gt; print options.dbsNone&gt;&gt;&gt; args=[&quot;-h&quot;]&gt;&gt;&gt; (options,args)=parser.parse_args(args)Usage:  [options]Options:    -h, --help  show this help message and exit    --dbs       --dbsG:\代码&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;python-optparse模块使用总结&quot;&gt;&lt;a href=&quot;#python-optparse模块使用总结&quot; class=&quot;headerlink&quot; title=&quot;python optparse模块使用总结&quot;&gt;&lt;/a&gt;python optparse模块使用总结&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节&lt;/strong&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="python编程" scheme="http://yoursite.com/categories/python%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
     <title>python有序二分查找算法</title>
     <link href="http://yoursite.com/2018/06/04/pybinarysearch/"/>
     <id>http://yoursite.com/2018/06/04/pybinarysearch/</id>
     <published>2018-06-04T15:35:01.833Z</published>
-    <updated>2018-06-04T15:55:11.330Z</updated>
+    <updated>2018-06-04T16:06:21.475Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="python有序二分查找算法"><a href="#python有序二分查找算法" class="headerlink" title="python有序二分查找算法"></a>python有序二分查找算法</h1><p><strong>在用python写SQL盲注脚本时需要用到的一个算法，在使用盲注的技术去判断数据库的内容时，使用二分法可以加快查找速度，相比于自加的判断可以减少所发送的http请求</strong><br><a id="more"></a></p><p>###二分查找算法代码###<br><strong>首先需要给定一个查找的范围，也就是区域。其次要求被查找的列表是有序的，贴出代码</strong></p><pre><code>#coding=utf-8def binary_search(sealist,find):    low=0    high=len(sealist)    while low&lt;=high:        mid=(low+high)/2        if find==sealist[mid]:            return mid        elif find&lt;sealist[mid]:            high=mid-1        elif find&gt;sealist[mid]:            low=mid+1        else:            return -1sealist=range(0,1000)find=input(&quot;please input a number:&quot;)result=binary_search(sealist,find)if result&gt;=0:    print &quot;Catch Element %s!    Position:%s!&quot;%(str(find),str(result+1))else:    print &quot;Sorry,The Element Not Found.&quot;</code></pre><p><strong>利用二分法通过不断地缩小查找区域最终锁定查找的内容，二分法相比于普通的循环自增查找，查找次数减少了很多，速度自然提升了不少。举个例子，如果采用自增查找的方式，在0-1000列表中查找到100的位置需要101次，但是上面的代码利用了有序二分查找到100的位置只需要7次</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180604/0F8j4m5mfK.png?imageslim" alt="mark"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="python有序二分查找算法"><a href="#python有序二分查找算法" class="headerlink" title="python有序二分查找算法"></a>python有序二分查找算法</h1><p><strong>感觉自己的博客更新的很慢，看到自己博客不更新文章的话总会很焦虑，因为总想写点有意义的技术文章，但是想了想，博客本来就是一个记录知识的地方，将自己学习的过程记录下来也是个不错的选择，即使是一个小知识点也值得记录，以便以后不会忘记，所以以后博客的更新次数应该会很频繁，博客的日志是时候该充实一下了。写给自己，迷茫的时候多研究点知识，多写博客总结，知识需要不断沉淀</strong></p><p><strong>记录一个用python写SQL盲注脚本时需要用到的一个算法，在使用盲注的技术去判断数据库的内容时，使用二分法可以加快查找速度，相比于自加的判断可以减少所发送的http请求</strong><br><a id="more"></a></p><p>###二分查找算法代码###<br><strong>首先需要给定一个查找的范围，也就是区域。其次要求被查找的列表是有序的，贴出代码</strong></p><pre><code>#coding=utf-8def binary_search(sealist,find):    low=0    high=len(sealist)    while low&lt;=high:        mid=(low+high)/2        if find==sealist[mid]:            return mid        elif find&lt;sealist[mid]:            high=mid-1        elif find&gt;sealist[mid]:            low=mid+1        else:            return -1sealist=range(0,1000)find=input(&quot;please input a number:&quot;)result=binary_search(sealist,find)if result&gt;=0:    print &quot;Catch Element %s!    Position:%s!&quot;%(str(find),str(result+1))else:    print &quot;Sorry,The Element Not Found.&quot;</code></pre><p><strong>利用二分法通过不断地缩小查找区域最终锁定查找的内容，二分法相比于普通的循环自增查找，查找次数减少了很多，速度自然提升了不少。举个例子，如果采用自增查找的方式，在0-1000列表中查找到100的位置需要101次，但是上面的代码利用了有序二分查找到100的位置只需要7次</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180604/0F8j4m5mfK.png?imageslim" alt="mark"></p>]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;python有序二分查找算法&quot;&gt;&lt;a href=&quot;#python有序二分查找算法&quot; class=&quot;headerlink&quot; title=&quot;python有序二分查找算法&quot;&gt;&lt;/a&gt;python有序二分查找算法&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;在用python写SQL盲注脚本时需要用到的一个算法，在使用盲注的技术去判断数据库的内容时，使用二分法可以加快查找速度，相比于自加的判断可以减少所发送的http请求&lt;/strong&gt;&lt;br&gt;
+      &lt;h1 id=&quot;python有序二分查找算法&quot;&gt;&lt;a href=&quot;#python有序二分查找算法&quot; class=&quot;headerlink&quot; title=&quot;python有序二分查找算法&quot;&gt;&lt;/a&gt;python有序二分查找算法&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;感觉自己的博客更新的很慢，看到自己博客不更新文章的话总会很焦虑，因为总想写点有意义的技术文章，但是想了想，博客本来就是一个记录知识的地方，将自己学习的过程记录下来也是个不错的选择，即使是一个小知识点也值得记录，以便以后不会忘记，所以以后博客的更新次数应该会很频繁，博客的日志是时候该充实一下了。写给自己，迷茫的时候多研究点知识，多写博客总结，知识需要不断沉淀&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;记录一个用python写SQL盲注脚本时需要用到的一个算法，在使用盲注的技术去判断数据库的内容时，使用二分法可以加快查找速度，相比于自加的判断可以减少所发送的http请求&lt;/strong&gt;&lt;br&gt;
     
     </summary>
     
@@ -434,29 +457,6 @@
     
     
       <category term="exp编写" scheme="http://yoursite.com/tags/exp%E7%BC%96%E5%86%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>dvwa Command Injection</title>
-    <link href="http://yoursite.com/2017/12/26/DVWACommandInjection/"/>
-    <id>http://yoursite.com/2017/12/26/DVWACommandInjection/</id>
-    <published>2017-12-26T08:01:13.787Z</published>
-    <updated>2018-06-04T14:59:36.061Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="dvwa命令执行漏洞"><a href="#dvwa命令执行漏洞" class="headerlink" title="dvwa命令执行漏洞"></a>dvwa命令执行漏洞</h1><h3 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h3><p><strong>由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞</strong></p><p><strong>来看dvwa，感觉例子并不是多好</strong><br><a id="more"></a></p><h3 id="low级别"><a href="#low级别" class="headerlink" title="low级别"></a>low级别</h3><p><strong>代码如下</strong></p><pre><code>&lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) {    // Get input    $target = $_REQUEST[ &apos;ip&apos; ];    // Determine OS and execute the ping command.    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {        // Windows        $cmd = shell_exec( &apos;ping  &apos; . $target );    }    else {        // *nix        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );    }    // Feedback for the end user    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;}?&gt;</code></pre><p><strong>可以看出没有任何防御，直接将我们提交的内容执行</strong><br><strong>我们可以利用此漏洞新建一个管理员直接获取服务器最高权限</strong></p><p><strong>payload</strong></p><p><strong>创建用户</strong></p><pre><code>127.0.0.1&amp;&amp;net user lawliet lawliet /add</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/60LkDBejd7.PNG" alt="mark"><br><strong>将其加到管理组</strong></p><pre><code>127.0.0.1&amp;&amp;net localgroup administrators lawliet /add</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/cFl2mGfK1E.PNG" alt="mark"><br><strong>不出问题我们就成为了服务器的管理员，利用远程桌面连接，ctrl+r，输入mstsc，就可以进行远程服务器连接，拿下服务器权限</strong></p><p><strong>输入ip和用户名</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/d5231j7gHh.PNG" alt="mark"><br><strong>输入密码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/ffc3Ga6jcJ.PNG" alt="mark"><br><strong>连接成功，以管理员身份进入服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/171226/KECei8f0B4.PNG" alt="mark"></p><h3 id="medium级别"><a href="#medium级别" class="headerlink" title="medium级别"></a>medium级别</h3><p><strong>代码如下</strong></p><pre><code>&lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) {    // Get input    $target = $_REQUEST[ &apos;ip&apos; ];    // Set blacklist    $substitutions = array(        &apos;&amp;&amp;&apos; =&gt; &apos;&apos;,        &apos;;&apos;  =&gt; &apos;&apos;,    );    // Remove any of the charactars in the array (blacklist).    $target = str_replace( array_keys( $substitutions ), $substitutions, $target );    // Determine OS and execute the ping command.    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {        // Windows        $cmd = shell_exec( &apos;ping  &apos; . $target );    }    else {        // *nix        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );    }    // Feedback for the end user    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;}?&gt;</code></pre><p><strong>过滤了<code>&amp;&amp;</code>和<code>;</code>，用&amp;连接即可执行命令，不再重复</strong></p><h3 id="high级别"><a href="#high级别" class="headerlink" title="high级别"></a>high级别</h3><p><strong>代码如下</strong></p><pre><code>&lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) {    // Get input    $target = trim($_REQUEST[ &apos;ip&apos; ]);    // Set blacklist    $substitutions = array(        &apos;&amp;&apos;  =&gt; &apos;&apos;,        &apos;;&apos;  =&gt; &apos;&apos;,        &apos;| &apos; =&gt; &apos;&apos;,        &apos;-&apos;  =&gt; &apos;&apos;,        &apos;$&apos;  =&gt; &apos;&apos;,        &apos;(&apos;  =&gt; &apos;&apos;,        &apos;)&apos;  =&gt; &apos;&apos;,        &apos;`&apos;  =&gt; &apos;&apos;,        &apos;||&apos; =&gt; &apos;&apos;,    );    // Remove any of the charactars in the array (blacklist).    $target = str_replace( array_keys( $substitutions ), $substitutions, $target );    // Determine OS and execute the ping command.    if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {        // Windows        $cmd = shell_exec( &apos;ping  &apos; . $target );    }    else {        // *nix        $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );    }    // Feedback for the end user    echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;}?&gt;</code></pre><p><strong>使用黑名单过滤，总会有落网之鱼，用<code>|</code>（前面有空格）连接即可绕过</strong></p><h3 id="impossible级别"><a href="#impossible级别" class="headerlink" title="impossible级别"></a>impossible级别</h3><p><strong>代码如下</strong></p><pre><code>&lt;?phpif( isset( $_POST[ &apos;Submit&apos; ]  ) ) {    // Check Anti-CSRF token    checkToken( $_REQUEST[ &apos;user_token&apos; ], $_SESSION[ &apos;session_token&apos; ], &apos;index.php&apos; );    // Get input    $target = $_REQUEST[ &apos;ip&apos; ];    $target = stripslashes( $target );    // Split the IP into 4 octects    $octet = explode( &quot;.&quot;, $target );    // Check IF each octet is an integer    if( ( is_numeric( $octet[0] ) ) &amp;&amp; ( is_numeric( $octet[1] ) ) &amp;&amp; ( is_numeric( $octet[2] ) ) &amp;&amp; ( is_numeric( $octet[3] ) ) &amp;&amp; ( sizeof( $octet )     == 4 ) ) {        // If all 4 octets are int&apos;s put the IP back together.        $target = $octet[0] . &apos;.&apos; . $octet[1] . &apos;.&apos; . $octet[2] . &apos;.&apos; . $octet[3];        // Determine OS and execute the ping command.        if( stristr( php_uname( &apos;s&apos; ), &apos;Windows NT&apos; ) ) {        // Windows        $cmd = shell_exec( &apos;ping  &apos; . $target );        }        else {            // *nix            $cmd = shell_exec( &apos;ping  -c 4 &apos; . $target );        }        // Feedback for the end user        echo &quot;&lt;pre&gt;{$cmd}&lt;/pre&gt;&quot;;    }    else {        // Ops. Let the user name theres a mistake        echo &apos;&lt;pre&gt;ERROR: You have entered an invalid IP.&lt;/pre&gt;&apos;;    }}// Generate Anti-CSRF tokengenerateSessionToken();?&gt;</code></pre><p><strong>可以看出用白名单的方式限制了输入内容只能为ip地址，防止了连接其他命令，预防了命令执行漏洞，再一次说明了白名单的安全性远高于黑名单</strong></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;dvwa命令执行漏洞&quot;&gt;&lt;a href=&quot;#dvwa命令执行漏洞&quot; class=&quot;headerlink&quot; title=&quot;dvwa命令执行漏洞&quot;&gt;&lt;/a&gt;dvwa命令执行漏洞&lt;/h1&gt;&lt;h3 id=&quot;命令执行漏洞&quot;&gt;&lt;a href=&quot;#命令执行漏洞&quot; class=&quot;headerlink&quot; title=&quot;命令执行漏洞&quot;&gt;&lt;/a&gt;命令执行漏洞&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;由于代码使用了危险的函数并且过滤不严导致可以远程执行命令，属于十分高危的漏洞，甚至攻击者可以直接利用该漏洞拿下一整个服务器的最高权限，比较典型的有struts框架远程代码执行漏洞&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;来看dvwa，感觉例子并不是多好&lt;/strong&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="web安全" scheme="http://yoursite.com/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="dvwa学习" scheme="http://yoursite.com/tags/dvwa%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   

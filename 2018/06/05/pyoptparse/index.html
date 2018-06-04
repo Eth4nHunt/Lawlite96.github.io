@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="python," />
 
 
 
@@ -79,26 +79,18 @@
 
 
 
-<meta name="description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
-<meta name="keywords" content="mysql">
+<meta name="description" content="python optparse模块使用总结之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节">
+<meta name="keywords" content="python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="centos7安装mysql">
-<meta property="og:url" content="http://yoursite.com/2018/02/27/centos7mysql/index.html">
+<meta property="og:title" content="python optparse模块使用总结">
+<meta property="og:url" content="http://yoursite.com/2018/06/05/pyoptparse/index.html">
 <meta property="og:site_name" content="Lawliet Blog">
-<meta property="og:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
+<meta property="og:description" content="python optparse模块使用总结之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/Fdg5fbh339.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/B3fC28IJjm.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/BkFBCkAj2I.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/2jih4JIeeF.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/3iAGB7h54A.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/lG0d7L9Dc7.png?imageslim">
-<meta property="og:updated_time" content="2018-06-04T14:57:37.825Z">
+<meta property="og:updated_time" content="2018-06-04T17:13:29.845Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="centos7安装mysql">
-<meta name="twitter:description" content="centos7安装mysql由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql">
-<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG">
+<meta name="twitter:title" content="python optparse模块使用总结">
+<meta name="twitter:description" content="python optparse模块使用总结之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节">
 
 
 
@@ -128,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/27/centos7mysql/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/05/pyoptparse/"/>
 
 
 
 
 
-  <title>centos7安装mysql | Lawliet Blog</title>
+  <title>python optparse模块使用总结 | Lawliet Blog</title>
   
 
 
@@ -261,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/centos7mysql/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/05/pyoptparse/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Lawliet">
@@ -278,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">centos7安装mysql</h1>
+          <h1 class="post-title" itemprop="name headline">python optparse模块使用总结</h1>
         
 
         <div class="post-meta">
@@ -290,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:34:28+08:00">
-                2018-02-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T00:08:28+08:00">
+                2018-06-05
               </time>
             
 
@@ -313,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
+                  <a href="/categories/python编程/" itemprop="url" rel="index">
+                    <span itemprop="name">python编程</span>
                   </a>
                 </span>
 
@@ -350,20 +342,87 @@
       
 
       
-        <h1 id="centos7安装mysql"><a href="#centos7安装mysql" class="headerlink" title="centos7安装mysql"></a>centos7安装mysql</h1><p><strong>由于MySQL为Oracle公司所拥有因此不再免费，所以CentOS7以上的版本已经使用MariaDB替代了收费的MySQL，如直接用yum安装则会安装MariaDB。这篇文章记录了如何在centos7上安装mysql</strong><br><a id="more"></a><br><strong>1.卸载之前安装的MariaDB</strong></p>
-<pre><code>rpm -qa | grep mariadb(列出所有被安装的rpm package)
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/l9iEaD0a5a.PNG" alt="mark"><br><strong><code>rpm -e</code>依次卸载</strong></p>
-<pre><code>rpm -e mariadb-5.5.56-2.el7.x86_64
-rpm -e --nodeps mariadb-libs-5.5.56-2.el7.x86_64
-rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
-</code></pre><p><strong>2.到<a href="https://dev.mysql.com/downloads/repo/yum/" title="mysql官网" target="_blank" rel="external">mysql官网</a>找到对应版本的mysql下载（本例中为mysql57-community-release-el7-11.noarch.rpm），上传至服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/Fdg5fbh339.png?imageslim" alt="mark"></p>
-<p><strong>3.下载完毕后输入<code>md5sum mysql57-community-release-el7-9.noarch.rpm</code>生成MD5值并确保同官方网站上的MD5值相同。注意：建议运行此命令以确保文件无损坏</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/B3fC28IJjm.png?imageslim" alt="mark"></p>
-<p><strong>4.输入<code>rpm -ivh mysql57-community-release-el7-9.noarch.rpm</code>并按回车键进行安装YUM源RPM安装包</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/BkFBCkAj2I.png?imageslim" alt="mark"></p>
-<p><strong>5.因上一步已添加新的YUM存储库，所以直接就可以用yum命令安装mysql了</strong></p>
-<pre><code>yum install -y mysql-server
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/2jih4JIeeF.png?imageslim" alt="mark"></p>
-<p><strong>6.可以看到mysql已经成功安装</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/3iAGB7h54A.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180227/lG0d7L9Dc7.png?imageslim" alt="mark"></p>
+        <h1 id="python-optparse模块使用总结"><a href="#python-optparse模块使用总结" class="headerlink" title="python optparse模块使用总结"></a>python optparse模块使用总结</h1><p><strong>之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节</strong><br><a id="more"></a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p><strong>首先需要导入optparse模块中的OptionParser类，这个类里面有设置和解析命令行参数的方法，然后创建它的一个实例</strong></p>
+<pre><code>from optparse import OptionParser
+parser = OptionParser()
+</code></pre><p><strong>调用该类的add_option方法设置命令行参数</strong></p>
+<pre><code>parser.add_option(&quot;-自定义的参数识别标签&quot;,&quot;--自定义的参数识别标签&quot;,action=&quot;store/store_true/store_false&quot;,type=&quot;string/...&quot;,dest=&quot;&quot; help=&quot;&quot;)
+</code></pre><p><strong>该函数里面比较重要的几个参数的用法</strong></p>
+<pre><code>首先是第一和第二个参数作为调用时的参数的标签，会被识别
 
+action参数：
+action参数告诉optparse当它在命令行中遇到选项时该做什么。action有三种存储方式：store、store_false、store_true。如果不指定action的值，默认的是store，store需要在命令行中，标签后跟上参数，并将该命令行参数的值赋值给dest参数中指定的变量。如果action值为store_true，那么在命令行中，参数的标签后不需要跟参数，如果命令行中使用了该参数标签，那么该命令行参数的dest变量的值会为True，store_flase同样不需要指定参数，不过不同的是，指定为store_false的参数标签，其dest的值在标签设置时会被设为False
+
+type参数
+type指定dest参数中设置的变量的存储类型，默认为string
+
+dest参数
+里面的值为变量名，当action被设置为store时，该变量用户接受参数标签后的参数值
+
+help参数
+设置要显示的参数的帮助信息
+</code></pre><p><strong>设置完命令行参数后需要解析命令行参数，使用该类的parse_args方法</strong></p>
+<pre><code>(options, args) = parser.parse_args()
+</code></pre><p><strong>该方法会返回两个对象，options为字典类型，里面存放了dest中设置的变量和其对应的命令行参数值，args为列表类型，里面存放多余的命令行参数，一个参数标签后只能跟一个参数，多余的会被存在args中</strong></p>
+<p><strong>在python中使用命令行中的参数，解析完了命令行参数，就可以在python中直接调用了，调用方法</strong></p>
+<pre><code>options.dest中设置的变量名
+</code></pre><p><strong>通过这种方式就能取到命令行中的参数值了</strong></p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>为了更深的理解，给出几个实例</strong></p>
+<p><strong>实例1.action的值为store默认值：</strong></p>
+<pre><code>&gt;&gt;&gt; from optparse import OptionParser
+&gt;&gt;&gt; parser=OptionParser()
+&gt;&gt;&gt; parser.add_option(&quot;-u&quot;,&quot;--url&quot;,action=&quot;store&quot;,type=&quot;string&quot;,dest=&quot;url&quot;,help=&quot;-u/--url url&quot;)
+&lt;Option at 0x268ce88: -u/--url&gt;
+&gt;&gt;&gt; args=[&quot;-h&quot;]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+Usage:  [options]
+
+Options:
+    -h, --help         show this help message and exit
+    -u URL, --url=URL  -u/--url url
+&gt;&gt;&gt; args=[&quot;-u&quot;,&quot;inputurl1&quot;,&quot;inputurl2&quot;,&quot;inputurl2&quot;]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args)
+{&apos;url&apos;: &apos;inputurl1&apos;},[&apos;inputurl2&apos;, &apos;inputurl2&apos;]
+&gt;&gt;&gt; print options.url
+&gt;&gt;&gt; inputurl1
+&gt;&gt;&gt; args=[&quot;--url&quot;,&quot;inputurl1&quot;,&quot;inputurl2&quot;,&quot;inputurl2&quot;]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args)
+{&apos;url&apos;: &apos;inputurl1&apos;},[&apos;inputurl2&apos;, &apos;inputurl2&apos;]
+&gt;&gt;&gt; args=[]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args)
+{&apos;url&apos;: None},[]
+&gt;&gt;&gt;
+</code></pre><p><strong>实例2.action的值为store_true</strong></p>
+<pre><code>&gt;&gt;&gt; from optparse import OptionParser
+&gt;&gt;&gt; parser=OptionParser()
+&gt;&gt;&gt; parser.add_option(&quot;--dbs&quot;,action=&quot;store_true&quot;,dest=&quot;dbs&quot;,help=&quot;--dbs&quot;)
+&lt;Option at 0x2316048: --dbs&gt;
+&gt;&gt;&gt; args=[&quot;--dbs&quot;]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args)
+{&apos;dbs&apos;: True},[]
+&gt;&gt;&gt; print options.dbs
+True
+&gt;&gt;&gt; args=[]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+&gt;&gt;&gt; print &quot;%s,%s&quot;%(options,args)
+{&apos;dbs&apos;: None},[]
+&gt;&gt;&gt; print options.dbs
+None
+&gt;&gt;&gt; args=[&quot;-h&quot;]
+&gt;&gt;&gt; (options,args)=parser.parse_args(args)
+Usage:  [options]
+
+Options:
+    -h, --help  show this help message and exit
+    --dbs       --dbs
+
+G:\代码&gt;
+</code></pre>
       
     </div>
     
@@ -380,7 +439,7 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
         </div>
       
@@ -393,8 +452,8 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/12/arpattack/" rel="next" title="arp协议分析&python编程实现arp欺骗抓图片">
-                <i class="fa fa-chevron-left"></i> arp协议分析&python编程实现arp欺骗抓图片
+              <a href="/2018/06/04/pybinarysearch/" rel="next" title="python有序二分查找算法">
+                <i class="fa fa-chevron-left"></i> python有序二分查找算法
               </a>
             
           </div>
@@ -402,10 +461,6 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/12/N1CTF2018/" rel="prev" title="N1CTF2018 77777 writeup">
-                N1CTF2018 77777 writeup <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -569,7 +624,7 @@ rpm -e --nodeps mariadb-devel-5.5.56-2.el7.x86_64
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#centos7安装mysql"><span class="nav-number">1.</span> <span class="nav-text">centos7安装mysql</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python-optparse模块使用总结"><span class="nav-number">1.</span> <span class="nav-text">python optparse模块使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用"><span class="nav-number">1.0.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.0.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
