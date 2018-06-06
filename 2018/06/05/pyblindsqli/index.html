@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180605/mikhegHaae.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180605/KeIKGl7bmG.png?imageslim">
-<meta property="og:updated_time" content="2018-06-06T12:23:36.219Z">
+<meta property="og:updated_time" content="2018-06-06T12:36:01.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python编程实现自动化注入之布尔盲注">
 <meta name="twitter:description" content="python编程实现自动化注入之布尔盲注python编程实现自动化注入这个话题很有可能会写成一个系列，主要希望通过编写自动化注入工具脚本来提高自己的python代码能力和sql注入的能力，mysql数据库常见的注入分为union注入，报错注入，布尔盲注和时间盲注，这篇文章先用布尔盲注工具的编写来开个头~主要会用到optparse库去解析命令行参数，同时会用到二分有序查找算法去猜解数据库的每个字符，">
@@ -346,6 +346,7 @@
 
       
         <h1 id="python编程实现自动化注入之布尔盲注"><a href="#python编程实现自动化注入之布尔盲注" class="headerlink" title="python编程实现自动化注入之布尔盲注"></a>python编程实现自动化注入之布尔盲注</h1><p><strong>python编程实现自动化注入这个话题很有可能会写成一个系列，主要希望通过编写自动化注入工具脚本来提高自己的python代码能力和sql注入的能力，mysql数据库常见的注入分为union注入，报错注入，布尔盲注和时间盲注，这篇文章先用布尔盲注工具的编写来开个头~主要会用到optparse库去解析命令行参数，同时会用到二分有序查找算法去猜解数据库的每个字符，optparse库的用法和二分法的好处在之前的文章里都写的很清楚了，开始编写吧</strong><br><a id="more"></a></p>
+<p><script><br>if(“12345678”==prompt(“请输入密码”))<br>{<br>alert(“正确”);<br>}<br>else<br>{<br>alert(“错误”);<br>location=”<a href="http://blog.laphets.com">http://blog.laphets.com</a>“; #返回网站，请自定义<br>}<br></script></p>
 <h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><p><strong>布尔盲注这种注入手法主要用于页面没有回显位置而且没有报错信息的情况下，这时可以构造逻辑判断，通过页面返回的不同去判断逻辑的真假从而猜取数据库的字符</strong></p>
 <p><strong>所以可以通过python脚本循环猜解出数据库中的内容，二分法猜解字符会比一次次循环累加要快很多，主要的思路就是先用requests请求一个正常的页面，当然这个页面是存在sql注入的，然后通过requests请求加上单双引号的url所返回的页面，通过和正常页面对比来判断为数字型注入还是字符型注入，判断的方法</strong></p>
 <pre><code>url参数后加单引号与双引号均报错，则为数字型注入
