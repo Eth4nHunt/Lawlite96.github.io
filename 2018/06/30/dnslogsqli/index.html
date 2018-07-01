@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180630/3hmLf064Jm.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180630/9j21maLE6F.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180630/AafjHEfmLj.png?imageslim">
-<meta property="og:updated_time" content="2018-06-30T11:06:59.794Z">
+<meta property="og:updated_time" content="2018-07-01T08:02:37.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="渗透技巧:使用dnslog加快盲注速度">
 <meta name="twitter:description" content="渗透技巧:使用dnslog加快盲注速度sql盲注分为基于bool的盲注和基于时间的盲注，大家都知道，盲注是在页面没有显示位并且没有报错信息的时候，通过构造payload使页面返回的内容不同或者是页面响应的时间不同从而去判断出数据库中的数据，不管是bool盲注还是时间盲注，在进行判断的时候都需要一个字符一个字符的去判断，虽然二分法可以加快盲注的速度，但是还有一种更好的办法，那就是使用dnslog，具">
@@ -358,7 +358,7 @@
       
 
       
-        <h1 id="渗透技巧-使用dnslog加快盲注速度"><a href="#渗透技巧-使用dnslog加快盲注速度" class="headerlink" title="渗透技巧:使用dnslog加快盲注速度"></a>渗透技巧:使用dnslog加快盲注速度</h1><p><strong>sql盲注分为基于bool的盲注和基于时间的盲注，大家都知道，盲注是在页面没有显示位并且没有报错信息的时候，通过构造payload使页面返回的内容不同或者是页面响应的时间不同从而去判断出数据库中的数据，不管是bool盲注还是时间盲注，在进行判断的时候都需要一个字符一个字符的去判断，虽然二分法可以加快盲注的速度，但是还有一种更好的办法，那就是使用dnslog，具体过程如下图</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/8aC6fb4hHB.png?imageslim" alt="mark"><br><strong>由上图可以看出要进行dnslog注入需要几个条件：</strong></p>
+        <h1 id="渗透技巧-使用dnslog加快盲注速度"><a href="#渗透技巧-使用dnslog加快盲注速度" class="headerlink" title="渗透技巧:使用dnslog加快盲注速度"></a>渗透技巧:使用dnslog加快盲注速度</h1><p><strong>sql盲注分为基于bool的盲注和基于时间的盲注，大家都知道，盲注是在页面没有显示位并且没有报错信息的时候，通过构造payload使页面返回的内容不同或者是页面响应的时间不同从而去判断出数据库中的数据，不管是bool盲注还是时间盲注，在进行判断的时候都需要一个字符一个字符的去判断，虽然二分法可以加快盲注的速度，但是还有一种更好的办法，那就是使用dnslog，具体过程如下图</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/8aC6fb4hHB.png?imageslim" alt="mark"><br><a id="more"></a><br><strong>由上图可以看出要进行dnslog注入需要几个条件：</strong></p>
 <p><strong>1.web服务器操作系统必须为windows，因为UNC这个东西是windows特有的，关于UNC的解析如下</strong></p>
 <p><strong>UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。格式：<code>\\servername\sharename</code>，其中servername是服务器名。sharename是共享资源的名称。目录或文件的UNC名称可以包括共享名称下的目录路径，格式为：<code>\\servername\sharename\directory\filename</code></strong></p>
 <p><strong>2.以mysql为例，数据库的<code>load_file</code>函数必须可用，也就是数据库用户必须要有<code>file_priv</code>权限</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180630/Ai4HGl7IhG.png?imageslim" alt="mark"></p>
