@@ -344,7 +344,7 @@
 
       
         
-          <h1 id="dvwa-DOM型XSS"><a href="#dvwa-DOM型XSS" class="headerlink" title="dvwa DOM型XSS"></a>dvwa DOM型XSS</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>因为英语六级考试，忙着备考，博客好久没更新了，这次考完后感觉考的不是太理想，英语的四六级考试感觉出的题越来越奇怪，看微信一个很有名的英语老师公众号一篇文章说的今年出的考题的文章都选自国外一些不出名的小网站而且是十几年前的文章，只是为了防止被压中题吗？从之前的四六级证书变为一张成绩单，从原来的大学毕业要求标准变为不再要求，是什么让一个英语水平考试变成现在这样，这也是我这几天感到很迷茫的一件事，不过迷茫归迷茫，总有一些事情需要去坚持，比如写博客，将自己所学的东西沉淀下来，形成一种无形的财富</strong><br>
+          <h1 id="dvwa-DOM型XSS"><a href="#dvwa-DOM型XSS" class="headerlink" title="dvwa DOM型XSS"></a>dvwa DOM型XSS</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在介绍dom xss之前 ，首先需要明白一个非常重要的地方：反射型xss和存储型xss指的是用户输入的js恶意代码经过服务器响应后直接输出，或者存储到了服务器后直接输出，然后通过浏览器js解析引擎解析后直接执行触发，而dom型xss指的是用户输入的js恶意代码经过服务器响应后并不会直接被浏览器js解析解析触发，而是经过一些javascript dom渲染后，构造完dom树后，浏览器解析时，才会被js的解析引擎解析执行，本质上的区别：dom xss需要页面经过dom渲染，构造完dom树时才被解析触发，但是反射型是直接被浏览器的js解析引擎解析触发，这也正是为什么我们查看页面源代码和使用firebug查看元素时看到的内容不一样的原因，一个是没有经过dom渲染，一个是经过dom渲染过后的，这也是在xss漏洞挖掘时，判断输入点和输出点很重要的一个细节</strong><br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/12/21/DOM XSS/#more" rel="contents">
