@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim">
-<meta property="og:updated_time" content="2018-08-17T17:06:22.233Z">
+<meta property="og:updated_time" content="2018-08-17T17:10:21.694Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决ubuntu任务计划写shell失败的问题">
 <meta name="twitter:description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
@@ -360,7 +360,7 @@
       
 
       
-        <h1 id="解决ubuntu任务计划写shell失败的问题"><a href="#解决ubuntu任务计划写shell失败的问题" class="headerlink" title="解决ubuntu任务计划写shell失败的问题"></a>解决ubuntu任务计划写shell失败的问题</h1><p><strong>这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才解决了该问题，将整个问题的解决过程在这里记录一下~</strong></p>
+        <h1 id="解决ubuntu任务计划写shell失败的问题"><a href="#解决ubuntu任务计划写shell失败的问题" class="headerlink" title="解决ubuntu任务计划写shell失败的问题"></a>解决ubuntu任务计划写shell失败的问题</h1><p><strong>这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才解决了该问题，将整个问题的解决过程在这里记录一下~</strong><br><a id="more"></a></p>
 <h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p><strong>ubuntu16.04桌面版：192.168.0.107，用来任务计划反弹shell的靶机</strong></p>
 <p><strong>kali2.0：192.168.0.106，用来接收ubuntu反弹过来的shell</strong></p>
 <h3 id="具体过程"><a href="#具体过程" class="headerlink" title="具体过程"></a>具体过程</h3><p><strong>事情源自于我利用redis未授权访问漏洞在向<code>ubuntu</code>的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件去反弹shell时，发现shell并不能反弹到自己的kali上</strong></p>
