@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim">
-<meta property="og:updated_time" content="2018-08-17T17:10:21.694Z">
+<meta property="og:updated_time" content="2018-08-18T10:20:33.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决ubuntu任务计划写shell失败的问题">
 <meta name="twitter:description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
@@ -382,7 +382,7 @@
 <p><strong>搞清楚了根本的原因后，来说一下解决的办法，这里有两种解决办法，其中一种解决办法是通过修改ubuntu中<code>/bin/sh</code>的指向，将dash改为bash即可，命令如下</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f bash /bin/sh</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cGhdh4gbmF.png?imageslim" alt="mark"><br><strong>可以看到此时<code>/bin/sh</code>以及指向了<code>bash</code>，此时将任务计划里的文件修改为之前反弹shell的命令，可以看到不会再报错了，并且shell成功反弹到了kali上</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Jhm2mgDdhi.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cChIDHhm8m.png?imageslim" alt="mark"></p>
-<p><strong>下面来说一下第二张解决办法，首先我们先将<code>/bin/sh</code>的指向改回<code>dash</code></strong></p>
+<p><strong>下面来说一下第二种解决办法，首先我们先将<code>/bin/sh</code>的指向改回<code>dash</code></strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f dash /bin/sh</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/6kcc9EHIEj.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Kcal0c0Be3.png?imageslim" alt="mark"><br><strong>下面来说一下第二种方法，就是避免在cron文件里去使用bash这个shell，我们可以另外的去建一个反弹shell的shell脚本文件，然后在任务计划里面去直接调用这个shell脚本文件</strong></p>
 <p><strong>shell脚本文件如下，文件名为<code>/tmp/test.sh</code></strong></p>
