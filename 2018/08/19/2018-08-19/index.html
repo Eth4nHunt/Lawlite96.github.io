@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content=",,,," />
+  <meta name="keywords" content="漏洞复现," />
 
 
 
@@ -81,9 +81,9 @@
 
 <meta name="description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
 <meta name="keywords" content="漏洞复现">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
-<meta property="og:url" content="http://yoursite.com/redis.html">
+<meta property="og:url" content="http://yoursite.com/2018/08/19/2018-08-19/index.html">
 <meta property="og:site_name" content="Climber">
 <meta property="og:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
 <meta property="og:locale" content="zh-Hans">
@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim">
-<meta property="og:updated_time" content="2018-08-18T17:15:55.024Z">
+<meta property="og:updated_time" content="2018-08-18T17:16:47.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
 <meta name="twitter:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
@@ -132,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/redis.html"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/19/2018-08-19/"/>
 
 
 
@@ -253,24 +253,108 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/19/2018-08-19/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Climber">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/Ironman.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Climber">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more" target="_blank" rel="external">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong></p>
+          <h1 class="post-title" itemprop="name headline">记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-19T01:16:18+08:00">
+                2018-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more" target="_blank" rel="external">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong></p>
 <h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server</strong></p>
 <p><strong>kali2.0（192.168.0.101）：攻击者机器，同样安装了redis，要使用redis-cli对未授权访问漏洞进行利用</strong></p>
 <p><strong>该实验中redis的版本为4.0.8，安装redis方法如下</strong></p>
@@ -312,17 +396,65 @@ command: 需要执行的命令
 <p><strong>但是shell还是反弹失败了，<code>/bin/sh</code>的指向也没有修改成功，通过查看日志可以看到这一次的错误原因是<code>ERROR (Syntax error, this crontab file will be ignored)</code></strong></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim" alt="mark"></p>
 <p><strong>这是由于redis向任务计划文件里写内容出现乱码而导致的语法错误，而乱码是避免不了的，centos会忽略乱码去执行格式正确的任务计划，而ubuntu并不会忽略这些乱码，所以导致命令执行失败，因为自己如果不使用redis写任务计划文件，而是正常向<code>/etc/cron.d</code>目录下写任务计划文件的话，命令是可以正常执行的，所以还是乱码的原因导致命令不能正常执行，而这个问题是不能解决的，因为利用redis未授权访问写的任务计划文件里都有乱码</strong></p>
-<h3 id="对于这一次失败的总结和看法"><a href="#对于这一次失败的总结和看法" class="headerlink" title="对于这一次失败的总结和看法"></a>对于这一次失败的总结和看法</h3><p><strong>对于ubuntu环境下的redis未授权访问漏洞写任务计划反弹shell的利用，自己遇到了很多坑，自己都一一排查解决了，结果最终还是在乱码这个问题上失败了，也可以看出确实ubuntu在某些方面设计的还是要比centos安全的，虽然这次漏洞利用失败了，但是自己也学到了不少，对centos和ubuntu这两个系统的cron以及一些其它的安全机制有了更深的认识，所以，这一切都是值得的</strong></p>
+<h3 id="对于这一次失败的总结和看法"><a href="#对于这一次失败的总结和看法" class="headerlink" title="对于这一次失败的总结和看法"></a>对于这一次失败的总结和看法</h3><p><strong>对于ubuntu环境下的redis未授权访问漏洞写任务计划反弹shell的利用，自己遇到了很多坑，自己都一一排查解决了，结果最终还是在乱码这个问题上失败了，也可以看出确实ubuntu在某些方面设计的还是要比centos安全的，虽然这次漏洞利用失败了，但是自己也学到了不少，对centos和ubuntu这两个系统的cron的区别以及一些其它的安全机制有了更深的认识，所以，这一切都是值得的</strong></p>
 
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/漏洞复现/" rel="tag"># 漏洞复现</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/18/2018-08-18/" rel="next" title="关于ubuntu和centos cron的一些区别">
+                <i class="fa fa-chevron-left"></i> 关于ubuntu和centos cron的一些区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 

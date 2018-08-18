@@ -87,10 +87,13 @@
 <meta property="og:site_name" content="Climber">
 <meta property="og:description" content="关于ubuntu和centos cron的一些区别写这篇文章的目的，源自解决ubuntu任务计划写shell失败的问题这篇文章遗留下来的一个问题：就是在向ubuntu的/var/spool/cron/crontabs目录下创建任务计划文件时，需要修改该文件的权限为600,也就是r------，该任务计划文件才能执行，否则就会报错不能执行，报出(root) INSECURE MODE (mode 0">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-18T14:37:06.790Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/bamjJLLBCm.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/jD60555DCg.png?imageslim">
+<meta property="og:updated_time" content="2018-08-18T16:43:52.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于ubuntu和centos cron的一些区别">
 <meta name="twitter:description" content="关于ubuntu和centos cron的一些区别写这篇文章的目的，源自解决ubuntu任务计划写shell失败的问题这篇文章遗留下来的一个问题：就是在向ubuntu的/var/spool/cron/crontabs目录下创建任务计划文件时，需要修改该文件的权限为600,也就是r------，该任务计划文件才能执行，否则就会报错不能执行，报出(root) INSECURE MODE (mode 0">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/bamjJLLBCm.png?imageslim">
 
 
 
@@ -344,7 +347,7 @@
       
         <h1 id="关于ubuntu和centos-cron的一些区别"><a href="#关于ubuntu和centos-cron的一些区别" class="headerlink" title="关于ubuntu和centos cron的一些区别"></a>关于ubuntu和centos cron的一些区别</h1><p><strong>写这篇文章的目的，源自<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>这篇文章遗留下来的一个问题：就是在向ubuntu的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件时，需要修改该文件的权限为<code>600</code>,也就是<code>r------</code>，该任务计划文件才能执行，否则就会报错不能执行，报出<code>(root) INSECURE MODE (mode 0600 expected)</code>这个错误，这个问题当时没有太注意，以为是umask不同的问题。直到今天再次利用ubuntu环境下的redis未授权访问漏洞反弹shell时才发现这样一个问题，就是我们并不能直接利用未授权访问漏洞去修改<code>/var/spool/cron/crontabs</code>目录下我们创建的任务计划文件的权限，所以导致任务计划文件不能执行，于是又研究了一番，偶然发现ubuntu和centos的umask是相同的，都是<code>0022</code>，说明之前自己的想法是错误的，并不是umask不同的问题，而是centos和ubuntu cron的区别，下面就来总结一下其cron的区别</strong><br><a id="more"></a></p>
 <p><strong>简单来说</strong></p>
-<p><strong>ubuntu任务计划有一个目录是/var/spool/cron/crontabs，不过这个目录下的文件权限必须为600任务计划才能执行，这个是和centos的一个区别，但是如果利用redis漏洞的话，不可能直接去修改文件权限为600，而且如果写到/etc/crontab这个文件里的话，会覆盖掉之前的任务计划，所以如果服务器是ubuntu的话，可以写到/etc/cron.d这个任务计划目录下，这个目录下没有要求文件权限是600</strong></p>
+<p><strong>ubuntu任务计划有一个目录是/var/spool/cron/crontabs，不过这个目录下的文件权限必须为600任务计划才能执行，这个是和centos的一个区别，但是如果利用redis漏洞的话，不可能直接去修改文件权限为600，而且如果写到/etc/crontab这个文件里的话，会覆盖掉之前的任务计划，所以如果服务器是ubuntu的话，可以写到/etc/cron.d这个任务计划目录下，这个目录下没有要求文件权限是600，并不会报错</strong></p>
 <p><strong>下面来总结一下ubuntu和centos的cron</strong></p>
 <p><strong>ubuntu的cron</strong></p>
 <p><code>/etc/crontab</code><strong>：该文件中的任务计划写入就能直接执行</strong></p>
@@ -353,7 +356,10 @@
 <p><strong>centos的cron</strong></p>
 <p><code>/etc/crontab</code><strong>：该文件中的任务计划写入就能直接执行</strong></p>
 <p><code>/etc/cron.d</code><strong>：该目录下的文件为任务计划文件，只要文件内容格式符合cron的格式，就会执行</strong></p>
-<p><strong>以上两点和ubuntu的cron没什么区别，唯一的区别是，centos的任务计划文件目录为<code>/var/spool/cron</code>这个目录，而且该目录下的任务计划文件并没有要求权限为<code>600</code>才能执行，这就是ubuntu和centos cron的一个区别，同时也是一个比较坑的地方，值得记录一下，以免以后忘记</strong></p>
+<p><strong>以上两点和ubuntu的cron没什么区别，唯一的区别是，centos的任务计划文件目录为<code>/var/spool/cron</code>这个目录，而且该目录下的任务计划文件并没有要求权限为<code>600</code>才能执行，这就是ubuntu和centos cron的一个区别，同时也是一个比较坑的地方，值得记录一下，以免以后忘记，至于为什么ubuntu和centos会有这样的区别，我认为和任务计划的目录有关系</strong></p>
+<p><strong>centos的<code>/var/spool/cron</code>任务计划目录权限</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/bamjJLLBCm.png?imageslim" alt="mark"></p>
+<p><strong>ubuntu的<code>/var/spool/cron/crontabs</code>任务计划目录</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/jD60555DCg.png?imageslim" alt="mark"></p>
+<p><strong>可以看到两个任务计划目录的权限是不一样的，这也是ubuntu和centos cron不同的原因。以后再深入去研究</strong></p>
 
       
     </div>
@@ -393,6 +399,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/19/2018-08-19/" rel="prev" title="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
+                记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -473,7 +483,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
