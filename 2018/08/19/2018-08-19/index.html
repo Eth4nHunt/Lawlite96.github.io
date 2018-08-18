@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim">
-<meta property="og:updated_time" content="2018-08-18T17:25:47.178Z">
+<meta property="og:updated_time" content="2018-08-18T17:28:33.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
 <meta name="twitter:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
@@ -395,7 +395,7 @@ command: 需要执行的命令
 <p><strong>文件内容分别为</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/aL0DJmLL5D.png?imageslim" alt="mark"></p>
 <p><strong>但是shell还是反弹失败了，<code>/bin/sh</code>的指向也没有修改成功，通过查看日志可以看到这一次的错误原因是<code>ERROR (Syntax error, this crontab file will be ignored)</code></strong></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim" alt="mark"></p>
-<p><strong>这是由于redis向任务计划文件里写内容出现乱码而导致的语法错误，而乱码是避免不了的，centos会忽略乱码去执行格式正确的任务计划，而ubuntu并不会忽略这些乱码，所以导致命令执行失败，因为自己如果不使用redis写任务计划文件，而是正常向<code>/etc/cron.d</code>目录下写任务计划文件的话，命令是可以正常执行的，所以还是乱码的原因导致命令不能正常执行，而这个问题是不能解决的，因为利用redis未授权访问写的任务计划文件里都有乱码</strong></p>
+<p><strong>这是由于redis向任务计划文件里写内容出现乱码而导致的语法错误，而乱码是避免不了的，centos会忽略乱码去执行格式正确的任务计划，而ubuntu并不会忽略这些乱码，所以导致命令执行失败，因为自己如果不使用redis写任务计划文件，而是正常向<code>/etc/cron.d</code>目录下写任务计划文件的话，命令是可以正常执行的，所以还是乱码的原因导致命令不能正常执行，而这个问题是不能解决的，因为利用redis未授权访问写的任务计划文件里都有乱码，这些代码来自redis的缓存数据</strong></p>
 <h3 id="对于这一次失败的总结和看法"><a href="#对于这一次失败的总结和看法" class="headerlink" title="对于这一次失败的总结和看法"></a>对于这一次失败的总结和看法</h3><p><strong>对于ubuntu环境下的redis未授权访问漏洞写任务计划反弹shell的利用，自己遇到了很多坑，自己都一一排查解决了，结果最终还是在乱码这个问题上失败了，也可以看出确实ubuntu在某些方面设计的还是要比centos安全的，虽然这次漏洞利用失败了，但是自己也学到了不少，对centos和ubuntu这两个系统的cron的区别以及一些其它的安全机制有了更深的认识，所以，虽然失败，但是这一切都是值得的</strong></p>
 
       
@@ -436,6 +436,10 @@ command: 需要执行的命令
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/19/redis/" rel="prev" title="redis未授权访问漏洞的几种利用方式">
+                redis未授权访问漏洞的几种利用方式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -516,7 +520,7 @@ command: 需要执行的命令
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
