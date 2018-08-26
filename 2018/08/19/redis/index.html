@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/c9G6E82kGG.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/7ll8jEI5lJ.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180819/gd8GC6lbie.png?imageslim">
-<meta property="og:updated_time" content="2018-08-22T08:57:09.298Z">
+<meta property="og:updated_time" content="2018-08-24T16:31:15.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos环境下的redis未授权访问漏洞的几种利用方式">
 <meta name="twitter:description" content="centos环境下的redis未授权访问漏洞的几种利用方式这篇文章记录一下redis未授权访问漏洞的几种利用方式,包括如何利用redis未授权访问漏洞通过任务计划反弹shell，向网站根目录写webshell以及利用redis未授权访问向服务器写入ssh公钥">
@@ -363,9 +363,9 @@
 <h3 id="漏洞利用环境"><a href="#漏洞利用环境" class="headerlink" title="漏洞利用环境"></a>漏洞利用环境</h3><p><strong>靶机：centos6.4:192.168.0.104，开启了redis-server，由于配置不当而存在redis未授权访问</strong></p>
 <p><strong>攻击机：kali2.0：192.168.0.101，用来攻击配置不当导致存在redis未授权访问漏洞的centos6.4</strong></p>
 <p><strong>修改centos中redis配置文件redis.conf中的几个地方</strong></p>
-<pre><code>1.bind 127.0.0.1前面需要加上注释符
-2.protected-mode要修改为no
-</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/8E377C775B.png?imageslim" alt="mark"></p>
+<pre><code>1.bind 127.0.0.1前面需要加上注释符，保证远程ip可以访问redis数据库
+2.protected-mode要修改为no，否则远程连接数据库的ip执行不了数据库语句
+</code></pre><p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/L7g94HcIji.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/8E377C775B.png?imageslim" alt="mark"><br><strong>只有修改了这两处配置，才能远程连接redis服务并且执行数据库语句</strong></p>
 <h3 id="利用redis未授权访问漏洞反弹shell"><a href="#利用redis未授权访问漏洞反弹shell" class="headerlink" title="利用redis未授权访问漏洞反弹shell"></a>利用redis未授权访问漏洞反弹shell</h3><p><strong>首先在centos上开启redis服务</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./src/redis-server redis.conf</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180819/DF7D9Cm9AG.png?imageslim" alt="mark"></p>
@@ -428,6 +428,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/25/ssrf/" rel="prev" title="ssrf漏洞原理以及利用方法">
+                ssrf漏洞原理以及利用方法 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -508,7 +512,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -519,7 +523,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -530,7 +534,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
