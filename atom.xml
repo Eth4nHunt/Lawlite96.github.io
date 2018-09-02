@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-08-26T14:46:48.873Z</updated>
+  <updated>2018-09-02T15:02:20.698Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次有意思的XSS绕过之中文尖括号复仇记</title>
+    <link href="http://yoursite.com/2018/09/02/2018-09-02/"/>
+    <id>http://yoursite.com/2018/09/02/2018-09-02/</id>
+    <published>2018-09-02T15:02:20.697Z</published>
+    <updated>2018-09-02T15:02:20.698Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="记一次有意思的XSS绕过之中文尖括号复仇记"><a href="#记一次有意思的XSS绕过之中文尖括号复仇记" class="headerlink" title="记一次有意思的XSS绕过之中文尖括号复仇记"></a>记一次有意思的XSS绕过之中文尖括号复仇记</h1><p><strong>记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把<code>&gt;</code>变为了中文的尖括号<code>＞</code>，导致插入页面的<code>xss payload</code>不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~</strong><br><a id="more"></a></p><h3 id="奇葩的过滤"><a href="#奇葩的过滤" class="headerlink" title="奇葩的过滤"></a>奇葩的过滤</h3><p><strong>过滤方式如下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/1Bh572Bkmh.png?imageslim" alt="mark"><br><strong>可以看到对输入的过滤是将<code>&gt;</code>变为了中文的尖括号<code>＞</code>，这样的话浏览器在解析html标签时，由于标签无法正常闭合就会出现语法错误而导致<code>xss payload</code>无法被浏览器解析执行，加上页面可以利用的输出点只有这一个位置并且在DOM的文本节点，所以在构造<code>xss payload</code>的时候<code>&gt;</code>符号是必不可少的</strong></p><h3 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h3><p><strong>绕过其实也很简单，构造<code>payload</code>如下</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;img onerror=alert(1) src=&gt;</div></pre></td></tr></table></figure><p><strong>输出点变成了下面的样子</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/gj0JFAL2gd.png?imageslim" alt="mark"><br><strong>这一点的构造思路正是用到了中文尖括号<code>＞</code>在浏览器解析时不能被浏览器识别的特点，这样的话<code>＞”&lt;/span</code>会被浏览器当成<code>img</code>标签的<code>src</code>属性的属性值，也就是一个错误的图片资源，导致后面<code>span</code>标签的<code>&gt;</code>逃逸，于是<code>span</code>标签的<code>&gt;</code>闭合了<code>img</code>标签，<code>xss payload执行</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/423EEemCIF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/kHFi96gB60.png?imageslim" alt="mark"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;记一次有意思的XSS绕过之中文尖括号复仇记&quot;&gt;&lt;a href=&quot;#记一次有意思的XSS绕过之中文尖括号复仇记&quot; class=&quot;headerlink&quot; title=&quot;记一次有意思的XSS绕过之中文尖括号复仇记&quot;&gt;&lt;/a&gt;记一次有意思的XSS绕过之中文尖括号复仇记&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&lt;code&gt;&amp;gt;&lt;/code&gt;变为了中文的尖括号&lt;code&gt;＞&lt;/code&gt;，导致插入页面的&lt;code&gt;xss payload&lt;/code&gt;不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~&lt;/strong&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="漏洞挖掘" scheme="http://yoursite.com/categories/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"/>
+    
+    
+      <category term="漏洞挖掘" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"/>
+    
+  </entry>
   
   <entry>
     <title>ssrf漏洞原理以及利用方法</title>
@@ -426,28 +448,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;用shell脚本实现对指定ip进行自动基线安全检查&quot;&gt;&lt;a href=&quot;#用shell脚本实现对指定ip进行自动基线安全检查&quot; class=&quot;headerlink&quot; title=&quot;用shell脚本实现对指定ip进行自动基线安全检查&quot;&gt;&lt;/a&gt;用shell脚本实现对指定ip进行自动基线安全检查&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;最近在学习shell脚本，一直再尝试用shell实现一些有意思的东西，该脚本实现了自动上传基线脚本到指定linux服务器上运行检查，并且将检查结果文件发送到我们的机器&lt;/strong&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Linux Shell" scheme="http://yoursite.com/categories/Linux-Shell/"/>
-    
-    
-      <category term="Linux Shell" scheme="http://yoursite.com/tags/Linux-Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>用shell实现自动化扫描主机端口爆破服务弱口令</title>
-    <link href="http://yoursite.com/2018/05/14/autobrute/"/>
-    <id>http://yoursite.com/2018/05/14/autobrute/</id>
-    <published>2018-05-14T08:36:34.456Z</published>
-    <updated>2018-06-04T14:55:53.893Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="用shell实现自动化扫描主机端口爆破服务弱口令"><a href="#用shell实现自动化扫描主机端口爆破服务弱口令" class="headerlink" title="用shell实现自动化扫描主机端口爆破服务弱口令"></a>用shell实现自动化扫描主机端口爆破服务弱口令</h1><p><strong>最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间</strong><br><a id="more"></a></p><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p><strong>假设现在有一个需求，公司分配给你了一个ip列表，要求你将其中存活的主机筛选出来，检查这些主机是否开启了常用的服务，以及是否存在弱口令</strong></p><p><strong>一般常用的做法就是先利用nmap扫描出存活主机，然后扫描这些主机开放的端口，用hydra对这些端口进行弱口令安全检查。如果将这些命令写在一个shell脚本中，以后再次做相同的工作时直接运行我们编写的.sh文件就可以了，这样的话就能大大提高我们的工作效率，避免重复机械的工作，大大提升效率</strong></p><h3 id="编写shell脚本"><a href="#编写shell脚本" class="headerlink" title="编写shell脚本"></a>编写shell脚本</h3><p><strong>我编写的shell脚本有以下几部分组成</strong></p><p><strong>ip.txt</strong></p><pre><code>ip列表，里面放着要扫描的ip</code></pre><p><strong>service.conf</strong></p><pre><code>配置文件，里面是我们要检查的服务和其对应的端口号，使用者可以在这里进行设置要检查的服务</code></pre><p><strong>比如要检查ssh与mysql服务的弱口令，里面这样写，配置文件格式：<code>端口：服务</code></strong></p><pre><code>22:ssh3306:mysql</code></pre><p><strong>这样便能灵活的对我们需要的服务进行弱口令检测</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/HKF6Jl6Jdl.png?imageslim" alt="mark"></p><p><strong>user.txt</strong></p><pre><code>存放着常见的用户名，用于hydra爆破</code></pre><p><strong>passwd.txt</strong></p><pre><code>存放着常见的弱口令，用于hydra爆破</code></pre><p><strong>brute.sh</strong></p><pre><code>下面的就是我编写的shell脚本，可以自动化的完成上述的一系列工作#!/bin/bashfilename=$1for port in `awk -F &apos;:&apos; &apos;{print $1}&apos; service.conf`doname=`awk -F &apos;:&apos; &apos;/&apos;$port&apos;/{print $2}&apos; service.conf`echo &quot;$name weak password result:&quot;nmap -sn -iL $filename|awk &apos;/Nmap scan/{print $5}&apos;&gt;liveip.txtnmap -Pn -sS -p $port -iL liveip.txt|grep &quot;open&quot; -B &quot;5&quot;|awk &apos;/Nmap scan/{print $5}&apos;&gt;tmpip.txtif [ ! -s tmpip.txt ]thenecho &quot;no ip open port $port&quot;elseresult=`hydra -L user.txt -P passwd.txt -M tmpip.txt $name -t 4|awk &apos;/password:/{print $0}&apos;`echo $resultfidone</code></pre><p><strong>首先接收命令行的第一个参数，也就是要进行检查的ip列表文件ip.txt，之后循环读取服务配置文件，使用awk工具筛选出要检查的端口号和其对应的服务并赋值给对应的变量，之后用nmap进行主机存活扫描，将存活主机使用awk匹配出来输出到一个文件中，使用nmap对这个文件里的这些存活ip进行端口扫描，利用awk将nmap扫描结果中开放端口的ip筛选出来输出到一个文件里，之后利用hydra对这些ip进行其端口对应服务的弱口令检查</strong></p><p><strong>脚本运行结果，以自己所在内网的ip作为测试，ip段<code>192.168.3.0/24</code>,可以看出针对ssh服务还是检查出很多弱口令的，mysql服务大多数都禁止了远程连接，所以没有扫出弱口令</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180514/Ca7L5i0dGI.png?imageslim" alt="mark"></p><p><strong>这是初步编写的成果，只是与文件进行交互，而且有着很多的不足，之后随着学习的深入，相信会写出比这个更棒更完善的脚本</strong></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;用shell实现自动化扫描主机端口爆破服务弱口令&quot;&gt;&lt;a href=&quot;#用shell实现自动化扫描主机端口爆破服务弱口令&quot; class=&quot;headerlink&quot; title=&quot;用shell实现自动化扫描主机端口爆破服务弱口令&quot;&gt;&lt;/a&gt;用shell实现自动化扫描主机端口爆破服务弱口令&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;最近在学习linux shell脚本的编写，学会写shell的一个好处就是能够批量执行我们要执行的命令，实现自动化工作，可以在今后的工作中提升工作效率，节省时间&lt;/strong&gt;&lt;br&gt;
     
     </summary>
     
