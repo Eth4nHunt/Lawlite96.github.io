@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="记一次有意思的XSS绕过之中文尖括号复仇记记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
+<meta name="description" content="记一次有意思的XSS绕过之奇葩的中文尖括号记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
 <meta name="keywords" content="漏洞挖掘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次有意思的XSS绕过之中文尖括号复仇记">
+<meta property="og:title" content="记一次有意思的XSS绕过之奇葩的中文尖括号">
 <meta property="og:url" content="http://yoursite.com/2018/09/02/2018-09-02/index.html">
 <meta property="og:site_name" content="Climber">
-<meta property="og:description" content="记一次有意思的XSS绕过之中文尖括号复仇记记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
+<meta property="og:description" content="记一次有意思的XSS绕过之奇葩的中文尖括号记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/1Bh572Bkmh.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/gj0JFAL2gd.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/423EEemCIF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/kHFi96gB60.png?imageslim">
-<meta property="og:updated_time" content="2018-09-02T15:02:20.698Z">
+<meta property="og:updated_time" content="2018-09-02T15:19:43.658Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记一次有意思的XSS绕过之中文尖括号复仇记">
-<meta name="twitter:description" content="记一次有意思的XSS绕过之中文尖括号复仇记记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
+<meta name="twitter:title" content="记一次有意思的XSS绕过之奇葩的中文尖括号">
+<meta name="twitter:description" content="记一次有意思的XSS绕过之奇葩的中文尖括号记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
 <meta name="twitter:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/1Bh572Bkmh.png?imageslim">
 
 
@@ -131,7 +131,7 @@
 
 
 
-  <title>记一次有意思的XSS绕过之中文尖括号复仇记 | Climber</title>
+  <title>记一次有意思的XSS绕过之奇葩的中文尖括号 | Climber</title>
   
 
 
@@ -275,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记一次有意思的XSS绕过之中文尖括号复仇记</h1>
+          <h1 class="post-title" itemprop="name headline">记一次有意思的XSS绕过之奇葩的中文尖括号</h1>
         
 
         <div class="post-meta">
@@ -347,7 +347,7 @@
       
 
       
-        <h1 id="记一次有意思的XSS绕过之中文尖括号复仇记"><a href="#记一次有意思的XSS绕过之中文尖括号复仇记" class="headerlink" title="记一次有意思的XSS绕过之中文尖括号复仇记"></a>记一次有意思的XSS绕过之中文尖括号复仇记</h1><p><strong>记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把<code>&gt;</code>变为了中文的尖括号<code>＞</code>，导致插入页面的<code>xss payload</code>不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~</strong><br><a id="more"></a></p>
+        <h1 id="记一次有意思的XSS绕过之奇葩的中文尖括号"><a href="#记一次有意思的XSS绕过之奇葩的中文尖括号" class="headerlink" title="记一次有意思的XSS绕过之奇葩的中文尖括号"></a>记一次有意思的XSS绕过之奇葩的中文尖括号</h1><p><strong>记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把<code>&gt;</code>变为了中文的尖括号<code>＞</code>，导致插入页面的<code>xss payload</code>不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~</strong><br><a id="more"></a></p>
 <h3 id="奇葩的过滤"><a href="#奇葩的过滤" class="headerlink" title="奇葩的过滤"></a>奇葩的过滤</h3><p><strong>过滤方式如下</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/1Bh572Bkmh.png?imageslim" alt="mark"><br><strong>可以看到对输入的过滤是将<code>&gt;</code>变为了中文的尖括号<code>＞</code>，这样的话浏览器在解析html标签时，由于标签无法正常闭合就会出现语法错误而导致<code>xss payload</code>无法被浏览器解析执行，加上页面可以利用的输出点只有这一个位置并且在DOM的文本节点，所以在构造<code>xss payload</code>的时候<code>&gt;</code>符号是必不可少的</strong></p>
 <h3 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h3><p><strong>绕过其实也很简单，构造<code>payload</code>如下</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;img onerror=alert(1) src=&gt;</div></pre></td></tr></table></figure>
@@ -554,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次有意思的XSS绕过之中文尖括号复仇记"><span class="nav-number">1.</span> <span class="nav-text">记一次有意思的XSS绕过之中文尖括号复仇记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#奇葩的过滤"><span class="nav-number">1.0.1.</span> <span class="nav-text">奇葩的过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bypass"><span class="nav-number">1.0.2.</span> <span class="nav-text">bypass</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次有意思的XSS绕过之奇葩的中文尖括号"><span class="nav-number">1.</span> <span class="nav-text">记一次有意思的XSS绕过之奇葩的中文尖括号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#奇葩的过滤"><span class="nav-number">1.0.1.</span> <span class="nav-text">奇葩的过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bypass"><span class="nav-number">1.0.2.</span> <span class="nav-text">bypass</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
