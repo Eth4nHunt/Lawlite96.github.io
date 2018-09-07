@@ -91,7 +91,9 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/gj0JFAL2gd.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/423EEemCIF.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180902/kHFi96gB60.png?imageslim">
-<meta property="og:updated_time" content="2018-09-02T15:19:43.658Z">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180905/ela24g19CB.png?imageslim">
+<meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180905/kD1a3EEHel.png?imageslim">
+<meta property="og:updated_time" content="2018-09-05T15:02:27.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次有意思的XSS绕过之奇葩的中文尖括号">
 <meta name="twitter:description" content="记一次有意思的XSS绕过之奇葩的中文尖括号记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把&amp;gt;变为了中文的尖括号＞，导致插入页面的xss payload不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~">
@@ -352,6 +354,13 @@
 <h3 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h3><p><strong>绕过其实也很简单，构造<code>payload</code>如下</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;img onerror=alert(1) src=&gt;</div></pre></td></tr></table></figure>
 <p><strong>输出点变成了下面的样子</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/gj0JFAL2gd.png?imageslim" alt="mark"><br><strong>这一点的构造思路正是用到了中文尖括号<code>＞</code>在浏览器解析时不能被浏览器识别的特点，这样的话<code>＞”&lt;/span</code>会被浏览器当成<code>img</code>标签的<code>src</code>属性的属性值，也就是一个错误的图片资源，导致后面<code>span</code>标签的<code>&gt;</code>逃逸，于是<code>span</code>标签的<code>&gt;</code>闭合了<code>img</code>标签，<code>xss payload执行</code></strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/423EEemCIF.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180902/kHFi96gB60.png?imageslim" alt="mark"></p>
+<h3 id="补充其它的绕过方法"><a href="#补充其它的绕过方法" class="headerlink" title="补充其它的绕过方法"></a>补充其它的绕过方法</h3><p><strong>经过交流群里师傅们的指点，发现对于这种只过滤了<code>&gt;</code>的<code>XSS</code>是很不安全的,因为浏览器的容错性，在html标签内，很多标签并不需要<code>&gt;</code>的闭合就可以解析html，所以绕过方法很多，例如：</strong></p>
+<p><strong>payload:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;img src=<span class="number">1</span> onerror=alert(<span class="number">1</span>)<span class="comment">//</span></div></pre></td></tr></table></figure>
+<p><img src="http://p008biu9n.bkt.clouddn.com/blog/180905/ela24g19CB.png?imageslim" alt="mark"><br><strong>使用firebug查看经过DOM渲染后的html代码，可以看到浏览器会自动的按照正确的html格式去补全标签</strong></p>
+<p><strong>payload：</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;svg onload=alert(<span class="number">1</span>)<span class="comment">//</span></div></pre></td></tr></table></figure>
+<p><strong>可以看到由于浏览器的容错性，标签也会被浏览器补全完整</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180905/kD1a3EEHel.png?imageslim" alt="mark"><br><strong>所以XSS的防御一定要完整的过滤转义<code>&lt;&gt;</code>这一对标签，仅仅只是过滤转义了<code>&gt;</code>还是很危险的</strong></p>
 
       
     </div>
@@ -391,6 +400,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/07/Ecshop2.x & 3.x版本最新漏洞分析与利用/" rel="prev" title="Ecshop2.x&3.x最新漏洞分析与利用">
+                Ecshop2.x&3.x最新漏洞分析与利用 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -471,7 +484,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -482,7 +495,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -493,7 +506,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -554,7 +567,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次有意思的XSS绕过之奇葩的中文尖括号"><span class="nav-number">1.</span> <span class="nav-text">记一次有意思的XSS绕过之奇葩的中文尖括号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#奇葩的过滤"><span class="nav-number">1.0.1.</span> <span class="nav-text">奇葩的过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bypass"><span class="nav-number">1.0.2.</span> <span class="nav-text">bypass</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记一次有意思的XSS绕过之奇葩的中文尖括号"><span class="nav-number">1.</span> <span class="nav-text">记一次有意思的XSS绕过之奇葩的中文尖括号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#奇葩的过滤"><span class="nav-number">1.0.1.</span> <span class="nav-text">奇葩的过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bypass"><span class="nav-number">1.0.2.</span> <span class="nav-text">bypass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充其它的绕过方法"><span class="nav-number">1.0.3.</span> <span class="nav-text">补充其它的绕过方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
