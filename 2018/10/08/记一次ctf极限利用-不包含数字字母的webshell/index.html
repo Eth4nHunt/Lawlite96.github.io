@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/Bc3J9D8c50.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/KAlLeIahBe.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/Fc1Cd2lEbK.png?imageslim">
-<meta property="og:updated_time" content="2018-10-09T06:33:34.674Z">
+<meta property="og:updated_time" content="2018-10-09T06:36:47.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次ctf极限利用-不包含数字字母的webshell">
 <meta name="twitter:description" content="#记一次ctf极限利用-不包含数字字母的webshell# 序问题来自于同事给我一道安恒的ctf赛题，题目代码如下12345678910111213141516&amp;lt;?phpinclude &apos;flag.php&apos;;if(isset($_GET[&apos;code&apos;]))&amp;#123;    $code = $_GET[&apos;code&apos;];    if(strlen($code)&amp;gt;35)&amp;#123;">
@@ -364,7 +364,7 @@ g=&apos;^@
 </code></pre><p><strong>接下来利用php的可变变量特性构造payload</strong></p>
 <pre><code>$_=&quot;&apos;[]`@!&apos;&quot;^&quot;@&gt;)&amp;,@@&quot;;$_();
 </code></pre><p><strong>传入后最终变为：</strong><br>    eval(getFlag())</p>
-<p><strong>但是这道题的正则也过滤了$和<em>,导致自己的这个思路受到了一些限制，后来自己又看了<a href="https://www.anquanke.com/post/id/160582?from=singlemessage#h2-2" title="一叶飘零师傅的解法" target="_blank" rel="external">一叶飘零师傅的解法</a>，思路是可以利用反引号执行命令将flag文件读取出来，加上利用linux当中<code>?</code>这个通配符就可以达到不使用数字字母与`$</em><code>就可以获取flag的目的，但是由于</code>?`这个通配符是匹配任意字符的，导致结果当中会出现很多垃圾数据，而且我用这个方法得到的结果并不完整，不知道是哪里出了问题</strong></p>
+<p><strong>但是这道题的正则也过滤了<code>$</code>和<code>_</code>,导致自己的这个思路受到了一些限制，后来自己又看了<a href="https://www.anquanke.com/post/id/160582?from=singlemessage#h2-2" title="一叶飘零师傅的解法" target="_blank" rel="external">一叶飘零师傅的解法</a>，思路是可以利用反引号执行命令将flag文件读取出来，加上利用linux当中<code>?</code>这个通配符就可以达到不使用数字字母与<code>$_</code>就可以获取flag的目的，但是由于<code>?</code>这个通配符是匹配任意字符的，导致结果当中会出现很多垃圾数据，而且我用这个方法得到的结果并不完整，不知道是哪里出了问题</strong></p>
 <p><strong>于是自己向p牛小密圈发起了求助，经过p牛和小密圈大佬们的指点，得到了很多思路和有趣的知识点，在这里将自己学到的记录分享一下</strong></p>
 <p><strong>首先，需要考虑到php5和php7的一些差异，php7当中已经可以使用<code>(函数名)()</code>这样的格式去执行一些动态函数了，所以这道题如果放到php7环境当中的话，就会比较好解，利用上面所说的那个特性就可以达到执行函数的目的，以执行phpinfo函数为例，构造payload：<code>(&quot;\(\@@&amp;/&quot;^&quot;,@,).@@&quot;)();</code>,将payload传入get参数code即可,注意一点，为了避免特殊符号影响，需要将payload进行url编码</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/181008/4DI2B9H38I.png?imageslim" alt="mark"></p>
 <p><strong>如果是php5的话，目前暂时还没有找到不使用数字字母和<code>$_</code>这些符号就可以执行动态函数去读取flag的方法，在这里需要使用执行命令的方法，但是需要避免无关的垃圾数据，经过p牛师傅的指点get到了一个很棒的思路：可以通过构造一个文件上传的数据包，通过文件上传可以在服务器的tmp目录下生成一个上传的php临时文件，文件的内容为要执行的命令，这个临时文件的生命周期就在php代码执行的期间，php代码执行结束就会自动删除，这样的话就可以在上传文件的同时传入GET参数去执行这个临时文件里面的命令，这里包含了几个知识点：</strong></p>
