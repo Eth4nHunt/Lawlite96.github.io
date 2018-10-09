@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/Bc3J9D8c50.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/KAlLeIahBe.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/181009/Fc1Cd2lEbK.png?imageslim">
-<meta property="og:updated_time" content="2018-10-09T06:23:17.010Z">
+<meta property="og:updated_time" content="2018-10-09T06:33:34.674Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次ctf极限利用-不包含数字字母的webshell">
 <meta name="twitter:description" content="#记一次ctf极限利用-不包含数字字母的webshell# 序问题来自于同事给我一道安恒的ctf赛题，题目代码如下12345678910111213141516&amp;lt;?phpinclude &apos;flag.php&apos;;if(isset($_GET[&apos;code&apos;]))&amp;#123;    $code = $_GET[&apos;code&apos;];    if(strlen($code)&amp;gt;35)&amp;#123;">
@@ -386,6 +386,7 @@ vps ubuntu16.04(失败)
 <p><strong>但是centos里面并没有<code>globasciiranges</code>这个配置项，所以暂时还不能成功利用（除了docker的centos6），这里应该就是和linux版本有关系了，最后为了方便理解，附上我的测试截图</strong></p>
 <p><strong>centos7 vps</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/181009/Bc3J9D8c50.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/181009/KAlLeIahBe.png?imageslim" alt="mark"></p>
 <p><strong>ubuntu将shopt里面的<code>globasciiranges</code>开启就能解决问题</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/181009/Fc1Cd2lEbK.png?imageslim" alt="mark"></p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><strong><a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum-advanced.html" target="_blank" rel="external">无字母数字webshell之提高篇</a></strong></p>
 
       
     </div>
@@ -588,7 +589,7 @@ vps ubuntu16.04(失败)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我所遇到的一些问题"><span class="nav-number">2.</span> <span class="nav-text">我所遇到的一些问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序"><span class="nav-number">1.</span> <span class="nav-text">序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我所遇到的一些问题"><span class="nav-number">2.</span> <span class="nav-text">我所遇到的一些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
