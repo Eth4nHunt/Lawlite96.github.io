@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/09JabDCCDd.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/3Gfcibd25b.png?imageslim">
 <meta property="og:image" content="http://p008biu9n.bkt.clouddn.com/blog/180907/h09955h7Dg.png?imageslim">
-<meta property="og:updated_time" content="2018-09-11T16:39:09.290Z">
+<meta property="og:updated_time" content="2018-10-09T07:26:16.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ecshop2.x&amp;3.x最新漏洞分析与利用">
 <meta name="twitter:description" content="Ecshop2.x &amp;amp; 3.x版本最新注入与代码执行漏洞分析与利用序在九月份初左右爆出了一个有关Ecshop全版本的通杀漏洞，据说攻击者之前使用该漏洞的payload去攻击了某区块链交易所网站。该漏洞最早由知道创宇404积极防御团队通过知道创宇旗下云防御产品“创宇盾”在2018年6月13日拦截并捕获，然后到了9月份漏洞的详情和攻击payload才公开出来，期间应该有不少应用都受到了该漏洞的">
@@ -352,7 +352,7 @@
       
 
       
-        <h1 id="Ecshop2-x-amp-3-x版本最新注入与代码执行漏洞分析与利用"><a href="#Ecshop2-x-amp-3-x版本最新注入与代码执行漏洞分析与利用" class="headerlink" title="Ecshop2.x &amp; 3.x版本最新注入与代码执行漏洞分析与利用"></a>Ecshop2.x &amp; 3.x版本最新注入与代码执行漏洞分析与利用</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在九月份初左右爆出了一个有关Ecshop全版本的通杀漏洞，据说攻击者之前使用该漏洞的payload去攻击了某区块链交易所网站。该漏洞最早由知道创宇404积极防御团队通过知道创宇旗下云防御产品“创宇盾”在2018年6月13日拦截并捕获，然后到了9月份漏洞的详情和攻击payload才公开出来，期间应该有不少应用都受到了该漏洞的影响。刚好自己正在学习代码审计，于是自己通过一些资料和网上现有的payload去研究了一波</strong></p>
+        <h1 id="Ecshop2-x-amp-3-x版本最新注入与代码执行漏洞分析与利用"><a href="#Ecshop2-x-amp-3-x版本最新注入与代码执行漏洞分析与利用" class="headerlink" title="Ecshop2.x &amp; 3.x版本最新注入与代码执行漏洞分析与利用"></a>Ecshop2.x &amp; 3.x版本最新注入与代码执行漏洞分析与利用</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在九月份初左右爆出了一个有关Ecshop全版本的通杀漏洞，据说攻击者之前使用该漏洞的payload去攻击了某区块链交易所网站。该漏洞最早由知道创宇404积极防御团队通过知道创宇旗下云防御产品“创宇盾”在2018年6月13日拦截并捕获，然后到了9月份漏洞的详情和攻击payload才公开出来，期间应该有不少应用都受到了该漏洞的影响。刚好自己正在学习代码审计，于是自己通过一些资料和网上现有的payload去研究了一波</strong><br><a id="more"></a></p>
 <h3 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a>漏洞环境</h3><p><strong>本篇文章分别使用Ecshop2.7.4和Ecshop3.x这两个版本去分析利用该漏洞，web应用搭建到了windows2008 server上面</strong></p>
 <h3 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h3><p><strong>Seay源代码审计系统</strong></p>
 <h3 id="漏洞详情"><a href="#漏洞详情" class="headerlink" title="漏洞详情"></a>漏洞详情</h3><p><strong>简单的来说，这次的漏洞本质上其实是一个sql注入漏洞，然后通过sql注入而产生的远程代码执行漏洞，下面将开始通过捕获到的payload去一步步的分析还原该漏洞的发现过程，这里分析的版本为Ecshop2.4.7</strong></p>
