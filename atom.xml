@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lawlietweb.com/"/>
-  <updated>2018-10-22T10:08:13.180Z</updated>
+  <updated>2018-10-22T10:15:24.695Z</updated>
   <id>http://lawlietweb.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://lawlietweb.com/2018/10/22/MarkdownXss/"/>
     <id>http://lawlietweb.com/2018/10/22/MarkdownXss/</id>
     <published>2018-10-22T09:08:23.950Z</published>
-    <updated>2018-10-22T10:08:13.180Z</updated>
+    <updated>2018-10-22T10:15:24.695Z</updated>
     
     <content type="html"><![CDATA[<h1 id="test-xss"><a href="#test-xss" class="headerlink" title="test xss"></a>test xss</h1><p><a href="http://lawlietweb.com">我的博客</a></p>]]></content>
     
@@ -35,10 +35,10 @@
     
     </summary>
     
-      <category term="xss" scheme="http://lawlietweb.com/categories/xss/"/>
+      <category term="web安全" scheme="http://lawlietweb.com/categories/web%E5%AE%89%E5%85%A8/"/>
     
     
-      <category term="xss" scheme="http://lawlietweb.com/tags/xss/"/>
+      <category term="web安全" scheme="http://lawlietweb.com/tags/web%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   
