@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lawlietweb.com/"/>
-  <updated>2018-10-23T05:21:32.397Z</updated>
+  <updated>2018-10-23T05:29:20.242Z</updated>
   <id>http://lawlietweb.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://lawlietweb.com/2018/10/22/MarkdownXss/"/>
     <id>http://lawlietweb.com/2018/10/22/MarkdownXss/</id>
     <published>2018-10-22T09:08:23.950Z</published>
-    <updated>2018-10-23T05:21:32.397Z</updated>
+    <updated>2018-10-23T05:29:20.242Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="测试一下Markdown-xss"><a href="#测试一下Markdown-xss" class="headerlink" title="测试一下Markdown xss"></a>测试一下Markdown xss</h1><h3 id="插入超链接"><a href="#插入超链接" class="headerlink" title="插入超链接"></a>插入超链接</h3><p><a href="javascript:alert`1`" target="_blank" rel="external">我的博客</a></p><p><strong>代码</strong><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">我的博客</span>](<span class="link">javascript:alert`1`</span>)</div></pre></td></tr></table></figure></p><p><strong>解析后</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a <span class="attribute">href</span>=<span class="string">"javascript:alert`1`"</span> <span class="attribute">target</span>=<span class="string">"_blank"</span> <span class="attribute">rel</span>=<span class="string">"external"</span>&gt;我的博客&lt;/a&gt;</div></pre></td></tr></table></figure></p><h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png" alt="一张图片&quot; onload=alert(1)//"></p><p><strong>代码</strong></p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![<span class="string">一张图片" onload=alert(1)//</span>](<span class="link">http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png</span>)</div></pre></td></tr></table></figure><p><strong>解析后</strong></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="测试一下Markdown-xss"><a href="#测试一下Markdown-xss" class="headerlink" title="测试一下Markdown xss"></a>测试一下Markdown xss</h1><h3 id="插入超链接"><a href="#插入超链接" class="headerlink" title="插入超链接"></a>插入超链接</h3><p><a href="javascript:alert`1`" target="_blank" rel="external">我的博客</a></p><p><strong>代码</strong><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">我的博客</span>](<span class="link">javascript:alert`1`</span>)</div></pre></td></tr></table></figure></p><p><strong>解析后</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a <span class="attribute">href</span>=<span class="string">"javascript:alert`1`"</span> <span class="attribute">target</span>=<span class="string">"_blank"</span> <span class="attribute">rel</span>=<span class="string">"external"</span>&gt;我的博客&lt;/a&gt;</div></pre></td></tr></table></figure></p><h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png" alt="一张图片&quot; onload=alert(1)//"></p><p><strong>代码</strong></p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![<span class="string">一张图片"&gt;&lt;svg onload=alert(1)&gt;</span>](<span class="link">http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png</span>)</div></pre></td></tr></table></figure><p><strong>解析后</strong></p>]]></content>
     
     <summary type="html">
     
