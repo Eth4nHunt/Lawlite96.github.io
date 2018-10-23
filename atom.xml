@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://lawlietweb.com/"/>
-  <updated>2018-10-22T10:15:24.695Z</updated>
+  <updated>2018-10-23T03:08:13.263Z</updated>
   <id>http://lawlietweb.com/</id>
   
   <author>
@@ -21,24 +21,23 @@
     <link href="http://lawlietweb.com/2018/10/22/MarkdownXss/"/>
     <id>http://lawlietweb.com/2018/10/22/MarkdownXss/</id>
     <published>2018-10-22T09:08:23.950Z</published>
-    <updated>2018-10-22T10:15:24.695Z</updated>
+    <updated>2018-10-23T03:08:13.263Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="test-xss"><a href="#test-xss" class="headerlink" title="test xss"></a>test xss</h1><p><a href="http://lawlietweb.com">我的博客</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="test-xss"><a href="#test-xss" class="headerlink" title="test xss"></a>test xss</h1><p><a href="javascript:alert(1" target="_blank" rel="external">我的博客</a>)</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;test-xss&quot;&gt;&lt;a href=&quot;#test-xss&quot; class=&quot;headerlink&quot; title=&quot;test xss&quot;&gt;&lt;/a&gt;test xss&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://lawlietweb.com&quot;&gt;我的博客&lt;/a&gt;&lt;/p&gt;
-
+        &lt;h1 id=&quot;test-xss&quot;&gt;&lt;a href=&quot;#test-xss&quot; class=&quot;headerlink&quot; title=&quot;test xss&quot;&gt;&lt;/a&gt;test xss&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;javascript:alert(1&quot; target=&quot;_blank&quot; r
       
     
     </summary>
     
-      <category term="web安全" scheme="http://lawlietweb.com/categories/web%E5%AE%89%E5%85%A8/"/>
+      <category term="xss" scheme="http://lawlietweb.com/categories/xss/"/>
     
     
-      <category term="web安全" scheme="http://lawlietweb.com/tags/web%E5%AE%89%E5%85%A8/"/>
+      <category term="xss" scheme="http://lawlietweb.com/tags/xss/"/>
     
   </entry>
   
