@@ -354,10 +354,9 @@
             测试一下Markdown xss插入超链接我的博客
 代码1[我的博客](javascript:alert`1`)
 解析后1&lt;a href="javascript:alert`1`" target="_blank" rel="external"&gt;我的博客&lt;/a&gt;
-加载图片
+加载图片加载图片的不行了，引号和尖括号被实体编码了
 代码
-1![一张图片](1" onerror=alert`1`//)
-解析后
+1![一张图片" onload=alert(1)//](http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png)
 
         </div>
         <div class="abstract-post-meta">
