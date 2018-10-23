@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">77</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">65</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -404,19 +404,19 @@ height:50vh;
         <h1 id="测试一下Markdown-xss"><a href="#测试一下Markdown-xss" class="headerlink" title="测试一下Markdown xss"></a>测试一下Markdown xss</h1><h3 id="插入超链接"><a href="#插入超链接" class="headerlink" title="插入超链接"></a>插入超链接</h3><p><a href="javascript:alert`1`" target="_blank" rel="external">我的博客</a></p>
 <p><strong>代码</strong><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">我的博客</span>](<span class="link">javascript:alert`1`</span>)</div></pre></td></tr></table></figure></p>
 <p><strong>解析后</strong><br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a <span class="attribute">href</span>=<span class="string">"javascript:alert`1`"</span> <span class="attribute">target</span>=<span class="string">"_blank"</span> <span class="attribute">rel</span>=<span class="string">"external"</span>&gt;我的博客&lt;/a&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p><img src="http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png" alt="一张图片&quot;&gt;&lt;svg onload=alert(1)&gt;"></p>
+<h3 id="加载图片"><a href="#加载图片" class="headerlink" title="加载图片"></a>加载图片</h3><p><img src="1&quot; onerror=alert`1`//" alt="一张图片"></p>
 <p><strong>代码</strong></p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![<span class="string">一张图片"&gt;&lt;svg onload=alert(1)&gt;</span>](<span class="link">http://p008biu9n.bkt.clouddn.com/blog/181023/iDiiF5dJcF.png</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![<span class="string">一张图片</span>](<span class="link">1" onerror=alert`1`//</span>)</div></pre></td></tr></table></figure>
 <p><strong>解析后</strong></p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>Author：<a href="http://lawlietweb.com">C1imber</a>
+            <p>原文作者：<a href="http://lawlietweb.com">C1imber</a>
             <p>原文链接：<a href="http://lawlietweb.com/2018/10/22/MarkdownXss/">http://lawlietweb.com/2018/10/22/MarkdownXss/</a>
             <p>发表日期：<a href="http://lawlietweb.com/2018/10/22/MarkdownXss/">October 22nd 2018, 5:08:23 pm</a>
-            <p>更新日期：<a href="http://lawlietweb.com/2018/10/22/MarkdownXss/">October 23rd 2018, 1:34:32 pm</a>
+            <p>更新日期：<a href="http://lawlietweb.com/2018/10/22/MarkdownXss/">October 23rd 2018, 1:42:20 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
