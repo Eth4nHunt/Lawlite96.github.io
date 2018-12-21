@@ -346,6 +346,45 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >
+            
+                <span>phpcms2008 type.php代码执行漏洞分析与复现</span>
+        </a>
+        <div class="abstract-content">
+            phpcms2008 type.php代码执行漏洞分析与复现phpcms2008安装问题：安装时出现如下错误
+修改以下文件”TYPE=MyISAM”处，修改为”ENGINE=MyISAM”
+php文件：
+/ads/include/create.table.php
+/install.php
+/include/admin/global.func.php
+/include/admin/sql.func.php
+/install/install.php
+以及所有的.sql文件，”TYPE=MyISAM”修改为”ENGINE=MyISAM”就可以安装成功了
+漏洞利用：payload:
+在存在漏洞的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/11/30/Code-Breaking Puzzles挑战/" >
             
                 <span>Code-Breaking Puzzles挑战</span>
@@ -589,35 +628,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </a>
         <div class="abstract-content">
             <h1 id="centos环境下的redis未授权访问漏洞的几种利用方式"><a href="#centos环境下的redis未授权访问漏洞的几种利用方式" class="headerlink" title="centos环境下的redis未授权访问漏洞的几种利用方式"></a>centos环境下的redis未授权访问漏洞的几种利用方式</h1><p><strong>这篇文章记录一下redis未授权访问漏洞的几种利用方式,包括如何利用redis未授权访问漏洞通过任务计划反弹shell，向网站根目录写webshell以及利用redis未授权访问向服务器写入ssh公钥</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/19/2018-08-19/" >
-            
-                <span>记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong><br>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1487,9 +1497,96 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1502,6 +1599,11 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1545,12 +1647,12 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/2018-08-19/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/redis/" >centos环境下的redis未授权访问漏洞的几种利用方式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/redis/" >centos环境下的redis未授权访问漏洞的几种利用方式</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/2018-08-19/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
         </li>
     
     
