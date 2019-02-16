@@ -359,6 +359,35 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2017/12/26/DVWAFileInclusion/" >
+            
+                <span>dvwa File Inclusion</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="dvwa文件包含漏洞"><a href="#dvwa文件包含漏洞" class="headerlink" title="dvwa文件包含漏洞"></a>dvwa文件包含漏洞</h1><h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><strong>程序开发人员一般会把重复使用的函数写到单个文件中，需要使用某个函数时直接调用此文件，而无需再次编写，这中文件调用的过程一般被称为文件包含。程序开发人员一般希望代码更灵活，所以将被包含的文件设置为变量，用来进行动态调用，但正是由于这种灵活性，从而导致客户端可以调用一个恶意文件，造成文件包含漏洞。文件包含漏洞分为本地文件包含和远程文件包含，当php开启了<code>allow_url_include</code>时，将允许远程文件包含，为了研究文件包含,我们将<code>allow_url_include</code>打开，文件包含漏洞可以用来遍历目录文件，结合文件上传漏洞可以getshell，或者直接利用远程文件包含同样可以getshell</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "dvwa学习">dvwa学习</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/12/25/DVWAFileUpload/" >
             
                 <span>dvwa File Upload</span>
@@ -618,35 +647,6 @@ url:http://182.254.246.93/entrance.php
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/12/error-base/" >
-            
-                <span>mysql报错注入总结</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/12</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "sql注入">sql注入</a>
     
 </div>
             
@@ -1677,14 +1677,9 @@ url:http://182.254.246.93/entrance.php
     
     
     
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 53
+        Total : 54
         </div>
         <!-- search  -->
         
@@ -1697,6 +1692,11 @@ url:http://182.254.246.93/entrance.php
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >ubuntu本地提权漏洞复现学习（CVE-2019-7304）</a>
+        </li>
     
     
         <li class="archive-post-item">
