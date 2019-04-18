@@ -359,6 +359,36 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/04/18/DDCTF2019 write up/" >
+            
+                <span>DDCTF2019 write up</span>
+        </a>
+        <div class="abstract-content">
+            DDCTF2019 write up最近几天抽时间做了做DDCTF，只做出了几道Web，菜哭了==，这里将做出的题记录一下吧（参赛id:stark）
+滴~打开题目后跳到了一个连接，页面内容是一个表情包，jpg参数值看起来像一串base64,如下图将jpg的参数值TmpZMlF6WXhOamN5UlRaQk56QTJOdz09经过两次base64解码和一次hex解码后得到flag.jpg，另外在页面源码里面看到了flag.jpg图片内容base64编码后的内容，这里是使用img标签通过data伪协议将图片显示到了页面中所以猜测这里可能是一个任意文件读取，将index.php进行一次hex编...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/04/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/02/17/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >
             
                 <span>ubuntu本地提权漏洞复现学习（CVE-2019-7304）</span>
@@ -629,35 +659,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞挖掘">漏洞挖掘</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/08/26/ssrf/" >
-            
-                <span>ssrf漏洞原理以及利用方法</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="ssrf漏洞原理以及利用方法"><a href="#ssrf漏洞原理以及利用方法" class="headerlink" title="ssrf漏洞原理以及利用方法"></a>ssrf漏洞原理以及利用方法</h1><p><strong>ssrf漏洞，全称为服务端请求伪造漏洞，由于有的web应用需要实现从其它服务器上获取资源的功能，但是没有对url进行限制，导致可以构造非本意的url对内网或者其它服务器发起恶意请求。ssrf漏洞的危害可以通过ssrf漏洞可以对内网或本地机器进行主机发现，服务版本探测或者针对内网或本地一些薄弱的应用进行攻击，同时利用ssrf漏洞还可以时服务器主动发起请求，从而做为一个攻击跳板或者绕过CDN找到其服务器的真实ip</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ssrf">ssrf</a>
     
 </div>
             
@@ -1688,9 +1689,30 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 54
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1703,6 +1725,11 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+        </li>
     
     
         <li class="archive-post-item">

@@ -346,6 +346,35 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/06/06/pyblindsqlimax/" >
+            
+                <span>python布尔盲注脚本算法完善</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="python布尔盲注脚本算法完善"><a href="#python布尔盲注脚本算法完善" class="headerlink" title="python布尔盲注脚本算法完善"></a>python布尔盲注脚本算法完善</h1><p><strong>完善一下上次写的python盲注工具，之前那个盲注工具在猜取字符的时候使用的二分法，通过查找<code>0-126</code>这个范围去采取数据库中的数据。但是当时遗留了一个问题，就是在逐个猜解数据库字符时使用二分法并没有什么问题，这时因为字符都在<code>0-126</code>这个固定范围内，但是在猜取数据库个数、指定数据库的表个数、字段个数或者表中记录条数时，又或者是数据库名的长度、表名长度、字段名的长度时是没有一个固定的范围的，举个例子，比如在猜取表中记录个数时，记录的个数是不能确定范围的，也就是不能确定二分法的最大值，当时采用了循环自加的方式去判断，速度自然是慢了许多。今天抽时间读了一下sqlmap的payload，通过payload发现sqlmap也考虑到了这种情况，并且处理方法还是不错的。对于这种情况还是可以通过二分法判断的，将自己的方法记录一下~</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/06</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "python">python</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/06/05/pyblindsqli/" >
             
                 <span>python编程实现自动化注入之布尔盲注</span>
@@ -597,35 +626,6 @@
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Linux Shell">Linux Shell</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/05/13/parse_url/" >
-            
-                <span>php parse_url()函数的漏洞</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="php-parse-url-函数的漏洞"><a href="#php-parse-url-函数的漏洞" class="headerlink" title="php parse_url()函数的漏洞"></a>php parse_url()函数的漏洞</h1><p><strong>在ctf比赛中经常遇到的一个知识点，记录一下，由于parse_url函数在解析url时存在的bug导致在某些情况下可以绕过正则的过滤</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/13</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
             
@@ -1541,9 +1541,30 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 54
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1556,6 +1577,11 @@
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+        </li>
     
     
         <li class="archive-post-item">
