@@ -365,7 +365,8 @@ height:50vh;
         </a>
         <div class="abstract-content">
             DDCTF2019 write up最近几天抽时间做了做DDCTF，只做出了几道Web，菜哭了==，这里将做出的题记录一下吧（参赛id:stark）
-滴~打开题目后跳到了一个连接，页面内容是一个表情包，jpg参数值看起来像一串base64,如下图将jpg的参数值TmpZMlF6WXhOamN5UlRaQk56QTJOdz09经过两次base64解码和一次hex解码后得到flag.jpg，另外在页面源码里面看到了flag.jpg图片内容base64编码后的内容，这里是使用img标签通过data伪协议将图片显示到了页面中所以猜测这里可能是一个任意文件读取，将index.php进行一次hex编...
+滴~http://117.51.150.246
+打开题目后跳到了一个连接，页面内容是一个表情包，jpg参数值看起来像一串base64,如下图将jpg的参数值TmpZMlF6WXhOamN5UlRaQk56QTJOdz09经过两次base64解码和一次hex解码后得到flag.jpg，另外在页面源码里面看到了flag.jpg图片内容base64编码后的内容，这里是使用img标签通过data伪协议将图片显示到了页面中所以猜测这里可能是一个任意文...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
