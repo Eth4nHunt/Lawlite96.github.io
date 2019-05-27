@@ -346,6 +346,39 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/05/28/2019强网杯-过滤select的注入/" >
+            
+                <span>2019强网杯-过滤select的注入</span>
+        </a>
+        <div class="abstract-content">
+            2019强网杯-过滤select的注入随便注这道题的题目就是随便注，说是取自某次真实渗透环境，确定了这道题是考察注入，经测试发现为单引号包裹的字符型注入，但是存在存在过滤，过滤的sql关键字如下
+1preg_match("/select|update|delete|drop|insert|where|\./i", $inject);
+这里过滤了select关键字，/i表示对大小写进行检查，所以大小写绕过无效，所以这里需要想别的办法，首先通过报错注入可以获取数据库的相关信息
+通过报错注入获取当前数据库类型与版本：
+http://117.78.39.172:32689/?inject=-1%...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/28</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/04/18/DDCTF2019 write up/" >
             
                 <span>DDCTF2019 write up</span>
@@ -519,39 +552,6 @@ easy - function题目代码如下：
             2018湖湘杯注入题writeup序这段时间事情很多，导致这次比赛没有报上名，周日总算闲了下来，看到师傅在群里发了几个题目的链接，于是滑了一波水，在这里记录一下
 WEB Code Check其实昨天写这道题的时候并不知道这个题的题目是什么（有点尴尬），打开题目发现是一个登陆框，进行正常的登陆流程时会出现如下的错误，所以猜测该登陆功能可能不能正常使用看到登陆处显示平台正在停机维护，不能正常使用应该和这个有一些关系吧接下来查看页面源代码，尝试发现问题，看到有一处连接
 http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/11/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/11/19/2019强网杯-过滤select的注入/" >
-            
-                <span>2019强网杯-过滤select的注入</span>
-        </a>
-        <div class="abstract-content">
-            2019强网杯-过滤select的注入随便注这道题的题目就是随便注，说是取自某次真实渗透环境，确定了这道题是考察注入，经测试发现为单引号包裹的字符型注入，但是存在存在过滤，过滤的sql关键字如下
-1preg_match("/select|update|delete|drop|insert|where|\./i", $inject);
-这里过滤了select关键字，/i表示对大小写进行检查，所以大小写绕过无效，所以这里需要想别的办法，首先通过报错注入可以获取数据库的相关信息
-通过报错注入获取当前数据库类型与版本：
-http://117.78.39.172:32689/?inject=-1%...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1562,6 +1562,10 @@ http://117.78.39.172:32689/?inject=-1%...
     
     
     
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 54
@@ -1577,6 +1581,11 @@ http://117.78.39.172:32689/?inject=-1%...
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1610,11 +1619,6 @@ http://117.78.39.172:32689/?inject=-1%...
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2018/11/30/Code-Breaking Puzzles挑战/" >Code-Breaking Puzzles挑战</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2018/11/19/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
         </li>
     
     
