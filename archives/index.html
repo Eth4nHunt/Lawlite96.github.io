@@ -346,41 +346,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/06/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >
-            
-                <span>ubuntu本地提权漏洞复现学习（CVE-2019-7304）</span>
-        </a>
-        <div class="abstract-content">
-            ubuntu本地提权漏洞复现学习（CVE-2019-7304）摘要该提权漏洞是由于snapd API中的错误而导致的，默认情况下，Ubuntu附带了snapd受影响版本：2.37.1以下测试环境：ubuntu16.04,snapd的版本为2.34.2,查看snap版本的命令如下1snap version
-
-漏洞复现下载提权使用的exp1`git clone https://github.com/initstring/dirty_sock.git
-下载下来后里面包含了两个py文件，分别是不同的利用脚本方式1：
-使用dirty_sockv1.py
-利用条件：
-1.所在的环境需要能够访问到外部...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/06</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/2019/11/06/phpcms2008 type.php代码执行漏洞/" >
             
                 <span>phpcms2008 type.php代码执行漏洞分析与复现</span>
@@ -550,7 +515,7 @@ upload这道题线上没做出来，比赛结束后研究了一波，:(
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/11/06/2019强网杯-过滤select的注入/" >
+        <a class="abstract-title" href = "/2019/05/28/2019强网杯-过滤select的注入/" >
             
                 <span>2019强网杯-过滤select的注入</span>
         </a>
@@ -564,7 +529,7 @@ http://117.78.39.172:32689/?inject=-1%...
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/06</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/05/28</span>
             </div>
             <!-- tags  -->
             
@@ -657,6 +622,35 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >
+            
+                <span>记一次ctf极限利用-不包含数字字母的webshell</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="记一次ctf极限利用-不包含数字字母的webshell"><a href="#记一次ctf极限利用-不包含数字字母的webshell" class="headerlink" title="记一次ctf极限利用-不包含数字字母的webshell"></a>记一次ctf极限利用-不包含数字字母的webshell</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>问题来自于同事给我一道安恒的ctf赛题，题目代码如下</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">include <span class="string">'flag.php'</span>;</div><div class="line"><span class="keyword">if</span>(isset(<span class="variable">$_GET</span>[<span class="string">'code'</span>]))&#123;</div><div class="line">    <span class="variable">$code</span> = <span class="variable">$_GET</span>[<span class="string">'code'</span>];</div><div class="line">    <span class="keyword">if</span>(strlen(<span class="variable">$code</span>)&gt;35)&#123;</div><div class="line">        die(<span class="string">"Long."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/[A-Za-z0-9_$]+/"</span>,<span class="variable">$code</span>))&#123;</div><div class="line">        die(<span class="string">"NO."</span>);</div><div class="line">    &#125;</div><div class="line">    @<span class="built_in">eval</span>(<span class="variable">$code</span>);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    highlight_file(__FILE__);</div><div class="line">&#125;</div><div class="line">//<span class="variable">$hint</span> =  <span class="string">"php function getFlag() to get flag"</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/08</span>
             </div>
             <!-- tags  -->
             
@@ -1596,22 +1590,9 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 54
         </div>
         <!-- search  -->
         
@@ -1648,6 +1629,11 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
         <li class="archive-post-item">
             <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
         </li>
     
     
@@ -1872,43 +1858,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         <li class="archive-post-item">
             <span class="archive-post-date">11/28</span><a class="archive-post-title" href= "/2017/11/28/Reflected XSS/" >dvwa XSS(Reflected)</a>
         </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >ubuntu本地提权漏洞复现学习（CVE-2019-7304）</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
     
     
         <li class="archive-post-item">
