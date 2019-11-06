@@ -13,16 +13,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="C1imber">
+    <meta name="author" content="c1ay">
     <meta name="renderer" content="webkit">
-    <meta name="copyright" content="C1imber">
+    <meta name="copyright" content="c1ay">
     
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>C1imber&#39;s Blog</title>
+    <title>c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -187,7 +187,7 @@
 }( typeof global !== "undefined" ? global : this ) );
 </script>
 
-    <link rel="icon" href= "/assets/CutGirl.ico" />
+    <link rel="icon" href= "/assets/naruto.ico" />
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
     <link rel="preload" href="/scripts/main.js" as="script" />
@@ -210,7 +210,7 @@
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
     
-    <a class="home-link" href=/>C1imber's Blog</a>
+    <a class="home-link" href=/>c1ay's blog</a>
 </header>
     <div class="wrapper">
         <div class="site-intro" style="
@@ -339,45 +339,6 @@
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
             <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >
-            
-                <span>phpcms2008 type.php代码执行漏洞分析与复现</span>
-        </a>
-        <div class="abstract-content">
-            phpcms2008 type.php代码执行漏洞分析与复现phpcms2008安装问题：安装时出现如下错误
-修改以下文件”TYPE=MyISAM”处，修改为”ENGINE=MyISAM”
-php文件：
-/ads/include/create.table.php
-/install.php
-/include/admin/global.func.php
-/include/admin/sql.func.php
-/install/install.php
-以及所有的.sql文件，”TYPE=MyISAM”修改为”ENGINE=MyISAM”就可以安装成功了
-漏洞利用：payload:
-在存在漏洞的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     
     
@@ -627,7 +588,7 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
                 <span>记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</span>
         </a>
         <div class="abstract-content">
-            <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong><br>
+            <h1 id="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"><a href="#记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现" class="headerlink" title="记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现"></a>记一次失败漏洞利用的经历–ubuntu下的redis未授权访问漏洞复现</h1><p><strong>由于redis的配置不当导致攻击者可以利用该未授权访问漏洞去对服务器进行攻击，redis服务默认端口为6379端口，在利用该漏洞的时候，由于服务器是ubuntu的原因，遇到了不少坑导致最终并没有利用成功，不像之前在centos环境下利用该漏洞时那样顺利，所以在这里记录一下。在理解这篇文章之前，可以先参考一下之前的<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>和<a href="http://lawlietweb.com/2018/08/18/2018-08-18/#more" target="_blank" rel="external">关于ubuntu和centos cron的一些区别</a>这两篇文章</strong><br>
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -639,6 +600,35 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/08/18/2018-08-18/" >
+            
+                <span>关于ubuntu和centos cron的一些区别</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="关于ubuntu和centos-cron的一些区别"><a href="#关于ubuntu和centos-cron的一些区别" class="headerlink" title="关于ubuntu和centos cron的一些区别"></a>关于ubuntu和centos cron的一些区别</h1><p><strong>写这篇文章的目的，源自<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>这篇文章遗留下来的一个问题：就是在向ubuntu的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件时，需要修改该文件的权限为<code>600</code>,也就是<code>r------</code>，该任务计划文件才能执行，否则就会报错不能执行，报出<code>(root) INSECURE MODE (mode 0600 expected)</code>这个错误，这个问题当时没有太注意，以为是umask不同的问题。直到今天再次利用ubuntu环境下的redis未授权访问漏洞反弹shell时才发现这样一个问题，就是我们并不能直接利用未授权访问漏洞去修改<code>/var/spool/cron/crontabs</code>目录下我们创建的任务计划文件的权限，所以导致任务计划文件不能执行，于是又研究了一番，偶然发现ubuntu和centos的umask是相同的，都是<code>0022</code>，说明之前自己的想法是错误的，并不是umask不同的问题，而是centos和ubuntu cron的区别，下面就来总结一下其cron的区别</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
     
 </div>
             
@@ -1517,9 +1507,67 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 53
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1535,22 +1583,27 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/2019/02/17/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >ubuntu本地提权漏洞复现学习（CVE-2019-7304）</a>
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/DDCTF2019 write up/" >DDCTF2019 write up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
         </li>
     
     
@@ -1561,11 +1614,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
-        </li>
     
     
         <li class="archive-post-item">
@@ -1772,9 +1820,55 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/ubuntu本地提权漏洞复现学习（CVE-2019-7304）/" >ubuntu本地提权漏洞复现学习（CVE-2019-7304）</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
             <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2017/12/01/Stored XSS/" >dvwa XSS(Stored)</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
@@ -1823,9 +1917,9 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
         <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
     
-        <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
-    
         <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
     
         <span class="sidebar-tag-name" data-tags="burpsuite"><span class="iconfont-archer">&#xe606;</span>burpsuite</span>
     
@@ -1845,13 +1939,13 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
         <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
     
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
         <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
     
         <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
     
         <span class="sidebar-tag-name" data-tags="算法"><span class="iconfont-archer">&#xe606;</span>算法</span>
-    
-        <span class="sidebar-tag-name" data-tags="shadowsocks"><span class="iconfont-archer">&#xe606;</span>shadowsocks</span>
     
         <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
     
@@ -1860,8 +1954,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         <span class="sidebar-tag-name" data-tags="wifi破解"><span class="iconfont-archer">&#xe606;</span>wifi破解</span>
     
         <span class="sidebar-tag-name" data-tags="exp编写"><span class="iconfont-archer">&#xe606;</span>exp编写</span>
-    
-        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
     
         <span class="sidebar-tag-name" data-tags="反弹shell"><span class="iconfont-archer">&#xe606;</span>反弹shell</span>
     
@@ -1906,9 +1998,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="其它"><span class="iconfont-archer">&#xe60a;</span>其它</span>
     
-        <span class="sidebar-category-name" data-categories="漏洞挖掘"><span class="iconfont-archer">&#xe60a;</span>漏洞挖掘</span>
-    
         <span class="sidebar-category-name" data-categories="ctf"><span class="iconfont-archer">&#xe60a;</span>ctf</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞挖掘"><span class="iconfont-archer">&#xe60a;</span>漏洞挖掘</span>
     
         <span class="sidebar-category-name" data-categories="工具使用"><span class="iconfont-archer">&#xe60a;</span>工具使用</span>
     
@@ -1928,8 +2020,6 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
     
-        <span class="sidebar-category-name" data-categories="科学上网"><span class="iconfont-archer">&#xe60a;</span>科学上网</span>
-    
         <span class="sidebar-category-name" data-categories="漏洞复现"><span class="iconfont-archer">&#xe60a;</span>漏洞复现</span>
     
         <span class="sidebar-category-name" data-categories="无线安全"><span class="iconfont-archer">&#xe60a;</span>无线安全</span>
@@ -1943,7 +2033,7 @@ jsonContent:
     <script>
     var siteMeta = {
         root: "/",
-        author: "C1imber"
+        author: "c1ay"
     }
 </script>
     <!-- CDN failover -->
