@@ -359,6 +359,35 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >
+            
+                <span>记一次ctf极限利用-不包含数字字母的webshell</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="记一次ctf极限利用-不包含数字字母的webshell"><a href="#记一次ctf极限利用-不包含数字字母的webshell" class="headerlink" title="记一次ctf极限利用-不包含数字字母的webshell"></a>记一次ctf极限利用-不包含数字字母的webshell</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>问题来自于同事给我一道安恒的ctf赛题，题目代码如下</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">include <span class="string">'flag.php'</span>;</div><div class="line"><span class="keyword">if</span>(isset(<span class="variable">$_GET</span>[<span class="string">'code'</span>]))&#123;</div><div class="line">    <span class="variable">$code</span> = <span class="variable">$_GET</span>[<span class="string">'code'</span>];</div><div class="line">    <span class="keyword">if</span>(strlen(<span class="variable">$code</span>)&gt;35)&#123;</div><div class="line">        die(<span class="string">"Long."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/[A-Za-z0-9_$]+/"</span>,<span class="variable">$code</span>))&#123;</div><div class="line">        die(<span class="string">"NO."</span>);</div><div class="line">    &#125;</div><div class="line">    @<span class="built_in">eval</span>(<span class="variable">$code</span>);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    highlight_file(__FILE__);</div><div class="line">&#125;</div><div class="line">//<span class="variable">$hint</span> =  <span class="string">"php function getFlag() to get flag"</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/09/07/Ecshop2.x & 3.x版本最新漏洞分析与利用/" >
             
                 <span>Ecshop2.x注入漏洞&amp;代码执行漏洞分析</span>
@@ -612,35 +641,6 @@ height:50vh;
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "sql注入">sql注入</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/06/07/upload-labs记录/" >
-            
-                <span>upload-labs记录</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="upload-labs记录"><a href="#upload-labs记录" class="headerlink" title="upload-labs记录"></a>upload-labs记录</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>最近在圈子里看到的一个文件上传闯关靶场，一共有19关，趁着这个机会做一个教程，以下的内容只是自己的思路，绕过方法有很多种，欢迎大家一起交流，共同学习！</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "文件上传">文件上传</a>
     
 </div>
             
@@ -1586,9 +1586,74 @@ height:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 47
+        Total : 48
         </div>
         <!-- search  -->
         
@@ -1620,6 +1685,11 @@ height:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2019/03/17/渗透技巧-使用dnslog加快盲注速度(MSSQL篇)/" >渗透技巧-使用dnslog加快盲注速度(MSSQL篇)</a>
         </li>
     
     
