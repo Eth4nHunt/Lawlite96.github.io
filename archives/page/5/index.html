@@ -346,6 +346,35 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2017/12/21/DVWA DOM XSS/" >
+            
+                <span>dvwa XSS(DOM)</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="dvwa-DOM型XSS"><a href="#dvwa-DOM型XSS" class="headerlink" title="dvwa DOM型XSS"></a>dvwa DOM型XSS</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在介绍dom xss之前 ，首先需要明白一个非常重要的地方：反射型xss和存储型xss指的是用户输入的js恶意代码经过服务器响应后直接输出，或者存储到了服务器后直接输出，然后通过浏览器js解析引擎解析后直接执行触发，而dom型xss指的是用户输入的js恶意代码经过服务器响应后并不会直接被浏览器js解析解析触发，而是经过一些javascript dom渲染后，构造完dom树后，浏览器解析时，才会被js的解析引擎解析执行，本质上的区别：dom xss需要页面经过dom渲染，构造完dom树时才被解析触发，但是反射型是直接被浏览器的js解析引擎解析触发，这也正是为什么我们查看页面源代码和使用firebug查看元素时看到的内容不一样的原因，一个是没有经过dom渲染，一个是经过dom渲染过后的，这也是在xss漏洞挖掘时，判断输入点和输出点很重要的一个细节</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "dvwa学习">dvwa学习</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/12/01/DVWA 存储型XSS/" >
             
                 <span>dvwa XSS(Stored)</span>
@@ -1466,14 +1495,9 @@ url:http://182.254.246.93/entrance.php
     
     
     
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 48
+        Total : 49
         </div>
         <!-- search  -->
         
@@ -1483,6 +1507,34 @@ url:http://182.254.246.93/entrance.php
     
     
     
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
@@ -1727,11 +1779,6 @@ url:http://182.254.246.93/entrance.php
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
         </li>
     
@@ -1796,6 +1843,8 @@ url:http://182.254.246.93/entrance.php
     
         <span class="sidebar-tag-name" data-tags="文件上传"><span class="iconfont-archer">&#xe606;</span>文件上传</span>
     
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1858,6 +1907,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="漏洞复现"><span class="iconfont-archer">&#xe60a;</span>漏洞复现</span>
     
         <span class="sidebar-category-name" data-categories="无线安全"><span class="iconfont-archer">&#xe60a;</span>无线安全</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞分析"><span class="iconfont-archer">&#xe60a;</span>漏洞分析</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
