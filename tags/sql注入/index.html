@@ -351,7 +351,15 @@
                 <span>渗透技巧-使用dnslog加快盲注速度(MSSQL篇)</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            渗透技巧-使用dnslog加快盲注速度(MSSQL篇)关于dnslog盲注，之前写过的两篇文章：
+渗透技巧-使用dnslog加快盲注速度(MYSQL篇)
+记一次dnslog接收异常分析
+这一次详细的总结一下dnslog在mssql盲注当中的使用
+前提条件1.服务器操作系统为windows
+2.mssql数据库支持master..xp_dirtree存储过程
+3.mssql注入点支持执行多语句
+4.mssql相对与mysql的优势在于可以执行系统命令，前提是需要支持master..xp_cmdshell存储过程。
+可以看到，相比于mysql数据库，mssql的利用方法相对来说更多一些，下面...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->

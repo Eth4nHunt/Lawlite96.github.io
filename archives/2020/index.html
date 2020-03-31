@@ -351,7 +351,15 @@
                 <span>暴力破解-百度api识别图形验证码学习记录</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            暴力破解-百度api识别图形验证码学习记录目标登录口如下，通过登录返回信息的不同，已经确认用户名为admin：
+
+登录失败时，再次尝试会提示验证码错误，说明验证码在登录错误后失效了，经过测试确定验证码由JSESSIONID控制
+
+但是可以看到这里的验证码属于比较简单的验证码，应该可以很容易的识别出来
+尝试使用pytesseract，但是由于验证码有噪点和干扰线等因素，导致识别率不高，这里可以通过训练去提高识别率，但是前几天刚好看了一篇通过百度api识别图形验证码的文章，于是打算尝试一下，使用的是通用文字识别
+
+接口描述（官方）：
+基于业界领先的深度学习技术，提供多场景、多语种、高精度的整...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->

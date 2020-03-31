@@ -351,7 +351,15 @@
                 <span>暴力破解-百度api识别图形验证码学习记录</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            暴力破解-百度api识别图形验证码学习记录目标登录口如下，通过登录返回信息的不同，已经确认用户名为admin：
+
+登录失败时，再次尝试会提示验证码错误，说明验证码在登录错误后失效了，经过测试确定验证码由JSESSIONID控制
+
+但是可以看到这里的验证码属于比较简单的验证码，应该可以很容易的识别出来
+尝试使用pytesseract，但是由于验证码有噪点和干扰线等因素，导致识别率不高，这里可以通过训练去提高识别率，但是前几天刚好看了一篇通过百度api识别图形验证码的文章，于是打算尝试一下，使用的是通用文字识别
+
+接口描述（官方）：
+基于业界领先的深度学习技术，提供多场景、多语种、高精度的整...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -545,7 +553,15 @@ http://117.78.39.172:32689/?inject=-1%...
                 <span>渗透技巧-使用dnslog加快盲注速度(MSSQL篇)</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            渗透技巧-使用dnslog加快盲注速度(MSSQL篇)关于dnslog盲注，之前写过的两篇文章：
+渗透技巧-使用dnslog加快盲注速度(MYSQL篇)
+记一次dnslog接收异常分析
+这一次详细的总结一下dnslog在mssql盲注当中的使用
+前提条件1.服务器操作系统为windows
+2.mssql数据库支持master..xp_dirtree存储过程
+3.mssql注入点支持执行多语句
+4.mssql相对与mysql的优势在于可以执行系统命令，前提是需要支持master..xp_cmdshell存储过程。
+可以看到，相比于mysql数据库，mssql的利用方法相对来说更多一些，下面...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
