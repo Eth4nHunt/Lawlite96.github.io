@@ -359,6 +359,39 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >
+            
+                <span>记一次漏洞组合拳-水平越权+Self XSS漏洞</span>
+        </a>
+        <div class="abstract-content">
+            记一次漏洞组合拳-水平越权+Self XSS漏洞在一次漏洞挖掘当中，发现在用户中心设置信息的位置存在存储型xss漏洞，尝试新增常用联系人，在详细地址的位置插入xss的payload，可以发现成功弹出了Cookie
+
+1&lt;script&gt;alert(document.cookie)&lt;/script&gt;
+
+但是此处有可能只是一个selfxss，如果只是能打到自己的cookie，那么这个存储型xss就会显得很鸡肋。但是这个网站存在一个越权添加个人信息的漏洞，越权的漏洞之前也提交过一次，在添加的时候通过修改user_id可以越权将信息添加到其它用户里，在这里可以利用越权漏洞将...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/08</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞挖掘">漏洞挖掘</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" >
             
                 <span>Linux下几种反弹shell方法的总结与理解</span>
@@ -615,39 +648,10 @@ height:50vh;
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/05/19/Apache安全加固/" >
-            
-                <span>Apache安全加固</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="Apache安全加固"><a href="#Apache安全加固" class="headerlink" title="Apache安全加固"></a>Apache安全加固</h1><p><strong>这篇文章记录了针对apache几种安全问题所进行的安全加固手段，环境为Centos</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Apache">Apache</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">NEXT &#62;</a>
+        <a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">NEXT &#62;</a>
     </nav>
     
 </main>
@@ -1613,30 +1617,9 @@ height:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 50
+        Total : 51
         </div>
         <!-- search  -->
         
@@ -1649,6 +1632,11 @@ height:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2020/04/22/通达OA任意用户登录/" >通达OA任意用户登录</a>
+        </li>
     
     
         <li class="archive-post-item">

