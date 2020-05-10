@@ -346,6 +346,64 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/08/18/关于ubuntu和centos cron的一些区别/" >
+            
+                <span>关于ubuntu和centos cron的一些区别</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="关于ubuntu和centos-cron的一些区别"><a href="#关于ubuntu和centos-cron的一些区别" class="headerlink" title="关于ubuntu和centos cron的一些区别"></a>关于ubuntu和centos cron的一些区别</h1><p><strong>写这篇文章的目的，源自<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>这篇文章遗留下来的一个问题：就是在向ubuntu的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件时，需要修改该文件的权限为<code>600</code>,也就是<code>r------</code>，该任务计划文件才能执行，否则就会报错不能执行，报出<code>(root) INSECURE MODE (mode 0600 expected)</code>这个错误，这个问题当时没有太注意，以为是umask不同的问题。直到今天再次利用ubuntu环境下的redis未授权访问漏洞反弹shell时才发现这样一个问题，就是我们并不能直接利用未授权访问漏洞去修改<code>/var/spool/cron/crontabs</code>目录下我们创建的任务计划文件的权限，所以导致任务计划文件不能执行，于是又研究了一番，偶然发现ubuntu和centos的umask是相同的，都是<code>0022</code>，说明之前自己的想法是错误的，并不是umask不同的问题，而是centos和ubuntu cron的区别，下面就来总结一下其cron的区别</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/08/17/解决ubuntu任务计划写shell失败的问题/" >
+            
+                <span>解决ubuntu任务计划写shell失败的问题</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="解决ubuntu任务计划写shell失败的问题"><a href="#解决ubuntu任务计划写shell失败的问题" class="headerlink" title="解决ubuntu任务计划写shell失败的问题"></a>解决ubuntu任务计划写shell失败的问题</h1><p><strong>这个问题的由来是因为自己在复现redis未授权访问漏洞时，通过向linux任务计划文件里写反弹shell的命令时，发现shell并不能反弹回来，之前使用的server端为Centos，一切顺利并没有出现这种问题，结果这次server换成了ubuntu，就出现不能反弹的问题，结果因为这个问题卡了很久，最终在kakaxi和ttgo2两位老师的指导和帮助下才解决了该问题，将整个问题的解决过程在这里记录一下~</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >
             
                 <span>记一次漏洞组合拳-水平越权+Self XSS漏洞</span>
@@ -571,64 +629,6 @@
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "算法">算法</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/06/03/burpsuite中配置使用sqlmapapi/" >
-            
-                <span>burpsuite中配置使用sqlmapapi</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="burpsuite中配置使用sqlmapapi"><a href="#burpsuite中配置使用sqlmapapi" class="headerlink" title="burpsuite中配置使用sqlmapapi"></a>burpsuite中配置使用sqlmapapi</h1><p><strong>burpsuite的Extender中有很多有用的扩展插件可以方便安全人员渗透测试，其中一个名为<code>SQLiPY</code>的插件可以直接在burpsuite中调用sqlmapapi进行测试，自己在安装这个插件的时候遇到了很多坑，属于那种百度谷歌都查不出解决方案的问题。最终终于捣腾出来了，在这记录一下</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/03</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "burpsuite">burpsuite</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/05/25/ISCC2018 write up/" >
-            
-                <span>ISCC2018 write up</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="ISCC2018-write-up"><a href="#ISCC2018-write-up" class="headerlink" title="ISCC2018 write up"></a>ISCC2018 write up</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>参加2018年的ISCC竞赛，将做出的题记录到这里,记录一下思路，沉淀一下</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
             
@@ -1489,9 +1489,101 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 53
         </div>
         <!-- search  -->
         
@@ -1502,8 +1594,41 @@
     
     
     
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python optparse模块学习/" >python optparse模块学习</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/04/26/记一次出题记录/" >记一次ctf出题记录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2020/05/10/2020网鼎杯青龙组-php反序列化/" >2020网鼎杯青龙组-php反序列化</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1650,11 +1775,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python optparse模块学习/" >python optparse模块学习</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2018/06/04/python有序二分查找算法学习/" >python有序二分查找算法学习</a>
         </li>
     
@@ -1758,6 +1878,16 @@
         </li>
     
     
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2017/11/22/DVWA CSRF/" >dvwa CSRF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
+        </li>
+    
+    
     
     
     
@@ -1779,16 +1909,6 @@
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2017/11/22/DVWA CSRF/" >dvwa CSRF</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
-        </li>
     
     
         <li class="archive-post-item">
