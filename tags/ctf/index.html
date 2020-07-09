@@ -351,7 +351,14 @@
                 <span>2020宁波市第三届网络安全大赛-web题writeup</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            序比赛时间只有一下午，最终很遗憾没有进入线下，菜是原罪，将过程记录一下吧
+web签到提示：这是只有本地管理员权限才能访问的页面，你想要越权访问？
+直接X-Forwarded-For: 127.0.0.1结合Cookie: user=admin
+
+easy_sql在这道题上花了一些时间，注入类型为数字型，注入点的位置应该是在where xxx=xxx的位置，经过一番测试发现最基本的注入语句都被过滤了，很大可能是是基于正则的过滤，经过fuzz后猜测一些过滤规则如下：
+首先尝试union select进行回显，发现过滤规则如下：
+出现数字+任意字符+SQL关键字（这里的正则没有绕过）
+1sel...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
