@@ -346,6 +346,36 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/01/12/KPPW25xss/" >
+            
+                <span>KPPW2.5XSS引起的CSRF</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="kppw2-5XSS漏洞分析与复现（可csrf）"><a href="#kppw2-5XSS漏洞分析与复现（可csrf）" class="headerlink" title="kppw2.5XSS漏洞分析与复现（可csrf）"></a>kppw2.5XSS漏洞分析与复现（可csrf）</h1><h3 id="漏洞说明"><a href="#漏洞说明" class="headerlink" title="漏洞说明"></a>漏洞说明</h3><pre><code>http://192.168.50.157/kppw25/index.php?do=user&amp;view=message&amp;op=send
+</code></pre><p><strong>收件人填目标用户名,标题随便,内容没有转义 ,所以提交内容处可能存在xss，不过过滤了敏感标签和 onerror onload等事件。虽然不能加载js代码，但是还是可以注入html代码，可以用xss漏洞注入html代码触发csrf</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞利用">漏洞利用</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/01/11/KPPW25fileupload/" >
             
                 <span>KPPW2.5文件上传导致远程代码执行</span>
@@ -601,35 +631,6 @@
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/22/DVWA CSRF/" >
-            
-                <span>dvwa CSRF</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="dvwa-CSRF"><a href="#dvwa-CSRF" class="headerlink" title="dvwa CSRF"></a>dvwa CSRF</h1><h3 id="csrf漏洞"><a href="#csrf漏洞" class="headerlink" title="csrf漏洞"></a>csrf漏洞</h3><p><strong>csrf的全称为跨站请求伪造，都有着跨站两字，但和之前的xss(跨站脚本攻击)不同的是csrf是利用目标网站用户的身份去做一些事情，相当于借刀杀人，突出在伪造两字，下面通过dvwa来研究一下csrf，使用csrf修改网站用户密码</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "dvwa学习">dvwa学习</a>
     
 </div>
             
@@ -1533,9 +1534,252 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 54
+        Total : 55
         </div>
         <!-- search  -->
         
@@ -1545,6 +1789,34 @@
     
     
     
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2018/08/18/关于ubuntu和centos cron的一些区别/" >关于ubuntu和centos cron的一些区别</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
@@ -1660,11 +1932,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2018/08/18/关于ubuntu和centos cron的一些区别/" >关于ubuntu和centos cron的一些区别</a>
         </li>
     
     
@@ -1797,17 +2064,18 @@
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2017/12/01/DVWA 存储型XSS/" >dvwa XSS(Stored)</a>
+        </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+            <span class="archive-post-date">11/28</span><a class="archive-post-title" href= "/2017/11/28/DVWA反射型XSS/" >dvwa XSS(Reflected)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
         </li>
     
     
@@ -1835,21 +2103,6 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2017/12/01/DVWA 存储型XSS/" >dvwa XSS(Stored)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/28</span><a class="archive-post-title" href= "/2017/11/28/DVWA反射型XSS/" >dvwa XSS(Reflected)</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">11/22</span><a class="archive-post-title" href= "/2017/11/22/DVWA CSRF/" >dvwa CSRF</a>
         </li>
     
@@ -1857,6 +2110,29 @@
         <li class="archive-post-item">
             <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
