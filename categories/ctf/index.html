@@ -387,7 +387,13 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
                 <span>2020网鼎杯朱雀组-部分web</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            phpweb打开页面查看源码，发现有个隐藏表单会固定时间自动提交一些参数，如下
+
+通过提交的内容很容易想到了php代码执行，但是经过简单测试发现好像过滤了很多函数，那么首先尝试读取源码
+1func=file_get_contents&amp;p=index.php
+
+获取到源码如下，很容易看到代码执行
+123456789101112131415161718192021222324252627282930&lt;?php$disable_fun = array("exec","shell_exec","system","passthru","proc_open","show_source"...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
