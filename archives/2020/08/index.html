@@ -346,6 +346,39 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/08/31/2020GACTF writeup/" >
+            
+                <span>2020GACTF writeup</span>
+        </a>
+        <div class="abstract-content">
+            simpleflaskhttp://124.70.153.63/
+POST访问后提示request.form[“name”]，传入name进行测试，发现存在flask ssti,但是禁用了一些字符，构造以下payload获取flag
+1name=&#123;&#123;().__class__.__base__.__subclasses__()[77].__init__.__globals__["__builtins__"]["open"]("/FLAG".lower()).read()&#125;&#125;
+绕过：
+(&#39;-&gt;&quot;、/flag-&gt;&quot;...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/08/31</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/08/28/2020钓鱼城杯writeup/" >
             
                 <span>2020钓鱼城杯writeup</span>
@@ -1468,142 +1501,9 @@ index.php
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 58
+        Total : 59
         </div>
         <!-- search  -->
         
@@ -1614,36 +1514,13 @@ index.php
     
     
     
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/" >渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2020/08/31/2020GACTF writeup/" >2020GACTF writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1790,6 +1667,11 @@ index.php
     
     
         <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/" >渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
             <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2018/06/07/upload-labs记录/" >upload-labs记录</a>
         </li>
     
@@ -1908,29 +1790,6 @@ index.php
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
             <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
         </li>
@@ -1951,26 +1810,7 @@ index.php
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
         </li>
     
     
@@ -1995,6 +1835,53 @@ index.php
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+        </li>
     
     
         <li class="archive-post-item">
