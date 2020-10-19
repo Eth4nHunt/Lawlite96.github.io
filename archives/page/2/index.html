@@ -346,6 +346,37 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/10/phpweb前台任意文件上传/" >
+            
+                <span>phpweb前台任意文件上传</span>
+        </a>
+        <div class="abstract-content">
+            phpweb前台任意文件上传漏洞分析存在漏洞的代码位置：
+/base/appplus.php
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879//密钥校验$k=md5(strrev($dbUser.$dbPass));$h=$_SERVER["HTTP_REFERER"];$t=$_POST["t"];$m=$_POST["m"];$act=...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/10</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞分析">漏洞分析</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/11/03/ctf记录-记一次有趣的注入/" >
             
                 <span>ctf记录-记一次有趣的注入</span>
@@ -636,36 +667,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/10/26/PHP反序列化漏洞学习-绕过_wakeup()函数/" >
-            
-                <span>PHP反序列化漏洞学习-绕过_wakeup()函数</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="PHP反序列化漏洞学习-绕过-wakeup-函数"><a href="#PHP反序列化漏洞学习-绕过-wakeup-函数" class="headerlink" title="PHP反序列化漏洞学习-绕过_wakeup()函数"></a>PHP反序列化漏洞学习-绕过_wakeup()函数</h1><h3 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h3><p><strong>代码如下，要求利用php反序列化漏洞去读取<code>flag.php</code>文件中的内容</strong></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">&lt;?php</span></div><div class="line"> <span class="class"><span class="keyword">class</span> <span class="title">SoFun</span></span>&#123; </div><div class="line">    <span class="keyword">protected</span> $file=<span class="string">'index.php'</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123; </div><div class="line">      <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;file)) &#123;</div><div class="line">       <span class="keyword">if</span>(strchr(<span class="keyword">$this</span>-&gt; file,<span class="string">"\\"</span>)===<span class="keyword">false</span> &amp;&amp;  strchr(<span class="keyword">$this</span>-&gt;file, <span class="string">'/'</span>)===<span class="keyword">false</span>)</div><div class="line">          show_source(dirname (<span class="keyword">__FILE__</span>).<span class="string">'/'</span>.<span class="keyword">$this</span> -&gt;file);</div><div class="line">       <span class="keyword">else</span>      <span class="keyword">die</span>(<span class="string">'Wrong filename.'</span>);</div><div class="line">      &#125;&#125;  </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123; <span class="keyword">$this</span>-&gt; file=<span class="string">'index.php'</span>; &#125; </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="string">''</span> ;&#125;&#125;     </div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($_GET[<span class="string">'file'</span>]))&#123; show_source(<span class="string">'index.php'</span>); &#125; </div><div class="line">    <span class="keyword">else</span>&#123; </div><div class="line">       $file=base64_decode( $_GET[<span class="string">'file'</span>]); </div><div class="line">       <span class="keyword">echo</span> unserialize($file ); &#125; </div><div class="line"><span class="meta">?&gt;</span>   <span class="comment">#&lt;!--key in flag.php--&gt;</span></div></pre></td></tr></table></figure>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
     
 </div>
             
@@ -1416,14 +1417,9 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 44
+        Total : 45
         </div>
         <!-- search  -->
         
@@ -1436,6 +1432,11 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2020/10/19/2020 N1CTF writeup/" >2020GACTF writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1601,43 +1602,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
             <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python optparse模块学习/" >python optparse模块学习</a>
         </li>
@@ -1663,11 +1627,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </li>
     
     
-        <li class="archive-post-item">
-            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/ARP协议分析以及用python实现一次ARP欺骗/" >ARP协议分析以及用python实现一次ARP欺骗</a>
-        </li>
-    
-    
     
     
     
@@ -1678,7 +1637,21 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/ARP协议分析以及用python实现一次ARP欺骗/" >ARP协议分析以及用python实现一次ARP欺骗</a>
         </li>
     
     
@@ -1706,7 +1679,21 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
         </li>
     
     
@@ -1717,6 +1704,11 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
