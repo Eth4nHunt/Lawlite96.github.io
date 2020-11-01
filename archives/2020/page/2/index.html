@@ -346,6 +346,40 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/04/22/通达OA任意用户登录/" >
+            
+                <span>通达OA任意用户登录</span>
+        </a>
+        <div class="abstract-content">
+            通达OA任意用户登录漏洞分析分析文章：https://mp.weixin.qq.com/s/yJuLhC1GxkMbGL0mRORIoA
+本地测试版本：2017、v11.3,这两个版本，奇怪的是，在这两个版本的源码当中，都没有找到分析文章当中对CODE_LOGIN.$CODEUID进行判断的那块代码
+
+漏洞位置：
+logincheck_code.php
+这里$UID可控，当$_POST[&#39;UID&#39;]为1时，会直接从数据库USER表查询查询系统管理员的信息，然后直接将结果直接赋值给$_SESSION变量，获取系统管理员登录权限（缺少对CODE_LOGIN.$CODEUID的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞分析">漏洞分析</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/01/10/phpweb前台任意文件上传/" >
             
                 <span>phpweb前台任意文件上传</span>
@@ -1115,9 +1149,48 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 46
         </div>
         <!-- search  -->
         
@@ -1130,6 +1203,11 @@
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2020/11/02/weblogic cve-2020-14882 漏洞复现以及回显方式研究/" >weblogic cve-2020-14882 漏洞复现以及回显方式研究</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1325,29 +1403,6 @@
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
             <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/ARP协议分析以及用python实现一次ARP欺骗/" >ARP协议分析以及用python实现一次ARP欺骗</a>
         </li>
@@ -1392,6 +1447,20 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
         </li>
     
     
