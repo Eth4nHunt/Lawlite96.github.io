@@ -346,6 +346,77 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >
+            
+                <span>2020宁波市第三届网络安全大赛-web题writeup</span>
+        </a>
+        <div class="abstract-content">
+            序比赛时间只有一下午，最终很遗憾没有进入线下，菜是原罪，将过程记录一下吧
+web签到提示：这是只有本地管理员权限才能访问的页面，你想要越权访问？
+直接X-Forwarded-For: 127.0.0.1结合Cookie: user=admin
+
+easy_sql在这道题上花了一些时间，注入类型为数字型，注入点的位置应该是在where xxx=xxx的位置，经过一番测试发现最基本的注入语句都被过滤了，很大可能是是基于正则的过滤，经过fuzz后猜测一些过滤规则如下：
+首先尝试union select进行回显，发现过滤规则如下：
+出现数字+任意字符+SQL关键字（这里的正则没有绕过）
+1sel...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/25</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/17/2020网鼎杯朱雀组-部分web/" >
+            
+                <span>2020网鼎杯朱雀组-部分web</span>
+        </a>
+        <div class="abstract-content">
+            phpweb打开页面查看源码，发现有个隐藏表单会固定时间自动提交一些参数，如下
+
+通过提交的内容很容易想到了php代码执行，但是经过简单测试发现好像过滤了很多函数，那么首先尝试读取源码
+1func=file_get_contents&amp;p=index.php
+
+获取到源码如下，很容易看到代码执行
+123456789101112131415161718192021222324252627282930&lt;?php$disable_fun = array("exec","shell_exec","system","passthru","proc_open","show_source"...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/05/10/2020网鼎杯青龙组-php反序列化/" >
             
                 <span>2020网鼎杯青龙组-php反序列化</span>
@@ -601,74 +672,6 @@ http://117.78.39.172:32689/?inject=-1%...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "sql注入">sql注入</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/01/11/记一次dnslog接收异常分析/" >
-            
-                <span>记一次dnslog接收异常分析</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="记一次dnslog接收异常分析"><a href="#记一次dnslog接收异常分析" class="headerlink" title="记一次dnslog接收异常分析"></a>记一次dnslog接收异常分析</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>在一次渗透的过程中，遇到了sqlserver的注入点，在使用dnslog接收语句的执行结果时发现可以执行系统命令，但是在接收结果的时候遇到了些问题，问题如下</strong></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/01/11</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "渗透测试">渗透测试</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >
-            
-                <span>phpcms2008 type.php代码执行漏洞分析与复现</span>
-        </a>
-        <div class="abstract-content">
-            phpcms2008 type.php代码执行漏洞分析与复现phpcms2008安装问题：安装时出现如下错误
-修改以下文件”TYPE=MyISAM”处，修改为”ENGINE=MyISAM”
-php文件：
-/ads/include/create.table.php
-/install.php
-/include/admin/global.func.php
-/include/admin/sql.func.php
-/install/install.php
-以及所有的.sql文件，”TYPE=MyISAM”修改为”ENGINE=MyISAM”就可以安装成功了
-漏洞利用：payload:
-在存在漏洞的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/21</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "代码审计">代码审计</a>
     
 </div>
             
@@ -1467,43 +1470,9 @@ php文件：
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 47
+        Total : 49
         </div>
         <!-- search  -->
         
@@ -1516,6 +1485,11 @@ php文件：
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/14</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯总决赛web题/" >2020网鼎杯总决赛web题</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1740,18 +1714,45 @@ php文件：
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
             <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
         </li>
     
     
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
-        </li>
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     
@@ -1774,8 +1775,32 @@ php文件：
     
         </ul>
     
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1793,35 +1818,7 @@ php文件：
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
         </li>
     
     </div>
