@@ -346,12 +346,49 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/01/15/2020全国电信和互联网行业网络安全竞赛线下个人赛wp/" >
+            
+                <span>2020全国电信和互联网行业网络安全竞赛线下个人赛wp</span>
+        </a>
+        <div class="abstract-content">
+            序12月份参加的线下赛，补一下，个人赛成绩不怎么好，在这记录一下
+webweb3:
+12345678910111213141516&lt;?phperror_reporting(0);//flag is located in flag.phpif( isset($_GET['a']) )&#123;    $a = $_GET['a'];    if( strlen($a)&gt;27 )&#123;        die(strval(strlen($a)) . " Long.");    &#125;    if( preg_match("/[A-Zb-z0-9_$.&amp;;|^...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/01/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/12/14/2020网鼎杯总决赛web题/" >
             
                 <span>2020网鼎杯总决赛web题</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            game_exp漏洞一：phar反序列化
+regiter.php当中第3行-第9行：
+1234567class AnyClass&#123;    var $output = 'echo "ok";';    function __destruct()    &#123;        eval($this -&gt; output);    &#125;&#125;
+AnyClass类的__destruct存在反序列化，而第31行file_exists函数刚好可以触发phar反序列化
+
+poc构造
+123456789101112131415&lt;?phpclass AnyClass&...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -380,7 +417,8 @@
                 <span>2020网鼎杯半决赛web题</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            序第一次参加网鼎杯线下，由于太忙，这篇文章晚了一些，这次网鼎的赛制不同于以往线下的AWD模式，而是以一种AWD Plus的模式。
+AWD Plus规则简述每个队伍会有相同的靶机和题目源码，得分分值分为攻击分值和防御分值两部分，攻击分值就是选手需要先找到靶机存在的漏洞，然后通过构造可以利用成功的exp获取靶机的flag提交获取的分值，防御分值是选手需要提交相应的修复代码给平台，平台每隔一段时间会自动对赛场选手的靶机进行攻击，被平台攻击成功的队伍获取flag的队伍会失去防御分值，反之，防御成功就会获得相应的防御分值，还有一点需要注意的就是选手提交的修复代码不能导致靶机环境服务异常，否则会有异...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -613,35 +651,6 @@ index.php
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/08/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞分析">漏洞分析</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >
-            
-                <span>Apache SkyWalking SQL注入漏洞-CVE-2020-13921</span>
-        </a>
-        <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/08/08</span>
             </div>
             <!-- tags  -->
             
@@ -1446,9 +1455,136 @@ index.php
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 49
+        Total : 50
         </div>
         <!-- search  -->
         
@@ -1458,6 +1594,34 @@ index.php
     
     
     
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/15/2020全国电信和互联网行业网络安全竞赛线下个人赛wp/" >2020全国电信和互联网行业网络安全竞赛线下个人赛wp</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
@@ -1616,9 +1780,27 @@ index.php
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
-            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
@@ -1690,45 +1872,13 @@ index.php
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
             <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
         </li>
     
     
@@ -1756,7 +1906,21 @@ index.php
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     
@@ -1767,11 +1931,6 @@ index.php
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
-        </li>
     
     
         <li class="archive-post-item">
@@ -1794,7 +1953,7 @@ index.php
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
         </li>
     
     </div>
