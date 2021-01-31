@@ -351,7 +351,11 @@
                 <span>shellcode-uuid免杀</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            参考文章RIFT: Analysing a Lazarus Shellcode Execution Method
+生成uuid使用cobaltstrike生成python shellcodeAttacks-&gt;Packages-&gt;Payload Generator语言选择python（什么语言都可以），这里选择了生成x64的shellcode
+
+用python将shellcode转为uuid，因为uuid.UUID(bytes_le=u)当中u的长度需要为16字节，所以需要将shellcode进行分组，每组16字节，不足的用\x00补位
+12345678import uuids...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
