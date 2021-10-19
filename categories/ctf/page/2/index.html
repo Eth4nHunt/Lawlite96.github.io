@@ -346,6 +346,41 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/05/17/2020网鼎杯朱雀组-部分web/" >
+            
+                <span>2020网鼎杯朱雀组-部分web</span>
+        </a>
+        <div class="abstract-content">
+            phpweb打开页面查看源码，发现有个隐藏表单会固定时间自动提交一些参数，如下
+
+通过提交的内容很容易想到了php代码执行，但是经过简单测试发现好像过滤了很多函数，那么首先尝试读取源码
+1func=file_get_contents&amp;p=index.php
+
+获取到源码如下，很容易看到代码执行
+123456789101112131415161718192021222324252627282930&lt;?php$disable_fun = array("exec","shell_exec","system","passthru","proc_open","show_source"...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/05/10/2020网鼎杯青龙组-php反序列化/" >
             
                 <span>2020网鼎杯青龙组-php反序列化</span>
@@ -614,35 +649,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/13</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/03/12/N1CTF2018 77777 writeup/" >
-            
-                <span>N1CTF2018 77777 writeup</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="N1CTF2018-77777-writeup"><a href="#N1CTF2018-77777-writeup" class="headerlink" title="N1CTF2018 77777 writeup"></a>N1CTF2018 77777 writeup</h1><h3 id="序"><a href="#序" class="headerlink" title="序"></a>序</h3><p><strong>之前比赛开始时看了签到题，死活没写出来，泪，之后听同学说起了这道题，在结束前不到一小时做了做，无奈比赛结束，flag没交上去，那就记录一下过程吧</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/12</span>
             </div>
             <!-- tags  -->
             
@@ -1662,70 +1668,9 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1736,36 +1681,13 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
     
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/" >通过2021 ByteCTF double sqli初探clickghouse sqli</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1948,6 +1870,29 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
             <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
         </li>
@@ -2061,7 +2006,35 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
         </li>
     
     
@@ -2098,39 +2071,6 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
         </li>
     
     
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
-        </li>
-    
-    
     
     
     
@@ -2152,6 +2092,16 @@ http://39.108.176.234:49882/news/list.php?id=b3FCRU5iOU9IemZYc1...
     
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+        </li>
     
     
         <li class="archive-post-item">

