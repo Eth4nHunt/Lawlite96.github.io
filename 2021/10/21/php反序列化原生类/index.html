@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">372</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">395</span>阅读时长: <span class="post-count reading-time">2 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -401,7 +401,8 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <h1 id="php反序列化原生类"><a href="#php反序列化原生类" class="headerlink" title="php反序列化原生类"></a>php反序列化原生类</h1><h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p><strong>2021第二届全国电信和互联网行业职业技能竞赛-SimplePHP</strong></p>
+        <h1 id="php反序列化原生类"><a href="#php反序列化原生类" class="headerlink" title="php反序列化原生类"></a>php反序列化原生类</h1><p>记录一下在ctf当中遇到的有关php反序列化原生类的利用</p>
+<h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><p><strong>2021第二届全国电信和互联网行业职业技能竞赛-SimplePHP</strong></p>
 <p>源码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment">    maybe you need get the contents in hint.php!</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">    Ohhhhh you don't know how to get it?</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">    Why don't you try readfile?</span></div><div class="line"><span class="comment">**/</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">show_source(<span class="keyword">__FILE__</span>);</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">Class</span> <span class="title">Hello</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> $filename;</div><div class="line">    <span class="keyword">public</span> $contents;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;filename = <span class="string">"hint.php"</span>;</div><div class="line">        <span class="keyword">$this</span>-&gt;contents = <span class="string">"you guess"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fileread</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"keep going"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$a = $_GET[<span class="string">"a"</span>];</div><div class="line">$b = $_GET[<span class="string">"b"</span>];</div><div class="line">$c = $_GET[<span class="string">"c"</span>];</div><div class="line">$d = $_GET[<span class="string">"d"</span>];</div><div class="line">$e = $_GET[<span class="string">"e"</span>];</div><div class="line">$f = $_GET[<span class="string">"f"</span>];</div><div class="line">$g = $_GET[<span class="string">"g"</span>];</div><div class="line"></div><div class="line"></div><div class="line">$class = <span class="keyword">new</span> $a($b);</div><div class="line">$str1 = substr($class-&gt;$c(),$d,$e);</div><div class="line">$str2 = substr($class-&gt;$c(),$f,$g);</div><div class="line">$str1($str2);</div></pre></td></tr></table></figure>
 <p>阅读源码可以看到<code>$str1($str2);</code>的位置有可能存在任意代码执行，而<code>$a、$b、$c</code>可控存在任意方法调用，这里可以利用php的内置类<code>Exception</code>的<code>__toString</code>方法来触发任意代码执行</p>
@@ -425,10 +426,10 @@ height:50vh;
     <!-- license  -->
     
         <div class="license-wrapper">
-            <p>Author：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
             <p>原文链接：<a href="https://c1aysec.github.io/2021/10/21/php反序列化原生类/">https://c1aysec.github.io/2021/10/21/php反序列化原生类/</a>
             <p>发表日期：<a href="https://c1aysec.github.io/2021/10/21/php反序列化原生类/">October 21st 2021, 11:03:12 am</a>
-            <p>更新日期：<a href="https://c1aysec.github.io/2021/10/21/php反序列化原生类/">October 21st 2021, 11:10:17 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/10/21/php反序列化原生类/">October 21st 2021, 11:12:46 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
