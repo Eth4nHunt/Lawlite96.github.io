@@ -359,6 +359,35 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/08/18/关于ubuntu和centos cron的一些区别/" >
+            
+                <span>关于ubuntu和centos cron的一些区别</span>
+        </a>
+        <div class="abstract-content">
+            <h1 id="关于ubuntu和centos-cron的一些区别"><a href="#关于ubuntu和centos-cron的一些区别" class="headerlink" title="关于ubuntu和centos cron的一些区别"></a>关于ubuntu和centos cron的一些区别</h1><p><strong>写这篇文章的目的，源自<a href="http://lawlietweb.com/2018/08/17/2018-08-17/#more" target="_blank" rel="external">解决ubuntu任务计划写shell失败的问题</a>这篇文章遗留下来的一个问题：就是在向ubuntu的<code>/var/spool/cron/crontabs</code>目录下创建任务计划文件时，需要修改该文件的权限为<code>600</code>,也就是<code>r------</code>，该任务计划文件才能执行，否则就会报错不能执行，报出<code>(root) INSECURE MODE (mode 0600 expected)</code>这个错误，这个问题当时没有太注意，以为是umask不同的问题。直到今天再次利用ubuntu环境下的redis未授权访问漏洞反弹shell时才发现这样一个问题，就是我们并不能直接利用未授权访问漏洞去修改<code>/var/spool/cron/crontabs</code>目录下我们创建的任务计划文件的权限，所以导致任务计划文件不能执行，于是又研究了一番，偶然发现ubuntu和centos的umask是相同的，都是<code>0022</code>，说明之前自己的想法是错误的，并不是umask不同的问题，而是centos和ubuntu cron的区别，下面就来总结一下其cron的区别</strong><br>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Linux">Linux</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/08/17/解决ubuntu任务计划写shell失败的问题/" >
             
                 <span>解决ubuntu任务计划写shell失败的问题</span>
@@ -613,35 +642,6 @@ height:50vh;
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "算法">算法</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/05/25/ISCC2018 write up/" >
-            
-                <span>ISCC2018 write up</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="ISCC2018-write-up"><a href="#ISCC2018-write-up" class="headerlink" title="ISCC2018 write up"></a>ISCC2018 write up</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>参加2018年的ISCC竞赛，将做出的题记录到这里,记录一下思路，沉淀一下</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
             
@@ -1819,90 +1819,9 @@ height:50vh;
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 58
+        Total : 59
         </div>
         <!-- search  -->
         
@@ -1913,36 +1832,13 @@ height:50vh;
     
     
     
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2021/11/19/2021 L3HCTF 部分web wp/" >2021 L3HCTF 部分web wp</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -2088,35 +1984,12 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2018/10/26/PHP反序列化漏洞学习-绕过_wakeup()函数/" >PHP反序列化漏洞学习-绕过_wakeup()函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
         </li>
     
     
@@ -2127,6 +2000,11 @@ height:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/02</span><a class="archive-post-title" href= "/2018/09/02/XSS绕过之中文尖括号/" >XSS绕过之中文尖括号</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
         </li>
     
     
@@ -2234,7 +2112,7 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     
@@ -2252,17 +2130,8 @@ height:50vh;
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
     
     
@@ -2276,7 +2145,7 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
         </li>
     
     
@@ -2290,7 +2159,7 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
         </li>
     
     
@@ -2318,7 +2187,35 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
         </li>
     
     
@@ -2360,7 +2257,7 @@ height:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
         </li>
     
     
@@ -2369,12 +2266,12 @@ height:50vh;
     
         </ul>
     
-    <div class="archive-year"> 2017 </div>
+    <div class="archive-year"> Invalid date </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
         </li>
     
     </div>

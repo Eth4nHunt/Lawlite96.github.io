@@ -346,6 +346,41 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/12/14/2020网鼎杯总决赛web题/" >
+            
+                <span>2020网鼎杯总决赛web题</span>
+        </a>
+        <div class="abstract-content">
+            game_exp漏洞一：phar反序列化
+regiter.php当中第3行-第9行：
+1234567class AnyClass&#123;    var $output = 'echo "ok";';    function __destruct()    &#123;        eval($this -&gt; output);    &#125;&#125;
+AnyClass类的__destruct存在反序列化，而第31行file_exists函数刚好可以触发phar反序列化
+
+poc构造
+123456789101112131415&lt;?phpclass AnyClass&...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2020/12/14/2020网鼎杯半决赛web题/" >
             
                 <span>2020网鼎杯半决赛web题</span>
@@ -620,42 +655,6 @@ index.php
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞分析">漏洞分析</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >
-            
-                <span>2020宁波市第三届网络安全大赛-web题writeup</span>
-        </a>
-        <div class="abstract-content">
-            序比赛时间只有一下午，最终很遗憾没有进入线下，菜是原罪，将过程记录一下吧
-web签到提示：这是只有本地管理员权限才能访问的页面，你想要越权访问？
-直接X-Forwarded-For: 127.0.0.1结合Cookie: user=admin
-
-easy_sql在这道题上花了一些时间，注入类型为数字型，注入点的位置应该是在where xxx=xxx的位置，经过一番测试发现最基本的注入语句都被过滤了，很大可能是是基于正则的过滤，经过fuzz后猜测一些过滤规则如下：
-首先尝试union select进行回显，发现过滤规则如下：
-出现数字+任意字符+SQL关键字（这里的正则没有绕过）
-1sel...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/05/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
     
 </div>
             
@@ -1718,90 +1717,9 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 58
+        Total : 59
         </div>
         <!-- search  -->
         
@@ -1812,36 +1730,13 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
     
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2021/11/19/2021 L3HCTF 部分web wp/" >2021 L3HCTF 部分web wp</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1987,35 +1882,12 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2018/10/26/PHP反序列化漏洞学习-绕过_wakeup()函数/" >PHP反序列化漏洞学习-绕过_wakeup()函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
         </li>
     
     
@@ -2026,6 +1898,11 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
         <li class="archive-post-item">
             <span class="archive-post-date">09/02</span><a class="archive-post-title" href= "/2018/09/02/XSS绕过之中文尖括号/" >XSS绕过之中文尖括号</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
         </li>
     
     
@@ -2133,7 +2010,7 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     
@@ -2151,17 +2028,8 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
     
     
@@ -2175,7 +2043,7 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
         </li>
     
     
@@ -2189,7 +2057,7 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
         </li>
     
     
@@ -2217,7 +2085,35 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
         </li>
     
     
@@ -2259,7 +2155,7 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
         </li>
     
     
@@ -2268,12 +2164,12 @@ easy_sql在这道题上花了一些时间，注入类型为数字型，注入点
     
         </ul>
     
-    <div class="archive-year"> 2017 </div>
+    <div class="archive-year"> Invalid date </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
         </li>
     
     </div>
