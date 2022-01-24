@@ -346,6 +346,36 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2022/01/24/RealWorld2022-Hack into Skynet/" >
+            
+                <span>RealWorld2022-Hack into Skynet</span>
+        </a>
+        <div class="abstract-content">
+            只解了一个web，大概第十几个时解出来的，其它web就不会了，最终排名42
+bypass登录逻辑123456789101112def query_login_attempt():    username = flask.request.form.get('username', '')    password = flask.request.form.get('password', '')    if not username and not password:        return False    sql = ("SELECT id, account"           "  ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/01/24</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/12/30/ctf记录记一次简单的命令执行绕过/" >
             
                 <span>ctf记录记一次简单的命令执行绕过</span>
@@ -614,43 +644,6 @@ AWD Plus规则简述每个队伍会有相同的靶机和题目源码，得分分
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/14</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/12/07/2020全国电信和互联网行业网络安全竞赛wp/" >
-            
-                <span>2020全国电信和互联网行业网络安全竞赛wp</span>
-        </a>
-        <div class="abstract-content">
-            序补一下，11月份的比赛，太忙一直没时间更新
-easy_sql很明显的注入，但是过滤了一些关键字，比如information、sys等，导致获取不到表名
-通过：
-uname=1&apos;) and updatexml(1,concat(0x3a,(select * from flag)),1);-- -&amp;passwd=1
-可以发现存在名为flag表，并且可以获取到里面的数据
-
-但是updatexml这种报错注入方式显示的信息有长度限制，而且这里不知道flag表当中flag的列名，关于无列名注入的问题，直接用子查询就能绕过
-获取完整的flag:
-uname=1&apos;) an...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/12/07</span>
             </div>
             <!-- tags  -->
             
@@ -1903,9 +1896,14 @@ uname=1&apos;) an...
     
     
     
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 61
+        Total : 62
         </div>
         <!-- search  -->
         
@@ -1916,12 +1914,12 @@ uname=1&apos;) an...
     
     
     
-    <div class="archive-year"> 2019 </div>
+    <div class="archive-year"> 2018 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/记一次dnslog接收异常分析/" >记一次dnslog接收异常分析</a>
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
         </li>
     
     
@@ -1935,7 +1933,7 @@ uname=1&apos;) an...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/12/30/ctf记录记一次简单的命令执行绕过/" >ctf记录记一次简单的命令执行绕过</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
         </li>
     
     
@@ -2066,6 +2064,11 @@ uname=1&apos;) an...
         </li>
     
     
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/记一次dnslog接收异常分析/" >记一次dnslog接收异常分析</a>
+        </li>
+    
+    
     
     
     
@@ -2088,6 +2091,34 @@ uname=1&apos;) an...
         <li class="archive-post-item">
             <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2018/11/19/2018湖湘杯注入题writeup/" >2018湖湘杯注入题writeup</a>
         </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
@@ -2116,11 +2147,6 @@ uname=1&apos;) an...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2018/08/18/关于ubuntu和centos cron的一些区别/" >关于ubuntu和centos cron的一些区别</a>
         </li>
     
@@ -2131,73 +2157,8 @@ uname=1&apos;) an...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" >Linux下几种反弹shell方法的总结与理解</a>
         </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/15/2020全国电信和互联网行业网络安全竞赛线下个人赛wp/" >2020全国电信和互联网行业网络安全竞赛线下个人赛wp</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
     
     
         <li class="archive-post-item">
@@ -2269,34 +2230,16 @@ uname=1&apos;) an...
         </li>
     
     
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
         <li class="archive-post-item">
             <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
         </li>
     
     
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+        </li>
+    
+    
     
     
     
@@ -2307,7 +2250,49 @@ uname=1&apos;) an...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/15/2020全国电信和互联网行业网络安全竞赛线下个人赛wp/" >2020全国电信和互联网行业网络安全竞赛线下个人赛wp</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/12/30/ctf记录记一次简单的命令执行绕过/" >ctf记录记一次简单的命令执行绕过</a>
         </li>
     
     
@@ -2363,7 +2348,21 @@ uname=1&apos;) an...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
         </li>
     
     
@@ -2378,20 +2377,6 @@ uname=1&apos;) an...
     
         <li class="archive-post-item">
             <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
         </li>
     
     
