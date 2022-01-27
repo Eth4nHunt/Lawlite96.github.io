@@ -346,6 +346,39 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/01/27/shellcode-uuid免杀/" >
+            
+                <span>shellcode-uuid免杀</span>
+        </a>
+        <div class="abstract-content">
+            参考文章RIFT: Analysing a Lazarus Shellcode Execution Method
+生成uuid使用cobaltstrike生成python shellcodeAttacks-&gt;Packages-&gt;Payload Generator语言选择python（什么语言都可以），这里选择了生成x64的shellcode
+
+用python将shellcode转为uuid，因为uuid.UUID(bytes_le=u)当中u的长度需要为16字节，所以需要将shellcode进行分组，每组16字节，不足的用\x00补位
+12345678import uuids...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/01/27</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "免杀学习">免杀学习</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/" >
             
                 <span>weblogic cve-2021-2109 jndi注入 远程代码执行复现</span>
@@ -623,41 +656,6 @@ web-SignIn这道题自己用注入注入出的key，然后通过key获取的flag
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/08/31</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/08/28/2020钓鱼城杯writeup/" >
-            
-                <span>2020钓鱼城杯writeup</span>
-        </a>
-        <div class="abstract-content">
-            easywebphp命令执行无回显、不出网、web目录不可写
-通过php -r &quot;sleep(5)&quot;延时可以判断命令执行成功
-获取/flag.txt
-cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5);}&quot;
-
-时间盲注脚本：
-12345678910111213141516171819import timeimport requestsimport string	l=string.maketrans("","")[33:127]	flag=""	for...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/08/28</span>
             </div>
             <!-- tags  -->
             
@@ -1915,9 +1913,10 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
     
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 62
+        Total : 63
         </div>
         <!-- search  -->
         
@@ -1947,7 +1946,7 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/27/RealWorld2022 RWDN复现总结/" >RealWorld2022 RWDN复现总结</a>
         </li>
     
     
@@ -2230,6 +2229,20 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
         </ul>
     
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
     
@@ -2249,6 +2262,29 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
             <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
@@ -2264,7 +2300,7 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
         </li>
     
     
@@ -2292,7 +2328,21 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
         </li>
     
     
@@ -2343,26 +2393,12 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
         </ul>
     
-    <div class="archive-year"> Invalid date </div>
+    <div class="archive-year"> 2017 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
         </li>
     
     
@@ -2390,21 +2426,7 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
         </li>
     
     
@@ -2418,7 +2440,7 @@ cmd=php -r &quot;if(strlen(file_get_contents(&#39;/flag.txt&#39;))==25){sleep(5)
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     </div>

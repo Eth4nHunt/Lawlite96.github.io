@@ -359,12 +359,50 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2022/01/27/RealWorld2022 RWDN复现总结/" >
+            
+                <span>RealWorld2022 RWDN复现总结</span>
+        </a>
+        <div class="abstract-content">
+            RealWorld2022 RWDN复现总结http://47.243.75.225:31337/
+打开后是一个上传页面
+
+尝试上传漏洞未果，上传的文件通过http://47.243.75.225:31338/md5值/文件名访问
+主页有一个/readflag提示
+
+访问http://47.243.75.225:31337/source可以获取源码，后端是nodejs，代码如下
+server.js
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/01/27</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2022/01/24/RealWorld2022-Hack into Skynet/" >
             
                 <span>RealWorld2022-Hack into Skynet</span>
         </a>
         <div class="abstract-content">
-            bypass登录逻辑123456789101112def query_login_attempt():    username = flask.request.form.get('username', '')    password = flask.request.form.get('password', '')    if not username and not password:        return False    sql = ("SELECT id, account"           "  FROM target_credentials"           "  ...
+            RealWorld2022-Hack into Skynet唯一一道解出的web，无奈其它web解不出来，眼看着排名从第10一路掉到42，哎
+bypass登录逻辑123456789101112def query_login_attempt():    username = flask.request.form.get('username', '')    password = flask.request.form.get('password', '')    if not username and not password:        return False    sql = ("...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -627,39 +665,6 @@ CVE-2021-26855 SSRF+CVE-2021–2...
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "漏洞复现">漏洞复现</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/01/27/shellcode-uuid免杀/" >
-            
-                <span>shellcode-uuid免杀</span>
-        </a>
-        <div class="abstract-content">
-            参考文章RIFT: Analysing a Lazarus Shellcode Execution Method
-生成uuid使用cobaltstrike生成python shellcodeAttacks-&gt;Packages-&gt;Payload Generator语言选择python（什么语言都可以），这里选择了生成x64的shellcode
-
-用python将shellcode转为uuid，因为uuid.UUID(bytes_le=u)当中u的长度需要为16字节，所以需要将shellcode进行分组，每组16字节，不足的用\x00补位
-12345678import uuids...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/01/27</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "免杀学习">免杀学习</a>
     
 </div>
             
@@ -2026,9 +2031,10 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
     
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 62
+        Total : 63
         </div>
         <!-- search  -->
         
@@ -2058,7 +2064,7 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/27/RealWorld2022 RWDN复现总结/" >RealWorld2022 RWDN复现总结</a>
         </li>
     
     
@@ -2341,6 +2347,20 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
         </ul>
     
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2017 </div>
     <ul class="year-list">
     
@@ -2360,6 +2380,29 @@ CVE-2021-26855 SSRF+CVE-2021–2...
         </li>
     
     
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
         <li class="archive-post-item">
             <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
         </li>
@@ -2375,7 +2418,7 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
         </li>
     
     
@@ -2403,7 +2446,21 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
         </li>
     
     
@@ -2454,26 +2511,12 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
         </ul>
     
-    <div class="archive-year"> Invalid date </div>
+    <div class="archive-year"> 2017 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
         </li>
     
     
@@ -2501,21 +2544,7 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
         </li>
     
     
@@ -2529,7 +2558,7 @@ CVE-2021-26855 SSRF+CVE-2021–2...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
         </li>
     
     </div>
