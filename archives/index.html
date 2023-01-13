@@ -353,16 +353,16 @@
         <div class="abstract-content">
             看到很多地方都发了，那也没必要再藏了…
 本地环境：18.0.beta1
+影响版本17.4&lt;=version&lt;=18.0.beta1（开源版）
+3.4&lt;=version&lt;=4.0.beta1（旗舰版）
+7.4&lt;=version&lt;=8.0.beta1（企业版）
 权限绕过登录校验会依次经过：
 framework/base/control.class.php-&gt;__construct方法
 www/index.php：$common-&gt;checkPriv();
 
 补丁对比
 通过补丁对比：
-module/common/model.php-&gt;checkPriv方法
-
-看到将echo $endResponseException-&gt;getContent();修复为了die($endResponseException-&gt;getContent());
-无需登录白...
+module/common/model.php-&gt;che...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
