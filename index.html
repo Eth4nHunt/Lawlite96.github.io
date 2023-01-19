@@ -364,7 +364,19 @@ height:50vh;
                 <span>禅道zentao组合漏洞rce</span>
         </a>
         <div class="abstract-content">
-            Here's something encrypted, password is required to continue reading.
+            看到很多地方都发了，那也没必要再藏了…
+本地环境：18.0.beta1
+影响版本17.4&lt;=version&lt;=18.0.beta1（开源版）
+3.4&lt;=version&lt;=4.0.beta1（旗舰版）
+7.4&lt;=version&lt;=8.0.beta1（企业版）
+利用条件无需登录，无条件
+权限绕过登录校验会依次经过：
+framework/base/control.class.php-&gt;__construct方法
+www/index.php：$common-&gt;checkPriv();
+
+补丁对比
+通过补丁对比：
+module/common/mode...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
